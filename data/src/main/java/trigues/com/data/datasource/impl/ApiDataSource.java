@@ -7,4 +7,9 @@ import trigues.com.data.datasource.ApiInterface;
  */
 
 public class ApiDataSource implements ApiInterface {
+
+    public ApiDataSource() {
+        //TODO: Preparar connexió al servidor
+
+    }
 }

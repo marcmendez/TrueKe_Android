@@ -6,7 +6,7 @@ import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.view.impl.LoginActivityImpl;
 
 /**
- * Created by inlab on 26/01/2017.
+ * Created by mbaque on 15/03/2017.
  */
 
 @PerActivity

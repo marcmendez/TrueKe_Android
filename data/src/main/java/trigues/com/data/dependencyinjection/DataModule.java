@@ -1,16 +1,17 @@
 package trigues.com.data.dependencyinjection;
 
+import com.trigues.RepositoryInterface;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.datasource.impl.ApiDataSource;
-import com.trigues.RepositoryInterface;
 import trigues.com.data.repository.AppRepository;
 
 /**
- * Created by inlab on 02/02/2017.
+ * Created by mbaque on 15/03/2017.
  */
 
 @Module

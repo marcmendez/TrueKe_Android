@@ -16,7 +16,7 @@ import trigues.com.trueke.UIThread;
 import trigues.com.trueke.dependencyinjection.App;
 
 /**
- * Created by inlab on 26/01/2017.
+ * Created by mbaque on 15/03/2017.
  */
 @Module(
         includes = {

@@ -5,4 +5,12 @@ package trigues.com.data.datasource;
  */
 
 public interface ApiInterface {
+
+    //TODO: Definir aqui les funcions del datasource
+
+
+    //TODO: Definir aqui els callbacks (interficies) que s'han de passar com a parametre a cada funció del datasource
+
+    //Exemple:
+    //interface TestDATACallback extends DefaultCallback<Classe que ha de retornar>
 }
