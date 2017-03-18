@@ -7,6 +7,8 @@ buildscript {
         daggerVersion = "2.8"
         picassoVersion = "2.5.2"
         butterknifeVersion = "8.5.1"
+        okhttpVersion = "3.6.0"
+        retrofitVersion = "2.1.0"
     }
 
     repositories {
