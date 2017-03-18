@@ -12,7 +12,7 @@ import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.LoginPresenter;
 import trigues.com.trueke.view.LoginActivity;
 
-public class LoginActivityImpl extends MenuActivityImpl implements LoginActivity {
+public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity {
 
     @Inject
     LoginPresenter presenter;
