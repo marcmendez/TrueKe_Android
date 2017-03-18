@@ -2,7 +2,9 @@ package trigues.com.trueke.dependencyinjection.view;
 
 import dagger.Module;
 import dagger.Provides;
+import trigues.com.trueke.view.BaseActivity;
 import trigues.com.trueke.view.LoginActivity;
+import trigues.com.trueke.view.MenuActivity;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -11,14 +13,24 @@ import trigues.com.trueke.view.LoginActivity;
 @Module
 public class ViewModule {
 
-    private LoginActivity view;
+    private BaseActivity view;
 
-    public ViewModule(LoginActivity view) {
+    public ViewModule(BaseActivity view) {
         this.view = view;
     }
 
     @Provides
-    LoginActivity providesLoginView(){
+    BaseActivity providesBaseView(){
         return view;
+    }
+
+    @Provides
+    MenuActivity providesMenuView(){
+        return (MenuActivity) view;
+    }
+
+    @Provides
+    LoginActivity providesLoginView(){
+        return (LoginActivity) view;
     }
 }

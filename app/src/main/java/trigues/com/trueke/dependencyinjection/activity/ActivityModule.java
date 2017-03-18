@@ -7,7 +7,7 @@ import dagger.Module;
 import dagger.Provides;
 import trigues.com.data.dependencyinjection.qualifier.ForActivity;
 import trigues.com.data.dependencyinjection.scope.PerActivity;
-import trigues.com.trueke.view.impl.LoginActivityImpl;
+import trigues.com.trueke.view.impl.BaseActivityImpl;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -18,7 +18,7 @@ public class ActivityModule {
 
     private Activity activity;
 
-    public ActivityModule(LoginActivityImpl activity){
+    public ActivityModule(BaseActivityImpl activity){
         this.activity = activity;
     }
 

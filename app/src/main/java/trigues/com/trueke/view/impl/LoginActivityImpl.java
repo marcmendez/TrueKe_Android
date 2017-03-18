@@ -1,7 +1,6 @@
 package trigues.com.trueke.view.impl;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Inject;
 
@@ -13,7 +12,7 @@ import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.LoginPresenter;
 import trigues.com.trueke.view.LoginActivity;
 
-public class LoginActivityImpl extends AppCompatActivity implements LoginActivity {
+public class LoginActivityImpl extends MenuActivityImpl implements LoginActivity {
 
     @Inject
     LoginPresenter presenter;

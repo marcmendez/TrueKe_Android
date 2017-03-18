@@ -11,7 +11,7 @@ import javax.inject.Inject;
  * Created by mbaque on 15/03/2017.
  */
 
-//TODO: Canviar Void per classe (entity) que ha de retornar el cas d'ús
+//TODO: Canviar "Void" per classe (entity) que ha de retornar el cas d'ús
 public class RegisterUseCase extends BaseUseCase<Void> implements Interactor<Void> {
 
     @Inject
