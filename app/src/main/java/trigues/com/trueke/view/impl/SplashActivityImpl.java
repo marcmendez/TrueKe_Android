@@ -20,6 +20,7 @@ public class SplashActivityImpl extends AppCompatActivity {
         Intent intent = new Intent(this, ShowProductsActivityImpl.class);
         startActivity(intent);
         finish();
+
     }
 
 
