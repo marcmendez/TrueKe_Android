@@ -6,8 +6,8 @@ import com.trigues.callback.DefaultCallback;
  * Created by mbaque on 15/03/2017.
  */
 
-public interface Interactor<ReturnType> extends Runnable {
+public interface Interactor<InputType, ReturnType> extends Runnable {
     void run();
 
-    <R extends DefaultCallback<ReturnType>> void execute(R defaultCallback);
+    <R extends DefaultCallback<ReturnType>> void execute(InputType param, R defaultCallback);
 }

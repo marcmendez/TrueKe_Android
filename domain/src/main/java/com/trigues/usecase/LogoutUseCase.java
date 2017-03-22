@@ -12,7 +12,8 @@ import javax.inject.Inject;
  */
 
 //TODO: Canviar "Void" per classe (entity) que ha de retornar el cas d'ús
-public class LogoutUseCase extends BaseUseCase<Void> implements Interactor<Void> {
+//TODO: Canviar el primer Void de Interactor per el tipus de parametre d'entrada que es vol (Void si no n'hi ha cap)
+public class LogoutUseCase extends BaseUseCase<Void> implements Interactor<Void,Void> {
 
     @Inject
     public LogoutUseCase(PostExecutionThread postExecutionThread) {
@@ -25,7 +26,8 @@ public class LogoutUseCase extends BaseUseCase<Void> implements Interactor<Void>
     }
 
     @Override
-    public <R extends DefaultCallback<Void>> void execute(R defaultCallback) {
+    public <R extends DefaultCallback<Void>> void execute(Void param, R defaultCallback) {
 
     }
+
 }
