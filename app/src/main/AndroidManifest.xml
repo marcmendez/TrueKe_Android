@@ -3,20 +3,24 @@
     package="trigues.com.trueke">
 
     <application
-        android:allowBackup="true"
         android:name=".dependencyinjection.App"
-        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_k"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.impl.LoginActivityImpl">
+        <activity
+            android:name=".view.impl.SplashActivityImpl"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.impl.LoginActivityImpl">
+        </activity>
+
     </application>
 
 </manifest>
