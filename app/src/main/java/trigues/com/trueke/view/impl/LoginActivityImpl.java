@@ -1,5 +1,6 @@
 package trigues.com.trueke.view.impl;
 
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 
 import javax.inject.Inject;
@@ -29,6 +30,9 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
                 .inject(this);
 
         ButterKnife.bind(this);
-
+        final Fragment f = new RegisterFragImpl();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_view, f)
+                .commit();
     }
 }
