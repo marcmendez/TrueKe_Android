@@ -22,4 +22,5 @@ public class SplashActivityImpl extends AppCompatActivity {
         finish();
     }
 
+
 }
