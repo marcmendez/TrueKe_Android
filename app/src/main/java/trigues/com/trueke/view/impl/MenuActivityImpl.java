@@ -60,8 +60,6 @@ public class MenuActivityImpl extends BaseActivityImpl {
         this.contentContainer = (FrameLayout) findViewById(R.id.contentLayout);
         LayoutInflater.from(this).inflate(layoutResID, contentContainer);
 
-        contentContainer.setVisibility(View.INVISIBLE);
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         if (getToolbarLayout() != null) {

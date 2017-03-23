@@ -12,7 +12,7 @@ import android.support.v7.widget.RecyclerView;
  * Created by Marc on 22/03/2017.
  */
 
-public class ShowProductsActivityImpl extends BaseActivityImpl implements ShowProductsActivity {
+public class ShowProductsActivityImpl extends MenuActivityImpl implements ShowProductsActivity {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
