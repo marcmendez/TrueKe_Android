@@ -1,5 +1,6 @@
 package trigues.com.trueke.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import trigues.com.trueke.R;
  */
 
 public class ShowProductsAdapter extends RecyclerView.Adapter<ShowProductsAdapter.ViewHolder> {
+    private final Context context;
     private String[] titles = {"Chapter One",
             "Chapter Two",
             "Chapter Three",
@@ -41,26 +43,37 @@ public class ShowProductsAdapter extends RecyclerView.Adapter<ShowProductsAdapte
             R.drawable.logo,
             R.drawable.logo};
 
+    public ShowProductsAdapter(Context context) {
+        this.context = context;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
         public int currentItem;
 
         @BindView(R.id.item_image)
         public ImageView itemImage;
+
         @BindView(R.id.item_title)
         public TextView itemTitle;
+
         @BindView(R.id.item_detail)
         public TextView itemDetail;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-                    }
+            itemImage = (ImageView)itemView.findViewById(R.id.item_image);
+            itemTitle = (TextView)itemView.findViewById(R.id.item_title);
+            itemDetail =
+                    (TextView)itemView.findViewById(R.id.item_detail);
+
+
+        }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext())
+        View v = LayoutInflater.from(context)
                 .inflate(R.layout.product_layout, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;

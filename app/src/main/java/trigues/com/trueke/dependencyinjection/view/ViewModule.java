@@ -5,6 +5,7 @@ import dagger.Provides;
 import trigues.com.trueke.view.BaseActivity;
 import trigues.com.trueke.view.LoginActivity;
 import trigues.com.trueke.view.MenuActivity;
+import trigues.com.trueke.view.ShowProductsActivity;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -32,5 +33,10 @@ public class ViewModule {
     @Provides
     LoginActivity providesLoginView(){
         return (LoginActivity) view;
+    }
+
+    @Provides
+    ShowProductsActivity providesShowProductsView(){
+        return (ShowProductsActivity) view;
     }
 }

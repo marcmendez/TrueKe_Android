@@ -2,6 +2,7 @@ package trigues.com.trueke.view.impl;
 
 import trigues.com.trueke.R;
 import trigues.com.trueke.adapter.ShowProductsAdapter;
+import trigues.com.trueke.view.ShowProductsActivity;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +12,7 @@ import android.support.v7.widget.RecyclerView;
  * Created by Marc on 22/03/2017.
  */
 
-public class ShowProductsActivityImpl extends MenuActivityImpl {
+public class ShowProductsActivityImpl extends BaseActivityImpl implements ShowProductsActivity {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -27,7 +28,7 @@ public class ShowProductsActivityImpl extends MenuActivityImpl {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ShowProductsAdapter();
+        adapter = new ShowProductsAdapter(this);
         recyclerView.setAdapter(adapter);
     }
 

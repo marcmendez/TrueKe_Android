@@ -11,7 +11,7 @@ import trigues.com.trueke.view.ShowProductsActivity;
 public class ShowProductsPresenter {
     private ShowProductsActivity view;
 
-    @Inject
+
     public ShowProductsPresenter(ShowProductsActivity view) {
         this.view = view;
     }
