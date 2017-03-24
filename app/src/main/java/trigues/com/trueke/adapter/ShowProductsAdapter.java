@@ -2,7 +2,6 @@ package trigues.com.trueke.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import trigues.com.trueke.R;
 
 /**
  * Created by Marc on 22/03/2017.
  */
 
-public class ShowProductsAdapter extends RecyclerView.Adapter<ShowProductsAdapter.ViewHolder> {
+public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProductsAdapter.ViewHolder> {
     private final Context context;
     private String[] titles = {"Chapter One",
             "Chapter Two",
@@ -87,12 +85,7 @@ public class ShowProductsAdapter extends RecyclerView.Adapter<ShowProductsAdapte
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-
-
-                Snackbar.make(v, "Click detected on item " + i,
-                        Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
+            onItemClick();
             }
         });
     }
@@ -101,4 +94,6 @@ public class ShowProductsAdapter extends RecyclerView.Adapter<ShowProductsAdapte
     public int getItemCount() {
         return titles.length;
     }
+
+    abstract public void onItemClick();
 }
