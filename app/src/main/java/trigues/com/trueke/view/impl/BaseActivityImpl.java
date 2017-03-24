@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
 import trigues.com.trueke.R;
 import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
@@ -46,15 +45,13 @@ public class BaseActivityImpl extends AppCompatActivity implements BaseActivity 
                 .plus(new ActivityModule(this),
                         new ViewModule(this))
                 .inject(this);
-
-        ButterKnife.bind(this);
     }
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(R.layout.activity_base);
 
-        activityResID = layoutResID;
+        this.activityResID = layoutResID;
 
         this.contentContainer = (FrameLayout) findViewById(getContentLayoutId());
         LayoutInflater.from(this).inflate(layoutResID, contentContainer);

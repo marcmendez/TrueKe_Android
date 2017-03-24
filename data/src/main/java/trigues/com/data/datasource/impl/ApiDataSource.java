@@ -35,4 +35,10 @@ public class ApiDataSource implements ApiInterface {
         server = retrofit.create(ServerService.class);
 
     }
+
+    @Override
+    public void getUserProductDetails(int productId, GetUserProductDataDetails dataCallback) {
+        //TODO: Call to server
+        dataCallback.onSuccess(null);
+    }
 }
