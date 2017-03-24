@@ -13,20 +13,20 @@ import javax.inject.Inject;
 
 
 
-    public class ShowProductsUseCase extends BaseUseCase<Void> implements Interactor<Void> {
+public class ShowProductsUseCase extends BaseUseCase<Void> implements Interactor<Void, Void> {
 
-        @Inject
-        public  ShowProductsUseCase(PostExecutionThread postExecutionThread) {
-            super(postExecutionThread);
-        }
-
-        @Override
-        public void run() {
-
-        }
-
-        @Override
-        public <R extends DefaultCallback<Void>> void execute(R defaultCallback) {
-
-        }
+    @Inject
+    public  ShowProductsUseCase(PostExecutionThread postExecutionThread) {
+        super(postExecutionThread);
     }
+
+    @Override
+    public void run() {
+
+    }
+
+    @Override
+    public <R extends DefaultCallback<Void>> void execute(Void param, R defaultCallback) {
+
+    }
+}
