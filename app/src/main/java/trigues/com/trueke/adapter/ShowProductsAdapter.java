@@ -41,6 +41,8 @@ public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProdu
             R.drawable.logo,
             R.drawable.logo};
 
+    private int number_matches = R.drawable.ic_action_name;
+
     public ShowProductsAdapter(Context context) {
         this.context = context;
     }
@@ -56,13 +58,15 @@ public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProdu
         @BindView(R.id.item_detail)
         public TextView itemDetail;
 
+        @BindView(R.id.number_matches)
+        public ImageView number_matches;
+
         public ViewHolder(View itemView) {
             super(itemView);
             itemImage = (ImageView)itemView.findViewById(R.id.item_image);
             itemTitle = (TextView)itemView.findViewById(R.id.item_title);
-            itemDetail =
-                    (TextView)itemView.findViewById(R.id.item_detail);
-
+            itemDetail = (TextView)itemView.findViewById(R.id.item_detail);
+            number_matches = (ImageView)itemView.findViewById(R.id.number_matches);
 
         }
     }
@@ -80,6 +84,7 @@ public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProdu
         viewHolder.itemTitle.setText(titles[i]);
         viewHolder.itemDetail.setText(details[i]);
         viewHolder.itemImage.setImageResource(images[i]);
+        viewHolder.number_matches.setImageResource(number_matches);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
