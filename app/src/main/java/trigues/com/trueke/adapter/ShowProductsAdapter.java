@@ -47,8 +47,6 @@ public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProdu
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
-        public int currentItem;
-
         @BindView(R.id.item_image)
         public ImageView itemImage;
 
