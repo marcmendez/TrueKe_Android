@@ -37,8 +37,6 @@ public class MenuActivityImpl extends BaseActivityImpl {
     protected ActionBarDrawerToggle mDrawerToggle;
     protected NavigationView mNavigationView;
 
-    private FrameLayout contentContainer;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,12 +53,7 @@ public class MenuActivityImpl extends BaseActivityImpl {
 
     @Override
     public void setContentView(int layoutResID) {
-        super.setContentView(R.layout.activity_base);
-
-        this.contentContainer = (FrameLayout) findViewById(R.id.contentLayout);
-        LayoutInflater.from(this).inflate(layoutResID, contentContainer);
-
-        contentContainer.setVisibility(View.INVISIBLE);
+        super.setContentView(layoutResID);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -68,6 +61,7 @@ public class MenuActivityImpl extends BaseActivityImpl {
             FrameLayout frameToolbar = (FrameLayout) findViewById(R.id.toolbar_layout);
             LayoutInflater.from(this).inflate(getToolbarLayout(), frameToolbar);
         }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         generateMenu(toolbar);
     }

@@ -43,6 +43,8 @@ dependencies {
     compile "com.squareup.picasso:picasso:$picassoVersion"
 
     compile "com.jakewharton:butterknife:$butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     testCompile 'junit:junit:4.12'
 }
