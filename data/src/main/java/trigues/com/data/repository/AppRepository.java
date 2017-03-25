@@ -14,10 +14,11 @@ import trigues.com.data.datasource.ApiInterface;
 
 public class AppRepository implements RepositoryInterface {
 
-    @Inject
     private ApiInterface apiDataSource;
 
-    public AppRepository() {
+    @Inject
+    public AppRepository(ApiInterface apiDataSource) {
+        this.apiDataSource = apiDataSource;
     }
 
     @Override

@@ -36,6 +36,7 @@ public class MenuActivityImpl extends BaseActivityImpl {
     protected DrawerLayout mDrawerLayout;
     protected ActionBarDrawerToggle mDrawerToggle;
     protected NavigationView mNavigationView;
+    private FrameLayout contentContainer;
 
 
     @Override
@@ -53,7 +54,10 @@ public class MenuActivityImpl extends BaseActivityImpl {
 
     @Override
     public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);
+        super.setContentView(R.layout.activity_base);
+
+        this.contentContainer = (FrameLayout) findViewById(R.id.contentLayout);
+        LayoutInflater.from(this).inflate(layoutResID, contentContainer);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);

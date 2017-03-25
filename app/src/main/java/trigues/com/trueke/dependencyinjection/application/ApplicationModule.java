@@ -12,11 +12,11 @@ import dagger.Module;
 import dagger.Provides;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.datasource.impl.ApiDataSource;
-import trigues.com.data.dependencyinjection.qualifier.ForApp;
 import trigues.com.data.executor.JobExecutor;
 import trigues.com.data.repository.AppRepository;
 import trigues.com.trueke.UIThread;
 import trigues.com.trueke.dependencyinjection.App;
+import trigues.com.trueke.dependencyinjection.qualifier.ForApp;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -52,13 +52,13 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public ApiInterface providesApiDataSource(){
-        return new ApiDataSource();
+    public ApiInterface providesApiDataSource(ApiDataSource dataSource){
+        return dataSource;
     }
 
     @Provides
     @Singleton
-    public RepositoryInterface providesAppRepository(){
-        return new AppRepository();
+    public RepositoryInterface providesAppRepository(AppRepository repository){
+        return repository;
     }
 }

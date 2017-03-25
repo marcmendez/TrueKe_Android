@@ -2,6 +2,8 @@ package trigues.com.data.datasource.impl;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -17,6 +19,7 @@ public class ApiDataSource implements ApiInterface {
 
     private ServerService server;
 
+    @Inject
     public ApiDataSource() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

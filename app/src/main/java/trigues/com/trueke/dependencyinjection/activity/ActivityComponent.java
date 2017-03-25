@@ -1,7 +1,7 @@
 package trigues.com.trueke.dependencyinjection.activity;
 
 import dagger.Subcomponent;
-import trigues.com.data.dependencyinjection.scope.PerActivity;
+import trigues.com.trueke.dependencyinjection.scope.PerActivity;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.view.impl.BaseActivityImpl;
 import trigues.com.trueke.view.impl.LoginActivityImpl;
