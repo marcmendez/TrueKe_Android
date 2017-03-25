@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import trigues.com.trueke.R;
@@ -30,7 +32,7 @@ public class ImageViewPageAdapter extends PagerAdapter {
         View itemView = LayoutInflater.from(context).inflate(R.layout.product_details_viewpager_item, container, false);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.product_detail_viewpager_imageview);
-        imageView.setImageResource(R.mipmap.ic_k);
+        Picasso.with(context).load(imageUrls.get(position)).into(imageView);
 
         container.addView(itemView);
 
@@ -39,7 +41,7 @@ public class ImageViewPageAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return imageUrls.size();
     }
 
     @Override

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="trigues.com.trueke">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".dependencyinjection.App"
         android:allowBackup="true"
@@ -23,6 +25,8 @@
 
         <activity android:name=".view.impl.ShowProductsActivityImpl">
         </activity>
+
+        <activity android:name=".view.impl.UserProductDetailsActivityImpl"/>
 
     </application>
 

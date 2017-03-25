@@ -1,34 +1,41 @@
-package trigues.com.data.datasource.impl;
+package trigues.com.data;
+
+import android.support.test.runner.AndroidJUnit4;
 
 import com.trigues.entity.Product;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
-
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import trigues.com.data.FakeInterceptor;
-import trigues.com.data.datasource.ApiInterface;
-import trigues.com.data.service.RetrofitErrorHandler;
+import trigues.com.data.interceptor.FakeInterceptor;
 import trigues.com.data.service.ServerService;
 
 /**
- * Created by mbaque on 15/03/2017.
+ * Instrumentation getUserProductDetails, which will execute on an Android device.
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-
-public class ApiDataSource implements ApiInterface {
+@RunWith(AndroidJUnit4.class)
+public class ApiDataSourceTest{
 
     private ServerService server;
     private FakeInterceptor interceptor;
 
-    @Inject
-    public ApiDataSource() {
-//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+    @Before
+    public void setUp(){
         interceptor = new FakeInterceptor();
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(interceptor)
                 .connectTimeout(5, TimeUnit.MINUTES)
                 .writeTimeout(5, TimeUnit.MINUTES)
@@ -36,17 +43,17 @@ public class ApiDataSource implements ApiInterface {
         OkHttpClient client = builder.build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                //.baseUrl("http://10.4.41.147:3000/")
-                .baseUrl("http://www.google.com")
+                .baseUrl("http://10.4.41.147:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
         server = retrofit.create(ServerService.class);
-
     }
 
-    @Override
-    public void getUserProductDetails(int productId, final GetUserProductDataDetails dataCallback) {
+    @Test
+    public void getUserProductDetails() throws URISyntaxException, FileNotFoundException {
+        //Abans de fer una crida al servidor fer interceptor.setResponseString(response)
+        //  on response es la resposta que retornarà el servidor.
         interceptor.setResponseString("{\n" +
                 "  \"id\" : 12345,\n" +
                 "  \"userId\" : 54321,\n" +
@@ -66,11 +73,17 @@ public class ApiDataSource implements ApiInterface {
                 "  \"maxPrice\" : 200\n" +
                 "}");
 
-        server.getUserProduct().enqueue(new RetrofitErrorHandler<Product>(dataCallback) {
+        server.getUserProduct().enqueue(new Callback<Product>() {
             @Override
-            public void onResponse(Product body) {
-                dataCallback.onSuccess(body);
+            public void onResponse(Call<Product> call, Response<Product> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
+
             }
         });
+
     }
 }

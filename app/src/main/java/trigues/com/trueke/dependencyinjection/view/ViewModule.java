@@ -6,6 +6,7 @@ import trigues.com.trueke.view.BaseActivity;
 import trigues.com.trueke.view.LoginActivity;
 import trigues.com.trueke.view.MenuActivity;
 import trigues.com.trueke.view.ShowProductsActivity;
+import trigues.com.trueke.view.UserProductDetailsActivity;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -38,5 +39,10 @@ public class ViewModule {
     @Provides
     ShowProductsActivity providesShowProductsView(){
         return (ShowProductsActivity) view;
+    }
+
+    @Provides
+    UserProductDetailsActivity providesUserProductDetailsView(){
+        return (UserProductDetailsActivity) view;
     }
 }

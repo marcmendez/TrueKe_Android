@@ -1,5 +1,6 @@
 package trigues.com.trueke.view.impl;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import trigues.com.trueke.R;
 import trigues.com.trueke.adapter.ShowProductsAdapter;
 import trigues.com.trueke.view.ShowProductsActivity;
-import trigues.com.trueke.view.fragment.ProductDetailsFragment;
 
 /**
  * Created by Marc on 22/03/2017.
@@ -32,7 +32,7 @@ public class ShowProductsActivityImpl extends MenuActivityImpl implements ShowPr
         adapter = new ShowProductsAdapter(this) {
             @Override
             public void onItemClick() {
-                addContentFragment(new ProductDetailsFragment());
+                startActivity(new Intent(ShowProductsActivityImpl.this, UserProductDetailsActivityImpl.class));
             }
         };
         recyclerView.setAdapter(adapter);
