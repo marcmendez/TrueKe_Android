@@ -42,4 +42,8 @@ public class UserProductDetailsPresenter {
             view.onError("Producto no válido");
         }
     }
+
+    public void onCategoryDeleteButtonClick(String category) {
+
+    }
 }

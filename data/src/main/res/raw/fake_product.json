@@ -1,0 +1,18 @@
+{
+  "id" : 12345,
+  "userId" : 54321,
+  "title" : "Mochila EASTPAK usada",
+  "description" : "Mochila de gran calidad y duración. Capacidad de 23L. Color negro. En buen estado.",
+  "images" : [
+    "https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg",
+    "https://www.bolsosvandi.com/server/Portal_0001611/img/products/mochila-eastpak-padded-pak-tejano_1037867_29360533.jpg",
+    "https://asset3.surfcdn.com/mochilas-eastpak-mochila-eastpak-padded-pak-r-negro.jpg?w=1200&h=1200&r=4&q=80&o=5vHKHHorIf3qW0m5E5ULl$0XIx0j&V=uTZf",
+    "https://photos6.spartoo.es/photos/179/1797422/1797422_1200_A.jpg"
+  ],
+  "productCategory" : "Accesorios",
+  "desiredCategories" : [
+    "Accesorios", "Electrodomesticos", "Informatica", "Moda"
+  ],
+  "minPrice" : 100,
+  "maxPrice" : 200
+}

@@ -13,11 +13,11 @@ import retrofit2.Response;
  * Created by mbaque on 19/03/2017.
  */
 
-public abstract class RetrofitErrorHandler<CallbackType ,ReturnType> implements Callback<ReturnType> {
+public abstract class RetrofitErrorHandler<ReturnType> implements Callback<ReturnType> {
 
-    DefaultCallback<CallbackType> callback;
+    DefaultCallback callback;
 
-    public RetrofitErrorHandler(DefaultCallback<CallbackType> callback) {
+    public RetrofitErrorHandler(DefaultCallback callback) {
         this.callback = callback;
     }
 
