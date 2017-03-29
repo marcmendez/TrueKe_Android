@@ -1,4 +1,4 @@
-package trigues.com.data.utils;
+package trigues.com.data.service;
 
 import com.trigues.callback.DefaultCallback;
 import com.trigues.exception.ErrorBundle;
@@ -10,14 +10,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by mbaque on 15/03/2017.
+ * Created by mbaque on 19/03/2017.
  */
 
-public abstract class RetrofitErrorHandler<CallbackType ,ReturnType> implements Callback<ReturnType> {
+public abstract class RetrofitErrorHandler<ReturnType> implements Callback<ReturnType> {
 
-    DefaultCallback<CallbackType> callback;
+    DefaultCallback callback;
 
-    public RetrofitErrorHandler(DefaultCallback<CallbackType> callback) {
+    public RetrofitErrorHandler(DefaultCallback callback) {
         this.callback = callback;
     }
 
@@ -37,7 +37,10 @@ public abstract class RetrofitErrorHandler<CallbackType ,ReturnType> implements 
                 }
             });
         }
+        else onResponse(response.body());
     }
+
+    public abstract void onResponse(ReturnType body);
 
     @Override
     public void onFailure(Call<ReturnType> call, final Throwable t) {

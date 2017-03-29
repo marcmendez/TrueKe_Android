@@ -5,12 +5,6 @@
     android:background = "@drawable/background_register"
     tools:context="trigues.com.trueke.view.impl.RegisterFragImpl">
 
-    <ScrollView
-        android:layout_width="350dp"
-        android:layout_height="487dp">
-
-    </ScrollView>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -30,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:hint="Nombre"
+                android:inputType="textPersonName"
                 android:maxWidth="250dp"
                 android:minWidth="250dp"
                 android:textSize="14sp" />
@@ -50,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:hint="Apellido(s)"
+                android:inputType="textPersonName"
                 android:maxWidth="250dp"
                 android:minWidth="250dp"
                 android:textSize="14sp" />
@@ -69,16 +65,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:hint="Contraseña"
+                android:inputType="textPassword"
                 android:maxWidth="250dp"
                 android:minWidth="250dp"
                 android:textSize="14sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/TextInputLayout11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textInputLayout8"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textInputLayout8">
 
             <EditText
                 android:id="@+id/edit_repcontraseña"
@@ -86,17 +84,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:hint="Repetir contraseña"
+                android:inputType="textPassword"
                 android:maxWidth="250dp"
                 android:minWidth="250dp"
                 android:textSize="14sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/TextInputLayout10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/textInputLayout9"
+            android:layout_below="@+id/TextInputLayout11"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="26dp">
+            android:layout_marginTop="24dp">
 
             <EditText
                 android:id="@+id/edit_telefono"
@@ -104,6 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:hint="Número de teléfono"
+                android:inputType="phone"
                 android:maxWidth="250dp"
                 android:minWidth="250dp"
                 android:textSize="14sp" />
@@ -122,6 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:hint="E-mail (opcional)"
+                android:inputType="textEmailAddress"
                 android:maxWidth="250dp"
                 android:minWidth="250dp"
                 android:textSize="14sp" />
@@ -141,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:hint="Fecha de nacimiento (opcional)"
+                android:inputType="date"
                 android:maxWidth="250dp"
                 android:minWidth="250dp"
                 android:textSize="14sp" />

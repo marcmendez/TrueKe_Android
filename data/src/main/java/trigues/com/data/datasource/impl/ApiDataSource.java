@@ -1,13 +1,18 @@
 package trigues.com.data.datasource.impl;
 
+import com.trigues.entity.User;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
+import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
+
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -16,6 +21,7 @@ import trigues.com.data.service.ServerService;
 public class ApiDataSource implements ApiInterface {
 
     private ServerService server;
+    private FakeInterceptor interceptor;
 
     public ApiDataSource() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -35,4 +41,22 @@ public class ApiDataSource implements ApiInterface {
         server = retrofit.create(ServerService.class);
 
     }
+
+    @Override
+    public void register(User param, final Register datacallback) {
+        interceptor.setResponseString("{\n" +
+                "  \"Error\": false, \n" +
+                "  \"Message\" : User Added !\" }\n" +
+                "}"); //el missatge no és buït si hi ha algun error
+
+        server.register().enqueue(new RetrofitErrorHandler<Boolean>(datacallback) {
+
+            @Override
+            public void onResponse(Boolean body) {
+                datacallback.onSuccess(body);
+            }
+        });
+    }
+
+
 }
