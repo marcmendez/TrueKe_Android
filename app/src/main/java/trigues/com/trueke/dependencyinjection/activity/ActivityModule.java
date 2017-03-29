@@ -5,8 +5,8 @@ import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
-import trigues.com.data.dependencyinjection.qualifier.ForActivity;
-import trigues.com.data.dependencyinjection.scope.PerActivity;
+import trigues.com.trueke.dependencyinjection.qualifier.ForActivity;
+import trigues.com.trueke.dependencyinjection.scope.PerActivity;
 import trigues.com.trueke.view.impl.BaseActivityImpl;
 
 /**

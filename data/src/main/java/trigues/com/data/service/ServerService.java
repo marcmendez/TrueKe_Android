@@ -1,5 +1,7 @@
 package trigues.com.data.service;
 
+import com.trigues.entity.Product;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 
@@ -9,7 +11,7 @@ import retrofit2.http.GET;
 
 public interface ServerService {
 
-    @GET("api")
-    Call<String> testCall();
+    @GET("/")
+    Call<Product> getUserProduct();
 
 }

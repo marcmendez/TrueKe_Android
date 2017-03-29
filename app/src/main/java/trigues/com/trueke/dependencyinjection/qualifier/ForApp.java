@@ -1,14 +1,14 @@
-package trigues.com.data.dependencyinjection.scope;
+package trigues.com.trueke.dependencyinjection.qualifier;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import javax.inject.Scope;
+import javax.inject.Qualifier;
 
 /**
  * Created by mbaque on 15/03/2017.
  */
 
-@Scope
+@Qualifier
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PerActivity {}
+public @interface ForApp {}
