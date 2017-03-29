@@ -35,4 +35,9 @@ public class AppRepository implements RepositoryInterface {
             }
         });
     }
+
+    @Override
+    public void deleteDesiredCategory(Product product, VoidCallback voidCallback) {
+
+    }
 }
