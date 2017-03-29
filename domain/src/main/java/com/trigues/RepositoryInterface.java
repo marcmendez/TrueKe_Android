@@ -14,7 +14,11 @@ public interface RepositoryInterface {
     void getUserProductDetails(int productId, GetUserProductDetailsCallback dataCallback);
 
 
+    void showProducts(int userID, showProductsCallback dataCallback);
+
+
     //Callbacks:
 
     interface GetUserProductDetailsCallback extends DefaultCallback<Product>{}
+    interface showProductsCallback extends DefaultCallback<Product>{}
 }

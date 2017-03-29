@@ -14,8 +14,11 @@ public interface ApiInterface {
 
     void getUserProductDetails(int productId, GetUserProductDataDetails dataCallback);
 
+    void showProducts(int userID, showProducts dataCallback);
+
 
     //Callbacks:
 
     interface GetUserProductDataDetails extends DefaultCallback<Product> {}
+    interface showProducts extends DefaultCallback<Product> {}
 }
