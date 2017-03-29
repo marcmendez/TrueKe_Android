@@ -13,8 +13,12 @@ public interface RepositoryInterface {
 
     void getUserProductDetails(int productId, GetUserProductDetailsCallback dataCallback);
 
+    void deleteDesiredCategory(Product product, VoidCallback voidCallback);
+
 
     //Callbacks:
 
     interface GetUserProductDetailsCallback extends DefaultCallback<Product>{}
+
+    interface VoidCallback extends DefaultCallback<Void> {}
 }
