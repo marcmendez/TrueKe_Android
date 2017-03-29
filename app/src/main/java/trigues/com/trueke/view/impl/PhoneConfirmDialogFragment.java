@@ -23,7 +23,7 @@ public class PhoneConfirmDialogFragment extends DialogFragment {
                 .setNeutralButton("Confirma", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //tal pascual intent a pantalla principal
+                        //tal pascual crida a acitivity per fer intent a pantalla principal
                     }
                 });
        return builder.create();

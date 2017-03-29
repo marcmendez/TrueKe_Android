@@ -15,6 +15,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import dagger.multibindings.ElementsIntoSet;
 import trigues.com.trueke.R;
 import trigues.com.trueke.view.LoginActivity;
@@ -62,9 +66,18 @@ public class RegisterFragImpl extends Fragment implements View.OnClickListener {
                 String teléfono = e_telefono.getText().toString();
                 String mail = e_mail.getText().toString();
                 String fecha = e_fecha.getText().toString();
-                //abans s'hauria de comprovar el bon format i que les contrasenyes coincideixen
-                activity.onRegisterPressed(nombre,apellidos,contraseña,teléfono,mail,fecha);
-                break;
+                try {
+                        FormatChecker.CheckPassword(contraseña);
+                        FormatChecker.CheckEmail(mail);
+                        FormatChecker.CheckPhone(teléfono);
+                        FormatChecker.CheckUser(nombre); //apellidos?
+                        FormatChecker.CheckDate(fecha);
+                        activity.onRegisterPressed(nombre,apellidos,contraseña,teléfono,mail,fecha);
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    break;
         }
     }
 
@@ -74,7 +87,7 @@ public class RegisterFragImpl extends Fragment implements View.OnClickListener {
         if(!error) {
             Toast.makeText(getActivity().getApplicationContext(),
                     "Usuari creat correctamnet", Toast.LENGTH_LONG).show();
-            //falta afegir fragment dialog fet
+            //falta afegir fragment dialog fet per a SMS
         }else {
             Toast.makeText(getActivity().getApplicationContext(),
                     "Error al crear usuari", Toast.LENGTH_LONG).show();

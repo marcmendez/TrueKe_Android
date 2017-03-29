@@ -2,31 +2,43 @@ package trigues.com.trueke.view.impl;
 
 import android.util.Patterns;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Albert on 29/03/2017.
  */
 
 public class FormatChecker {
-    public final static boolean isValidEmail(String target) {
+    public final static void CheckEmail(String target) throws Exception {
         if (target == null)
-            return false;
-
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+            throw new Exception("mail nulo");
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches())
+            throw new Exception("Formato mail incorrecto");
     }
-    public final static boolean isValidPhone(String target) {
+    public final static void CheckPhone(String target) throws Exception {
         if (target == null)
-            return false;
+            throw new Exception("Teléfono nul");
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches())
+            throw new Exception("Formato teléfono incorrecto");
+    }
+    public final static void CheckUser(String target){ // Nom i Cognom?
 
-        return Patterns.PHONE.matcher(target).matches();
     }
-    public final static boolean isValidUser(String target){ // Nom i Cognom?
-        return true;
+    public final static void CheckPassword(String target) throws Exception {
+        if(target.length()<5 || target.length()>20) throw new Exception("Contraseña entre 5 i 20 caracteres");
     }
-    public final static boolean isValidPassword(String target){
-        return target.length()>=5 && target.length()<=20;
-    }
-    public final static boolean isValidDate(String target){
-        return true; //fem Date o String per a data naixement?
+    public final static void CheckDate(String target) throws Exception {
+        Date date=null;
+        SimpleDateFormat sdf = null;
+        try {
+            sdf = new SimpleDateFormat("dd/MM/yyyy");
+            date = sdf.parse(target);
+        } catch (ParseException e) {
+            throw new Exception("formato fecha incorrecto");
+        }
+            if(!target.equals(sdf.format(date))) throw new Exception("formato fecha incorrecto");
     }
 }
 
