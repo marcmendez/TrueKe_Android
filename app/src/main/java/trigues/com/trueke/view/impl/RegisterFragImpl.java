@@ -1,33 +1,22 @@
 package trigues.com.trueke.view.impl;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import dagger.multibindings.ElementsIntoSet;
 import trigues.com.trueke.R;
-import trigues.com.trueke.view.LoginActivity;
 
 
 public class RegisterFragImpl extends Fragment implements View.OnClickListener {
     LoginActivityImpl activity;
     EditText e_nombre,e_apellidos,e_contraseña,e_telefono,e_mail,e_fecha;
-
+    Button register;
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
@@ -47,7 +36,9 @@ public class RegisterFragImpl extends Fragment implements View.OnClickListener {
         e_telefono= (EditText) view.findViewById(R.id.edit_telefono);
         e_mail = (EditText) view.findViewById(R.id.edit_mail);
         e_fecha = (EditText) view.findViewById(R.id.edit_fecha);
-        LoginActivityImpl activity = (LoginActivityImpl) getActivity();
+        register = (Button) view.findViewById(R.id.register_button);
+        register.setOnClickListener(this);
+        this.activity = (LoginActivityImpl) getActivity();
         activity.setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.back);
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);

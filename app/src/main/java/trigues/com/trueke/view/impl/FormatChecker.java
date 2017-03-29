@@ -20,7 +20,7 @@ public class FormatChecker {
     public final static void CheckPhone(String target) throws Exception {
         if (target == null)
             throw new Exception("Teléfono nul");
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches())
+        if (!Patterns.PHONE.matcher(target).matches())
             throw new Exception("Formato teléfono incorrecto");
     }
     public final static void CheckUser(String target){ // Nom i Cognom?

@@ -45,4 +45,5 @@ dependencies {
     compile "com.squareup.picasso:picasso:$picassoVersion"
 
     compile "com.jakewharton:butterknife:$butterknifeVersion"
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
