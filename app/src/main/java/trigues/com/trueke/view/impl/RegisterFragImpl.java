@@ -1,9 +1,11 @@
 package trigues.com.trueke.view.impl;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import dagger.multibindings.ElementsIntoSet;
 import trigues.com.trueke.R;
 import trigues.com.trueke.view.LoginActivity;
 
@@ -65,7 +69,16 @@ public class RegisterFragImpl extends Fragment implements View.OnClickListener {
     }
 
 
-    public void onRegisterRetrieved(Boolean returnParam) {
+    public void onRegisterRetrieved(Boolean error) {
         //en cas del valor del bool anem a enviar sms o no
+        if(!error) {
+            Toast.makeText(getActivity().getApplicationContext(),
+                    "Usuari creat correctamnet", Toast.LENGTH_LONG).show();
+            //falta afegir fragment dialog fet
+        }else {
+            Toast.makeText(getActivity().getApplicationContext(),
+                    "Error al crear usuari", Toast.LENGTH_LONG).show();
+        }
     }
+
 }
