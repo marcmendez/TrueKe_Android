@@ -33,7 +33,7 @@ public class FormatChecker {
         Date date=null;
         SimpleDateFormat sdf = null;
         try {
-            sdf = new SimpleDateFormat("dd/MM/yyyy");
+            sdf = new SimpleDateFormat("yyyy-MM-dd");
             date = sdf.parse(target);
         } catch (ParseException e) {
             throw new Exception("formato fecha incorrecto");

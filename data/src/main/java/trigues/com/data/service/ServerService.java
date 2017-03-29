@@ -1,8 +1,10 @@
 package trigues.com.data.service;
 
 import com.trigues.entity.Product;
+import com.trigues.entity.User;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import trigues.com.data.entity.ApiDTO;
@@ -13,9 +15,9 @@ import trigues.com.data.entity.ApiDTO;
 
 public interface ServerService {
 
-    @POST("/")
-    Call<ApiDTO<Void>> register();
+    @POST("users")
+    Call<ApiDTO<Void>> register(@Body User user);
 
-    @GET("/")
+    @GET("")
     Call<ApiDTO<Product>> getUserProduct();
 }
