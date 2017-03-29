@@ -13,12 +13,12 @@ public class User {
     String user;
     String password;
     String email;
-    Date birthDate;
+    String birthDate;
     int products;
     int truekes;
     float rating;
 
-    public User(int id, String phone, String user, String password, String email, Date birthDate, int products, int truekes, float rating) {
+    public User(int id, String phone, String user, String password, String email, String birthDate, int products, int truekes, float rating) {
         this.id = id;
         this.phone = phone;
         this.user = user;
@@ -70,11 +70,11 @@ public class User {
         this.email = email;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 

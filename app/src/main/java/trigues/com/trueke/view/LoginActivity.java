@@ -5,4 +5,5 @@ package trigues.com.trueke.view;
  */
 
 public interface LoginActivity extends BaseActivity {
+    void onRegisterRetrieved(Boolean returnParam);
 }

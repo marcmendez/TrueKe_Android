@@ -26,6 +26,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    testCompile 'junit:junit:4.12'
 
     //Project
     compile project(':domain')
@@ -33,6 +34,7 @@ dependencies {
 
     //Libraries
     compile "com.android.support:appcompat-v7:$androidSupportVersion"
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     compile "com.android.support:design:$androidSupportVersion"
     compile "com.android.support:percent:$androidSupportVersion"
     compile "com.android.support:cardview-v7:$androidSupportVersion"
@@ -43,8 +45,4 @@ dependencies {
     compile "com.squareup.picasso:picasso:$picassoVersion"
 
     compile "com.jakewharton:butterknife:$butterknifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
-    testCompile 'junit:junit:4.12'
 }

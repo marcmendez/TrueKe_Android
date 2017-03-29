@@ -1,21 +1,16 @@
 package trigues.com.data.datasource;
 
-import com.trigues.callback.DefaultCallback;
-import com.trigues.entity.Product;
-
-
 /**
  * Created by mbaque on 15/03/2017.
  */
 
 public interface ApiInterface {
 
-    //Functions:
-
-    void getUserProductDetails(int productId, GetUserProductDataDetails dataCallback);
+    //TODO: Definir aqui les funcions del datasource
 
 
-    //Callbacks:
+    //TODO: Definir aqui els callbacks (interficies) que s'han de passar com a parametre a cada funció del datasource
 
-    interface GetUserProductDataDetails extends DefaultCallback<Product> {}
+    //Exemple:
+    //interface TestDATACallback extends DefaultCallback<Classe que ha de retornar>
 }
