@@ -1,13 +1,19 @@
 package trigues.com.data.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by mbaque on 29/03/2017.
  */
 
 public class ApiDTO<T> {
 
+    @SerializedName("Error")
     Boolean error;
+
+    @SerializedName("Message")
     String message;
+
     T content;
 
     public ApiDTO(Boolean error, String message, T content) {

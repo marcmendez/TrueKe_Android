@@ -15,6 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
+import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
 
@@ -41,7 +42,7 @@ public class ApiDataSource implements ApiInterface {
 
         Retrofit retrofit = new Retrofit.Builder()
                 //.baseUrl("http://10.4.41.147:3000/")
-                .baseUrl("http://www.google.com")
+                .baseUrl("http://10.4.41.147:3000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -50,7 +51,7 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void getUserProductDetails(int productId, final GetUserProductDataDetails dataCallback) {
+    public void getUserProductDetails(int productId, final ProductDataCallback dataCallback) {
         interceptor.setResponseString("{\n" +
                 "  \"id\" : 12345,\n" +
                 "  \"userId\" : 54321,\n" +
@@ -70,7 +71,7 @@ public class ApiDataSource implements ApiInterface {
                 "  \"maxPrice\" : 200\n" +
                 "}");
 
-        server.getUserProduct().enqueue(new RetrofitErrorHandler<Product>(dataCallback) {
+        server.getUserProductDetails().enqueue(new RetrofitErrorHandler<Product>(dataCallback) {
             @Override
             public void onResponse(Product body) {
                 dataCallback.onSuccess(body);
@@ -79,7 +80,7 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void showProducts(int userID, final showProducts dataCallback) {
+    public void showProducts(int userID, final ProductListDataCallback dataCallback) {
         List<String> llista = new ArrayList<>();
         llista.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
         List<String> llista2 = new ArrayList<>();
@@ -107,12 +108,22 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void register(User user, BooleanDataCallback dataCallback) {
-
+    public void register(User user, final BooleanDataCallback dataCallback) {
+        server.register(user).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                dataCallback.onSuccess(body.getError());
+            }
+        });
     }
 
     @Override
-    public void login(User user, BooleanDataCallback dataCallback) {
-
+    public void login(User user, final BooleanDataCallback dataCallback) {
+        server.login(user).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                dataCallback.onSuccess(!body.getError());
+            }
+        });
     }
 }

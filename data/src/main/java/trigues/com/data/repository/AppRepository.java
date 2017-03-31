@@ -26,7 +26,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void getUserProductDetails(int productId, final ProductCallback dataCallback) {
-        apiDataSource.getUserProductDetails(productId, new ApiInterface.GetUserProductDataDetails() {
+        apiDataSource.getUserProductDetails(productId, new ApiInterface.ProductDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
@@ -40,8 +40,8 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void showProducts(int userID, final showProductsCallback dataCallback) {
-        apiDataSource.showProducts(userID, new ApiInterface.showProducts() {
+    public void showProducts(int userID, final ProductListCallback dataCallback) {
+        apiDataSource.showProducts(userID, new ApiInterface.ProductListDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
@@ -55,8 +55,23 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void login(User user, BooleanCallback dataCallback) {
-        apiDataSource.login(user, )
+    public void deleteDesiredCategory(Product product, VoidCallback dataCallback) {
+
+    }
+
+    @Override
+    public void register(User user, final BooleanCallback dataCallback) {
+        apiDataSource.register(user, new ApiInterface.BooleanDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
     }
 
     @Override

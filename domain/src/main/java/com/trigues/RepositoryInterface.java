@@ -16,15 +16,19 @@ public interface RepositoryInterface {
 
     void getUserProductDetails(int productId, ProductCallback dataCallback);
 
-
-    void showProducts(int userID, showProductsCallback dataCallback);
+    void showProducts(int userID, ProductListCallback dataCallback);
 
     void login(User user, BooleanCallback dataCallback);
+
+    void deleteDesiredCategory(Product product, VoidCallback dataCallback);
+
+    void register(User user, BooleanCallback dataCallback);
 
 
     //Callbacks:
 
+    interface VoidCallback extends DefaultCallback<Void> {}
     interface ProductCallback extends DefaultCallback<Product>{}
-    interface showProductsCallback extends DefaultCallback<List<Product>>{}
+    interface ProductListCallback extends DefaultCallback<List<Product>>{}
     interface BooleanCallback extends DefaultCallback<Boolean>{}
 }

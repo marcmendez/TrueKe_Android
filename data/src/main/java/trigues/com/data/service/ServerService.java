@@ -3,6 +3,8 @@ package trigues.com.data.service;
 import com.trigues.entity.Product;
 import com.trigues.entity.User;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -22,5 +24,8 @@ public interface ServerService {
     Call<ApiDTO<Void>> register(@Body User user);
 
     @GET("/")
-    Call<ApiDTO<Product>> getUserProduct();
+    Call<List<Product>> getUserProducts();
+
+    @GET("/")
+    Call<Product> getUserProductDetails();
 }

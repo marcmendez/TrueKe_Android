@@ -26,7 +26,7 @@ public class ShowProductsUseCase extends BaseUseCase<List<Product>> implements I
 
     private int userID;
 
-    RepositoryInterface.showProductsCallback dataCallback = new RepositoryInterface.showProductsCallback() {
+    RepositoryInterface.ProductListCallback dataCallback = new RepositoryInterface.ProductListCallback() {
         @Override
         public void onError(ErrorBundle errorBundle) {
             notifyOnError(errorBundle, callback);

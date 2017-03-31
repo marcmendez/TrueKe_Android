@@ -15,9 +15,9 @@ public interface ApiInterface {
 
     //Functions:
 
-    void getUserProductDetails(int productId, GetUserProductDataDetails dataCallback);
+    void getUserProductDetails(int productId, ProductDataCallback dataCallback);
 
-    void showProducts(int userID, showProducts dataCallback);
+    void showProducts(int userID, ProductListDataCallback dataCallback);
 
     void register(User user, BooleanDataCallback dataCallback);
 
@@ -26,7 +26,11 @@ public interface ApiInterface {
 
     //Callbacks:
 
-    interface GetUserProductDataDetails extends DefaultCallback<Product> {}
-    interface showProducts extends DefaultCallback<List<Product>> {}
+    interface ProductDataCallback extends DefaultCallback<Product> {}
+
+    interface ProductListDataCallback extends DefaultCallback<List<Product>> {}
+
     interface BooleanDataCallback extends DefaultCallback<Boolean> {}
+
+    interface VoidDataCallback extends DefaultCallback<Void> {}
 }
