@@ -2,8 +2,8 @@ package trigues.com.data.repository;
 
 import com.trigues.RepositoryInterface;
 import com.trigues.entity.Product;
+import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
-import com.trigues.usecase.ShowProductsUseCase;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void getUserProductDetails(int productId, final GetUserProductDetailsCallback dataCallback) {
+    public void getUserProductDetails(int productId, final ProductCallback dataCallback) {
         apiDataSource.getUserProductDetails(productId, new ApiInterface.GetUserProductDataDetails() {
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -52,6 +52,11 @@ public class AppRepository implements RepositoryInterface {
                 dataCallback.onSuccess(returnParam);
             }
         });
+    }
+
+    @Override
+    public void login(User user, BooleanCallback dataCallback) {
+        apiDataSource.login(user, )
     }
 
     @Override

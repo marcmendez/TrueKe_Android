@@ -21,6 +21,6 @@ public interface ServerService {
     @POST("users")
     Call<ApiDTO<Void>> register(@Body User user);
 
-    @GET("")
+    @GET("/")
     Call<ApiDTO<Product>> getUserProduct();
 }

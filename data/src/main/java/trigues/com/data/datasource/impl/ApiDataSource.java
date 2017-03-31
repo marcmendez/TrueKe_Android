@@ -2,6 +2,7 @@ package trigues.com.data.datasource.impl;
 
 import com.google.gson.Gson;
 import com.trigues.entity.Product;
+import com.trigues.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +103,16 @@ public class ApiDataSource implements ApiInterface {
                 dataCallback.onSuccess(body);
             }
         });
+
+    }
+
+    @Override
+    public void register(User user, BooleanDataCallback dataCallback) {
+
+    }
+
+    @Override
+    public void login(User user, BooleanDataCallback dataCallback) {
 
     }
 }

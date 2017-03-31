@@ -22,7 +22,7 @@ public class GetUserProductDetailsUseCase extends BaseUseCase<Product> implement
 
     private int productId;
 
-    RepositoryInterface.GetUserProductDetailsCallback dataCallback = new RepositoryInterface.GetUserProductDetailsCallback() {
+    RepositoryInterface.ProductCallback dataCallback = new RepositoryInterface.ProductCallback() {
         @Override
         public void onError(ErrorBundle errorBundle) {
             notifyOnError(errorBundle, callback);
