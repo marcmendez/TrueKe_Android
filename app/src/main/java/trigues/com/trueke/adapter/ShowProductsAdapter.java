@@ -27,10 +27,11 @@ public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProdu
     protected ProgressDialog progressDialog;
 
     private int number_matches = R.drawable.ic_action_name;
-    private Product product;
+    public List<Product> product;
 
-    public ShowProductsAdapter(Context context) {
+    public ShowProductsAdapter(Context context, List<Product> lp) {
         this.context = context;
+        this.product = lp;
     }
 
 
@@ -52,7 +53,7 @@ public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProdu
         @BindView(R.id.number_matches)
         public TextView number_matches;
 
-        public Product p;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -75,11 +76,11 @@ public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProdu
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
-        viewHolder.itemTitle.setText(product.getTitle());
-        viewHolder.itemDetail.setText(product.getDescription());
-        //viewHolder.itemImage.setImageResource(images.get(i));
+        viewHolder.itemTitle.setText(product.get(i).getTitle());
+        viewHolder.itemDetail.setText(product.get(i).getDescription());
+        //viewHolder.itemImage.setImageResource(product.get(i).getImages());
         viewHolder.matches_image.setImageResource(R.drawable.ic_action_name);
-        viewHolder.number_matches.setText("3");
+        //viewHolder.number_matches.setText(product.get(i).getDescription());
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -90,26 +91,11 @@ public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProdu
 
     @Override
     public int getItemCount() {
-        return 1;
+        return product.size();
     }
 
-    public void generateProd(Product product) {
-        this.product= product;
 
-    }
 
     abstract public void onItemClick();
 
-
-
-    public void hideProgress() {
-        if(progressDialog!=null && progressDialog.isShowing()){
-            progressDialog.dismiss();
-        }
-    }
-
-    public void onError(String error) {
-        hideProgress();
-        Toast.makeText(context, error, Toast.LENGTH_LONG).show();
-    }
 }

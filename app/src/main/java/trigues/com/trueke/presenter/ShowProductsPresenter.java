@@ -6,11 +6,14 @@ import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.GetUserProductDetailsUseCase;
 import com.trigues.usecase.ShowProductsUseCase;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import trigues.com.trueke.adapter.ShowProductsAdapter;
 import trigues.com.trueke.view.ShowProductsActivity;
 import trigues.com.trueke.view.UserProductDetailsActivity;
+import trigues.com.trueke.view.impl.ShowProductsActivityImpl;
 
 /**
  * Created by Marc on 22/03/2017.
@@ -18,11 +21,11 @@ import trigues.com.trueke.view.UserProductDetailsActivity;
 
 public class ShowProductsPresenter {
 
-    private ShowProductsAdapter view;
+    private ShowProductsActivity view;
     private ShowProductsUseCase showProductsUseCase;
 
-
-    public ShowProductsPresenter(ShowProductsAdapter view,
+    @Inject
+    public ShowProductsPresenter(ShowProductsActivity view,
                                  ShowProductsUseCase showProductsUseCase) {
 
         this.view = view;
@@ -31,7 +34,7 @@ public class ShowProductsPresenter {
 
 
     public void getUserProducts(int userID) {
-        if (userID == -1) {
+        if (userID == 54321) {
 
             showProductsUseCase.execute(userID, new ShowProductsUseCase.showProductsCallback() {
                 @Override
@@ -40,7 +43,7 @@ public class ShowProductsPresenter {
                 }
 
                 @Override
-                public void onSuccess(Product returnParam) { view.generateProd(returnParam);
+                public void onSuccess(List<Product> returnParam) { view.generateProds(returnParam);
                 }
             });
         }

@@ -34,4 +34,5 @@ public class FakeInterceptor implements Interceptor {
     public void setResponseString(String response){
         RESPONSE_STRING = response;
     }
+
 }

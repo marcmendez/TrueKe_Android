@@ -17,6 +17,8 @@ public class Product {
     List<String> desiredCategories;
     int minPrice;
     int maxPrice;
+    List<Integer> matches;
+
 
     public Product(int id, int userId, String title, String description, List<String> images, String productCategory, List<String> desiredCategories, int minPrice, int maxPrice) {
         this.id = id;
@@ -101,4 +103,6 @@ public class Product {
     public void setMaxPrice(int maxPrice) {
         this.maxPrice = maxPrice;
     }
+
+    public int getNumberMatches() { return matches.size();}
 }

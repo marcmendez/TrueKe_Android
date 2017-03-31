@@ -9,6 +9,8 @@ import com.trigues.executor.ThreadExecutor;
 import com.trigues.interactor.BaseUseCase;
 import com.trigues.interactor.Interactor;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
@@ -17,7 +19,7 @@ import javax.inject.Inject;
 
 
 
-public class ShowProductsUseCase extends BaseUseCase<Product> implements Interactor<Integer, Product> {
+public class ShowProductsUseCase extends BaseUseCase<List<Product>> implements Interactor<Integer, List<Product> > {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
     private showProductsCallback callback;
@@ -31,7 +33,7 @@ public class ShowProductsUseCase extends BaseUseCase<Product> implements Interac
         }
 
         @Override
-        public void onSuccess(Product returnParam) {
+        public void onSuccess(List<Product> returnParam) {
             notifyOnSuccess(returnParam, callback);
         }
     };
@@ -44,7 +46,7 @@ public class ShowProductsUseCase extends BaseUseCase<Product> implements Interac
     }
 
     @Override
-    public <R extends DefaultCallback<Product>> void execute(Integer userID, R defaultCallback) {
+    public <R extends DefaultCallback<List<Product>>> void execute(Integer userID, R defaultCallback) {
         this.callback = ((showProductsCallback) defaultCallback);
         this.userID= userID;
         executor.execute(this);
@@ -55,7 +57,9 @@ public class ShowProductsUseCase extends BaseUseCase<Product> implements Interac
         repository.showProducts(userID, dataCallback);
     }
 
-    public interface showProductsCallback extends DefaultCallback<Product>{}
+
+
+    public interface showProductsCallback extends DefaultCallback<List<Product>>{}
 
 
 }

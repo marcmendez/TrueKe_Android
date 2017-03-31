@@ -5,6 +5,8 @@ import com.trigues.entity.Product;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.ShowProductsUseCase;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import trigues.com.data.datasource.ApiInterface;
@@ -46,7 +48,7 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(Product returnParam) {
+            public void onSuccess(List<Product> returnParam) {
                 dataCallback.onSuccess(returnParam);
             }
         });
