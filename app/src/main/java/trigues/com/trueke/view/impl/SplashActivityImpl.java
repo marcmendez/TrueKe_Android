@@ -4,12 +4,9 @@ package trigues.com.trueke.view.impl;
  * Created by Alba on 21/03/2017.
  */
 
-import android.os.Bundle;
 import android.content.Intent;
-import android.os.Handler;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-import trigues.com.trueke.R;
 
 public class SplashActivityImpl extends AppCompatActivity {
 
@@ -17,7 +14,7 @@ public class SplashActivityImpl extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = new Intent(this, ShowProductsActivityImpl.class);
+        Intent intent = new Intent(this, LoginActivityImpl.class);
         startActivity(intent);
         finish();
 

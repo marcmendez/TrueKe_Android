@@ -1,11 +1,13 @@
 package trigues.com.data.service;
 
 import com.trigues.entity.Product;
-
-import java.util.List;
+import com.trigues.entity.User;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import trigues.com.data.entity.ApiDTO;
 
 /**
  * Created by mbaque on 18/03/2017.
@@ -13,10 +15,9 @@ import retrofit2.http.GET;
 
 public interface ServerService {
 
-    @GET("/")
-    Call<Product> getUserProduct();
+    @POST("users")
+    Call<ApiDTO<Void>> register(@Body User user);
 
-    @GET("/")
-    Call<List<Product>> getUserProducts();
-
+    @GET("")
+    Call<ApiDTO<Product>> getUserProduct();
 }
