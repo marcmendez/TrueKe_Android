@@ -24,7 +24,7 @@ public class FormatChecker {
             throw new Exception("Formato teléfono incorrecto");
     }
     public final static void CheckName(String target) throws Exception { // Nom i Cognom?
-        if(target.length()<4 || target.length()>20) throw new Exception("Nombre entre 3 i 20 caracteres");
+        if(target.length()<3 || target.length()>20) throw new Exception("Nombre entre 3 i 20 caracteres");
     }
     public final static void CheckUser(String target) throws Exception { // Nom i Cognom?
         if(target.length()<=0 || target.length()>20) throw new Exception("Nombre mas Apellido(s) máximo 20 caracteres");

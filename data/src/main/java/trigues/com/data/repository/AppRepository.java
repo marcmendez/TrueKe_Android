@@ -23,7 +23,7 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void register(User param, final LoginUseCaseCallback dataCallback) {
+    public void register(User param, final BooleanCallback dataCallback) {
         apiDataSource.register(param, new ApiInterface.BooleanDataCallback(){
 
             @Override

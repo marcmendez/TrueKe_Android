@@ -30,7 +30,7 @@ public class LoginUseCase extends BaseUseCase<Boolean> implements Interactor<Use
         this.executor = executor;
     }
 
-    RepositoryInterface.LoginUseCaseCallback dataCallback = new RepositoryInterface.LoginUseCaseCallback(){
+    RepositoryInterface.BooleanCallback dataCallback = new RepositoryInterface.BooleanCallback(){
 
         @Override
         public void onError(ErrorBundle errorBundle) {

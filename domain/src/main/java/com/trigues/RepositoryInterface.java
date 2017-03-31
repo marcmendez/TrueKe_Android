@@ -11,14 +11,14 @@ import com.trigues.entity.User;
 public interface RepositoryInterface {
     //TODO: Definir aqui les funcions del repositori
 
-    void register(User param, LoginUseCaseCallback dataCallback);
+    void register(User param, BooleanCallback dataCallback);
 
     void deleteDesiredCategory(Product product, VoidCallback callback);
 
     void getUserProductDetails(int productId, GetUserProductDetailsCallback callback);
 
     //TODO: Definir aqui els callbacks (interficies) que s'han de passar com a parametre a cada funció del repositori
-    interface LoginUseCaseCallback extends DefaultCallback<Boolean> {}
+    interface BooleanCallback extends DefaultCallback<Boolean> {}
 
     interface GetUserProductDetailsCallback extends DefaultCallback<Product> {}
 
