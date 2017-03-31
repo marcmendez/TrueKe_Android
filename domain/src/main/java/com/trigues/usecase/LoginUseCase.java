@@ -15,13 +15,13 @@ import javax.inject.Inject;
  * Created by mbaque on 15/03/2017.
  */
 
-//TODO: Canviar "Void" per classe (entity) que ha de retornar el cas d'ús
-//TODO: Canviar el primer Void de Interactor per el tipus de parametre d'entrada que es vol (Void si no n'hi ha cap)
 public class LoginUseCase extends BaseUseCase<Boolean> implements Interactor<User,Boolean>{
+
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
     private LoginUseCaseCallback callback;
     private User user;
+
     @Inject
     public LoginUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor,
                         RepositoryInterface repository) {
@@ -46,7 +46,7 @@ public class LoginUseCase extends BaseUseCase<Boolean> implements Interactor<Use
 
     @Override
     public void run() {
-        repository.register(user,dataCallback);
+        repository.login(user,dataCallback);
     }
 
     @Override

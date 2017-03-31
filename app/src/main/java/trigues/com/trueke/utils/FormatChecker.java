@@ -1,4 +1,4 @@
-package trigues.com.trueke.view.impl;
+package trigues.com.trueke.utils;
 
 import android.util.Patterns;
 

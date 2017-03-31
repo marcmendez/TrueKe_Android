@@ -2,8 +2,6 @@ package trigues.com.data;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.trigues.entity.Product;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,9 +11,6 @@ import java.net.URISyntaxException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.interceptor.FakeInterceptor;
@@ -72,18 +67,6 @@ public class ApiDataSourceTest{
                 "  \"minPrice\" : 100,\n" +
                 "  \"maxPrice\" : 200\n" +
                 "}");
-
-        server.getUserProduct().enqueue(new Callback<Product>() {
-            @Override
-            public void onResponse(Call<Product> call, Response<Product> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<Product> call, Throwable t) {
-
-            }
-        });
 
     }
 }
