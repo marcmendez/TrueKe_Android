@@ -23,11 +23,15 @@ public class FormatChecker {
         if (!Patterns.PHONE.matcher(target).matches())
             throw new Exception("Formato teléfono incorrecto");
     }
-    public final static void CheckUser(String target){ // Nom i Cognom?
-
+    public final static void CheckName(String target) throws Exception { // Nom i Cognom?
+        if(target.length()<4 || target.length()>20) throw new Exception("Nombre entre 3 i 20 caracteres");
     }
-    public final static void CheckPassword(String target) throws Exception {
+    public final static void CheckUser(String target) throws Exception { // Nom i Cognom?
+        if(target.length()<=0 || target.length()>20) throw new Exception("Nombre mas Apellido(s) máximo 20 caracteres");
+    }
+    public final static void CheckPassword(String target,String target2) throws Exception {
         if(target.length()<5 || target.length()>20) throw new Exception("Contraseña entre 5 i 20 caracteres");
+        if(!target.equals(target2)) throw new Exception("Contraseñas diferentes");
     }
     public final static void CheckDate(String target) throws Exception {
         Date date=null;
@@ -36,9 +40,11 @@ public class FormatChecker {
             sdf = new SimpleDateFormat("yyyy-MM-dd");
             date = sdf.parse(target);
         } catch (ParseException e) {
-            throw new Exception("formato fecha incorrecto");
+            throw new Exception("Formato fecha incorrecto");
         }
-            if(!target.equals(sdf.format(date))) throw new Exception("formato fecha incorrecto");
+            if(!target.equals(sdf.format(date))) throw new Exception("Formato fecha incorrecto");
+            Date today = new Date();
+            if(date.after(today)) throw new Exception("Fecha incorrecta");
     }
 }
 

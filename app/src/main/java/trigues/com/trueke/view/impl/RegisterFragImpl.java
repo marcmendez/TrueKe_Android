@@ -15,7 +15,7 @@ import trigues.com.trueke.R;
 
 public class RegisterFragImpl extends Fragment implements View.OnClickListener {
     LoginActivityImpl activity;
-    EditText e_nombre,e_apellidos,e_contraseña,e_telefono,e_mail,e_fecha;
+    EditText e_nombre,e_apellidos,e_contraseña,e_telefono,e_mail,e_fecha,e_repcontraseña;
     Button register;
     @Override
     public void setArguments(Bundle args) {
@@ -33,6 +33,7 @@ public class RegisterFragImpl extends Fragment implements View.OnClickListener {
         e_nombre = (EditText) view.findViewById(R.id.edit_nombre);
         e_apellidos = (EditText) view.findViewById(R.id.edit_apellidos);
         e_contraseña = (EditText) view.findViewById(R.id.edit_contraseña);
+        e_repcontraseña = (EditText) view.findViewById(R.id.edit_repcontraseña);
         e_telefono= (EditText) view.findViewById(R.id.edit_telefono);
         e_mail = (EditText) view.findViewById(R.id.edit_mail);
         e_fecha = (EditText) view.findViewById(R.id.edit_fecha);
@@ -54,14 +55,17 @@ public class RegisterFragImpl extends Fragment implements View.OnClickListener {
                 String nombre = e_nombre.getText().toString();
                 String apellidos = e_apellidos.getText().toString();
                 String contraseña = e_contraseña.getText().toString();
+                String repcontraseña = e_repcontraseña.getText().toString();
                 String teléfono = e_telefono.getText().toString();
                 String mail = e_mail.getText().toString();
                 String fecha = e_fecha.getText().toString();
                 try {
-                        FormatChecker.CheckPassword(contraseña);
-                        FormatChecker.CheckEmail(mail);
+
+                        FormatChecker.CheckName(nombre);
+                        FormatChecker.CheckUser(nombre+" "+apellidos);
+                        FormatChecker.CheckPassword(contraseña,repcontraseña);
                         FormatChecker.CheckPhone(teléfono);
-                        FormatChecker.CheckUser(nombre); //apellidos?
+                        FormatChecker.CheckEmail(mail);
                         FormatChecker.CheckDate(fecha);
                         activity.onRegisterPressed(nombre,apellidos,contraseña,teléfono,mail,fecha);
                     } catch (Exception e) {
