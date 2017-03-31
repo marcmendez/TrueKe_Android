@@ -17,6 +17,8 @@ public interface RepositoryInterface {
 
     void getUserProductDetails(int productId, GetUserProductDetailsCallback callback);
 
+    void login(User user, BooleanCallback dataCallback);
+
     //TODO: Definir aqui els callbacks (interficies) que s'han de passar com a parametre a cada funció del repositori
     interface BooleanCallback extends DefaultCallback<Boolean> {}
 

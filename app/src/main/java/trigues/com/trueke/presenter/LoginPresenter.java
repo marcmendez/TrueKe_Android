@@ -49,4 +49,23 @@ public class LoginPresenter {
                     }
                 });
     }
+
+    public void login(String usuari, String password) {
+        loginUseCase.execute(new User(usuari, password), new LoginUseCase.LoginUseCaseCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                if(returnParam){
+                    view.goToShowProductList();
+                }
+                else{
+                    view.onError("Login incorrecto");
+                }
+            }
+        });
+    }
 }

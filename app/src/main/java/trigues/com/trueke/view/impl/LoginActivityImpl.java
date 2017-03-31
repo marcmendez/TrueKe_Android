@@ -1,7 +1,8 @@
 package trigues.com.trueke.view.impl;
 
-import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import javax.inject.Inject;
 
@@ -12,12 +13,15 @@ import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.LoginPresenter;
 import trigues.com.trueke.view.LoginActivity;
+import trigues.com.trueke.view.fragment.LoginFragImpl;
+import trigues.com.trueke.view.fragment.RegisterFragImpl;
 
 public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity {
 
     @Inject
     LoginPresenter presenter;
-    Fragment f;
+    LoginFragImpl loginFrag;
+    RegisterFragImpl registerFrag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,35 +34,49 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
                 .inject(this);
 
         ButterKnife.bind(this);
-        f = new RegisterFragImpl();
+        loginFrag = new LoginFragImpl();
+        registerFrag = new RegisterFragImpl();
+
+        openLoginFragment();
+
+    }
+
+    public void openRegisterFragment(){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_view, f)
+                .replace(R.id.fragment_view, registerFrag)
                 .commit();
+    }
+
+    public void openLoginFragment(){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_view, loginFrag)
+                .commit();
+    }
+
+    public void goToShowProductList(){
+        startActivity(new Intent(this, ShowProductsActivityImpl.class));
+    }
+
+    public void onLoginPressed(String usuari, String password){
+        presenter.login(usuari, password);
     }
 
     public void onRegisterPressed(String nombre, String apellidos, String contraseña, String telefono, String mail, String fecha ){
         presenter.register(nombre,apellidos,contraseña,telefono,mail,fecha);
     }
 
-    //en cas de tornar enrere treiem el fragment de sobre del login
     @Override
-    public void onBackPressed() {
-
-        int count = getFragmentManager().getBackStackEntryCount();
-
-        if (count == 0) {
-            super.onBackPressed();
-        } else {
-            getFragmentManager().popBackStack();
-        }
-
+    public boolean onOptionsItemSelected(MenuItem item) {
+        openLoginFragment();
+        return true;
     }
+
+
 
     @Override
     public void onRegisterRetrieved(Boolean returnParam) {
         RegisterFragImpl registerFrag = (RegisterFragImpl)
        getSupportFragmentManager().findFragmentById(R.id.fragment_view);
         registerFrag.onRegisterRetrieved(returnParam);
-
     }
 }

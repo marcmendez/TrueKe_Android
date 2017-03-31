@@ -1,4 +1,4 @@
-package trigues.com.trueke.view.impl;
+package trigues.com.trueke.view.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

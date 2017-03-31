@@ -45,6 +45,16 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
+    public void login(User user, final BooleanDataCallback dataCallback) {
+        server.login(user).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                dataCallback.onSuccess(true);
+            }
+        });
+    }
+
+    @Override
     public void register(User param, final BooleanDataCallback datacallback) {
 //        interceptor.setResponseString("{\n" +
 //                "  \"error\" : false,\n" +

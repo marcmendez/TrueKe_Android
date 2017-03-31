@@ -15,6 +15,9 @@ import trigues.com.data.entity.ApiDTO;
 
 public interface ServerService {
 
+    @POST("authenticate")
+    Call<ApiDTO<Void>> login(@Body User user);
+
     @POST("users")
     Call<ApiDTO<Void>> register(@Body User user);
 

@@ -10,13 +10,11 @@ import com.trigues.entity.User;
 
 public interface ApiInterface {
 
-    //TODO: Definir aqui les funcions del datasource
+    void login(User user, BooleanDataCallback dataCallback);
 
     void register(User param, BooleanDataCallback datacallback );
 
     void getUserProductDetails(int productId, ProductDataCallback dataCallback);
-
-    //TODO: Definir aqui els callbacks (interficies) que s'han de passar com a parametre a cada funció del datasource
 
     interface BooleanDataCallback extends DefaultCallback<Boolean> {}
 

@@ -1,9 +1,10 @@
-package trigues.com.trueke.view.impl;
+package trigues.com.trueke.view.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,12 +12,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import trigues.com.trueke.R;
+import trigues.com.trueke.utils.FormatChecker;
+import trigues.com.trueke.view.impl.LoginActivityImpl;
 
 
 public class RegisterFragImpl extends Fragment implements View.OnClickListener {
+
     LoginActivityImpl activity;
     EditText e_nombre,e_apellidos,e_contraseña,e_telefono,e_mail,e_fecha,e_repcontraseña;
     Button register;
+
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
@@ -89,4 +94,12 @@ public class RegisterFragImpl extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
