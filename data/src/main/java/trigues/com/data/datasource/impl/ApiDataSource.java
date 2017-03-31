@@ -1,7 +1,10 @@
 package trigues.com.data.datasource.impl;
 
+import com.google.gson.Gson;
 import com.trigues.entity.Product;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -72,5 +75,33 @@ public class ApiDataSource implements ApiInterface {
                 dataCallback.onSuccess(body);
             }
         });
+    }
+
+    @Override
+    public void showProducts(int userID, final showProducts dataCallback) {
+        List<String> llista = new ArrayList<>();
+        llista.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
+        List<String> llista2 = new ArrayList<>();
+                llista2.add("Electrodomesticos");
+        Product prod = new Product(12345, 54321, "Mochilla", "Mochila basura",llista ,
+                "Accesorios", llista2, 100, 200);
+        List<Product> llistaProd= new ArrayList<>();
+
+        llistaProd.add(prod);
+        llistaProd.add(prod);
+        llistaProd.add(prod);
+        llistaProd.add(prod);
+
+        Gson gson = new Gson();
+
+        interceptor.setResponseString(gson.toJson(llistaProd));
+
+        server.getUserProducts().enqueue(new RetrofitErrorHandler< List<Product> >(dataCallback) {
+            @Override
+            public void onResponse(List<Product> body) {
+                dataCallback.onSuccess(body);
+            }
+        });
+
     }
 }

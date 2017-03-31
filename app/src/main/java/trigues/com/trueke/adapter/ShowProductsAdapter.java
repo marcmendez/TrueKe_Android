@@ -1,5 +1,6 @@
 package trigues.com.trueke.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.trigues.entity.Product;
+
+import java.util.List;
 
 import butterknife.BindView;
 import trigues.com.trueke.R;
@@ -17,35 +23,18 @@ import trigues.com.trueke.R;
 
 public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProductsAdapter.ViewHolder> {
     private final Context context;
-    private String[] titles = {"Chapter One",
-            "Chapter Two",
-            "Chapter Three",
-            "Chapter Four",
-            "Chapter Five",
-            "Chapter Six",
-            "Chapter Seven",
-            "Chapter Eight"};
 
-    private String[] details = {"Item one details",
-            "Item two details", "Item three details",
-            "Item four details", "Item file details",
-            "Item six details", "Item seven details",
-            "Item eight details"};
-
-    private int[] images = { R.drawable.logo,
-            R.drawable.logo,
-            R.drawable.logo,
-            R.drawable.logo,
-            R.drawable.logo,
-            R.drawable.logo,
-            R.drawable.logo,
-            R.drawable.logo};
+    protected ProgressDialog progressDialog;
 
     private int number_matches = R.drawable.ic_action_name;
+    public List<Product> product;
 
-    public ShowProductsAdapter(Context context) {
+    public ShowProductsAdapter(Context context, List<Product> lp) {
         this.context = context;
+        this.product = lp;
     }
+
+
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -58,15 +47,21 @@ public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProdu
         @BindView(R.id.item_detail)
         public TextView itemDetail;
 
+        @BindView(R.id.matches_image)
+        public ImageView matches_image;
+
         @BindView(R.id.number_matches)
-        public ImageView number_matches;
+        public TextView number_matches;
+
+
 
         public ViewHolder(View itemView) {
             super(itemView);
             itemImage = (ImageView)itemView.findViewById(R.id.item_image);
             itemTitle = (TextView)itemView.findViewById(R.id.item_title);
             itemDetail = (TextView)itemView.findViewById(R.id.item_detail);
-            number_matches = (ImageView)itemView.findViewById(R.id.number_matches);
+            matches_image = (ImageView)itemView.findViewById(R.id.matches_image);
+            number_matches = (TextView)itemView.findViewById(R.id.number_matches);
 
         }
     }
@@ -81,10 +76,11 @@ public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProdu
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
-        viewHolder.itemTitle.setText(titles[i]);
-        viewHolder.itemDetail.setText(details[i]);
-        viewHolder.itemImage.setImageResource(images[i]);
-        viewHolder.number_matches.setImageResource(number_matches);
+        viewHolder.itemTitle.setText(product.get(i).getTitle());
+        viewHolder.itemDetail.setText(product.get(i).getDescription());
+        //viewHolder.itemImage.setImageResource(product.get(i).getImages());
+        viewHolder.matches_image.setImageResource(R.drawable.ic_action_name);
+        //viewHolder.number_matches.setText(product.get(i).getDescription());
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -95,8 +91,11 @@ public abstract class ShowProductsAdapter extends RecyclerView.Adapter<ShowProdu
 
     @Override
     public int getItemCount() {
-        return titles.length;
+        return product.size();
     }
 
+
+
     abstract public void onItemClick();
+
 }
