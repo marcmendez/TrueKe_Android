@@ -11,12 +11,14 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import trigues.com.data.datasource.ApiInterface;
+import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.datasource.impl.ApiDataSource;
+import trigues.com.data.datasource.impl.InternalStorageDataSource;
 import trigues.com.data.executor.JobExecutor;
 import trigues.com.data.repository.AppRepository;
 import trigues.com.trueke.UIThread;
 import trigues.com.trueke.dependencyinjection.App;
-import trigues.com.trueke.dependencyinjection.qualifier.ForApp;
+import trigues.com.data.dependencyinjection.qualifier.ForApp;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -60,5 +62,11 @@ public class ApplicationModule {
     @Singleton
     public RepositoryInterface providesAppRepository(AppRepository repository){
         return repository;
+    }
+
+    @Provides
+    @Singleton
+    public InternalStorageInterface providesInternalStorage(InternalStorageDataSource dataSource){
+        return dataSource;
     }
 }

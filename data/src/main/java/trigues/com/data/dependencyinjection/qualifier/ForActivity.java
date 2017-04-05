@@ -1,4 +1,4 @@
-package trigues.com.trueke.dependencyinjection.qualifier;
+package trigues.com.data.dependencyinjection.qualifier;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
