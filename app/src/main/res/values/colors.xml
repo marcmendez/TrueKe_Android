@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary"> #ffc107</color>
-    <color name="colorPrimaryDark">#ff6f00</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary"> #673AB7</color>
+    <color name="colorPrimaryDark">#512DA8</color>
+    <color name="colorPrimaryLight">#D1C4E9</color>
+    <color name="colorAccent">#FFC107</color>
     <color name="colorCardBackground">#ffe082</color>
     <color name= "colorBackground">#fff8e1</color>
+    <color name="colorDivider">#BDBDBD</color>
 </resources>
