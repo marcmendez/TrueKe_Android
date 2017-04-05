@@ -5,4 +5,13 @@ package trigues.com.data.datasource;
  */
 
 public interface InternalStorageInterface {
+
+    boolean isUserLogged();
+
+    void saveToken(String token);
+
+    String getToken();
+
+    void onLogOut();
+
 }

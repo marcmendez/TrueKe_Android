@@ -14,6 +14,8 @@ import trigues.com.data.dependencyinjection.qualifier.ForApp;
 
 public class InternalStorageDataSource implements InternalStorageInterface {
 
+    private static final String USER_TOKEN = "user_token";
+
     SharedPreferences internalStorage;
 
     @Inject
@@ -22,4 +24,25 @@ public class InternalStorageDataSource implements InternalStorageInterface {
     }
 
 
+    @Override
+    public boolean isUserLogged() {
+        String token = internalStorage.getString(USER_TOKEN, null);
+        return token != null;
+    }
+
+    @Override
+    public void saveToken(String token) {
+        internalStorage.edit().putString(USER_TOKEN, token).apply();
+    }
+
+    @Override
+    public String getToken() {
+        String token = internalStorage.getString(USER_TOKEN, null);
+        return token;
+    }
+
+    @Override
+    public void onLogOut() {
+        internalStorage.edit().remove(USER_TOKEN).apply();
+    }
 }
