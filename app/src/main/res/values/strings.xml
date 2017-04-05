@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TrueKe</string>
     <string name="title_activity_splash">Splash</string>
+    <string name="crear_cuenta">Crear cuenta</string>
 </resources>

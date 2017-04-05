@@ -1,177 +1,211 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background = "@drawable/background_register"
-    tools:context="trigues.com.trueke.view.fragment.RegisterFragImpl">
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/register_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"/>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="fill_parent"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:layout_weight="1"
+        android:gravity="center">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout2"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="false"
-            android:layout_marginTop="39dp">
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edit_nombre"
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="Nombre*"
-                android:inputType="textPersonName"
-                android:maxWidth="250dp"
-                android:minWidth="250dp"
-                android:textSize="14sp" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:textColorHint="#e5e5e5">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/textInputLayout2"
-            android:layout_centerHorizontal="false"
-            android:layout_marginTop="56dp">
+                <EditText
+                    android:id="@+id/edit_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre*"
+                    android:inputType="textPersonName"/>
 
-            <EditText
-                android:id="@+id/edit_apellidos"
-                android:layout_width="wrap_content"
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="Apellido(s)"
-                android:inputType="textPersonName"
-                android:maxWidth="250dp"
-                android:minWidth="250dp"
-                android:textSize="14sp" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:textColorHint="#e5e5e5">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/textInputLayout3"
-            android:layout_marginTop="69dp">
+                <EditText
+                    android:id="@+id/edit_apellidos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Apellido(s)"
+                    android:inputType="textPersonName"/>
 
-            <EditText
-                android:id="@+id/edit_contraseña"
-                android:layout_width="wrap_content"
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="Contraseña*"
-                android:inputType="textPassword"
-                android:maxWidth="250dp"
-                android:minWidth="250dp"
-                android:textSize="14sp" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:textColorHint="#e5e5e5">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/TextInputLayout11"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textInputLayout8">
+                <EditText
+                    android:id="@+id/edit_contraseña"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contraseña*"
+                    android:inputType="textPassword"/>
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/edit_repcontraseña"
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="Repetir contraseña*"
-                android:inputType="textPassword"
-                android:maxWidth="250dp"
-                android:minWidth="250dp"
-                android:textSize="14sp" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:textColorHint="#e5e5e5">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/TextInputLayout10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/TextInputLayout11"
-            android:layout_marginTop="24dp">
+                <EditText
+                    android:id="@+id/edit_repcontraseña"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Repetir contraseña*"
+                    android:inputType="textPassword"/>
 
-            <EditText
-                android:id="@+id/edit_telefono"
-                android:layout_width="wrap_content"
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="Número de teléfono*"
-                android:inputType="phone"
-                android:maxWidth="250dp"
-                android:minWidth="250dp"
-                android:textSize="14sp" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:textColorHint="#e5e5e5">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/textInputLayout6"
-            android:layout_alignParentStart="true">
+                <EditText
+                    android:id="@+id/edit_telefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Número de teléfono*"
+                    android:inputType="phone"/>
 
-            <EditText
-                android:id="@+id/edit_mail"
-                android:layout_width="wrap_content"
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="E-mail*"
-                android:inputType="textEmailAddress"
-                android:maxWidth="250dp"
-                android:minWidth="250dp"
-                android:textSize="14sp" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:textColorHint="#e5e5e5">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/register_button"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="32dp">
+                <EditText
+                    android:id="@+id/edit_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="E-mail*"
+                    android:inputType="textEmailAddress"/>
 
-            <EditText
-                android:id="@+id/edit_fecha"
-                android:layout_width="wrap_content"
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="Fecha nacimiento* yyyy-MM-dd"
-                android:inputType="date"
-                android:maxWidth="250dp"
-                android:minWidth="250dp"
-                android:textSize="14sp" />
-        </android.support.design.widget.TextInputLayout>
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/register_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="0.25"
-            android:background="@drawable/myregister_button"
-            android:minWidth="250dp"
-            android:text="¡Quiero hacer Truekes!" />
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textColorHint="#e5e5e5">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@android:color/transparent"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
+                    <EditText
+                        android:id="@+id/edit_año"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxLength="4"
+                        android:hint="Año"
+                        android:inputType="number"/>
 
-    </RelativeLayout>
+                </android.support.design.widget.TextInputLayout>
 
-</FrameLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textColorHint="#e5e5e5">
+
+                    <EditText
+                        android:id="@+id/edit_mes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxLength="2"
+                        android:hint="Mes"
+                        android:inputType="number"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textColorHint="#e5e5e5">
+
+                    <EditText
+                        android:id="@+id/edit_dia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxLength="2"
+                        android:hint="Dia"
+                        android:inputType="number"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="0"
+        android:layout_marginBottom="26dp"
+        android:layout_marginTop="26dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:paddingEnd="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingStart="10dp"
+        android:text="@string/crear_cuenta"
+        android:textColor="#FFFF"
+        android:textStyle="bold"
+        android:typeface="normal"/>
+
+</LinearLayout>
