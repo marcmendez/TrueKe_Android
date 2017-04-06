@@ -1,19 +1,14 @@
 package trigues.com.trueke.presenter;
 
 import com.trigues.entity.Product;
-import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
-import com.trigues.usecase.GetUserProductDetailsUseCase;
 import com.trigues.usecase.ShowProductsUseCase;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import trigues.com.trueke.adapter.ShowProductsAdapter;
 import trigues.com.trueke.view.ShowProductsActivity;
-import trigues.com.trueke.view.UserProductDetailsActivity;
-import trigues.com.trueke.view.impl.ShowProductsActivityImpl;
 
 /**
  * Created by Marc on 22/03/2017.

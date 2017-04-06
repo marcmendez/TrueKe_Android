@@ -17,7 +17,6 @@ import android.widget.FrameLayout;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
 import trigues.com.trueke.R;
 import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
@@ -49,7 +48,6 @@ public class MenuActivityImpl extends BaseActivityImpl {
                         new ViewModule(this))
                 .inject(this);
 
-        ButterKnife.bind(this);
     }
 
     @Override

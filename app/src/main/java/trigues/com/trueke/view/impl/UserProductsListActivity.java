@@ -2,6 +2,8 @@ package trigues.com.trueke.view.impl;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -11,8 +13,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import trigues.com.trueke.R;
-import trigues.com.trueke.adapter.ShowProductsAdapter;
+import trigues.com.trueke.adapter.UserProductsRecyclerViewAdapter;
 import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
@@ -23,18 +27,23 @@ import trigues.com.trueke.view.ShowProductsActivity;
  * Created by Marc on 22/03/2017.
  */
 
-public class ShowProductsActivityImpl extends MenuActivityImpl implements ShowProductsActivity {
+public class UserProductsListActivity extends MenuActivityImpl implements ShowProductsActivity {
 
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    RecyclerView.Adapter adapter;
     @Inject
     ShowProductsPresenter presenter;
+
+    @BindView(R.id.user_products_recycler_view)
+    RecyclerView recyclerView;
+
+    @BindView(R.id.user_products_add_product_fab)
+    FloatingActionButton addProductButton;
+
+    RecyclerView.Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_products);
+        setContentView(R.layout.user_products_activity);
 
         ((App) getApplication())
                 .getComponent()
@@ -42,12 +51,16 @@ public class ShowProductsActivityImpl extends MenuActivityImpl implements ShowPr
                         new ViewModule(this))
                 .inject(this);
 
+        ButterKnife.bind(this);
 
-        recyclerView =
-                (RecyclerView) findViewById(R.id.recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
-        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
         presenter.getUserProducts(54321);
 
 
@@ -55,12 +68,13 @@ public class ShowProductsActivityImpl extends MenuActivityImpl implements ShowPr
 
     public void generateProds(List<Product> product) {
 
-        adapter = new ShowProductsAdapter(this, product) {
+        adapter = new UserProductsRecyclerViewAdapter(this, product) {
             @Override
             public void onItemClick() {
-                startActivity(new Intent(ShowProductsActivityImpl.this, UserProductDetailsActivityImpl.class));
+                startActivity(new Intent(UserProductsListActivity.this, UserProductDetailsActivityImpl.class));
             }
         };
+
         recyclerView.setAdapter(adapter);
 
 
