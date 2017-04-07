@@ -8,6 +8,6 @@ import java.util.List;
  * Created by Marc on 22/03/2017.
  */
 
-public interface ShowProductsActivity extends MenuActivity {
+public interface UserProductsListActivity extends MenuActivity {
     void generateProds(List<Product> returnParam);
 }

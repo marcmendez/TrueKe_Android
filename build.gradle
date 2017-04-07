@@ -3,7 +3,7 @@
 buildscript {
 
     ext{
-        androidSupportVersion = "25.3.0"
+        androidSupportVersion = "25.3.1"
         daggerVersion = "2.8"
         picassoVersion = "2.5.2"
         butterknifeVersion = "8.5.1"

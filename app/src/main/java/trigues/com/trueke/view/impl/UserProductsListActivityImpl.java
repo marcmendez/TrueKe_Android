@@ -21,13 +21,13 @@ import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.ShowProductsPresenter;
-import trigues.com.trueke.view.ShowProductsActivity;
+import trigues.com.trueke.view.UserProductsListActivity;
 
 /**
  * Created by Marc on 22/03/2017.
  */
 
-public class UserProductsListActivity extends MenuActivityImpl implements ShowProductsActivity {
+public class UserProductsListActivityImpl extends MenuActivityImpl implements UserProductsListActivity {
 
     @Inject
     ShowProductsPresenter presenter;
@@ -71,7 +71,7 @@ public class UserProductsListActivity extends MenuActivityImpl implements ShowPr
         adapter = new UserProductsRecyclerViewAdapter(this, product) {
             @Override
             public void onItemClick() {
-                startActivity(new Intent(UserProductsListActivity.this, UserProductDetailsActivityImpl.class));
+                startActivity(new Intent(UserProductsListActivityImpl.this, UserProductDetailsActivityImpl.class));
             }
         };
 

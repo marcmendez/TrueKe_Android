@@ -3,18 +3,17 @@ package com.trigues.entity;
             /**
  * Created by mbaque on 24/03/2017.
  */
+public class User {
 
-            public class User {
-
-        int id;
-        String phone;
-        String user;
-        String password;
-        String email;
-        String birthDate;
-        int products;
-        int truekes;
-        float rating;
+    int id;
+    String phone;
+    String user;
+    String password;
+    String email;
+    String birthDate;
+    int products;
+    int truekes;
+    float rating;
 
     public User(String email, String password){
         this.email = email;
