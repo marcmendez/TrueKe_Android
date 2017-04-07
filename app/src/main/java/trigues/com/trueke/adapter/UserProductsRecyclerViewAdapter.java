@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,6 +48,12 @@ public abstract class UserProductsRecyclerViewAdapter extends RecyclerView.Adapt
         String priceRange = product.get(i).getMinPrice() + " - " + product.get(i).getMaxPrice() + "€";
         viewHolder.itemPrice.setText(priceRange);
 
+        viewHolder.itemMatchmaking.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                onMatchMakingClick();
+            }
+        });
+
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
             onItemClick();
@@ -60,6 +67,7 @@ public abstract class UserProductsRecyclerViewAdapter extends RecyclerView.Adapt
     }
 
     abstract public void onItemClick();
+    abstract public void  onMatchMakingClick();
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -77,6 +85,8 @@ public abstract class UserProductsRecyclerViewAdapter extends RecyclerView.Adapt
         @BindView(R.id.user_product_list_price)
         public TextView itemPrice;
 
+        @BindView(R.id.user_product_list_matchmaking_launch_button)
+        public ImageButton itemMatchmaking;
 
 
         public ViewHolder(View itemView) {

@@ -24,7 +24,7 @@ public interface ServerService {
     Call<ApiDTO<Void>> register(@Body User user);
 
     @GET("/")
-    Call<List<Product>> getUserProducts();
+    Call<List<Product>> getUserProducts(/*@Body  Integer user_id*/);
 
     @GET("/")
     Call<Product> getUserProductDetails();
