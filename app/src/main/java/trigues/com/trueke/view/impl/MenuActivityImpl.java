@@ -1,6 +1,7 @@
 package trigues.com.trueke.view.impl;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -120,7 +121,11 @@ public class MenuActivityImpl extends BaseActivityImpl {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    //TODO: Obrir la activity que toqui segons itemId
+                    case R.id.menu_user_products_list:
+                        startActivity(new Intent(MenuActivityImpl.this, UserProductsListActivityImpl.class));
+                        return true;
+                    case R.id.menu_matchmaking:
+                        startActivity(new Intent(MenuActivityImpl.this, MatchmakingActivityImpl.class));
                 }
 
                 return false;

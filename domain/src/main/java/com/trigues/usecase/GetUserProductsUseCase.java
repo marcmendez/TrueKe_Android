@@ -19,10 +19,10 @@ import javax.inject.Inject;
 
 
 
-public class ShowProductsUseCase extends BaseUseCase<List<Product>> implements Interactor<Integer, List<Product> > {
+public class GetUserProductsUseCase extends BaseUseCase<List<Product>> implements Interactor<Integer, List<Product> > {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
-    private showProductsCallback callback;
+    private UserProductsListCallback callback;
 
     private int userID;
 
@@ -39,7 +39,7 @@ public class ShowProductsUseCase extends BaseUseCase<List<Product>> implements I
     };
 
     @Inject
-    public  ShowProductsUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor, RepositoryInterface repository) {
+    public GetUserProductsUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor, RepositoryInterface repository) {
         super(postExecutionThread);
         this.repository = repository;
         this.executor = executor;
@@ -47,7 +47,7 @@ public class ShowProductsUseCase extends BaseUseCase<List<Product>> implements I
 
     @Override
     public <R extends DefaultCallback<List<Product>>> void execute(Integer userID, R defaultCallback) {
-        this.callback = ((showProductsCallback) defaultCallback);
+        this.callback = ((UserProductsListCallback) defaultCallback);
         this.userID= userID;
         executor.execute(this);
 
@@ -59,7 +59,7 @@ public class ShowProductsUseCase extends BaseUseCase<List<Product>> implements I
 
 
 
-    public interface showProductsCallback extends DefaultCallback<List<Product>>{}
+    public interface UserProductsListCallback extends DefaultCallback<List<Product>>{}
 
 
 }

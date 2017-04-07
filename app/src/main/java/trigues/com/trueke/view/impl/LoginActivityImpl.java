@@ -54,7 +54,7 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
     }
 
     public void goToShowProductList(){
-        startActivity(new Intent(this, UserProductsListActivity.class));
+        startActivity(new Intent(this, UserProductsListActivityImpl.class));
     }
 
     public void onLoginPressed(String usuari, String password){

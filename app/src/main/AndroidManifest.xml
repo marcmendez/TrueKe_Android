@@ -19,7 +19,7 @@
         <activity android:name=".view.impl.LoginActivityImpl">
         </activity>
 
-        <activity android:name=".view.impl.UserProductsListActivity">
+        <activity android:name=".view.impl.UserProductsListActivityImpl">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,6 +27,8 @@
         </activity>
 
         <activity android:name=".view.impl.UserProductDetailsActivityImpl"/>
+
+        <activity android:name=".view.impl.MatchmakingActivityImpl"/>
 
     </application>
 
