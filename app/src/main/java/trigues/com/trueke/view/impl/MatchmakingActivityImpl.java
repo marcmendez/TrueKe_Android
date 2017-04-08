@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 import com.trigues.entity.Product;
@@ -21,6 +22,7 @@ import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.MatchmakingPresenter;
 import trigues.com.trueke.utils.MatchmakingCard;
 import trigues.com.trueke.view.MatchmakingActivity;
+import trigues.com.trueke.view.fragment.MatchmakingDetailsFragImpl;
 
 /**
  * Created by mbaque on 07/04/2017.
@@ -33,6 +35,8 @@ public class MatchmakingActivityImpl extends MenuActivityImpl implements Matchma
 
     @BindView(R.id.matchmaking_list)
     SwipePlaceHolderView matchmakingList;
+
+    private int currentProduct = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +55,7 @@ public class MatchmakingActivityImpl extends MenuActivityImpl implements Matchma
     }
 
     @Override
-    public void onProductsRetrieved(List<Product> returnParam) {
+    public void onProductsRetrieved(final List<Product> returnParam) {
         matchmakingList.getBuilder()
                 .setDisplayViewCount(3)
                 .setSwipeDecor(new SwipeDecor()
@@ -62,11 +66,15 @@ public class MatchmakingActivityImpl extends MenuActivityImpl implements Matchma
             matchmakingList.addView(new MatchmakingCard(this, product, matchmakingList, new MatchmakingCardCallback() {
                 @Override
                 public void onAccepted() {
+                    ++currentProduct;
+
                     //TODO: Implementar
                 }
 
                 @Override
                 public void onRejected() {
+                    ++currentProduct;
+
                     //TODO: Implementar
 
                 }
@@ -77,6 +85,18 @@ public class MatchmakingActivityImpl extends MenuActivityImpl implements Matchma
             @Override
             public void onClick(View v) {
                 matchmakingList.doSwipe(false);
+            }
+        });
+
+        findViewById(R.id.matchmaking_detail_fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MatchmakingDetailsFragImpl fragment = new MatchmakingDetailsFragImpl();
+                Gson gson = new Gson();
+                Bundle bundle = new Bundle();
+                bundle.putString("product", gson.toJson(returnParam.get(currentProduct)));
+                fragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.matchmaking_container, fragment).commit();
             }
         });
 

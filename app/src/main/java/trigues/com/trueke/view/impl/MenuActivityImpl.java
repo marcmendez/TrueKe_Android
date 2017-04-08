@@ -23,12 +23,13 @@ import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.MenuPresenter;
+import trigues.com.trueke.view.MenuActivity;
 
 /**
  * Created by mbaque on 18/03/2017.
  */
 
-public class MenuActivityImpl extends BaseActivityImpl {
+public class MenuActivityImpl extends BaseActivityImpl implements MenuActivity {
 
     @Inject
     MenuPresenter presenter;
@@ -124,8 +125,8 @@ public class MenuActivityImpl extends BaseActivityImpl {
                     case R.id.menu_user_products_list:
                         startActivity(new Intent(MenuActivityImpl.this, UserProductsListActivityImpl.class));
                         return true;
-                    case R.id.menu_matchmaking:
-                        startActivity(new Intent(MenuActivityImpl.this, MatchmakingActivityImpl.class));
+                    case R.id.menu_logout:
+                        presenter.logout();
                 }
 
                 return false;
@@ -154,4 +155,9 @@ public class MenuActivityImpl extends BaseActivityImpl {
         return R.layout.app_navigation_view;
     }
 
+    @Override
+    public void onLogout() {
+        startActivity(new Intent(this, LoginActivityImpl.class));
+        finish();
+    }
 }
