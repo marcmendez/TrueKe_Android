@@ -2,6 +2,8 @@ package trigues.com.trueke.view.impl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -28,7 +30,7 @@ import trigues.com.trueke.view.fragment.MatchmakingDetailsFragImpl;
  * Created by mbaque on 07/04/2017.
  */
 
-public class MatchmakingActivityImpl extends MenuActivityImpl implements MatchmakingActivity {
+public class MatchmakingActivityImpl extends BaseActivityImpl implements MatchmakingActivity {
 
     @Inject
     MatchmakingPresenter presenter;
@@ -52,6 +54,8 @@ public class MatchmakingActivityImpl extends MenuActivityImpl implements Matchma
         ButterKnife.bind(this);
 
         presenter.getTestProducts();
+
+        setUpBackActionBar();
     }
 
     @Override
@@ -96,7 +100,8 @@ public class MatchmakingActivityImpl extends MenuActivityImpl implements Matchma
                 Bundle bundle = new Bundle();
                 bundle.putString("product", gson.toJson(returnParam.get(currentProduct)));
                 fragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.matchmaking_container, fragment).commit();
+                //addFullScreenFragmentWithTransition(fragment, R.anim.enter_from_bottom, R.anim.exit_to_right);
+                addFullScreenFragment(fragment);
             }
         });
 
@@ -107,6 +112,23 @@ public class MatchmakingActivityImpl extends MenuActivityImpl implements Matchma
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.base_container);
+                if(null == currentFragment){
+                    finish();
+                    return true;
+                }
+                else{
+                    return currentFragment.onOptionsItemSelected(item);
+                }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public interface MatchmakingCardCallback {

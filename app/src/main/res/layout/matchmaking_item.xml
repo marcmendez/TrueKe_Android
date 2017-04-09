@@ -18,6 +18,7 @@
 
         <ImageView
             android:id="@+id/profileImageView"
+            android:padding="28dp"
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

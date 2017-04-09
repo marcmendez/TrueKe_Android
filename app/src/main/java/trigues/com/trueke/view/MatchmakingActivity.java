@@ -8,6 +8,6 @@ import java.util.List;
  * Created by mbaque on 07/04/2017.
  */
 
-public interface MatchmakingActivity extends MenuActivity {
+public interface MatchmakingActivity extends BaseActivity {
     void onProductsRetrieved(List<Product> returnParam);
 }

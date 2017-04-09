@@ -54,15 +54,15 @@ public class MenuActivityImpl extends BaseActivityImpl implements MenuActivity {
 
     @Override
     public void setContentView(int layoutResID) {
-        super.setContentView(R.layout.activity_base);
+        super.setContentView(R.layout.activity_menu);
 
-        this.contentContainer = (FrameLayout) findViewById(R.id.contentLayout);
+        this.contentContainer = (FrameLayout) findViewById(R.id.menu_contentLayout);
         LayoutInflater.from(this).inflate(layoutResID, contentContainer);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.menu_drawerLayout);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         if (getToolbarLayout() != null) {
-            FrameLayout frameToolbar = (FrameLayout) findViewById(R.id.toolbar_layout);
+            FrameLayout frameToolbar = (FrameLayout) findViewById(R.id.menu_toolbar_layout);
             LayoutInflater.from(this).inflate(getToolbarLayout(), frameToolbar);
         }
 
