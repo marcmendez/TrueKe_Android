@@ -2,8 +2,11 @@ package trigues.com.trueke.view.impl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 import com.trigues.entity.Product;
@@ -21,18 +24,21 @@ import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.MatchmakingPresenter;
 import trigues.com.trueke.utils.MatchmakingCard;
 import trigues.com.trueke.view.MatchmakingActivity;
+import trigues.com.trueke.view.fragment.MatchmakingDetailsFragImpl;
 
 /**
  * Created by mbaque on 07/04/2017.
  */
 
-public class MatchmakingActivityImpl extends MenuActivityImpl implements MatchmakingActivity {
+public class MatchmakingActivityImpl extends BaseActivityImpl implements MatchmakingActivity {
 
     @Inject
     MatchmakingPresenter presenter;
 
     @BindView(R.id.matchmaking_list)
     SwipePlaceHolderView matchmakingList;
+
+    private int currentProduct = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,10 +54,12 @@ public class MatchmakingActivityImpl extends MenuActivityImpl implements Matchma
         ButterKnife.bind(this);
 
         presenter.getTestProducts();
+
+        setUpBackActionBar();
     }
 
     @Override
-    public void onProductsRetrieved(List<Product> returnParam) {
+    public void onProductsRetrieved(final List<Product> returnParam) {
         matchmakingList.getBuilder()
                 .setDisplayViewCount(3)
                 .setSwipeDecor(new SwipeDecor()
@@ -62,11 +70,15 @@ public class MatchmakingActivityImpl extends MenuActivityImpl implements Matchma
             matchmakingList.addView(new MatchmakingCard(this, product, matchmakingList, new MatchmakingCardCallback() {
                 @Override
                 public void onAccepted() {
+                    ++currentProduct;
+
                     //TODO: Implementar
                 }
 
                 @Override
                 public void onRejected() {
+                    ++currentProduct;
+
                     //TODO: Implementar
 
                 }
@@ -80,6 +92,19 @@ public class MatchmakingActivityImpl extends MenuActivityImpl implements Matchma
             }
         });
 
+        findViewById(R.id.matchmaking_detail_fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MatchmakingDetailsFragImpl fragment = new MatchmakingDetailsFragImpl();
+                Gson gson = new Gson();
+                Bundle bundle = new Bundle();
+                bundle.putString("product", gson.toJson(returnParam.get(currentProduct)));
+                fragment.setArguments(bundle);
+                //addFullScreenFragmentWithTransition(fragment, R.anim.enter_from_bottom, R.anim.exit_to_right);
+                addFullScreenFragment(fragment);
+            }
+        });
+
         findViewById(R.id.matchmaking_accept_fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +112,23 @@ public class MatchmakingActivityImpl extends MenuActivityImpl implements Matchma
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.base_container);
+                if(null == currentFragment){
+                    finish();
+                    return true;
+                }
+                else{
+                    return currentFragment.onOptionsItemSelected(item);
+                }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public interface MatchmakingCardCallback {

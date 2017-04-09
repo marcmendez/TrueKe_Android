@@ -5,4 +5,5 @@ package trigues.com.trueke.view;
  */
 
 public interface MenuActivity extends BaseActivity {
+    void onLogout();
 }

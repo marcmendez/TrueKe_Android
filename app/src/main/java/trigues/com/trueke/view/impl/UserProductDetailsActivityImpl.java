@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.trigues.entity.Product;
 
@@ -31,6 +32,18 @@ import trigues.com.trueke.view.UserProductDetailsActivity;
  */
 
 public class UserProductDetailsActivityImpl extends BaseActivityImpl implements UserProductDetailsActivity {
+
+    @BindView(R.id.product_detail_title)
+    TextView title;
+
+    @BindView(R.id.product_detail_description)
+    TextView description;
+
+    @BindView(R.id.product_detail_price)
+    TextView price;
+
+    @BindView(R.id.product_detail_category)
+    TextView category;
 
     @BindView(R.id.product_detail_viewpager)
     ViewPager viewPager;
@@ -68,23 +81,27 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
 
         presenter.getProductDetails(productId);
 
-        initToolbar();
-    }
-
-    private void initToolbar() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setUpBackActionBar(toolbar);
     }
 
     @Override
     public void onDetailsRetrieved(Product returnParam) {
+
         setUpViewPager(returnParam.getImages());
+
+        setUpProductDetails(returnParam);
 
         setUpDotCounter();
 
         setUpDesiredCategoriesList(returnParam.getDesiredCategories());
+    }
+
+    private void setUpProductDetails(Product product) {
+        title.setText(product.getTitle());
+        description.setText(product.getDescription());
+        String priceText = product.getMinPrice() + " - " + product.getMaxPrice() + "€";
+        price.setText(priceText);
+        category.setText(product.getProductCategory());
     }
 
     private void setUpDesiredCategoriesList(List<String> desiredCategories) {

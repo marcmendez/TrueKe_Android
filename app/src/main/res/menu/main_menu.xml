@@ -4,11 +4,12 @@
         <item
             android:id="@+id/menu_user_products_list"
             android:title="Mis productos"
-            android:icon="@drawable/product_icon"/>
+            android:icon="@mipmap/inbox_icon"/>
+    </group>
 
-        <item
-            android:id="@+id/menu_matchmaking"
-            android:title="Buscar intercambio"
-            android:icon="@drawable/matchmaking_icon"/>
+    <group>
+        <item android:id="@+id/menu_logout"
+            android:title="Cerrar sesión"
+            android:icon="@mipmap/logout_icon"/>
     </group>
 </menu>
