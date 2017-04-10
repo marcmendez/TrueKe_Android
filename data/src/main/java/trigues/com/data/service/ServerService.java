@@ -28,4 +28,7 @@ public interface ServerService {
 
     @GET("/")
     Call<Product> getUserProductDetails();
+
+    @GET("/users/:id")
+    Call<User> getUserProfile();
 }

@@ -20,6 +20,8 @@ public interface RepositoryInterface {
 
     void login(User user, BooleanCallback dataCallback);
 
+    void showProfile(int userID, UserCallback dataCallback);
+
     void deleteDesiredCategory(Product product, VoidCallback dataCallback);
 
     void register(User user, BooleanCallback dataCallback);
@@ -31,4 +33,5 @@ public interface RepositoryInterface {
     interface ProductCallback extends DefaultCallback<Product>{}
     interface ProductListCallback extends DefaultCallback<List<Product>>{}
     interface BooleanCallback extends DefaultCallback<Boolean>{}
+    interface UserCallback extends DefaultCallback<User>{}
 }

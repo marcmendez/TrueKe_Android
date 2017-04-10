@@ -88,4 +88,20 @@ public class AppRepository implements RepositoryInterface {
             }
         });
     }
+
+    @Override
+    public void showProfile(int userID, final UserCallback dataCallback) {
+        apiDataSource.showProfile(userID,new ApiInterface.UserDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(User returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
 }

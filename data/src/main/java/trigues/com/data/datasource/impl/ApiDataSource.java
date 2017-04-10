@@ -78,7 +78,26 @@ public class ApiDataSource implements ApiInterface {
             }
         });
     }
-
+    @Override
+    public void showProfile(int userID, final UserDataCallback userDataCallback){
+        interceptor.setResponseString("{\n" +
+                "  \"id\" : 12345,\n" +
+                "  \"phone\" : 612345678,\n" +
+                "  \"user\" : \"Esther Colero\",\n" +
+                "  \"password\" : \"pouman\",\n" +
+                "  \"email\" : \"chetaso@parguela.es\",\n" +
+                "  \"birthDate\" : \"1999-12-10\",\n" +
+                "  \"products\" : 5,\n" +
+                "  \"truekes\" : 2,\n" +
+                "  \"rating\" : 4\n" +
+                "}");
+        server.getUserProfile().enqueue(new RetrofitErrorHandler<User>(userDataCallback) {
+            @Override
+            public void onResponse(User body) {
+                userDataCallback.onSuccess(body);
+            }
+        });
+    }
     @Override
     public void showProducts(int userID, final ProductListDataCallback dataCallback) {
         List<String> llista = new ArrayList<>();

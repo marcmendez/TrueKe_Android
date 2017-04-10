@@ -1,0 +1,11 @@
+{
+  "id" : 12345,
+  "phone" : 612345678,
+  "user" : "Esther Colero",
+  "password" : "pouman",
+  "email" : "chetaso@parguela.es",
+  "birthDate" : "1999-12-10",
+  "products" : 5,
+  "truekes" : 2,
+  "rating" : 4
+}

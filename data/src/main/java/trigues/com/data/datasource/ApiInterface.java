@@ -23,8 +23,12 @@ public interface ApiInterface {
 
     void login(User user, BooleanDataCallback dataCallback);
 
+    void showProfile(int userID, UserDataCallback dataCallback);
+
 
     //Callbacks:
+
+    interface UserDataCallback extends DefaultCallback<User>{}
 
     interface ProductDataCallback extends DefaultCallback<Product> {}
 
