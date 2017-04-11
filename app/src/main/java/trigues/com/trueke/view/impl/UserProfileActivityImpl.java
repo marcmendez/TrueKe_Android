@@ -2,6 +2,7 @@ package trigues.com.trueke.view.impl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -46,6 +47,21 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @BindView(R.id.user_profile_valorations)
     TextView userNumValorations;
+
+    @BindView(R.id.user_profile_my_addresses)
+    View userAdresses;
+
+    @BindView(R.id.user_profile_my_credit_cards)
+    View userCreditCards;
+
+    @BindView(R.id.user_profile_change_password)
+    View userChangePassword;
+
+    @BindView(R.id.user_profile_change_email)
+    View userChangeEmail;
+
+    @BindView(R.id.user_profile_delete_account)
+    View deleteAccount;
 
 
     @Override
