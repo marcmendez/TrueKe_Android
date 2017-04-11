@@ -8,6 +8,11 @@
     </group>
 
     <group>
+        <item
+            android:id="@+id/menu_user_profile"
+            android:title="Mi cuenta"
+            android:icon="@mipmap/avatar_icon"/>
+
         <item android:id="@+id/menu_logout"
             android:title="Cerrar sesión"
             android:icon="@mipmap/logout_icon"/>

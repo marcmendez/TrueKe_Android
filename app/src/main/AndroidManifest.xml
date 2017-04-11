@@ -30,6 +30,9 @@
 
         <activity android:name=".view.impl.UserProductDetailsActivityImpl"/>
 
+        <activity android:name=".view.impl.UserProfileActivityImpl"
+            android:label="Mi cuenta"/>
+
         <activity android:name=".view.impl.MatchmakingActivityImpl"/>
 
     </application>
