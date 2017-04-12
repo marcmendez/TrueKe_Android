@@ -26,6 +26,8 @@ public interface RepositoryInterface {
 
     void register(User user, BooleanCallback dataCallback);
 
+    void logout(VoidCallback dataCallback);
+
 
     //Callbacks:
 

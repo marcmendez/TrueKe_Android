@@ -23,12 +23,13 @@ import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.MenuPresenter;
+import trigues.com.trueke.view.MenuActivity;
 
 /**
  * Created by mbaque on 18/03/2017.
  */
 
-public class MenuActivityImpl extends BaseActivityImpl {
+public class MenuActivityImpl extends BaseActivityImpl implements MenuActivity {
 
     @Inject
     MenuPresenter presenter;
@@ -53,15 +54,15 @@ public class MenuActivityImpl extends BaseActivityImpl {
 
     @Override
     public void setContentView(int layoutResID) {
-        super.setContentView(R.layout.activity_base);
+        super.setContentView(R.layout.activity_menu);
 
-        this.contentContainer = (FrameLayout) findViewById(R.id.contentLayout);
+        this.contentContainer = (FrameLayout) findViewById(R.id.menu_contentLayout);
         LayoutInflater.from(this).inflate(layoutResID, contentContainer);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.menu_drawerLayout);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         if (getToolbarLayout() != null) {
-            FrameLayout frameToolbar = (FrameLayout) findViewById(R.id.toolbar_layout);
+            FrameLayout frameToolbar = (FrameLayout) findViewById(R.id.menu_toolbar_layout);
             LayoutInflater.from(this).inflate(getToolbarLayout(), frameToolbar);
         }
 
@@ -124,8 +125,13 @@ public class MenuActivityImpl extends BaseActivityImpl {
                     case R.id.menu_user_products_list:
                         startActivity(new Intent(MenuActivityImpl.this, UserProductsListActivityImpl.class));
                         return true;
-                    case R.id.menu_matchmaking:
-                        startActivity(new Intent(MenuActivityImpl.this, MatchmakingActivityImpl.class));
+
+                    case R.id.menu_user_profile:
+                        startActivity(new Intent(MenuActivityImpl.this, UserProfileActivityImpl.class));
+                        return true;
+
+                    case R.id.menu_logout:
+                        presenter.logout();
                 }
 
                 return false;
@@ -154,4 +160,9 @@ public class MenuActivityImpl extends BaseActivityImpl {
         return R.layout.app_navigation_view;
     }
 
+    @Override
+    public void onLogout() {
+        startActivity(new Intent(this, LoginActivityImpl.class));
+        finish();
+    }
 }

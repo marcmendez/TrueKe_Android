@@ -117,9 +117,9 @@ public class ApiDataSource implements ApiInterface {
 
         interceptor.setResponseString(gson.toJson(llistaProd));
 
-        server.getUserProducts().enqueue(new RetrofitErrorHandler< List<Product> >(dataCallback) {
+        server.getUserProducts(/*userID*/).enqueue(new RetrofitErrorHandler< /*ApiDTO<Void>*/ List<Product> >(dataCallback) {
             @Override
-            public void onResponse(List<Product> body) {
+            public void onResponse(/*ApiDTO<Void>*/List<Product> body) {
                 dataCallback.onSuccess(body);
             }
         });

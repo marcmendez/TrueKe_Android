@@ -15,19 +15,23 @@
         <activity
             android:name=".view.impl.SplashActivityImpl"
             android:theme="@style/SplashTheme">
+
+        </activity>
+        <activity android:name=".view.impl.LoginActivityImpl">
+        </activity>
+
+        <activity android:name=".view.impl.UserProductsListActivityImpl"
+            android:label="Mis productos">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.impl.LoginActivityImpl">
-        </activity>
-
-        <activity android:name=".view.impl.UserProductsListActivityImpl">
-
-        </activity>
 
         <activity android:name=".view.impl.UserProductDetailsActivityImpl"/>
+
+        <activity android:name=".view.impl.UserProfileActivityImpl"
+            android:label="Mi cuenta"/>
 
         <activity android:name=".view.impl.MatchmakingActivityImpl"/>
 

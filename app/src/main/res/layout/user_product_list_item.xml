@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="88dp"
     android:foreground="?selectableItemBackground"
     android:clickable="true"
     android:paddingRight="16dp"
-    android:paddingLeft="16dp"
-    android:gravity="center_vertical">
+    android:paddingLeft="16dp">
 
     <ImageView
         android:id="@+id/user_product_list_image"
+        android:layout_centerVertical="true"
         android:layout_width="56dp"
         android:layout_height="56dp"/>
 
@@ -20,7 +21,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingLeft="16dp">
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/user_product_list_image"
+        android:paddingStart="16dp"
+        android:id="@+id/linearLayout">
 
         <TextView
             android:id="@+id/user_product_list_title"
@@ -45,4 +49,14 @@
 
     </LinearLayout>
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/user_product_list_matchmaking_launch_button"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:background="@null"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/matchmaking_icon"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

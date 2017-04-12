@@ -70,9 +70,14 @@ public class UserProductsListActivityImpl extends MenuActivityImpl implements Us
 
         adapter = new UserProductsRecyclerViewAdapter(this, product) {
             @Override
+            public void  onMatchMakingClick() {
+                startActivity(new Intent(UserProductsListActivityImpl.this, MatchmakingActivityImpl.class));
+            }
+            @Override
             public void onItemClick() {
                 startActivity(new Intent(UserProductsListActivityImpl.this, UserProductDetailsActivityImpl.class));
             }
+
         };
 
         recyclerView.setAdapter(adapter);

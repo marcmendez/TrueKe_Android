@@ -75,6 +75,11 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
+    public void logout(VoidCallback dataCallback) {
+        dataCallback.onSuccess(null);
+    }
+
+    @Override
     public void login(User user, final BooleanCallback dataCallback) {
         apiDataSource.login(user, new ApiInterface.BooleanDataCallback() {
             @Override
