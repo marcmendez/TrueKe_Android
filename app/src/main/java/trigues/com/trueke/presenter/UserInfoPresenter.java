@@ -1,5 +1,6 @@
 package trigues.com.trueke.presenter;
 
+import com.trigues.entity.Payment;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.ShowProfileUseCase;
@@ -39,8 +40,9 @@ public class UserInfoPresenter {
         });
     }
 
-    public void showPaymentInfo(){}
-    //public void showShipmentInfo(){} fa falta?
+    public void showPaymentInfo(Integer userID){}
+    public void showShipmentInfo(Integer userID){}
     public void changeProfile(User user){}
-    public void changePaymentInfo(){}
+    public void changePaymentInfo(Payment payment){}
+    //falta changeShipmentInfo
 }
