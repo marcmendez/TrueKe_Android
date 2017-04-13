@@ -8,6 +8,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.trigues.entity.Payment;
 import com.trigues.entity.User;
 
 import javax.inject.Inject;
@@ -79,14 +80,20 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 .inject(this);
         ButterKnife.bind(this);
         presenter.showProfile();
+        presenter.showPaymentInfo();
     }
 
     @Override
     public void onProfileRetrieved(User user) {
         userName.setText(user.getUser());
         userEmail.setText(user.getEmail());
-        userNumProducts.setText(user.getProducts());
-        userNumTruekes.setText(user.getTruekes());
+        userNumProducts.setText(String.valueOf(user.getProducts()));
+        userNumTruekes.setText(String.valueOf(user.getTruekes()));
         userRating.setRating(user.getRating());
+    }
+
+    @Override
+    public void onPaymentRetrieved(Payment returnParam) {
+        Toast.makeText(getApplicationContext(),"Payment number: "+returnParam.getNumber(),Toast.LENGTH_LONG).show();
     }
 }

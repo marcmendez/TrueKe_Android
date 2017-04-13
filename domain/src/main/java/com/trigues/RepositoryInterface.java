@@ -1,6 +1,7 @@
 package com.trigues;
 
 import com.trigues.callback.DefaultCallback;
+import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.User;
 
@@ -28,6 +29,8 @@ public interface RepositoryInterface {
 
     void logout(VoidCallback dataCallback);
 
+    void showPaymentInfo(Integer id, PaymentCallback dataCallback);
+
 
     //Callbacks:
 
@@ -36,4 +39,5 @@ public interface RepositoryInterface {
     interface ProductListCallback extends DefaultCallback<List<Product>>{}
     interface BooleanCallback extends DefaultCallback<Boolean>{}
     interface UserCallback extends DefaultCallback<User>{}
+    interface PaymentCallback extends DefaultCallback<Payment>{}
 }

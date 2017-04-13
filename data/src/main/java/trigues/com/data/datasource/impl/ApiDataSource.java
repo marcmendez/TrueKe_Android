@@ -1,6 +1,7 @@
 package trigues.com.data.datasource.impl;
 
 import com.google.gson.Gson;
+import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.User;
 
@@ -11,6 +12,8 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.FakeInterceptor;
@@ -98,6 +101,31 @@ public class ApiDataSource implements ApiInterface {
             }
         });
     }
+
+    @Override
+    public void showPaymentInfo(int id, final PaymentDataCallback paymentDataCallback) {
+        interceptor.setResponseString("{\n" +
+                "  \"id\" : \"12\",\n" +
+                "  \"user_id\" : \"1234\",\n" +
+                "  \"type\" : \"MasterCard/4B/Euro6000\",\n" +
+                "  \"number\" : \"1234123412341234\",\n" +
+                "  \"expireDate\" : \"2020-02-01\",\n" +
+                "  \"name\" : \"Homer\",\n" +
+                "  \"country\" : \"USA\",\n" +
+                "  \"province\" : \"Barcelona\",\n" +
+                "  \"city\" : \"Springfield\",\n" +
+                "  \"postalCode\" : \"11101\",\n" +
+                "  \"address\" : \"Calle del general Comilla\",\n" +
+                "  \"phone\" : \"619703921\"\n" +
+                "}");
+        server.getPaymentInfo().enqueue(new RetrofitErrorHandler<Payment>(paymentDataCallback) {
+            @Override
+            public void onResponse(Payment body) {
+                paymentDataCallback.onSuccess(body);
+            }
+        });
+    }
+
     @Override
     public void showProducts(int userID, final ProductListDataCallback dataCallback) {
         List<String> llista = new ArrayList<>();

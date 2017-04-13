@@ -1,5 +1,6 @@
 package trigues.com.data.service;
 
+import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.User;
 
@@ -29,6 +30,9 @@ public interface ServerService {
     @GET("/")
     Call<Product> getUserProductDetails();
 
-    @GET("/users/:id")
+    @GET("/users/:id") //canviar a phone o mail
     Call<User> getUserProfile();
+
+    @GET("/payments/:id")
+    Call<Payment> getPaymentInfo();
 }
