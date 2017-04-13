@@ -1,0 +1,12 @@
+{
+  "id" : "12",
+  "user_id" : "1234",
+  "country" : "USA",
+  "province" : "Barcelona",
+  "city" : "Springfield",
+  "postalCode" : "11101",
+  "address" : "Calle del general Comilla",
+  "name" : "Homer",
+  "idCard" : "12931230",
+  "phone" : "619703921"
+}

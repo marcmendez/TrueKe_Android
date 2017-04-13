@@ -2,6 +2,7 @@ package trigues.com.data.service;
 
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
+import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 
 import java.util.List;
@@ -35,4 +36,7 @@ public interface ServerService {
 
     @GET("/payments/:id")
     Call<Payment> getPaymentInfo();
+
+    @GET("/shipments/:id")
+    Call<Shipment> getShipmentInfo();
 }

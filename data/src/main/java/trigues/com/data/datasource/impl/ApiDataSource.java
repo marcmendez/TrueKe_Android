@@ -3,6 +3,7 @@ package trigues.com.data.datasource.impl;
 import com.google.gson.Gson;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
+import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 
 import java.util.ArrayList;
@@ -122,6 +123,28 @@ public class ApiDataSource implements ApiInterface {
             @Override
             public void onResponse(Payment body) {
                 paymentDataCallback.onSuccess(body);
+            }
+        });
+    }
+
+    @Override
+    public void showShipmentInfo(Integer id, final ShipmentDataCallback shipmentDataCallback) {
+        interceptor.setResponseString("{\n" +
+                "  \"id\" : \"12\",\n" +
+                "  \"user_id\" : \"1234\",\n" +
+                "  \"country\" : \"USA\",\n" +
+                "  \"province\" : \"Barcelona\",\n" +
+                "  \"city\" : \"Springfield\",\n" +
+                "  \"postalCode\" : \"11101\",\n" +
+                "  \"address\" : \"Calle del general Comilla\",\n" +
+                "  \"name\" : \"Homer\",\n" +
+                "  \"idCard\" : \"12931230\",\n" +
+                "  \"phone\" : \"619703921\"\n" +
+                "}");
+        server.getShipmentInfo().enqueue(new RetrofitErrorHandler<Shipment>(shipmentDataCallback) {
+            @Override
+            public void onResponse(Shipment body) {
+                shipmentDataCallback.onSuccess(body);
             }
         });
     }

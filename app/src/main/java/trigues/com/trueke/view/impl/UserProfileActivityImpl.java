@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.trigues.entity.Payment;
+import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 
 import javax.inject.Inject;
@@ -27,7 +28,6 @@ import trigues.com.trueke.view.UserProfileActivity;
  */
 
 public class UserProfileActivityImpl extends MenuActivityImpl implements UserProfileActivity {
-
     @Inject
     UserInfoPresenter presenter;
 
@@ -81,11 +81,12 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         ButterKnife.bind(this);
         presenter.showProfile();
         presenter.showPaymentInfo();
+        presenter.showShipmentInfo();
     }
 
     @Override
     public void onProfileRetrieved(User user) {
-        userName.setText(user.getUser());
+        userName.setText(user.getUser()); //em guardo els valors del user?
         userEmail.setText(user.getEmail());
         userNumProducts.setText(String.valueOf(user.getProducts()));
         userNumTruekes.setText(String.valueOf(user.getTruekes()));
@@ -94,6 +95,11 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @Override
     public void onPaymentRetrieved(Payment returnParam) {
-        Toast.makeText(getApplicationContext(),"Payment number: "+returnParam.getNumber(),Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(),"Payment number: "+returnParam.getNumber(),Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onShipmentRetrieved(Shipment returnParam) {
+        Toast.makeText(getApplicationContext(),"idcard : "+returnParam.getIdCard(),Toast.LENGTH_LONG).show();
     }
 }

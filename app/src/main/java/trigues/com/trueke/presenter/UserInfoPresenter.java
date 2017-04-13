@@ -6,6 +6,7 @@ import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.ShowPaymentInfoUseCase;
 import com.trigues.usecase.ShowProfileUseCase;
+import com.trigues.usecase.ShowShipmentInfoUseCase;
 
 import javax.inject.Inject;
 import trigues.com.trueke.view.UserProfileActivity;
@@ -18,14 +19,17 @@ public class UserInfoPresenter {
     private UserProfileActivity view;
     private ShowProfileUseCase showProfileUseCase;
     private ShowPaymentInfoUseCase showPaymentInfoUseCase;
+    private ShowShipmentInfoUseCase showShipmentInfoUseCase;
 
     @Inject
     public UserInfoPresenter(UserProfileActivity view,
                              ShowProfileUseCase showProfileUseCase,
-                             ShowPaymentInfoUseCase showPaymentInfoUseCase) {
+                             ShowPaymentInfoUseCase showPaymentInfoUseCase,
+                             ShowShipmentInfoUseCase showShipmentInfoUseCase) {
         this.view = view;
         this.showProfileUseCase=showProfileUseCase;
         this.showPaymentInfoUseCase = showPaymentInfoUseCase;
+        this.showShipmentInfoUseCase = showShipmentInfoUseCase;
     }
 
     public void showProfile(){
@@ -61,7 +65,19 @@ public class UserInfoPresenter {
 
     }
     public void showShipmentInfo(){
+        int userID=1;
+        showShipmentInfoUseCase.execute(userID, new ShowShipmentInfoUseCase.ShowShipmentInfoUseCaseCallback(){
 
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Shipment returnParam) {
+                view.onShipmentRetrieved(returnParam);
+            }
+        });
     }
     public void changeProfile(User user){}
     public void changePaymentInfo(Payment payment){}

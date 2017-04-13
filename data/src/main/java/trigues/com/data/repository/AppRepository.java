@@ -3,6 +3,7 @@ package trigues.com.data.repository;
 import com.trigues.RepositoryInterface;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
+import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 
@@ -91,6 +92,22 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(Payment returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void showShipmentInfo(Integer id, final ShipmentCallback dataCallback) {
+        apiDataSource.showShipmentInfo(id,new ApiInterface.ShipmentDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Shipment returnParam) {
                 dataCallback.onSuccess(returnParam);
             }
         });
