@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.trigues.entity.User;
 
 import javax.inject.Inject;
 
@@ -15,7 +18,7 @@ import trigues.com.trueke.R;
 import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
-import trigues.com.trueke.presenter.UserProfilePresenter;
+import trigues.com.trueke.presenter.UserInfoPresenter;
 import trigues.com.trueke.view.UserProfileActivity;
 
 /**
@@ -25,7 +28,7 @@ import trigues.com.trueke.view.UserProfileActivity;
 public class UserProfileActivityImpl extends MenuActivityImpl implements UserProfileActivity {
 
     @Inject
-    UserProfilePresenter presenter;
+    UserInfoPresenter presenter;
 
     @BindView(R.id.user_profile_avatar)
     ImageView userAvatar;
@@ -74,7 +77,16 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 .plus(new ActivityModule(this),
                         new ViewModule(this))
                 .inject(this);
-
         ButterKnife.bind(this);
+        presenter.showProfile();
+    }
+
+    @Override
+    public void onProfileRetrieved(User user) {
+        userName.setText(user.getUser());
+        userEmail.setText(user.getEmail());
+        userNumProducts.setText(user.getProducts());
+        userNumTruekes.setText(user.getTruekes());
+        userRating.setRating(user.getRating());
     }
 }

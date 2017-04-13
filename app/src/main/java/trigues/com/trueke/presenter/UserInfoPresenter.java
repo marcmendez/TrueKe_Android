@@ -6,26 +6,25 @@ import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.ShowProfileUseCase;
 
 import javax.inject.Inject;
-
-import trigues.com.trueke.view.LoginActivity;
-import trigues.com.trueke.view.UserProfile;
+import trigues.com.trueke.view.UserProfileActivity;
 
 /**
  * Created by Albert on 07/04/2017.
  */
 
 public class UserInfoPresenter {
-    private UserProfile view;
+    private UserProfileActivity view;
     private ShowProfileUseCase showProfileUseCase;
 
     @Inject
-    public UserInfoPresenter(UserProfile view,
+    public UserInfoPresenter(UserProfileActivity view,
                              ShowProfileUseCase showProfileUseCase) {
         this.view = view;
         this.showProfileUseCase=showProfileUseCase;
     }
 
-    public void showProfile(Integer userID){
+    public void showProfile(){
+        int userID=1;
         showProfileUseCase.execute(userID, new ShowProfileUseCase.ShowProfileUseCaseCallback(){
 
             @Override
