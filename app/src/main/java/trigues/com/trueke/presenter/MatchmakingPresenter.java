@@ -30,6 +30,7 @@ public class MatchmakingPresenter {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 view.onError(errorBundle.getErrorMessage());
+
             }
 
             @Override
