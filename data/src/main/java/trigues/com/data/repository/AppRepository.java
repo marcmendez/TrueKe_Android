@@ -1,5 +1,7 @@
 package trigues.com.data.repository;
 
+import android.util.Log;
+
 import com.trigues.RepositoryInterface;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -108,6 +110,22 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(Shipment returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void changeProfile(User user, final BooleanCallback dataCallback) {
+        apiDataSource.changeProfile(user,new ApiInterface.BooleanDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
                 dataCallback.onSuccess(returnParam);
             }
         });

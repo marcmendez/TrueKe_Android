@@ -118,11 +118,11 @@ public class RegisterFragImpl extends Fragment implements View.OnClickListener {
         //en cas del valor del bool anem a enviar sms o no
         if(!error) {
             Toast.makeText(getActivity().getApplicationContext(),
-                    "Usuari creat correctamnet", Toast.LENGTH_LONG).show();
+                    "Usuario creado correctamente", Toast.LENGTH_LONG).show();
             //falta afegir fragment dialog fet per a SMS
         }else {
             Toast.makeText(getActivity().getApplicationContext(),
-                    "Error al crear usuari", Toast.LENGTH_LONG).show();
+                    "Error al crear el usuario", Toast.LENGTH_LONG).show();
         }
     }
 

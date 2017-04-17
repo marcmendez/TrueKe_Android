@@ -34,6 +34,8 @@ public interface RepositoryInterface {
 
     void showShipmentInfo(Integer id, ShipmentCallback dataCallback);
 
+    void changeProfile(User user, BooleanCallback dataCallback);
+
 
     //Callbacks:
 

@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import trigues.com.data.entity.ApiDTO;
 
 /**
@@ -31,12 +32,15 @@ public interface ServerService {
     @GET("/")
     Call<Product> getUserProductDetails();
 
-    @GET("/users/:id") //canviar a phone o mail
+    @GET("users/:id") //canviar a phone o mail
     Call<User> getUserProfile();
 
-    @GET("/payments/:id")
+    @GET("paymentmethods/:user_id")
     Call<Payment> getPaymentInfo();
 
-    @GET("/shipments/:id")
+    @GET("shipmentmethods/:user_id")
     Call<Shipment> getShipmentInfo();
+
+    @PUT("users/:id")
+    Call<ApiDTO<Void>> changeProfile(@Body User user);
 }

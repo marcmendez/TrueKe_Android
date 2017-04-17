@@ -2,6 +2,7 @@ package trigues.com.trueke.view.impl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -80,10 +81,25 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 .inject(this);
         ButterKnife.bind(this);
         presenter.showProfile();
-        presenter.showPaymentInfo();
-        presenter.showShipmentInfo();
+        // presenter.showPaymentInfo();
+        // presenter.showShipmentInfo();
+        changeUserProfile();
     }
 
+    private void changeUserProfile() {
+        User user = new User("albert@elputu.com","123456");
+      // phone,user,password,email,birthDate
+        presenter.changeProfile(user);
+    }
+
+    private void newPaymentInfo(){}
+    private void changePaymentInfo(){
+        //country,province,city,postalCode,address,name,idCard,phone
+    }
+    private void newShipmentInfo(){}
+    private void changeShipmentInfo(){
+        //same?
+    }
     @Override
     public void onProfileRetrieved(User user) {
         userName.setText(user.getUser()); //em guardo els valors del user?
@@ -100,6 +116,12 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @Override
     public void onShipmentRetrieved(Shipment returnParam) {
-        Toast.makeText(getApplicationContext(),"idcard : "+returnParam.getIdCard(),Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(),"idcard : "+returnParam.getIdCard(),Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onChangeProfileRetrieved(Boolean returnParam) {
+        if(!returnParam)
+            Toast.makeText(getApplicationContext(),"El perfil se ha actualizado correctamente",Toast.LENGTH_LONG).show();
     }
 }

@@ -31,6 +31,8 @@ public interface ApiInterface {
 
     void showShipmentInfo(Integer id, ShipmentDataCallback shipmentDataCallback);
 
+    void changeProfile(User user, BooleanDataCallback booleanDataCallback);
+
 
     //Callbacks:
 
