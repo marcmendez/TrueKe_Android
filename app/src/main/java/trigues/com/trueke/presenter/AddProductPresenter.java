@@ -22,7 +22,7 @@ public class AddProductPresenter {
     public void addProduct(String title, String description,String priceMin, String priceMax, String category, String wants_categories) {
 
         //pasar usuario y categorias que quiere
-        Product product = new Product(user_id,title,description,category,priceMin, priceMax, wants_categories);
+        /*Product product = new Product(user_id,title,description,category,priceMin, priceMax, wants_categories);
         AddProductUseCase.execute(product, new AddProductUseCase.AddProductCallback(){
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -38,6 +38,6 @@ public class AddProductPresenter {
                     view.onError("No se ha añadido el producto correctamente");
                 }
             }
-        });
+        });*/
     }
 }

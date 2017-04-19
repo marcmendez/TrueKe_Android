@@ -174,7 +174,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             ProductChecker.checkDescription(description);
             ProductChecker.checkPrice(priceMin, priceMax);
             ProductChecker.checkCategory(category);
-            presenter.addProduct(title,description,priceMin,priceMax,category, wants_categories);
+            //presenter.addProduct(title,description,priceMin,priceMax,category, wants_categories);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
                     e.getMessage(), Toast.LENGTH_LONG).show();
