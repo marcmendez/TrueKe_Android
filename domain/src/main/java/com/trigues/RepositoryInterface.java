@@ -26,6 +26,8 @@ public interface RepositoryInterface {
 
     void addProduct(Product product, BooleanCallback dataCallback);
 
+    void logout(VoidCallback dataCallback);
+
 
     //Callbacks:
 

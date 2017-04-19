@@ -2,32 +2,23 @@ package trigues.com.trueke.view.impl;
 
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-import trigues.com.trueke.utils.ProductChecker;
-
-import java.io.File;
 
 import javax.inject.Inject;
 
 import trigues.com.trueke.R;
 import trigues.com.trueke.presenter.AddProductPresenter;
+import trigues.com.trueke.utils.ProductChecker;
 import trigues.com.trueke.view.AddProductActivity;
+import trigues.com.trueke.view.UserProductsListActivity;
 
 /**
  * Created by Alba on 24/03/2017.
