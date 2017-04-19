@@ -33,6 +33,8 @@ public interface ApiInterface {
 
     void changeProfile(User user, BooleanDataCallback booleanDataCallback);
 
+    void deleteUser(int user_id, BooleanDataCallback booleanDataCallback);
+
 
     //Callbacks:
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -32,15 +33,32 @@ public interface ServerService {
     @GET("/")
     Call<Product> getUserProductDetails();
 
-    @GET("users/:id") //canviar a phone o mail
+    //bienvenidos a mi hood
+
+    //user info
+    @GET("users/:id")
     Call<User> getUserProfile();
-
-    @GET("paymentmethods/:user_id")
-    Call<Payment> getPaymentInfo();
-
-    @GET("shipmentmethods/:user_id")
-    Call<Shipment> getShipmentInfo();
 
     @PUT("users/:id")
     Call<ApiDTO<Void>> changeProfile(@Body User user);
+
+    @DELETE("users/:id")
+    Call<ApiDTO<Void>> deleteUser(int user_id);
+
+    //payments
+    @GET("paymentmethods/:user_id")
+    Call<Payment> getPaymentInfo();
+
+    //@PUT
+    //@POST
+    //@DELETE
+
+    //shipments
+    @GET("shipmentmethods/:user_id")
+    Call<Shipment> getShipmentInfo();
+
+    //@PUT
+    //@POST
+    //@DELETE
+
 }

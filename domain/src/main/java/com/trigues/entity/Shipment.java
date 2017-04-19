@@ -11,7 +11,7 @@ public class Shipment {
     private String province;
     private String city;
     private int postalCode;
-    private String adress;
+    private String address;
     private String name;
     private String idCard;
     private String phone;
@@ -23,7 +23,7 @@ public class Shipment {
         this.province = province;
         this.city = city;
         this.postalCode = postalCode;
-        this.adress = adress;
+        this.address = adress;
         this.name = name;
         this.idCard = idCard;
         this.phone = phone;
@@ -77,12 +77,12 @@ public class Shipment {
         this.postalCode = postalCode;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getName() {

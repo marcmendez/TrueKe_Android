@@ -36,6 +36,8 @@ public interface RepositoryInterface {
 
     void changeProfile(User user, BooleanCallback dataCallback);
 
+    void deleteUser(int user_id, BooleanCallback dataCallback);
+
 
     //Callbacks:
 

@@ -83,7 +83,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         presenter.showProfile();
         // presenter.showPaymentInfo();
         // presenter.showShipmentInfo();
-        changeUserProfile();
+        //changeUserProfile();
     }
 
     private void changeUserProfile() {
@@ -92,14 +92,17 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         presenter.changeProfile(user);
     }
 
-    private void newPaymentInfo(){}
-    private void changePaymentInfo(){
+    private void newPayment(){}
+    private void changePayment(){
+        //presenter.changePayment();
         //country,province,city,postalCode,address,name,idCard,phone
     }
-    private void newShipmentInfo(){}
-    private void changeShipmentInfo(){
-        //same?
+    private void deletePayment(){}
+    private void newShipment(){}
+    private void changeShipment(){
+        //.changeShipment();
     }
+    private void deleteShipment(){}
     @Override
     public void onProfileRetrieved(User user) {
         userName.setText(user.getUser()); //em guardo els valors del user?
@@ -119,9 +122,17 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
        // Toast.makeText(getApplicationContext(),"idcard : "+returnParam.getIdCard(),Toast.LENGTH_LONG).show();
     }
 
+
+
     @Override
     public void onChangeProfileRetrieved(Boolean returnParam) {
         if(!returnParam)
             Toast.makeText(getApplicationContext(),"El perfil se ha actualizado correctamente",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void OnUserDeleted(Boolean returnParam) {
+        if(!returnParam)
+            Toast.makeText(getApplicationContext(),"Tu cuenta se ha borrado correctamente :(",Toast.LENGTH_LONG).show();
     }
 }

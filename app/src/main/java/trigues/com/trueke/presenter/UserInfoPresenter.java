@@ -7,6 +7,7 @@ import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.ChangeProfileUseCase;
+import com.trigues.usecase.DeleteUserUseCase;
 import com.trigues.usecase.ShowPaymentInfoUseCase;
 import com.trigues.usecase.ShowProfileUseCase;
 import com.trigues.usecase.ShowShipmentInfoUseCase;
@@ -24,18 +25,21 @@ public class UserInfoPresenter {
     private ShowPaymentInfoUseCase showPaymentInfoUseCase;
     private ShowShipmentInfoUseCase showShipmentInfoUseCase;
     private ChangeProfileUseCase changeProfileUseCase;
+    private DeleteUserUseCase deleteUserUseCase;
 
     @Inject
     public UserInfoPresenter(UserProfileActivity view,
                              ShowProfileUseCase showProfileUseCase,
                              ShowPaymentInfoUseCase showPaymentInfoUseCase,
                              ShowShipmentInfoUseCase showShipmentInfoUseCase,
-                             ChangeProfileUseCase changeProfileUseCase) {
+                             ChangeProfileUseCase changeProfileUseCase,
+                             DeleteUserUseCase deleteUserUseCase) {
         this.view = view;
         this.showProfileUseCase=showProfileUseCase;
         this.showPaymentInfoUseCase = showPaymentInfoUseCase;
         this.showShipmentInfoUseCase = showShipmentInfoUseCase;
         this.changeProfileUseCase = changeProfileUseCase;
+        this.deleteUserUseCase = deleteUserUseCase;
     }
 
     public void showProfile(){
@@ -90,17 +94,31 @@ public class UserInfoPresenter {
 
             @Override
             public void onError(ErrorBundle errorBundle) {
-                Log.i("presenter", "onError: ");
                 view.onError(errorBundle.getErrorMessage());
             }
 
             @Override
             public void onSuccess(Boolean returnParam) {
-                Log.i("presenter", "onSuccess: ");
                 view.onChangeProfileRetrieved(returnParam);
             }
         });
     }
     public void changePaymentInfo(Payment payment){}
     public void changeShipmentInfo(Shipment shipment){}
+
+    public void deleteUser() {
+        int user_id=1;
+        deleteUserUseCase.execute(user_id, new DeleteUserUseCase.DeleteUserUseCaseCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                view.OnUserDeleted(returnParam);
+            }
+        });
+    }
 }

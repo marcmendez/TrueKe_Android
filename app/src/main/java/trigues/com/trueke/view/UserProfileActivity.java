@@ -13,4 +13,5 @@ public interface UserProfileActivity extends MenuActivity {
     void onPaymentRetrieved(Payment returnParam);
     void onShipmentRetrieved(Shipment returnParam);
     void onChangeProfileRetrieved(Boolean returnParam);
+    void OnUserDeleted(Boolean returnParam);
 }

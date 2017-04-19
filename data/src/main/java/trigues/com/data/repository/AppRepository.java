@@ -132,6 +132,21 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
+    public void deleteUser(int user_id, final BooleanCallback dataCallback) {
+        apiDataSource.deleteUser(user_id, new ApiInterface.BooleanDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
     public void login(User user, final BooleanCallback dataCallback) {
         apiDataSource.login(user, new ApiInterface.BooleanDataCallback() {
             @Override
