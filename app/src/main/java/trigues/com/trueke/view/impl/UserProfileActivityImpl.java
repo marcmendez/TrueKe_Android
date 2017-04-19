@@ -44,6 +44,9 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     @BindView(R.id.user_profile_email)
     TextView userEmail;
 
+    @BindView(R.id.user_profile_birth_date)
+    TextView userBirthDate;
+
     @BindView(R.id.user_profile_num_products)
     TextView userNumProducts;
 
@@ -64,10 +67,6 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @BindView(R.id.user_profile_change_email)
     View userChangeEmail;
-
-    @BindView(R.id.user_profile_delete_account)
-    View deleteAccount;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

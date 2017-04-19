@@ -33,6 +33,9 @@ public interface ServerService {
     @GET("/")
     Call<Product> getUserProductDetails();
 
+    @POST("")
+    Call<ApiDTO<Void>> addProduct(@Body Product product);
+
     //bienvenidos a mi hood
 
     //user info

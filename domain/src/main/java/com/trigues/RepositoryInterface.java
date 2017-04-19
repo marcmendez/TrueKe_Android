@@ -28,6 +28,8 @@ public interface RepositoryInterface {
 
     void register(User user, BooleanCallback dataCallback);
 
+    void addProduct(Product product, BooleanCallback dataCallback);
+
     void logout(VoidCallback dataCallback);
 
     void showPaymentInfo(Integer id, PaymentCallback dataCallback);

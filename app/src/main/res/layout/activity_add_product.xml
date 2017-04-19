@@ -43,7 +43,8 @@
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:layout_alignParentEnd="true"
-                android:src="@mipmap/send_icon"/>
+                android:src="@mipmap/send_icon"
+                android:onClick="onAddProductPressed"/>
 
         </RelativeLayout>
 
@@ -63,7 +64,8 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Título" />
+                    android:hint="Título"
+                    android:id="@+id/productName"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -74,7 +76,8 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Descripción" />
+                    android:hint="Descripción"
+                    android:id="@+id/description"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -85,7 +88,8 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Categoría" />
+                    android:hint="Categoría"
+                    android:id="@+id/productCategory"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -103,7 +107,8 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Precio mín." />
+                        android:hint="Precio mín."
+                        android:id="@+id/priceMin"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -116,7 +121,8 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Precio max." />
+                        android:hint="Precio max."
+                        android:id="@+id/priceMax"/>
 
                 </android.support.design.widget.TextInputLayout>
 

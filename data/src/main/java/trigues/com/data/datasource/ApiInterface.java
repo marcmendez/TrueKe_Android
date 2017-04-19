@@ -25,6 +25,8 @@ public interface ApiInterface {
 
     void login(User user, BooleanDataCallback dataCallback);
 
+    void addProduct(Product product, BooleanDataCallback dataCallback);
+
     void showProfile(int userID, UserDataCallback dataCallback);
 
     void showPaymentInfo(int id, PaymentDataCallback paymentDataCallback);

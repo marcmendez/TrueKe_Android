@@ -162,6 +162,21 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
+    public void addProduct(Product product, final BooleanCallback dataCallback) {
+        apiDataSource.addProduct(product, new ApiInterface.BooleanDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
     public void showProfile(int userID, final UserCallback dataCallback) {
         apiDataSource.showProfile(userID,new ApiInterface.UserDataCallback(){
 

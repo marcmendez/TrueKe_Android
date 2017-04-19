@@ -219,4 +219,15 @@ public class ApiDataSource implements ApiInterface {
             }
         });
     }
+
+    @Override
+    public void addProduct(Product product, final BooleanDataCallback dataCallback) {
+        server.addProduct(product).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                dataCallback.onSuccess(!body.getError());
+            }
+        });
+    }
+
 }
