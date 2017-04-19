@@ -2,13 +2,12 @@ package trigues.com.trueke.dependencyinjection.view;
 
 import dagger.Module;
 import dagger.Provides;
+import trigues.com.trueke.view.AddProductActivity;
 import trigues.com.trueke.view.BaseActivity;
 import trigues.com.trueke.view.LoginActivity;
-import trigues.com.trueke.view.MatchmakingActivity;
 import trigues.com.trueke.view.MenuActivity;
+import trigues.com.trueke.view.ShowProductsActivity;
 import trigues.com.trueke.view.UserProductDetailsActivity;
-import trigues.com.trueke.view.UserProductsListActivity;
-import trigues.com.trueke.view.UserProfileActivity;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -39,8 +38,8 @@ public class ViewModule {
     }
 
     @Provides
-    UserProductsListActivity providesShowProductsView(){
-        return (UserProductsListActivity) view;
+    ShowProductsActivity providesShowProductsView(){
+        return (ShowProductsActivity) view;
     }
 
     @Provides
@@ -49,12 +48,7 @@ public class ViewModule {
     }
 
     @Provides
-    UserProfileActivity providesUserProfileView(){
-        return (UserProfileActivity) view;
-    }
-
-    @Provides
-    MatchmakingActivity providesMatchmakingView(){
-        return (MatchmakingActivity) view;
+    AddProductActivity providesAddProductView() {
+        return (AddProductActivity) view;
     }
 }

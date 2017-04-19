@@ -2,4 +2,14 @@
     <string name="app_name">TrueKe</string>
     <string name="title_activity_splash">Splash</string>
     <string name="crear_cuenta">Crear cuenta</string>
+    <string-array name="category1">
+        <item>Vehiculos</item>
+        <item>Electronica</item>
+        <item>Deporte y ocio</item>
+        <item>Hogar y electrodomesticos</item>
+        <item>Consolas y videojuegos</item>
+        <item>Libros, pelis y musica</item>
+        <item>Moda y accesorios</item>
+        <item>Otros</item>
+    </string-array>
 </resources>
