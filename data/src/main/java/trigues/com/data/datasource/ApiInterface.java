@@ -11,7 +11,7 @@ import java.util.List;
  * Created by mbaque on 15/03/2017.
  */
 
-public interface ApiInterface {
+public interface   ApiInterface {
 
     //Functions:
 
@@ -22,6 +22,8 @@ public interface ApiInterface {
     void register(User user, BooleanDataCallback dataCallback);
 
     void login(User user, BooleanDataCallback dataCallback);
+
+    void addProduct(Product product, BooleanDataCallback dataCallback);
 
 
     //Callbacks:

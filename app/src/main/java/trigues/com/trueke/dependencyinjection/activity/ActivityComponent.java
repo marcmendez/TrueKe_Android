@@ -8,6 +8,7 @@ import trigues.com.trueke.view.impl.LoginActivityImpl;
 import trigues.com.trueke.view.impl.MenuActivityImpl;
 import trigues.com.trueke.view.impl.UserProductsListActivity;
 import trigues.com.trueke.view.impl.UserProductDetailsActivityImpl;
+import trigues.com.trueke.view.impl.AddProductActivityImpl;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -26,4 +27,6 @@ public interface ActivityComponent {
     void inject(UserProductsListActivity activity);
 
     void inject(UserProductDetailsActivityImpl activity);
+
+    void inject(AddProductActivityImpl activity);
 }

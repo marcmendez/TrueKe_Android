@@ -28,4 +28,7 @@ public interface ServerService {
 
     @GET("/")
     Call<Product> getUserProductDetails();
+
+    @POST("")
+    Call<ApiDTO<Void>> addProduct(@Body Product product);
 }

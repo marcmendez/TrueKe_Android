@@ -2,6 +2,7 @@ package trigues.com.trueke.dependencyinjection.view;
 
 import dagger.Module;
 import dagger.Provides;
+import trigues.com.trueke.view.AddProductActivity;
 import trigues.com.trueke.view.BaseActivity;
 import trigues.com.trueke.view.LoginActivity;
 import trigues.com.trueke.view.MenuActivity;
@@ -44,5 +45,10 @@ public class ViewModule {
     @Provides
     UserProductDetailsActivity providesUserProductDetailsView(){
         return (UserProductDetailsActivity) view;
+    }
+
+    @Provides
+    AddProductActivity providesAddProductView() {
+        return (AddProductActivity) view;
     }
 }
