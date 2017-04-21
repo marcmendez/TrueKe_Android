@@ -84,7 +84,8 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         ButterKnife.bind(this);
        // presenter.showProfile();
         //presenter.showPayments();
-         presenter.showShipments();
+         //presenter.showShipments();
+        newPayment();
         //changeUserProfile();
     }
 
@@ -94,9 +95,15 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         presenter.changeProfile(user);
     }
 
-    private void newPayment(){}
+    private void newPayment(){
+        presenter.newPayment(new Payment(-1,1,"Visa/4B/Euro6000","123456789"
+                ,"1990-05-06","Sancho Panza","España","Barcelona","Barcelona",
+                8029,"Carrer Diagonal","654654654"));
+    }
     private void changePayment(){
-        //presenter.changePayment();
+        presenter.changePayment(new Payment(2,1,"Visa/4B/Euro6000","123456789"
+                ,"1990-05-06","Sancho Panza","España","Barcelona","Barcelona",
+                8029,"Carrer Diagonal","654654654"));
         //country,province,city,postalCode,address,name,idCard,phone
     }
     private void deletePayment(){}
@@ -138,5 +145,17 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     public void OnUserDeleted(Boolean returnParam) {
         if(!returnParam)
             Toast.makeText(getApplicationContext(),"Tu cuenta se ha borrado correctamente :(",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNewPaymentCreated(Boolean returnParam) {
+        if(!returnParam)
+            Toast.makeText(getApplicationContext(),"El nuevo método de pago se ha creado correctamente",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onChangePaymentRetrieved(Boolean returnParam) {
+        if(!returnParam)
+            Toast.makeText(getApplicationContext(),"El método de pago se ha actualizado correctamente",Toast.LENGTH_LONG).show();
     }
 }

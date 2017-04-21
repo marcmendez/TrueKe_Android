@@ -150,6 +150,38 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
+    public void changePayment(Payment payment, final BooleanCallback dataCallback) {
+        apiDataSource.changePayment(payment,new ApiInterface.BooleanDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void newPayment(Payment payment, final BooleanCallback dataCallback) {
+        apiDataSource.newPayment(payment,new ApiInterface.BooleanDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
     public void login(User user, final BooleanCallback dataCallback) {
         apiDataSource.login(user, new ApiInterface.LoginDataCallback() {
             @Override

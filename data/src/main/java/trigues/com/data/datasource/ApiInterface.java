@@ -40,6 +40,10 @@ public interface ApiInterface {
 
     void deleteUser(int user_id, BooleanDataCallback booleanDataCallback);
 
+    void changePayment(Payment payment, BooleanDataCallback booleanDataCallback);
+
+    void newPayment(Payment payment, BooleanDataCallback booleanDataCallback);
+
 
     //Callbacks:
 

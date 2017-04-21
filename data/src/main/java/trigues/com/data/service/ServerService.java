@@ -53,8 +53,12 @@ public interface ServerService {
     @GET("paymentmethods/:user_id")
     Call<List<Payment>> getPaymentInfo();
 
-    //@PUT
-    //@POST
+    @PUT("paymentmethods/:id")
+    Call<ApiDTO<Void>> changePayment(@Body Payment payment);
+
+    @POST("paymentmethods")
+    Call<ApiDTO<Void>> newPayment(@Body Payment payment);
+
     //@DELETE
 
     //shipments

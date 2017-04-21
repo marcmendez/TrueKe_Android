@@ -195,6 +195,28 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
+    public void changePayment(Payment payment, final BooleanDataCallback booleanDataCallback) {
+        server.changePayment(payment).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
+
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void newPayment(Payment payment, final BooleanDataCallback booleanDataCallback) {
+        server.newPayment(payment).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
+
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
     public void showProducts(int userID, final ProductListDataCallback dataCallback) {
         List<String> llista = new ArrayList<>();
         llista.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");

@@ -22,6 +22,22 @@ public class Payment {
 
     }
 
+    public Payment(int id, int user_id, String type, String number, String expireDate, String name,
+                   String country, String province, String city, int postalCode, String address, String phone) {
+        this.id = id;
+        this.user_id = user_id;
+        this.type = type;
+        this.number = number;
+        this.expireDate = expireDate;
+        this.name = name;
+        this.country = country;
+        this.province = province;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.address = address;
+        this.phone = phone;
+    }
+
     public int getId() {
         return id;
     }

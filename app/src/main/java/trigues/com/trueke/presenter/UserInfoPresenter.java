@@ -4,8 +4,10 @@ import com.trigues.entity.Payment;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
+import com.trigues.usecase.ChangePaymentUseCase;
 import com.trigues.usecase.ChangeProfileUseCase;
 import com.trigues.usecase.DeleteUserUseCase;
+import com.trigues.usecase.NewPaymentUseCase;
 import com.trigues.usecase.ShowPaymentsUseCase;
 import com.trigues.usecase.ShowProfileUseCase;
 import com.trigues.usecase.ShowShipmentsUseCase;
@@ -26,6 +28,8 @@ public class UserInfoPresenter {
     private ShowShipmentsUseCase showShipmentsUseCase;
     private ChangeProfileUseCase changeProfileUseCase;
     private DeleteUserUseCase deleteUserUseCase;
+    private NewPaymentUseCase newPaymentUseCase;
+    private ChangePaymentUseCase changePaymentUseCase;
 
     @Inject
     public UserInfoPresenter(UserProfileActivity view,
@@ -33,13 +37,17 @@ public class UserInfoPresenter {
                              ShowPaymentsUseCase showPaymentsUseCase,
                              ShowShipmentsUseCase showShipmentsUseCase,
                              ChangeProfileUseCase changeProfileUseCase,
-                             DeleteUserUseCase deleteUserUseCase) {
+                             DeleteUserUseCase deleteUserUseCase,
+                             NewPaymentUseCase newPaymentUseCase,
+                             ChangePaymentUseCase changePaymentUseCase) {
         this.view = view;
         this.showProfileUseCase=showProfileUseCase;
         this.showPaymentsUseCase = showPaymentsUseCase;
         this.showShipmentsUseCase = showShipmentsUseCase;
         this.changeProfileUseCase = changeProfileUseCase;
         this.deleteUserUseCase = deleteUserUseCase;
+        this.newPaymentUseCase = newPaymentUseCase;
+        this.changePaymentUseCase = changePaymentUseCase;
     }
 
     public void showProfile(){
@@ -99,15 +107,42 @@ public class UserInfoPresenter {
 
             @Override
             public void onSuccess(Boolean returnParam) {
+                view.onChangePaymentRetrieved(returnParam);
+            }
+        });
+    }
+    public void newPayment(Payment payment){
+        newPaymentUseCase.execute(payment, new NewPaymentUseCase.NewPaymentUseCaseCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                view.onNewPaymentCreated(returnParam);
+            }
+        });
+    }
+
+    public void changePayment(Payment payment){
+        changePaymentUseCase.execute(payment, new ChangePaymentUseCase.ChangePaymentUseCaseCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
                 view.onChangeProfileRetrieved(returnParam);
             }
         });
     }
-    public void changePayment(Payment payment){}
     public void changeShipment(Shipment shipment){}
     public void deletePayment(Integer payment_id){}
     public void deleteShipment(Integer shipment_id){}
-    public void newPayment(Payment payment){}
     public void newShipment(Shipment shipment){}
 
     public void deleteUser() {

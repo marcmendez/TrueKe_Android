@@ -40,6 +40,10 @@ public interface RepositoryInterface {
 
     void deleteUser(int user_id, BooleanCallback dataCallback);
 
+    void changePayment(Payment payment, BooleanCallback dataCallback);
+
+    void newPayment(Payment payment, BooleanCallback dataCallback);
+
 
     //Callbacks:
 
