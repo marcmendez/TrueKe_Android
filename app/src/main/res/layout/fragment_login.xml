@@ -79,7 +79,6 @@
             android:typeface="normal" />
 
 
-
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"

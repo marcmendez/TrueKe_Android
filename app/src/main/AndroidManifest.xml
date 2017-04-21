@@ -25,12 +25,11 @@
 
         <activity android:name=".view.impl.UserProductsListActivityImpl"
             android:label="Mis productos">
-
         </activity>
 
         <activity android:name=".view.impl.UserProductDetailsActivityImpl"/>
-        <activity android:name=".view.impl.AddProductActivityImpl">
-        </activity>
+
+        <activity android:name=".view.impl.AddProductActivityImpl"/>
 
         <activity android:name=".view.impl.UserProfileActivityImpl"
             android:label="Mi cuenta"/>

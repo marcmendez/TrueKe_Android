@@ -43,8 +43,7 @@
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:layout_alignParentEnd="true"
-                android:src="@mipmap/send_icon"
-                android:onClick="onAddProductPressed"/>
+                android:src="@mipmap/send_icon"/>
 
         </RelativeLayout>
 

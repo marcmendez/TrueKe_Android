@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.trigues.entity.Product;
 
@@ -63,6 +64,15 @@ public class UserProductsListActivityImpl extends MenuActivityImpl implements Us
 
         presenter.getUserProducts(54321);
 
+        addProductButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                startActivity(new Intent(UserProductsListActivityImpl.this, AddProductActivityImpl.class));
+            }
+        });
+
 
     }
 
@@ -85,6 +95,8 @@ public class UserProductsListActivityImpl extends MenuActivityImpl implements Us
 
 
     }
+
+
 
 }
 
