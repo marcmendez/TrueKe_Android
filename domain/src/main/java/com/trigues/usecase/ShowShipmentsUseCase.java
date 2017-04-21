@@ -15,15 +15,15 @@ import javax.inject.Inject;
  * Created by Albert on 13/04/2017.
  */
 
-public class ShowShipmentInfoUseCase extends BaseUseCase<Shipment> implements Interactor<Integer,Shipment> {
+public class ShowShipmentsUseCase extends BaseUseCase<Shipment> implements Interactor<Integer,Shipment> {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
-    private ShowShipmentInfoUseCase.ShowShipmentInfoUseCaseCallback callback;
+    private ShowShipmentsUseCaseCallback callback;
     private Integer id;
 
     @Inject
-    public ShowShipmentInfoUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor,
-                                  RepositoryInterface repository) {
+    public ShowShipmentsUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor,
+                                RepositoryInterface repository) {
         super(postExecutionThread);
         this.repository = repository;
         this.executor = executor;
@@ -43,15 +43,15 @@ public class ShowShipmentInfoUseCase extends BaseUseCase<Shipment> implements In
     };
     @Override
     public void run() {
-        repository.showShipmentInfo(id,dataCallback);
+        repository.showShipments(id,dataCallback);
     }
 
     @Override
     public <R extends DefaultCallback<Shipment>> void execute(Integer param, R defaultCallback) {
-        this.callback = ((ShowShipmentInfoUseCase.ShowShipmentInfoUseCaseCallback) defaultCallback);
+        this.callback = ((ShowShipmentsUseCaseCallback) defaultCallback);
         this.id = param;
         executor.execute(this);
     }
 
-    public interface ShowShipmentInfoUseCaseCallback extends DefaultCallback<Shipment>{}
+    public interface ShowShipmentsUseCaseCallback extends DefaultCallback<Shipment>{}
 }

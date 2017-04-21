@@ -1,16 +1,16 @@
 package trigues.com.trueke.presenter;
 
-import android.util.Log;
-
 import com.trigues.entity.Payment;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.ChangeProfileUseCase;
 import com.trigues.usecase.DeleteUserUseCase;
-import com.trigues.usecase.ShowPaymentInfoUseCase;
+import com.trigues.usecase.ShowPaymentsUseCase;
 import com.trigues.usecase.ShowProfileUseCase;
-import com.trigues.usecase.ShowShipmentInfoUseCase;
+import com.trigues.usecase.ShowShipmentsUseCase;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import trigues.com.trueke.view.UserProfileActivity;
@@ -22,22 +22,22 @@ import trigues.com.trueke.view.UserProfileActivity;
 public class UserInfoPresenter {
     private UserProfileActivity view;
     private ShowProfileUseCase showProfileUseCase;
-    private ShowPaymentInfoUseCase showPaymentInfoUseCase;
-    private ShowShipmentInfoUseCase showShipmentInfoUseCase;
+    private ShowPaymentsUseCase showPaymentsUseCase;
+    private ShowShipmentsUseCase showShipmentsUseCase;
     private ChangeProfileUseCase changeProfileUseCase;
     private DeleteUserUseCase deleteUserUseCase;
 
     @Inject
     public UserInfoPresenter(UserProfileActivity view,
                              ShowProfileUseCase showProfileUseCase,
-                             ShowPaymentInfoUseCase showPaymentInfoUseCase,
-                             ShowShipmentInfoUseCase showShipmentInfoUseCase,
+                             ShowPaymentsUseCase showPaymentsUseCase,
+                             ShowShipmentsUseCase showShipmentsUseCase,
                              ChangeProfileUseCase changeProfileUseCase,
                              DeleteUserUseCase deleteUserUseCase) {
         this.view = view;
         this.showProfileUseCase=showProfileUseCase;
-        this.showPaymentInfoUseCase = showPaymentInfoUseCase;
-        this.showShipmentInfoUseCase = showShipmentInfoUseCase;
+        this.showPaymentsUseCase = showPaymentsUseCase;
+        this.showShipmentsUseCase = showShipmentsUseCase;
         this.changeProfileUseCase = changeProfileUseCase;
         this.deleteUserUseCase = deleteUserUseCase;
     }
@@ -58,9 +58,9 @@ public class UserInfoPresenter {
         });
     }
 
-    public void showPaymentInfo(){
+    public void showPayments(){
         int userID=1;
-        showPaymentInfoUseCase.execute(userID, new ShowPaymentInfoUseCase.ShowPaymentInfoUseCaseCallback(){
+        showPaymentsUseCase.execute(userID, new ShowPaymentsUseCase.ShowPaymentsUseCaseCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -68,15 +68,15 @@ public class UserInfoPresenter {
             }
 
             @Override
-            public void onSuccess(Payment returnParam) {
+            public void onSuccess(List<Payment> returnParam) {
                 view.onPaymentRetrieved(returnParam);
             }
         });
 
     }
-    public void showShipmentInfo(){
+    public void showShipments(){
         int userID=1;
-        showShipmentInfoUseCase.execute(userID, new ShowShipmentInfoUseCase.ShowShipmentInfoUseCaseCallback(){
+        showShipmentsUseCase.execute(userID, new ShowShipmentsUseCase.ShowShipmentsUseCaseCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -103,8 +103,12 @@ public class UserInfoPresenter {
             }
         });
     }
-    public void changePaymentInfo(Payment payment){}
-    public void changeShipmentInfo(Shipment shipment){}
+    public void changePayment(Payment payment){}
+    public void changeShipment(Shipment shipment){}
+    public void deletePayment(Integer payment_id){}
+    public void deleteShipment(Integer shipment_id){}
+    public void newPayment(Payment payment){}
+    public void newShipment(Shipment shipment){}
 
     public void deleteUser() {
         int user_id=1;

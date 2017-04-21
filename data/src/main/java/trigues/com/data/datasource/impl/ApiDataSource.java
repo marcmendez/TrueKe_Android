@@ -1,7 +1,5 @@
 package trigues.com.data.datasource.impl;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -15,8 +13,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.FakeInterceptor;
@@ -106,31 +102,45 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void showPaymentInfo(int id, final PaymentDataCallback paymentDataCallback) {
-        interceptor.setResponseString("{\n" +
-                "  \"id\" : \"12\",\n" +
-                "  \"user_id\" : \"1234\",\n" +
-                "  \"type\" : \"MasterCard/4B/Euro6000\",\n" +
-                "  \"number\" : \"1234123412341234\",\n" +
-                "  \"expireDate\" : \"2020-02-01\",\n" +
-                "  \"name\" : \"Homer\",\n" +
-                "  \"country\" : \"USA\",\n" +
-                "  \"province\" : \"Barcelona\",\n" +
-                "  \"city\" : \"Springfield\",\n" +
-                "  \"postalCode\" : \"11101\",\n" +
-                "  \"address\" : \"Calle del general Comilla\",\n" +
-                "  \"phone\" : \"619703921\"\n" +
-                "}");
-        server.getPaymentInfo().enqueue(new RetrofitErrorHandler<Payment>(paymentDataCallback) {
+    public void showPayments(int id, final PaymentsCallback paymentsCallback) {
+        interceptor.setResponseString("[{\n" +
+                "  \"id\": 1,\n" +
+                "  \"user_id\": 1,\n" +
+                "  \"type\": \"Visa/4B/Euro6000\",\n" +
+                "  \"number\": \"123456789\",\n" +
+                "  \"expireDate\": \"1990-05-06\",\n" +
+                "  \"name\": \"Sancho Panza\",\n" +
+                "  \"country\": \"España\",\n" +
+                "  \"province\": \"Barcelona\",\n" +
+                "  \"city\": \"Barcelona\",\n" +
+                "  \"postalCode\": 8029,\n" +
+                "  \"address\": \"Carrer Diagonal\",\n" +
+                "  \"phone\": \"654654654\"\n" +
+                "},\n" +
+                "{\n" +
+                "\"id\": 2,\n" +
+                "\"user_id\": 1,\n" +
+                "\"type\": \"Visa/4B/Euro6000\",\n" +
+                "\"number\": \"987654321\",\n" +
+                "\"expireDate\": \"1990-05-06\",\n" +
+                "\"name\": \"Sancho Panza\",\n" +
+                "\"country\": \"España\",\n" +
+                "\"province\": \"Barcelona\",\n" +
+                "\"city\": \"Barcelona\",\n" +
+                "\"postalCode\": 8029,\n" +
+                "\"address\": \"Carrer Diagonal\",\n" +
+                "\"phone\": \"654654654\"\n" +
+                "}]");
+        server.getPaymentInfo().enqueue(new RetrofitErrorHandler<List<Payment>>(paymentsCallback) {
             @Override
-            public void onResponse(Payment body) {
-                paymentDataCallback.onSuccess(body);
+            public void onResponse(List<Payment> body) {
+                paymentsCallback.onSuccess(body);
             }
         });
     }
 
     @Override
-    public void showShipmentInfo(Integer id, final ShipmentDataCallback shipmentDataCallback) {
+    public void showShipments(Integer id, final ShipmentsCallback shipmentsCallback) {
         interceptor.setResponseString("{\n" +
                 "  \"id\" : \"12\",\n" +
                 "  \"user_id\" : \"1234\",\n" +
@@ -143,10 +153,10 @@ public class ApiDataSource implements ApiInterface {
                 "  \"idCard\" : \"12931230\",\n" +
                 "  \"phone\" : \"619703921\"\n" +
                 "}");
-        server.getShipmentInfo().enqueue(new RetrofitErrorHandler<Shipment>(shipmentDataCallback) {
+        server.getShipmentInfo().enqueue(new RetrofitErrorHandler<Shipment>(shipmentsCallback) {
             @Override
             public void onResponse(Shipment body) {
-                shipmentDataCallback.onSuccess(body);
+                shipmentsCallback.onSuccess(body);
             }
         });
     }

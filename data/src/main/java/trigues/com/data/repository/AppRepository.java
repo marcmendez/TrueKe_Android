@@ -1,7 +1,5 @@
 package trigues.com.data.repository;
 
-import android.util.Log;
-
 import com.trigues.RepositoryInterface;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -84,8 +82,8 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void showPaymentInfo(Integer id, final PaymentCallback dataCallback) {
-        apiDataSource.showPaymentInfo(id,new ApiInterface.PaymentDataCallback(){
+    public void showPayments(Integer id, final PaymentCallback dataCallback) {
+        apiDataSource.showPayments(id,new ApiInterface.PaymentsCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -93,15 +91,15 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(Payment returnParam) {
+            public void onSuccess(List<Payment> returnParam) {
                 dataCallback.onSuccess(returnParam);
             }
         });
     }
 
     @Override
-    public void showShipmentInfo(Integer id, final ShipmentCallback dataCallback) {
-        apiDataSource.showShipmentInfo(id,new ApiInterface.ShipmentDataCallback(){
+    public void showShipments(Integer id, final ShipmentCallback dataCallback) {
+        apiDataSource.showShipments(id,new ApiInterface.ShipmentsCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {

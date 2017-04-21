@@ -50,7 +50,7 @@ public interface ServerService {
 
     //payments
     @GET("paymentmethods/:user_id")
-    Call<Payment> getPaymentInfo();
+    Call<List<Payment>> getPaymentInfo();
 
     //@PUT
     //@POST

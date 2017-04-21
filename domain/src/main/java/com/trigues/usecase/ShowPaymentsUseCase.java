@@ -9,21 +9,23 @@ import com.trigues.executor.ThreadExecutor;
 import com.trigues.interactor.BaseUseCase;
 import com.trigues.interactor.Interactor;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
  * Created by Albert on 13/04/2017.
  */
 
-public class ShowPaymentInfoUseCase extends BaseUseCase<Payment> implements Interactor<Integer,Payment> {
+public class ShowPaymentsUseCase extends BaseUseCase<List<Payment>> implements Interactor<Integer,List<Payment>> {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
-    private ShowPaymentInfoUseCase.ShowPaymentInfoUseCaseCallback callback;
+    private ShowPaymentsUseCaseCallback callback;
     private Integer id;
 
     @Inject
-    public ShowPaymentInfoUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor,
-                                  RepositoryInterface repository) {
+    public ShowPaymentsUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor,
+                               RepositoryInterface repository) {
         super(postExecutionThread);
         this.repository = repository;
         this.executor = executor;
@@ -37,21 +39,21 @@ public class ShowPaymentInfoUseCase extends BaseUseCase<Payment> implements Inte
         }
 
         @Override
-        public void onSuccess(Payment returnParam) {
+        public void onSuccess(List<Payment> returnParam) {
             notifyOnSuccess(returnParam,callback);
         }
     };
     @Override
     public void run() {
-        repository.showPaymentInfo(id,dataCallback);
+        repository.showPayments(id,dataCallback);
     }
 
     @Override
-    public <R extends DefaultCallback<Payment>> void execute(Integer param, R defaultCallback) {
-        this.callback = ((ShowPaymentInfoUseCase.ShowPaymentInfoUseCaseCallback) defaultCallback);
+    public <R extends DefaultCallback<List<Payment>>> void execute(Integer param, R defaultCallback) {
+        this.callback = ((ShowPaymentsUseCaseCallback) defaultCallback);
         this.id = param;
         executor.execute(this);
     }
 
-    public interface ShowPaymentInfoUseCaseCallback extends DefaultCallback<Payment>{}
+    public interface ShowPaymentsUseCaseCallback extends DefaultCallback<List<Payment>>{}
 }

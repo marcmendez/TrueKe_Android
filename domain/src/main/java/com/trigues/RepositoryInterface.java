@@ -32,9 +32,9 @@ public interface RepositoryInterface {
 
     void logout(VoidCallback dataCallback);
 
-    void showPaymentInfo(Integer id, PaymentCallback dataCallback);
+    void showPayments(Integer id, PaymentCallback dataCallback);
 
-    void showShipmentInfo(Integer id, ShipmentCallback dataCallback);
+    void showShipments(Integer id, ShipmentCallback dataCallback);
 
     void changeProfile(User user, BooleanCallback dataCallback);
 
@@ -48,6 +48,6 @@ public interface RepositoryInterface {
     interface ProductListCallback extends DefaultCallback<List<Product>>{}
     interface BooleanCallback extends DefaultCallback<Boolean>{}
     interface UserCallback extends DefaultCallback<User>{}
-    interface PaymentCallback extends DefaultCallback<Payment>{}
+    interface PaymentCallback extends DefaultCallback<List<Payment>>{}
     interface ShipmentCallback extends DefaultCallback<Shipment>{}
 }

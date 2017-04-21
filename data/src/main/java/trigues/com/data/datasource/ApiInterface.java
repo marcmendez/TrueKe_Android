@@ -29,9 +29,9 @@ public interface ApiInterface {
 
     void showProfile(int userID, UserDataCallback dataCallback);
 
-    void showPaymentInfo(int id, PaymentDataCallback paymentDataCallback);
+    void showPayments(int id, PaymentsCallback paymentDataCallback);
 
-    void showShipmentInfo(Integer id, ShipmentDataCallback shipmentDataCallback);
+    void showShipments(Integer id, ShipmentsCallback shipmentsCallback);
 
     void changeProfile(User user, BooleanDataCallback booleanDataCallback);
 
@@ -50,7 +50,7 @@ public interface ApiInterface {
 
     interface VoidDataCallback extends DefaultCallback<Void> {}
 
-    interface PaymentDataCallback extends DefaultCallback<Payment>{}
+    interface PaymentsCallback extends DefaultCallback<List<Payment>>{}
 
-    interface ShipmentDataCallback extends DefaultCallback<Shipment>{}
+    interface ShipmentsCallback extends DefaultCallback<Shipment>{}
 }
