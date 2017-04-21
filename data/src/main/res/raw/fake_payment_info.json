@@ -1,0 +1,28 @@
+[{
+  "id": 1,
+  "user_id": 1,
+  "type": "Visa/4B/Euro6000",
+  "number": "123456789",
+  "expireDate": "1990-05-06",
+  "name": "Sancho Panza",
+  "country": "España",
+  "province": "Barcelona",
+  "city": "Barcelona",
+  "postalCode": 8029,
+  "address": "Carrer Diagonal",
+  "phone": "654654654"
+},
+{
+"id": 2,
+"user_id": 1,
+"type": "Visa/4B/Euro6000",
+"number": "987654321",
+"expireDate": "1990-05-06",
+"name": "Sancho Panza",
+"country": "España",
+"province": "Barcelona",
+"city": "Barcelona",
+"postalCode": 8029,
+"address": "Carrer Diagonal",
+"phone": "654654654"
+}]

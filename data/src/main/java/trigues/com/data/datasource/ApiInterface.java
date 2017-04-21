@@ -1,7 +1,9 @@
 package trigues.com.data.datasource;
 
 import com.trigues.callback.DefaultCallback;
+import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
+import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import trigues.com.data.entity.LoginDTO;
  * Created by mbaque on 15/03/2017.
  */
 
-public interface   ApiInterface {
+public interface ApiInterface {
 
     //Functions:
 
@@ -28,8 +30,20 @@ public interface   ApiInterface {
 
     void addProduct(Product product, BooleanDataCallback dataCallback);
 
+    void showProfile(int userID, UserDataCallback dataCallback);
+
+    void showPayments(int id, PaymentsCallback paymentDataCallback);
+
+    void showShipments(Integer id, ShipmentsCallback shipmentsCallback);
+
+    void changeProfile(User user, BooleanDataCallback booleanDataCallback);
+
+    void deleteUser(int user_id, BooleanDataCallback booleanDataCallback);
+
 
     //Callbacks:
+
+    interface UserDataCallback extends DefaultCallback<User>{}
 
     interface ProductDataCallback extends DefaultCallback<Product> {}
 
@@ -40,4 +54,8 @@ public interface   ApiInterface {
     interface VoidDataCallback extends DefaultCallback<Void> {}
 
     interface LoginDataCallback extends DefaultCallback<ApiDTO<LoginDTO>> {}
+
+    interface PaymentsCallback extends DefaultCallback<List<Payment>>{}
+
+    interface ShipmentsCallback extends DefaultCallback<List<Shipment>>{}
 }

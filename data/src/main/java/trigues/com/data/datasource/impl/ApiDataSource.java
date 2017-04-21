@@ -1,7 +1,9 @@
 package trigues.com.data.datasource.impl;
 
 import com.google.gson.Gson;
+import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
+import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 
 import java.util.ArrayList;
@@ -76,6 +78,118 @@ public class ApiDataSource implements ApiInterface {
             @Override
             public void onResponse(Product body) {
                 dataCallback.onSuccess(body);
+            }
+        });
+    }
+    @Override
+    public void showProfile(int userID, final UserDataCallback userDataCallback){
+        interceptor.setResponseString("{\n" +
+                "  \"id\" : 12345,\n" +
+                "  \"phone\" : 612345678,\n" +
+                "  \"user\" : \"Esther Colero\",\n" +
+                "  \"password\" : \"pouman\",\n" +
+                "  \"email\" : \"chetaso@parguela.es\",\n" +
+                "  \"birthDate\" : \"1999-12-10\",\n" +
+                "  \"products\" : 5,\n" +
+                "  \"truekes\" : 2,\n" +
+                "  \"rating\" : 4\n" +
+                "}");
+        server.getUserProfile().enqueue(new RetrofitErrorHandler<User>(userDataCallback) {
+            @Override
+            public void onResponse(User body) {
+                userDataCallback.onSuccess(body);
+            }
+        });
+    }
+
+    @Override
+    public void showPayments(int id, final PaymentsCallback paymentsCallback) {
+        interceptor.setResponseString("[{\n" +
+                "  \"id\": 1,\n" +
+                "  \"user_id\": 1,\n" +
+                "  \"type\": \"Visa/4B/Euro6000\",\n" +
+                "  \"number\": \"123456789\",\n" +
+                "  \"expireDate\": \"1990-05-06\",\n" +
+                "  \"name\": \"Sancho Panza\",\n" +
+                "  \"country\": \"España\",\n" +
+                "  \"province\": \"Barcelona\",\n" +
+                "  \"city\": \"Barcelona\",\n" +
+                "  \"postalCode\": 8029,\n" +
+                "  \"address\": \"Carrer Diagonal\",\n" +
+                "  \"phone\": \"654654654\"\n" +
+                "},\n" +
+                "{\n" +
+                "\"id\": 2,\n" +
+                "\"user_id\": 1,\n" +
+                "\"type\": \"Visa/4B/Euro6000\",\n" +
+                "\"number\": \"987654321\",\n" +
+                "\"expireDate\": \"1990-05-06\",\n" +
+                "\"name\": \"Sancho Panza\",\n" +
+                "\"country\": \"España\",\n" +
+                "\"province\": \"Barcelona\",\n" +
+                "\"city\": \"Barcelona\",\n" +
+                "\"postalCode\": 8029,\n" +
+                "\"address\": \"Carrer Diagonal\",\n" +
+                "\"phone\": \"654654654\"\n" +
+                "}]");
+        server.getPaymentInfo().enqueue(new RetrofitErrorHandler<List<Payment>>(paymentsCallback) {
+            @Override
+            public void onResponse(List<Payment> body) {
+                paymentsCallback.onSuccess(body);
+            }
+        });
+    }
+
+    @Override
+    public void showShipments(Integer id, final ShipmentsCallback shipmentsCallback) {
+        interceptor.setResponseString("[{\n" +
+                "  \"id\": 1,\n" +
+                "  \"user_id\": 1,\n" +
+                "  \"country\": \"Spain\",\n" +
+                "  \"province\": \"Barcelona\",\n" +
+                "  \"city\": \"Barcelona\",\n" +
+                "  \"postalCode\": 8006,\n" +
+                "  \"address\": \"Calle Falsa 123\",\n" +
+                "  \"name\": \"Pepito Mendizabal\",\n" +
+                "  \"idCard\": \"654845616531\",\n" +
+                "  \"phone\": \"654654654\"\n" +
+                "}, {\n" +
+                "  \"id\": 2,\n" +
+                "  \"user_id\": 1,\n" +
+                "  \"country\": \"Spain\",\n" +
+                "  \"province\": \"Barcelona\",\n" +
+                "  \"city\": \"Barcelona\",\n" +
+                "  \"postalCode\": 8029,\n" +
+                "  \"address\": \"Calle Falsa 123\",\n" +
+                "  \"name\": \"Pepito Mendizabal\",\n" +
+                "  \"idCard\": \"654845616531\",\n" +
+                "  \"phone\": \"654654654\"\n" +
+                "}]");
+        server.getShipmentInfo().enqueue(new RetrofitErrorHandler<List<Shipment>>(shipmentsCallback) {
+            @Override
+            public void onResponse(List<Shipment> body) {
+                shipmentsCallback.onSuccess(body);
+            }
+        });
+    }
+
+    @Override
+    public void changeProfile(User user, final BooleanDataCallback booleanDataCallback) {
+        server.changeProfile(user).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void deleteUser(int user_id, final BooleanDataCallback booleanDataCallback) {
+        server.deleteUser(user_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
+
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
             }
         });
     }
