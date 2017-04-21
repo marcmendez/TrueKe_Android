@@ -14,6 +14,7 @@ public class ApiDTO<T> {
     @SerializedName("Message")
     String message;
 
+    @SerializedName("Content")
     T content;
 
     public ApiDTO(Boolean error, String message, T content) {

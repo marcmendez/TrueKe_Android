@@ -6,6 +6,9 @@ import com.trigues.entity.User;
 
 import java.util.List;
 
+import trigues.com.data.entity.ApiDTO;
+import trigues.com.data.entity.LoginDTO;
+
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -21,7 +24,7 @@ public interface   ApiInterface {
 
     void register(User user, BooleanDataCallback dataCallback);
 
-    void login(User user, BooleanDataCallback dataCallback);
+    void login(User user, LoginDataCallback dataCallback);
 
     void addProduct(Product product, BooleanDataCallback dataCallback);
 
@@ -35,4 +38,6 @@ public interface   ApiInterface {
     interface BooleanDataCallback extends DefaultCallback<Boolean> {}
 
     interface VoidDataCallback extends DefaultCallback<Void> {}
+
+    interface LoginDataCallback extends DefaultCallback<ApiDTO<LoginDTO>> {}
 }

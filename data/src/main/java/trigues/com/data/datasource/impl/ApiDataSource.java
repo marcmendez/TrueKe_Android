@@ -16,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.entity.ApiDTO;
+import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
 
@@ -118,11 +119,11 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void login(User user, final BooleanDataCallback dataCallback) {
-        server.login(user).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+    public void login(User user, final LoginDataCallback dataCallback) {
+        server.login(user).enqueue(new RetrofitErrorHandler<ApiDTO<LoginDTO>>(dataCallback) {
             @Override
-            public void onResponse(ApiDTO<Void> body) {
-                dataCallback.onSuccess(!body.getError());
+            public void onResponse(ApiDTO<LoginDTO> body) {
+                dataCallback.onSuccess(body);
             }
         });
     }

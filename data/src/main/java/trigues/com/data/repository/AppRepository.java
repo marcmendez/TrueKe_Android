@@ -10,6 +10,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import trigues.com.data.datasource.ApiInterface;
+import trigues.com.data.datasource.InternalStorageInterface;
+import trigues.com.data.entity.ApiDTO;
+import trigues.com.data.entity.LoginDTO;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -18,10 +21,12 @@ import trigues.com.data.datasource.ApiInterface;
 public class AppRepository implements RepositoryInterface {
 
     private ApiInterface apiDataSource;
+    private InternalStorageInterface internalStorage;
 
     @Inject
-    public AppRepository(ApiInterface apiDataSource) {
+    public AppRepository(ApiInterface apiDataSource, InternalStorageInterface internalStorage) {
         this.apiDataSource = apiDataSource;
+        this.internalStorage = internalStorage;
     }
 
     @Override
@@ -81,15 +86,17 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void login(User user, final BooleanCallback dataCallback) {
-        apiDataSource.login(user, new ApiInterface.BooleanDataCallback() {
+        apiDataSource.login(user, new ApiInterface.LoginDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
             }
 
             @Override
-            public void onSuccess(Boolean returnParam) {
-                dataCallback.onSuccess(returnParam);
+            public void onSuccess(ApiDTO<LoginDTO> returnParam) {
+                internalStorage.saveToken(returnParam.getContent().getToken());
+                dataCallback.onSuccess(!returnParam.getError());
+
             }
         });
     }

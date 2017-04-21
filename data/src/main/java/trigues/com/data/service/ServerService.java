@@ -10,6 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import trigues.com.data.entity.ApiDTO;
+import trigues.com.data.entity.LoginDTO;
 
 /**
  * Created by mbaque on 18/03/2017.
@@ -18,7 +19,7 @@ import trigues.com.data.entity.ApiDTO;
 public interface ServerService {
 
     @POST("authenticate")
-    Call<ApiDTO<Void>> login(@Body User user);
+    Call<ApiDTO<LoginDTO>> login(@Body User user);
 
     @POST("users")
     Call<ApiDTO<Void>> register(@Body User user);
