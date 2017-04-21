@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import javax.inject.Inject;
 
 import trigues.com.trueke.R;
@@ -19,6 +22,7 @@ import trigues.com.trueke.presenter.AddProductPresenter;
 import trigues.com.trueke.utils.ProductChecker;
 import trigues.com.trueke.view.AddProductActivity;
 import trigues.com.trueke.view.UserProductsListActivity;
+import trigues.com.trueke.view.fragment.AddProductCategoryFragImpl;
 
 /**
  * Created by Alba on 24/03/2017.
@@ -33,8 +37,31 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     private ImageButton btncamera;
     private ImageButton btngallery;
     private ImageView result;
-    private EditText e_title, e_description, e_priceMax, e_priceMin, e_category;
     private static final String TAG = "AddProductActivityImpl";
+
+    AddProductCategoryFragImpl addCategoryFrag;
+
+    @BindView(R.id.productName)
+    EditText e_title;
+
+    @BindView(R.id.description)
+    EditText e_description;
+
+    @BindView(R.id.priceMin)
+    EditText e_priceMin;
+
+    @BindView(R.id.priceMax)
+    EditText e_priceMax;
+
+    @BindView(R.id.productCategory)
+    EditText e_category;
+
+    @BindView(R.id.add_product_close_button)
+    ImageButton closeButton;
+
+    @BindView(R.id.add_product_send_button)
+    ImageButton addButton;
+
 
     @Inject
     AddProductPresenter presenter;
@@ -43,6 +70,26 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
+        ButterKnife.bind(this);
+
+        closeButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                onBackPressed();
+                finish();
+            }
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                onAddProductPressed();
+            }
+        });
 
 
        /*btncamera = (ImageButton) findViewById(R.id.btncamera);
@@ -50,13 +97,6 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         result = (ImageView) findViewById(R.id.photo);
         addEvents();
         */
-
-        e_title = (EditText) findViewById(R.id.productName);
-        e_description = (EditText) findViewById(R.id.description);
-        e_priceMin = (EditText) findViewById(R.id.priceMin);
-        e_priceMax = (EditText) findViewById(R.id.priceMax);
-
-        e_category = (EditText) findViewById(R.id.productCategory);
 
         /*spinner1 = (Spinner) findViewById(R.id.spinner1);
         adapter1 = ArrayAdapter.createFromResource(this, R.array.category1, android.R.layout.simple_spinner_item);
@@ -174,5 +214,6 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
 
     public void goToShowProductList(){
         startActivity(new Intent(this, UserProductsListActivity.class));
+        finish();
     }
 }

@@ -45,9 +45,6 @@ public class ShowProductsPresenter {
         else{
             view.onError("Producto no válido");
         }
-
-
-
     }
 }
 
