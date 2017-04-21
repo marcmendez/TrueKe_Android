@@ -13,8 +13,10 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.UserProductsDTO;
 
 /**
  * Created by mbaque on 18/03/2017.
@@ -28,8 +30,8 @@ public interface ServerService {
     @POST("users")
     Call<ApiDTO<Void>> register(@Body User user);
 
-    @GET("/")
-    Call<List<Product>> getUserProducts(/*@Body  Integer user_id*/);
+    @GET("/products/:userid" )
+    Call<ApiDTO<UserProductsDTO>> getUserProducts(@Path("userid") Integer user_id);
 
     @GET("/")
     Call<Product> getUserProductDetails();
