@@ -71,6 +71,9 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                 @Override
                 public void onAccepted() {
                     ++currentProduct;
+                    presenter.acceptedProduct();
+
+
 
                     //TODO: Implementar
                 }
