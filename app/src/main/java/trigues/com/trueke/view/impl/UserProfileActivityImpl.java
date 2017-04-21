@@ -1,8 +1,8 @@
 package trigues.com.trueke.view.impl;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -69,7 +69,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     View userChangePassword;
 
     @BindView(R.id.user_profile_change_email)
-    View userChangeEmail;
+    View userChangeUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,47 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         //presenter.showPayments();
          presenter.showShipments();
         //changeUserProfile();
+
+        userChangeUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeUsername();
+            }
+        });
+
+        userChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changePassword();
+            }
+        });
+    }
+
+    private void changePassword() {
+
+    }
+
+    private void changeUsername() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        alertDialogBuilder.setTitle("Cambiar nombre de usuario");
+        alertDialogBuilder.setView(R.layout.dialog_change_username);
+        alertDialogBuilder.setPositiveButton("Cambiar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO: Implementar cambiar nombre usuario
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alertDialogBuilder.create().show();
+
     }
 
     private void changeUserProfile() {
