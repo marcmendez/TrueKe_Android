@@ -80,6 +80,12 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
+    public void acceptMatch(Integer productID, VoidCallback dataCallback) {
+        //Aun no se sabe nombre de la query, inventarme algo;
+        //(prodID1, prodID2, bool) //este bool 0 rechaza, 1 acepta
+    }
+
+    @Override
     public void login(User user, final BooleanCallback dataCallback) {
         apiDataSource.login(user, new ApiInterface.BooleanDataCallback() {
             @Override

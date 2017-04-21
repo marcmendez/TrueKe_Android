@@ -66,13 +66,12 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                         .setPaddingTop(20)
                         .setRelativeScale(0.01f));
 
-        for(Product product : returnParam){
+        for(final Product product : returnParam){
             matchmakingList.addView(new MatchmakingCard(this, product, matchmakingList, new MatchmakingCardCallback() {
                 @Override
                 public void onAccepted() {
                     ++currentProduct;
-                    presenter.acceptedProduct();
-
+                    presenter.acceptedProduct(product.getId());
 
 
                     //TODO: Implementar

@@ -42,25 +42,15 @@ public class MatchmakingPresenter {
         });
     }
 
-    public void acceptedProduct(String usuari, String password) {
-        EncaraNoSeQuinUseCaseEs.execute(new loquesea, new EncaraNoSeQuinUseCaseEs.EncaraNoSeQuinUseCaseEsCallback() {
+    public void acceptedProduct(int productID) {
+        acceptMatchUseCase.execute(productID, new AcceptMatchUseCase.AcceptMatchCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 view.onError(errorBundle.getErrorMessage());
             }
 
             @Override
-            public void onSuccess(Boolean returnParam) {
-                if(returnParam){
-                    //view.goToShowProductList();
-
-
-                }
-                else{
-                    //view.onError("Login incorrecto");
-
-
-                }
+            public void onSuccess(Void returnParam) {
             }
         });
     }

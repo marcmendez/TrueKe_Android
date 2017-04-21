@@ -16,22 +16,21 @@ import javax.inject.Inject;
  * Created by Eduard on 21/04/2017.
  */
 
-public class AcceptMatchUseCase extends BaseUseCase<List<Product>> implements Interactor<Integer, List<Product> > {
+public class AcceptMatchUseCase extends BaseUseCase<Void> implements Interactor<Integer, Void > {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
     private AcceptMatchCallback callback;
+    private Integer productID;
 
-    //private int userID;
-
-    RepositoryInterface.ProductListCallback dataCallback = new RepositoryInterface.ProductListCallback() {
+    RepositoryInterface.VoidCallback dataCallback = new RepositoryInterface.VoidCallback() {
         @Override
         public void onError(ErrorBundle errorBundle) {
             notifyOnError(errorBundle, callback);
         }
 
         @Override
-        public void onSuccess(List<Product> returnParam) {
-            notifyOnSuccess(returnParam, callback);
+        public void onSuccess(Void acceptVoid) {
+            notifyOnSuccess(acceptVoid, callback);
         }
     };
 
@@ -43,21 +42,24 @@ public class AcceptMatchUseCase extends BaseUseCase<List<Product>> implements In
     }
 
     @Override
-    public <R extends DefaultCallback<List<Product>>> void execute(Integer userID, R defaultCallback) {
+    public <R extends DefaultCallback<Void>> void execute(Integer productID, R defaultCallback) {
         this.callback = ((AcceptMatchCallback) defaultCallback);
-
+        this.productID = productID;
 
         executor.execute(this);
 
     }
     @Override
     public void run() {
-        //repository.showProducts(userID, dataCallback);
+        repository.acceptMatch(productID, dataCallback);
+
     }
 
 
 
-    public interface AcceptMatchCallback extends DefaultCallback<List<Product>>{}
+
+
+    public interface AcceptMatchCallback extends DefaultCallback<Void>{}
 
 
 }
