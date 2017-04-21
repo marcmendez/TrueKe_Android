@@ -9,13 +9,15 @@ import com.trigues.executor.ThreadExecutor;
 import com.trigues.interactor.BaseUseCase;
 import com.trigues.interactor.Interactor;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
  * Created by Albert on 13/04/2017.
  */
 
-public class ShowShipmentsUseCase extends BaseUseCase<Shipment> implements Interactor<Integer,Shipment> {
+public class ShowShipmentsUseCase extends BaseUseCase<List<Shipment>> implements Interactor<Integer,List<Shipment>> {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
     private ShowShipmentsUseCaseCallback callback;
@@ -37,7 +39,7 @@ public class ShowShipmentsUseCase extends BaseUseCase<Shipment> implements Inter
         }
 
         @Override
-        public void onSuccess(Shipment returnParam) {
+        public void onSuccess(List<Shipment> returnParam) {
             notifyOnSuccess(returnParam,callback);
         }
     };
@@ -47,11 +49,11 @@ public class ShowShipmentsUseCase extends BaseUseCase<Shipment> implements Inter
     }
 
     @Override
-    public <R extends DefaultCallback<Shipment>> void execute(Integer param, R defaultCallback) {
+    public <R extends DefaultCallback<List<Shipment>>> void execute(Integer param, R defaultCallback) {
         this.callback = ((ShowShipmentsUseCaseCallback) defaultCallback);
         this.id = param;
         executor.execute(this);
     }
 
-    public interface ShowShipmentsUseCaseCallback extends DefaultCallback<Shipment>{}
+    public interface ShowShipmentsUseCaseCallback extends DefaultCallback<List<Shipment>>{}
 }

@@ -82,9 +82,9 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                         new ViewModule(this))
                 .inject(this);
         ButterKnife.bind(this);
-        presenter.showProfile();
+       // presenter.showProfile();
         //presenter.showPayments();
-        // presenter.showShipments();
+         presenter.showShipments();
         //changeUserProfile();
     }
 
@@ -102,7 +102,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     private void deletePayment(){}
     private void newShipment(){}
     private void changeShipment(){
-        //.changeShipment();
+        //changeShipment();
     }
     private void deleteShipment(){}
     @Override
@@ -121,8 +121,9 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     }
 
     @Override
-    public void onShipmentRetrieved(Shipment returnParam) {
-       // Toast.makeText(getApplicationContext(),"idcard : "+returnParam.getIdCard(),Toast.LENGTH_LONG).show();
+    public void onShipmentRetrieved(List<Shipment> returnParam) {
+        Toast.makeText(getApplicationContext(),"Shipment phone1: "+returnParam.get(0).getPhone()+ "\n" +
+                "Shipment phone2: "+returnParam.get(1).getPhone(),Toast.LENGTH_LONG).show();
     }
 
 

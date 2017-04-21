@@ -84,7 +84,7 @@ public class UserInfoPresenter {
             }
 
             @Override
-            public void onSuccess(Shipment returnParam) {
+            public void onSuccess(List<Shipment> returnParam) {
                 view.onShipmentRetrieved(returnParam);
             }
         });

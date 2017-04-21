@@ -1,4 +1,29 @@
-{
+[{
+  "id": 1,
+  "user_id": 1,
+  "country": "Spain",
+  "province": "Barcelona",
+  "city": "Barcelona",
+  "postalCode": 8006,
+  "address": "Calle Falsa 123",
+  "name": "Pepito Mendizabal",
+  "idCard": "654845616531",
+  "phone": "654654654"
+}, {
+  "id": 2,
+  "user_id": 1,
+  "country": "Spain",
+  "province": "Barcelona",
+  "city": "Barcelona",
+  "postalCode": 8029,
+  "address": "Calle Falsa 123",
+  "name": "Pepito Mendizabal",
+  "idCard": "654845616531",
+  "phone": "654654654"
+}]
+
+
+/**{
   "id" : "12",
   "user_id" : "1234",
   "country" : "USA",
@@ -9,4 +34,4 @@
   "name" : "Homer",
   "idCard" : "12931230",
   "phone" : "619703921"
-}
+}**/

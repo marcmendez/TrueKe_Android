@@ -58,7 +58,7 @@ public interface ServerService {
 
     //shipments
     @GET("shipmentmethods/:user_id")
-    Call<Shipment> getShipmentInfo();
+    Call<List<Shipment>> getShipmentInfo();
 
     //@PUT
     //@POST

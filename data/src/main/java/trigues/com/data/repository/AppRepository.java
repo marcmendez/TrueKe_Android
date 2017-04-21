@@ -107,7 +107,7 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(Shipment returnParam) {
+            public void onSuccess(List<Shipment> returnParam) {
                 dataCallback.onSuccess(returnParam);
             }
         });

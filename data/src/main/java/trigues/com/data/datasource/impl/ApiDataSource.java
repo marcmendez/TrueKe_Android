@@ -141,21 +141,32 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void showShipments(Integer id, final ShipmentsCallback shipmentsCallback) {
-        interceptor.setResponseString("{\n" +
-                "  \"id\" : \"12\",\n" +
-                "  \"user_id\" : \"1234\",\n" +
-                "  \"country\" : \"USA\",\n" +
-                "  \"province\" : \"Barcelona\",\n" +
-                "  \"city\" : \"Springfield\",\n" +
-                "  \"postalCode\" : \"11101\",\n" +
-                "  \"address\" : \"Calle del general Comilla\",\n" +
-                "  \"name\" : \"Homer\",\n" +
-                "  \"idCard\" : \"12931230\",\n" +
-                "  \"phone\" : \"619703921\"\n" +
-                "}");
-        server.getShipmentInfo().enqueue(new RetrofitErrorHandler<Shipment>(shipmentsCallback) {
+        interceptor.setResponseString("[{\n" +
+                "  \"id\": 1,\n" +
+                "  \"user_id\": 1,\n" +
+                "  \"country\": \"Spain\",\n" +
+                "  \"province\": \"Barcelona\",\n" +
+                "  \"city\": \"Barcelona\",\n" +
+                "  \"postalCode\": 8006,\n" +
+                "  \"address\": \"Calle Falsa 123\",\n" +
+                "  \"name\": \"Pepito Mendizabal\",\n" +
+                "  \"idCard\": \"654845616531\",\n" +
+                "  \"phone\": \"654654654\"\n" +
+                "}, {\n" +
+                "  \"id\": 2,\n" +
+                "  \"user_id\": 1,\n" +
+                "  \"country\": \"Spain\",\n" +
+                "  \"province\": \"Barcelona\",\n" +
+                "  \"city\": \"Barcelona\",\n" +
+                "  \"postalCode\": 8029,\n" +
+                "  \"address\": \"Calle Falsa 123\",\n" +
+                "  \"name\": \"Pepito Mendizabal\",\n" +
+                "  \"idCard\": \"654845616531\",\n" +
+                "  \"phone\": \"654654654\"\n" +
+                "}]");
+        server.getShipmentInfo().enqueue(new RetrofitErrorHandler<List<Shipment>>(shipmentsCallback) {
             @Override
-            public void onResponse(Shipment body) {
+            public void onResponse(List<Shipment> body) {
                 shipmentsCallback.onSuccess(body);
             }
         });

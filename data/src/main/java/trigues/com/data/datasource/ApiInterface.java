@@ -52,5 +52,5 @@ public interface ApiInterface {
 
     interface PaymentsCallback extends DefaultCallback<List<Payment>>{}
 
-    interface ShipmentsCallback extends DefaultCallback<Shipment>{}
+    interface ShipmentsCallback extends DefaultCallback<List<Shipment>>{}
 }

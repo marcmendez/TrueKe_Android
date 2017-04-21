@@ -49,5 +49,5 @@ public interface RepositoryInterface {
     interface BooleanCallback extends DefaultCallback<Boolean>{}
     interface UserCallback extends DefaultCallback<User>{}
     interface PaymentCallback extends DefaultCallback<List<Payment>>{}
-    interface ShipmentCallback extends DefaultCallback<Shipment>{}
+    interface ShipmentCallback extends DefaultCallback<List<Shipment>>{}
 }

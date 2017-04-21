@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserProfileActivity extends MenuActivity {
     void onProfileRetrieved(User user);
     void onPaymentRetrieved(List<Payment> returnParam);
-    void onShipmentRetrieved(Shipment returnParam);
+    void onShipmentRetrieved(List<Shipment> returnParam);
     void onChangeProfileRetrieved(Boolean returnParam);
     void OnUserDeleted(Boolean returnParam);
 }
