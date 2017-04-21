@@ -3,6 +3,9 @@ package trigues.com.data.datasource.impl;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.trigues.entity.User;
+
 import javax.inject.Inject;
 
 import trigues.com.data.datasource.InternalStorageInterface;
@@ -15,6 +18,7 @@ import trigues.com.data.dependencyinjection.qualifier.ForApp;
 public class InternalStorageDataSource implements InternalStorageInterface {
 
     private static final String USER_TOKEN = "user_token";
+    private static final String USER = "user";
 
     SharedPreferences internalStorage;
 
@@ -33,6 +37,24 @@ public class InternalStorageDataSource implements InternalStorageInterface {
     @Override
     public void saveToken(String token) {
         internalStorage.edit().putString(USER_TOKEN, token).apply();
+    }
+
+    @Override
+    public void saveUser(User user) {
+        Gson gson = new Gson();
+        String userJson = gson.toJson(user);
+        internalStorage.edit().putString(USER, userJson).commit();
+    }
+
+    @Override
+    public User getUser() {
+        Gson gson = new Gson();
+        String userJson = internalStorage.getString(USER, null);
+        if(userJson!=null) {
+            User user = gson.fromJson(userJson, User.class);
+            return user;
+        }
+        return null;
     }
 
     @Override

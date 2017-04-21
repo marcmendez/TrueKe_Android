@@ -5,6 +5,7 @@ import dagger.Provides;
 import trigues.com.trueke.view.AddProductActivity;
 import trigues.com.trueke.view.BaseActivity;
 import trigues.com.trueke.view.LoginActivity;
+import trigues.com.trueke.view.MatchmakingActivity;
 import trigues.com.trueke.view.MenuActivity;
 import trigues.com.trueke.view.UserProductDetailsActivity;
 import trigues.com.trueke.view.UserProductsListActivity;
@@ -42,6 +43,12 @@ public class ViewModule {
     UserProfileActivity providesProfileView(){
         return (UserProfileActivity) view;
     }
+
+    @Provides
+    MatchmakingActivity providesMatchmakingView(){
+        return (MatchmakingActivity) view;
+    }
+
 
     @Provides
     UserProductsListActivity providesShowProductsView(){
