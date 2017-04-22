@@ -12,10 +12,16 @@ import java.util.List;
 
 public interface UserProfileActivity extends MenuActivity {
     void onProfileRetrieved(User user);
-    void onPaymentRetrieved(List<Payment> returnParam);
-    void onShipmentRetrieved(List<Shipment> returnParam);
     void onChangeProfileRetrieved(Boolean returnParam);
     void OnUserDeleted(Boolean returnParam);
+
+    void onPaymentRetrieved(List<Payment> returnParam);
     void onNewPaymentCreated(Boolean returnParam);
     void onChangePaymentRetrieved(Boolean returnParam);
+    void OnPaymentDeleted(Boolean returnParam);
+
+    void OnShipmentDeleted(Boolean returnParam);
+    void onNewShipmentCreated(Boolean returnParam);
+    void onShipmentRetrieved(List<Shipment> returnParam);
+    void onChangeShipmentRetrieved(Boolean returnParam);
 }

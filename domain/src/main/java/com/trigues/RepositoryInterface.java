@@ -22,7 +22,7 @@ public interface RepositoryInterface {
 
     void login(User user, BooleanCallback dataCallback);
 
-    void showProfile(int userID, UserCallback dataCallback);
+    void showProfile(UserCallback dataCallback);
 
     void deleteDesiredCategory(Product product, VoidCallback dataCallback);
 
@@ -43,6 +43,14 @@ public interface RepositoryInterface {
     void changePayment(Payment payment, BooleanCallback dataCallback);
 
     void newPayment(Payment payment, BooleanCallback dataCallback);
+
+    void deletePayment(int payment_id, BooleanCallback dataCallback);
+
+    void deleteShipment(int shipment_id, BooleanCallback dataCallback);
+
+    void newShipment(Shipment shipment, BooleanCallback dataCallback);
+
+    void changeShipment(Shipment shipment, BooleanCallback dataCallback);
 
 
     //Callbacks:

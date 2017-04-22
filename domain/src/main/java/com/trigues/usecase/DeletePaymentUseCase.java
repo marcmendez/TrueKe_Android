@@ -2,7 +2,6 @@ package com.trigues.usecase;
 
 import com.trigues.RepositoryInterface;
 import com.trigues.callback.DefaultCallback;
-import com.trigues.entity.Payment;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.executor.PostExecutionThread;
 import com.trigues.executor.ThreadExecutor;
@@ -11,14 +10,18 @@ import com.trigues.interactor.Interactor;
 
 import javax.inject.Inject;
 
-public class NewPaymentUseCase extends BaseUseCase<Boolean> implements Interactor<Payment,Boolean> {
+/**
+ * Created by Albert on 22/04/2017.
+ */
+
+public class DeletePaymentUseCase extends BaseUseCase<Boolean> implements Interactor<Integer,Boolean> {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
-    private NewPaymentUseCase.NewPaymentUseCaseCallback callback;
-    private Payment payment;
+    private DeletePaymentUseCase.DeletePaymentUseCaseCallback callback;
+    private int payment_id;
 
     @Inject
-    public NewPaymentUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor,
+    public DeletePaymentUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor,
                              RepositoryInterface repository) {
         super(postExecutionThread);
         this.repository = repository;
@@ -40,21 +43,17 @@ public class NewPaymentUseCase extends BaseUseCase<Boolean> implements Interacto
 
     @Override
     public void run() {
-        repository.newPayment(payment, dataCallback);
+        repository.deletePayment(payment_id, dataCallback);
     }
 
+
     @Override
-    public <R extends DefaultCallback<Boolean>> void execute(Payment param, R defaultCallback) {
-        this.callback = ((NewPaymentUseCase.NewPaymentUseCaseCallback) defaultCallback);
-        this.payment = param;
+    public <R extends DefaultCallback<Boolean>> void execute(Integer param, R defaultCallback) {
+        this.callback = ((DeletePaymentUseCase.DeletePaymentUseCaseCallback) defaultCallback);
+        this.payment_id = param;
         executor.execute(this);
     }
 
-    public interface NewPaymentUseCaseCallback extends DefaultCallback<Boolean> {
+    public interface DeletePaymentUseCaseCallback extends DefaultCallback<Boolean>{
     }
 }
-
-
-/**
- * Created by Albert on 21/04/2017.
- */

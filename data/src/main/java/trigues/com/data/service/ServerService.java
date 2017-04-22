@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import trigues.com.data.entity.ApiDTO;
@@ -41,7 +42,7 @@ public interface ServerService {
 
     //user info
     @GET("users/:id")
-    Call<User> getUserProfile();
+    Call<User> getUserProfile(String token, @Body String id);
 
     @PUT("users/:id")
     Call<ApiDTO<Void>> changeProfile(@Body User user);
@@ -59,14 +60,19 @@ public interface ServerService {
     @POST("paymentmethods")
     Call<ApiDTO<Void>> newPayment(@Body Payment payment);
 
-    //@DELETE
+    @DELETE("paymentmethods/:id")
+    Call<ApiDTO<Void>> deletePayment(int payment_id);
 
     //shipments
     @GET("shipmentmethods/:user_id")
     Call<List<Shipment>> getShipmentInfo();
 
-    //@PUT
-    //@POST
-    //@DELETE
+    @PUT("shipmentmethods/:id")
+    Call<ApiDTO<Void>> changeShipment(@Body Shipment shipment);
 
+    @POST("shipmentmethods")
+    Call<ApiDTO<Void>> newShipment(@Body Shipment shipment);
+
+    @DELETE("shipmentmethods/:id")
+    Call<ApiDTO<Void>> deleteShipment(int shipment_id);
 }
