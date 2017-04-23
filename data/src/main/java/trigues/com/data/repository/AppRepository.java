@@ -150,6 +150,102 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
+    public void changePayment(Payment payment, final BooleanCallback dataCallback) {
+        apiDataSource.changePayment(payment,new ApiInterface.BooleanDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void newPayment(Payment payment, final BooleanCallback dataCallback) {
+        apiDataSource.newPayment(payment,new ApiInterface.BooleanDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void deletePayment(int payment_id, final BooleanCallback dataCallback) {
+        apiDataSource.deletePayment(payment_id, new ApiInterface.BooleanDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void deleteShipment(int shipment_id, final BooleanCallback dataCallback) {
+        apiDataSource.deleteShipment(shipment_id, new ApiInterface.BooleanDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void newShipment(Shipment shipment, final BooleanCallback dataCallback) {
+        apiDataSource.newShipment(shipment,new ApiInterface.BooleanDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void changeShipment(Shipment shipment, final BooleanCallback dataCallback) {
+        apiDataSource.changeShipment(shipment,new ApiInterface.BooleanDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
     public void login(User user, final BooleanCallback dataCallback) {
         apiDataSource.login(user, new ApiInterface.LoginDataCallback() {
             @Override
@@ -159,6 +255,7 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(ApiDTO<LoginDTO> returnParam) {
+                internalStorage.saveUser(returnParam.getContent().getUser());
                 internalStorage.saveToken(returnParam.getContent().getToken());
                 dataCallback.onSuccess(!returnParam.getError());
 
@@ -182,8 +279,10 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void showProfile(int userID, final UserCallback dataCallback) {
-        apiDataSource.showProfile(userID,new ApiInterface.UserDataCallback(){
+    public void showProfile(final UserCallback dataCallback) {
+        apiDataSource.showProfile(internalStorage.getToken(), String.valueOf(internalStorage.getUser().getId()),
+                new ApiInterface.UserDataCallback()
+        {
 
             @Override
             public void onError(ErrorBundle errorBundle) {

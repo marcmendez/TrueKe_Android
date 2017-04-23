@@ -15,11 +15,10 @@ import javax.inject.Inject;
  * Created by Albert on 07/04/2017.
  */
 
-public class ShowProfileUseCase extends BaseUseCase<User> implements Interactor<Integer,User>{
+public class ShowProfileUseCase extends BaseUseCase<User> implements Interactor<Void,User>{
         private final RepositoryInterface repository;
         private final ThreadExecutor executor;
         private ShowProfileUseCase.ShowProfileUseCaseCallback callback;
-        private Integer id;
 
     @Inject
     public ShowProfileUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor,
@@ -43,13 +42,12 @@ public class ShowProfileUseCase extends BaseUseCase<User> implements Interactor<
     };
     @Override
     public void run() {
-        repository.showProfile(id,dataCallback);
+        repository.showProfile(dataCallback);
     }
 
     @Override
-    public <R extends DefaultCallback<User>> void execute(Integer param, R defaultCallback) {
+    public <R extends DefaultCallback<User>> void execute(Void v, R defaultCallback) {
         this.callback = ((ShowProfileUseCase.ShowProfileUseCaseCallback) defaultCallback);
-        this.id = param;
         executor.execute(this);
     }
 

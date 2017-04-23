@@ -1,5 +1,7 @@
 package trigues.com.data.datasource.impl;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -82,7 +84,7 @@ public class ApiDataSource implements ApiInterface {
         });
     }
     @Override
-    public void showProfile(int userID, final UserDataCallback userDataCallback){
+    public void showProfile(String token, String id,final UserDataCallback userDataCallback){
         interceptor.setResponseString("{\n" +
                 "  \"id\" : 12345,\n" +
                 "  \"phone\" : 612345678,\n" +
@@ -94,7 +96,7 @@ public class ApiDataSource implements ApiInterface {
                 "  \"truekes\" : 2,\n" +
                 "  \"rating\" : 4\n" +
                 "}");
-        server.getUserProfile().enqueue(new RetrofitErrorHandler<User>(userDataCallback) {
+        server.getUserProfile(token,id).enqueue(new RetrofitErrorHandler<User>(userDataCallback) {
             @Override
             public void onResponse(User body) {
                 userDataCallback.onSuccess(body);
@@ -187,6 +189,69 @@ public class ApiDataSource implements ApiInterface {
     public void deleteUser(int user_id, final BooleanDataCallback booleanDataCallback) {
         server.deleteUser(user_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
 
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void changePayment(Payment payment, final BooleanDataCallback booleanDataCallback) {
+        server.changePayment(payment).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
+
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void newPayment(Payment payment, final BooleanDataCallback booleanDataCallback) {
+        server.newPayment(payment).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
+
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void deletePayment(int payment_id, final BooleanDataCallback booleanDataCallback) {
+        server.deletePayment(payment_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void deleteShipment(int shipment_id, final BooleanDataCallback booleanDataCallback) {
+        server.deleteShipment(shipment_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void newShipment(Shipment shipment, final BooleanDataCallback booleanDataCallback) {
+        Log.i("shipment", "newShipment: ");
+        server.newShipment(shipment).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void changeShipment(Shipment shipment, final BooleanDataCallback booleanDataCallback) {
+        server.changeShipment(shipment).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 booleanDataCallback.onSuccess(false);

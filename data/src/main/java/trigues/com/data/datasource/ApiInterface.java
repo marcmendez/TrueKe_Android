@@ -30,7 +30,7 @@ public interface ApiInterface {
 
     void addProduct(Product product, BooleanDataCallback dataCallback);
 
-    void showProfile(int userID, UserDataCallback dataCallback);
+    void showProfile(String token, String user,UserDataCallback dataCallback);
 
     void showPayments(int id, PaymentsCallback paymentDataCallback);
 
@@ -39,6 +39,18 @@ public interface ApiInterface {
     void changeProfile(User user, BooleanDataCallback booleanDataCallback);
 
     void deleteUser(int user_id, BooleanDataCallback booleanDataCallback);
+
+    void changePayment(Payment payment, BooleanDataCallback booleanDataCallback);
+
+    void newPayment(Payment payment, BooleanDataCallback booleanDataCallback);
+
+    void deletePayment(int payment_id, BooleanDataCallback booleanDataCallback);
+
+    void deleteShipment(int shipment_id, BooleanDataCallback booleanDataCallback);
+
+    void newShipment(Shipment shipment, BooleanDataCallback booleanDataCallback);
+
+    void changeShipment(Shipment shipment, BooleanDataCallback booleanDataCallback);
 
 
     //Callbacks:

@@ -82,9 +82,10 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                         new ViewModule(this))
                 .inject(this);
         ButterKnife.bind(this);
-       // presenter.showProfile();
+        presenter.showProfile();
         //presenter.showPayments();
-         presenter.showShipments();
+         //presenter.showShipments();
+        //newPayment();
         //changeUserProfile();
 
         userChangeUsername.setOnClickListener(new View.OnClickListener() {
@@ -135,17 +136,35 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         presenter.changeProfile(user);
     }
 
-    private void newPayment(){}
+    private void newPayment(){
+        presenter.newPayment(new Payment(-1,1,"Visa/4B/Euro6000","123456789"
+                ,"1990-05-06","Sancho Panza","España","Barcelona","Barcelona",
+                8029,"Carrer Diagonal","654654654"));
+    }
     private void changePayment(){
-        //presenter.changePayment();
+        presenter.changePayment(new Payment(2,1,"Visa/4B/Euro6000","123456789"
+                ,"1990-05-06","Sancho Panza","España","Barcelona","Barcelona",
+                8029,"Carrer Diagonal","654654654"));
         //country,province,city,postalCode,address,name,idCard,phone
     }
-    private void deletePayment(){}
-    private void newShipment(){}
-    private void changeShipment(){
-        //changeShipment();
+    private void deletePayment(){
+        int payment_id = 1;
+        presenter.deletePayment(payment_id);
     }
-    private void deleteShipment(){}
+    private void newShipment(){
+        presenter.newShipment(new Shipment(-1,1,"Spain","Barcelona",
+                "Barcelona",8006,"Calle Falsa 123","Pepesito",
+                "654845616531","654654654"));
+    }
+    private void changeShipment(){
+        presenter.changeShipment(new Shipment(-1,1,"Spain","Barcelona",
+                "Barcelona",8006,"Calle Falsa 123","Pepesito",
+                "654845616531","654654654"));
+    }
+    private void deleteShipment(){
+        int shipment_id = 1;
+        presenter.deleteShipment(shipment_id);
+    }
     @Override
     public void onProfileRetrieved(User user) {
         userName.setText(user.getUser()); //em guardo els valors del user?
@@ -167,10 +186,9 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 "Shipment phone2: "+returnParam.get(1).getPhone(),Toast.LENGTH_LONG).show();
     }
 
-
-
     @Override
     public void onChangeProfileRetrieved(Boolean returnParam) {
+        Log.i("change", "onChangeProfileRetrieved: "+returnParam);
         if(!returnParam)
             Toast.makeText(getApplicationContext(),"El perfil se ha actualizado correctamente",Toast.LENGTH_LONG).show();
     }
@@ -178,6 +196,46 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     @Override
     public void OnUserDeleted(Boolean returnParam) {
         if(!returnParam)
-            Toast.makeText(getApplicationContext(),"Tu cuenta se ha borrado correctamente :(",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Tu cuenta se ha añadido correctamente :(",Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void onNewPaymentCreated(Boolean returnParam) {
+        if(!returnParam)
+            Toast.makeText(getApplicationContext(),"El nuevo método de pago se ha creado correctamente",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onChangePaymentRetrieved(Boolean returnParam) {
+        if(!returnParam)
+            Toast.makeText(getApplicationContext(),"El método de pago se ha actualizado correctamente",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void OnPaymentDeleted(Boolean returnParam) {
+        if(!returnParam)
+            Toast.makeText(getApplicationContext(),"El método de pago se ha borrado correctamente",Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void OnShipmentDeleted(Boolean returnParam) {
+        if(!returnParam)
+            Toast.makeText(getApplicationContext(),"El método de envío se ha borrado correctamente",Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onNewShipmentCreated(Boolean returnParam) {
+        if(!returnParam)
+            Toast.makeText(getApplicationContext(),"El método de envío se ha añadido correctamente",Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onChangeShipmentRetrieved(Boolean returnParam) {
+        if(!returnParam)
+            Toast.makeText(getApplicationContext(),"El método de envío se ha actualizado correctamente",Toast.LENGTH_LONG).show();
+    }
+
 }
