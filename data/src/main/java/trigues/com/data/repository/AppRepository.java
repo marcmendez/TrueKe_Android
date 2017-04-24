@@ -255,8 +255,8 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(ApiDTO<LoginDTO> returnParam) {
-                internalStorage.saveUser(returnParam.getContent().getUser());
-                internalStorage.saveToken(returnParam.getContent().getToken());
+               internalStorage.saveUser(returnParam.getContent().getUser());
+               internalStorage.saveToken(returnParam.getContent().getToken());
                 dataCallback.onSuccess(!returnParam.getError());
 
             }
@@ -290,8 +290,8 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(User returnParam) {
-                dataCallback.onSuccess(returnParam);
+            public void onSuccess(ApiDTO<User> returnParam) {
+                dataCallback.onSuccess(returnParam.getContent());
             }
         });
     }
