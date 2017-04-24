@@ -3,6 +3,7 @@ package trigues.com.trueke.view.impl;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -71,17 +72,25 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                 @Override
                 public void onAccepted() {
                     ++currentProduct;
-                    presenter.acceptedProduct(product.getId());
 
+                    Integer[] productes = new Integer[2];
 
-                    //TODO: Implementar
+                    productes[1] = product.getId();
+                    productes[2] = 1;
+
+                    presenter.acceptedProduct(productes);
                 }
 
                 @Override
                 public void onRejected() {
                     ++currentProduct;
 
-                    //TODO: Implementar
+                    Integer[] productes = new Integer[2];
+
+                    productes[1] = product.getId();
+                    productes[2] = 1;
+
+                    presenter.rejectedProduct(productes);
 
                 }
             }));

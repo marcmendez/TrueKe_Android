@@ -26,7 +26,9 @@ public interface RepositoryInterface {
 
     void logout(VoidCallback dataCallback);
 
-    void acceptMatch(Integer productID, VoidCallback dataCallback);
+    void acceptMatch(Integer[] productID, VoidCallback dataCallback);
+
+    void rejectMatch(Integer[] productsID, VoidCallback dataCallback);
 
 
     //Callbacks:

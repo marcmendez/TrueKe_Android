@@ -16,13 +16,13 @@ import javax.inject.Inject;
 import jdk.internal.util.xml.impl.Pair;
 
 /**
- * Created by Eduard on 21/04/2017.
+ * Created by Eduard on 24/04/2017.
  */
 
-public class AcceptMatchUseCase extends BaseUseCase<Void> implements Interactor<Integer[], Void > {
+public class RejectMatchUseCase extends BaseUseCase<Void> implements Interactor<Integer[], Void > {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
-    private AcceptMatchCallback callback;
+    private RejectMatchCallback callback;
     private Integer[] productsID = new Integer[2];
 
     RepositoryInterface.VoidCallback dataCallback = new RepositoryInterface.VoidCallback() {
@@ -32,13 +32,13 @@ public class AcceptMatchUseCase extends BaseUseCase<Void> implements Interactor<
         }
 
         @Override
-        public void onSuccess(Void acceptVoid) {
-            notifyOnSuccess(acceptVoid, callback);
+        public void onSuccess(Void rejectVoid) {
+            notifyOnSuccess(rejectVoid, callback);
         }
     };
 
     @Inject
-    public AcceptMatchUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor, RepositoryInterface repository) {
+    public RejectMatchUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor, RepositoryInterface repository) {
         super(postExecutionThread);
         this.repository = repository;
         this.executor = executor;
@@ -46,7 +46,7 @@ public class AcceptMatchUseCase extends BaseUseCase<Void> implements Interactor<
 
     @Override
     public <R extends DefaultCallback<Void>> void execute(Integer[] productID, R defaultCallback) {
-        this.callback = ((AcceptMatchCallback) defaultCallback);
+        this.callback = ((RejectMatchCallback) defaultCallback);
         this.productsID[1] = productID[1];
         this.productsID[2] = productID[2];
 
@@ -55,15 +55,11 @@ public class AcceptMatchUseCase extends BaseUseCase<Void> implements Interactor<
     }
     @Override
     public void run() {
-        repository.acceptMatch(productsID, dataCallback);
+        repository.rejectMatch(productsID, dataCallback);
 
     }
 
-
-
-
-
-    public interface AcceptMatchCallback extends DefaultCallback<Void>{}
+    public interface RejectMatchCallback extends DefaultCallback<Void>{}
 
 
 }
