@@ -11,9 +11,11 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HEAD;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
 
@@ -41,8 +43,8 @@ public interface ServerService {
     //bienvenidos a mi hood
 
     //user info
-    @GET("users/:id")
-    Call<User> getUserProfile(String token, @Body String id);
+    @GET("users/{id}")
+    Call<ApiDTO<User>> getUserProfile(@Header("token") String token, @Path("id") String id);
 
     @PUT("users/:id")
     Call<ApiDTO<Void>> changeProfile(@Body User user);

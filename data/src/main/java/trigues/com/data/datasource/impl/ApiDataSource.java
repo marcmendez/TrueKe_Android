@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.FakeInterceptor;
@@ -35,10 +36,10 @@ public class ApiDataSource implements ApiInterface {
 
     @Inject
     public ApiDataSource() {
-//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        interceptor = new FakeInterceptor();
+      //  interceptor = new FakeInterceptor();
         builder.addInterceptor(interceptor)
                 .connectTimeout(5, TimeUnit.MINUTES)
                 .writeTimeout(5, TimeUnit.MINUTES)
@@ -85,20 +86,9 @@ public class ApiDataSource implements ApiInterface {
     }
     @Override
     public void showProfile(String token, String id,final UserDataCallback userDataCallback){
-        interceptor.setResponseString("{\n" +
-                "  \"id\" : 12345,\n" +
-                "  \"phone\" : 612345678,\n" +
-                "  \"user\" : \"Esther Colero\",\n" +
-                "  \"password\" : \"pouman\",\n" +
-                "  \"email\" : \"chetaso@parguela.es\",\n" +
-                "  \"birthDate\" : \"1999-12-10\",\n" +
-                "  \"products\" : 5,\n" +
-                "  \"truekes\" : 2,\n" +
-                "  \"rating\" : 4\n" +
-                "}");
-        server.getUserProfile(token,id).enqueue(new RetrofitErrorHandler<User>(userDataCallback) {
+        server.getUserProfile(token,id).enqueue(new RetrofitErrorHandler<ApiDTO<User>>(userDataCallback) {
             @Override
-            public void onResponse(User body) {
+            public void onResponse(ApiDTO<User> body) {
                 userDataCallback.onSuccess(body);
             }
         });
@@ -276,7 +266,7 @@ public class ApiDataSource implements ApiInterface {
 
         Gson gson = new Gson();
 
-        interceptor.setResponseString(gson.toJson(llistaProd));
+//        interceptor.setResponseString(gson.toJson(llistaProd));
 
         server.getUserProducts(/*userID*/).enqueue(new RetrofitErrorHandler< /*ApiDTO<Void>*/ List<Product> >(dataCallback) {
             @Override
