@@ -11,7 +11,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.HEAD;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -66,7 +65,7 @@ public interface ServerService {
     Call<ApiDTO<Void>> deletePayment(int payment_id);
 
     //shipments
-    @GET("shipmentmethods/:user_id")
+    @GET("shipmentmethods/1")
     Call<List<Shipment>> getShipmentInfo();
 
     @PUT("shipmentmethods/:id")

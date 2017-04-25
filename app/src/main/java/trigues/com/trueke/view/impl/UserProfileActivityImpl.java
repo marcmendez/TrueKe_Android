@@ -2,13 +2,18 @@ package trigues.com.trueke.view.impl;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
@@ -25,6 +30,8 @@ import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.UserInfoPresenter;
 import trigues.com.trueke.view.UserProfileActivity;
+import trigues.com.trueke.view.fragment.UserProfileAdressesFragImpl;
+import trigues.com.trueke.view.fragment.UserProfilePaymentMethodsFragImpl;
 
 /**
  * Created by mbaque on 09/04/2017.
@@ -70,6 +77,9 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @BindView(R.id.user_profile_change_email)
     View userChangeUsername;
+    private List<Payment> userPaymentMethods;
+    private List<Shipment> userShipments;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +93,8 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 .inject(this);
         ButterKnife.bind(this);
         presenter.showProfile();
-        //presenter.showPayments();
-         //presenter.showShipments();
+        presenter.showPayments();
+        presenter.showShipments();
         //newPayment();
         //changeUserProfile();
 
@@ -101,21 +111,95 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 changePassword();
             }
         });
+
+        userAdresses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showUserAdresses();
+            }
+        });
+
+        userCreditCards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showUserPaymentMethods();
+            }
+        });
+    }
+
+    private void showUserPaymentMethods() {
+        Fragment fragment = new UserProfilePaymentMethodsFragImpl();
+        Bundle bundle = new Bundle();
+        Gson gson = new Gson();
+        bundle.putString("payment_methods", gson.toJson(userPaymentMethods));
+        fragment.setArguments(bundle);
+        addFullScreenFragment(fragment);
+    }
+
+    private void showUserAdresses() {
+        Fragment fragment = new UserProfileAdressesFragImpl();
+        Bundle bundle = new Bundle();
+        Gson gson = new Gson();
+        bundle.putString("user_adresses", gson.toJson(userShipments));
+        fragment.setArguments(bundle);
+        addFullScreenFragment(fragment);
     }
 
     private void changePassword() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Cambiar contraseña");
 
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_change_password, null);
+
+        final EditText actualEditText = (EditText) view.findViewById(R.id.dialog_change_password_actual);
+        final EditText newEditText = (EditText) view.findViewById(R.id.dialog_change_password_new);
+        final EditText repeatEditText = (EditText) view.findViewById(R.id.dialog_change_password_repeat);
+
+        alertDialogBuilder.setView(view);
+
+        alertDialogBuilder.setPositiveButton("Cambiar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String actualPassword = actualEditText.getText().toString();
+                String newPassword = newEditText.getText().toString();
+                String repeatPassword = repeatEditText.getText().toString();
+
+                //TODO: Implementar cambiar contrasenya
+
+                dialog.dismiss();
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alertDialogBuilder.create().show();
     }
 
     private void changeUsername() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         alertDialogBuilder.setTitle("Cambiar nombre de usuario");
-        alertDialogBuilder.setView(R.layout.dialog_change_username);
+
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_change_username, null);
+
+        final EditText usernameEditText = (EditText) view.findViewById(R.id.dialog_change_username_new);
+
+        alertDialogBuilder.setView(view);
+
         alertDialogBuilder.setPositiveButton("Cambiar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String newUsername = usernameEditText.getText().toString();
+
                 //TODO: Implementar cambiar nombre usuario
+
+                dialog.dismiss();
+
             }
         });
 
@@ -179,12 +263,16 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     public void onPaymentRetrieved(List<Payment> returnParam) {
         Toast.makeText(getApplicationContext(),"Payment number1: "+returnParam.get(0).getNumber()+ "\n" +
                 "Payment number2: "+returnParam.get(1).getNumber(),Toast.LENGTH_LONG).show();
+
+        userPaymentMethods = returnParam;
     }
 
     @Override
     public void onShipmentRetrieved(List<Shipment> returnParam) {
         Toast.makeText(getApplicationContext(),"Shipment phone1: "+returnParam.get(0).getPhone()+ "\n" +
                 "Shipment phone2: "+returnParam.get(1).getPhone(),Toast.LENGTH_LONG).show();
+
+        userShipments = returnParam;
     }
 
     @Override
@@ -198,6 +286,16 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     public void OnUserDeleted(Boolean returnParam) {
         if(!returnParam)
             Toast.makeText(getApplicationContext(),"Tu cuenta se ha añadido correctamente :(",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onAdressDeleteClick(Shipment shipment) {
+        //TODO:
+    }
+
+    @Override
+    public void onPaymentMethodDeleteClick(Payment payment) {
+        //TODO:
     }
 
     @Override

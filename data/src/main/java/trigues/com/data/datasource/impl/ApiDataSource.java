@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.FakeInterceptor;
@@ -36,10 +35,8 @@ public class ApiDataSource implements ApiInterface {
 
     @Inject
     public ApiDataSource() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-      //  interceptor = new FakeInterceptor();
+        interceptor = new FakeInterceptor();
         builder.addInterceptor(interceptor)
                 .connectTimeout(5, TimeUnit.MINUTES)
                 .writeTimeout(5, TimeUnit.MINUTES)
@@ -157,6 +154,7 @@ public class ApiDataSource implements ApiInterface {
                 "  \"idCard\": \"654845616531\",\n" +
                 "  \"phone\": \"654654654\"\n" +
                 "}]");
+
         server.getShipmentInfo().enqueue(new RetrofitErrorHandler<List<Shipment>>(shipmentsCallback) {
             @Override
             public void onResponse(List<Shipment> body) {
@@ -266,7 +264,7 @@ public class ApiDataSource implements ApiInterface {
 
         Gson gson = new Gson();
 
-//        interceptor.setResponseString(gson.toJson(llistaProd));
+        interceptor.setResponseString(gson.toJson(llistaProd));
 
         server.getUserProducts(/*userID*/).enqueue(new RetrofitErrorHandler< /*ApiDTO<Void>*/ List<Product> >(dataCallback) {
             @Override

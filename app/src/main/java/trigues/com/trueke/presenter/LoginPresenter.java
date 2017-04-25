@@ -36,29 +36,35 @@ public class LoginPresenter {
     public void register(String nombre, String apellidos, String contraseña, String telefono, String mail, String fecha) {
         User user = new User(-1,telefono,
                 nombre+" "+apellidos,contraseña,mail,fecha,0,0,0);
+        view.showProgress("Creando usuario...");
         registerUseCase.execute(user,new RegisterUseCase.RegisterUseCaseCallback(){
 
                     @Override
                     public void onError(ErrorBundle errorBundle) {
+                        view.hideProgress();
                         view.onError(errorBundle.getErrorMessage());
                     }
 
                     @Override
                     public void onSuccess(Boolean returnParam) {
+                        view.hideProgress();
                         view.onRegisterRetrieved(returnParam);
                     }
                 });
     }
 
     public void login(String usuari, String password) {
+        view.showProgress("Iniciando sesión...");
         loginUseCase.execute(new User(usuari, password), new LoginUseCase.LoginUseCaseCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
+                view.hideProgress();
                 view.onError(errorBundle.getErrorMessage());
             }
 
             @Override
             public void onSuccess(Boolean returnParam) {
+                view.hideProgress();
                 if(returnParam){
                     view.goToShowProductList();
                 }
