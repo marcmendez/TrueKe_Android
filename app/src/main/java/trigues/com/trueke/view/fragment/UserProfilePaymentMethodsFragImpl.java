@@ -48,7 +48,7 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
 
         Gson gson = new Gson();
         Type listType = new TypeToken<List<Payment>>(){}.getType();
-        userPayments = gson.fromJson(getArguments().getString("user_adresses"), listType);
+        userPayments = gson.fromJson(getArguments().getString("payment_methods"), listType);
 
         setHasOptionsMenu(true);
     }

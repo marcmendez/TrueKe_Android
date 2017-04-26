@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import trigues.com.trueke.R;
 
 /**
@@ -73,6 +74,8 @@ public abstract class UserProfilePaymentMethodsAdapter extends RecyclerView.Adap
 
         public ViewHolder(View itemView) {
             super(itemView);
+
+            ButterKnife.bind(this, itemView);
         }
     }
 }

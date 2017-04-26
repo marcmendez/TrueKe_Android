@@ -1,5 +1,7 @@
 package com.trigues.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -9,13 +11,22 @@ import java.util.List;
 public class Product {
 
     int id;
+
+    @SerializedName("user_id")
     int userId;
     String title;
     String description;
     List<String> images;
+
+    @SerializedName("category")
     String productCategory;
+
     List<String> desiredCategories;
+
+    @SerializedName("min_price")
     int minPrice;
+
+    @SerializedName("max_price")
     int maxPrice;
 
 
