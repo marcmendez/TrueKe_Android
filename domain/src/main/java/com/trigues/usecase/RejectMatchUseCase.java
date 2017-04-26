@@ -46,8 +46,8 @@ public class RejectMatchUseCase extends BaseUseCase<Void> implements Interactor<
     @Override
     public <R extends DefaultCallback<Void>> void execute(Integer[] productID, R defaultCallback) {
         this.callback = ((RejectMatchCallback) defaultCallback);
+        this.productsID[0] = productID[0];
         this.productsID[1] = productID[1];
-        this.productsID[2] = productID[2];
 
         executor.execute(this);
 

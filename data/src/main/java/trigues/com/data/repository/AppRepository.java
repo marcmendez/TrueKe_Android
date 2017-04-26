@@ -80,9 +80,11 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void acceptMatch(Integer[] productID, VoidCallback dataCallback) {
+    public void acceptMatch(Integer[] productsID, VoidCallback dataCallback) {
         //Aun no se sabe nombre de la query, inventarme algo;
-        //(prodID1, prodID2, bool) //este bool 0 rechaza, 1 acepta
+        //
+        //
+        //(productsID[0], productsID[1], 1) //este bool 0 rechaza, 1 acepta
 
 
     }
