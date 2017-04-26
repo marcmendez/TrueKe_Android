@@ -7,7 +7,11 @@ import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.inject.Inject;
 
@@ -49,16 +53,16 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showProducts(int userID, final ProductListCallback dataCallback) {
-        apiDataSource.showProducts(internalStorage.getUser().getId(), new ApiInterface.ProductListDataCallback() {
+        apiDataSource.showProducts(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductListDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
             }
 
             @Override
-            public void onSuccess(ApiDTO<UserProductsDTO> returnParam) {
-
-                dataCallback.onSuccess(returnParam.getContent().getProducts());
+            public void onSuccess(ApiDTO<List<Product>> returnParam) {
+                List<Product> p = new ArrayList<>();
+                dataCallback.onSuccess(returnParam.getContent());
             }
         });
     }
