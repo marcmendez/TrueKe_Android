@@ -82,7 +82,7 @@ public class AppRepository implements RepositoryInterface {
     @Override
     public void acceptMatch(Integer[] productsID, VoidCallback dataCallback) {
         //Aun no se sabe nombre de la query, inventarme algo;
-        //
+        // POST /matche0,s al header tinc un token, y al body tinc el product_id1 i product_id2 i un wants (0 o 1 si accepta)
         //
         //(productsID[0], productsID[1], 1) //este bool 0 rechaza, 1 acepta
 
