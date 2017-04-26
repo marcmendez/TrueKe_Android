@@ -32,8 +32,8 @@ public interface ServerService {
     Call<ApiDTO<Void>> register(@Body User user);
 
 
-    @GET("products/{user_id}")
-    Call<ApiDTO<List<Product>>> getUserProducts(@Header("token") String token, @Path("user_id") Integer user_id);
+    @GET("products/{userid}")
+    Call<ApiDTO<List<Product>>> getUserProducts(@Header("token") String token, @Path("userid") Integer userID);
 
     @GET("/")
     Call<Product> getUserProductDetails();
