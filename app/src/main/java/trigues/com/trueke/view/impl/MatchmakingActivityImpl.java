@@ -3,6 +3,7 @@ package trigues.com.trueke.view.impl;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -66,20 +67,30 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                         .setPaddingTop(20)
                         .setRelativeScale(0.01f));
 
-        for(Product product : returnParam){
+        for(final Product product : returnParam){
             matchmakingList.addView(new MatchmakingCard(this, product, matchmakingList, new MatchmakingCardCallback() {
                 @Override
                 public void onAccepted() {
                     ++currentProduct;
 
-                    //TODO: Implementar
+                    Integer[] productes = new Integer[2];
+
+                    productes[0] = product.getId();
+                    productes[1] = 1;
+
+                    presenter.acceptedProduct(productes);
                 }
 
                 @Override
                 public void onRejected() {
                     ++currentProduct;
 
-                    //TODO: Implementar
+                    Integer[] productes = new Integer[2];
+
+                    productes[0] = product.getId();
+                    productes[1]= 1;
+
+                    presenter.rejectedProduct(productes);
 
                 }
             }));
