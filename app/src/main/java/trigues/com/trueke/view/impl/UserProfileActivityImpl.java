@@ -115,20 +115,19 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         userAdresses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showUserAdresses();
+                presenter.showShipments();
             }
         });
 
         userCreditCards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showUserPaymentMethods();
+                presenter.showPayments();
             }
         });
     }
 
     private void showUserPaymentMethods() {
-        presenter.showPayments();
         Fragment fragment = new UserProfilePaymentMethodsFragImpl();
         Bundle bundle = new Bundle();
         Gson gson = new Gson();
@@ -138,7 +137,6 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     }
 
     private void showUserAdresses() {
-        presenter.showShipments();
         Fragment fragment = new UserProfileAdressesFragImpl();
         Bundle bundle = new Bundle();
         Gson gson = new Gson();
@@ -262,19 +260,18 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @Override
     public void onPaymentRetrieved(List<Payment> returnParam) {
-
         userPaymentMethods = returnParam;
+        showUserPaymentMethods();
     }
 
     @Override
     public void onShipmentRetrieved(List<Shipment> returnParam) {
-
         userShipments = returnParam;
+        showUserAdresses();
     }
 
     @Override
     public void onChangeProfileRetrieved(Boolean returnParam) {
-        Log.i("change", "onChangeProfileRetrieved: "+returnParam);
         if(!returnParam)
             Toast.makeText(getApplicationContext(),"El perfil se ha actualizado correctamente",Toast.LENGTH_LONG).show();
     }
