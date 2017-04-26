@@ -3,7 +3,6 @@ package trigues.com.trueke.view.impl;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -39,6 +38,8 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
     @BindView(R.id.matchmaking_list)
     SwipePlaceHolderView matchmakingList;
 
+    private int userProductId;
+
     private int currentProduct = 0;
 
     @Override
@@ -53,6 +54,8 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                 .inject(this);
 
         ButterKnife.bind(this);
+
+        this.userProductId = getIntent().getIntExtra("product_id", -1);
 
         presenter.getTestProducts();
 
@@ -76,7 +79,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                     Integer[] productes = new Integer[2];
 
                     productes[0] = product.getId();
-                    productes[1] = 1;
+                    productes[1] = userProductId;
 
                     presenter.acceptedProduct(productes);
                 }
@@ -88,7 +91,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                     Integer[] productes = new Integer[2];
 
                     productes[0] = product.getId();
-                    productes[1]= 1;
+                    productes[1]= userProductId;
 
                     presenter.rejectedProduct(productes);
 
