@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,6 +8,7 @@
     android:background="@color/colorPrimaryDark">
 
     <LinearLayout
+        android:id="@+id/add_product_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -27,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:layout_alignParentStart="true"
                 android:src="@mipmap/close_icon" />
 
@@ -53,161 +55,175 @@
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Título"
-                    android:id="@+id/productName"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Descripción"
-                    android:id="@+id/description"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance">
-
-                <FrameLayout
-                    android:id="@+id/fragment_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Categoría"
-                    android:id="@+id/productCategory"
-                    android:focusableInTouchMode="false"/>
-
-            </android.support.design.widget.TextInputLayout>
+        <ScrollView android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="2dp"
-                    app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance"
-                    android:layout_weight="1">
+                    app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance">
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Precio mín."
-                        android:id="@+id/priceMin"
-                        android:inputType="number"/>
+                        android:hint="Título"
+                        android:id="@+id/productName"/>
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance"
-                    android:layout_weight="1">
+                    app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance">
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Precio max."
-                        android:id="@+id/priceMax"
-                        android:inputType="number"/>
+                        android:hint="Descripción"
+                        android:id="@+id/description"/>
 
                 </android.support.design.widget.TextInputLayout>
 
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Categoría"
+                        android:id="@+id/productCategory"
+                        android:focusableInTouchMode="false"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Que quiero a cambio?"
+                        android:id="@+id/productDesiredCategory"
+                        android:focusableInTouchMode="false"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="2dp"
+                        app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Precio mín."
+                            android:id="@+id/priceMin"
+                            android:inputType="number"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Precio max."
+                            android:id="@+id/priceMax"
+                            android:inputType="number"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <trigues.com.trueke.utils.AddProductSquareImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:foreground="@drawable/dot_border"
+                        android:src="@mipmap/add_image_icon"
+                        android:id="@+id/image1"
+                        android:clickable="true"/>
+
+                    <trigues.com.trueke.utils.AddProductSquareImageView
+                        android:id="@+id/image2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:foreground="@drawable/dot_border"
+                        android:src="@mipmap/add_image_icon"
+                        android:clickable="true"/>
+
+                    <trigues.com.trueke.utils.AddProductSquareImageView
+                        android:id="@+id/image3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:foreground="@drawable/dot_border"
+                        android:src="@mipmap/add_image_icon"
+                        android:clickable="true"/>
+
+                    <trigues.com.trueke.utils.AddProductSquareImageView
+                        android:id="@+id/image4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:foreground="@drawable/dot_border"
+                        android:src="@mipmap/add_image_icon"
+                        android:clickable="true"/>
+
+
+                </LinearLayout>
+
+
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
-
-                <trigues.com.trueke.utils.AddProductSquareImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"
-                    android:padding="16dp"
-                    android:foreground="@drawable/dot_border"
-                    android:src="@mipmap/add_image_icon"
-                    android:id="@+id/image1"
-                    android:clickable="true"/>
-
-                <trigues.com.trueke.utils.AddProductSquareImageView
-                    android:id="@+id/image2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"
-                    android:padding="16dp"
-                    android:foreground="@drawable/dot_border"
-                    android:src="@mipmap/add_image_icon"
-                    android:clickable="true"/>
-
-                <trigues.com.trueke.utils.AddProductSquareImageView
-                    android:id="@+id/image3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"
-                    android:padding="16dp"
-                    android:foreground="@drawable/dot_border"
-                    android:src="@mipmap/add_image_icon"
-                    android:clickable="true"/>
-
-                <trigues.com.trueke.utils.AddProductSquareImageView
-                    android:id="@+id/image4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"
-                    android:padding="16dp"
-                    android:foreground="@drawable/dot_border"
-                    android:src="@mipmap/add_image_icon"
-                    android:clickable="true"/>
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 
 
-
 </RelativeLayout>
+
