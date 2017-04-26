@@ -19,8 +19,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
+import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.UserProductsDTO;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
 
@@ -32,6 +34,7 @@ public class ApiDataSource implements ApiInterface {
 
     private ServerService server;
     private FakeInterceptor interceptor;
+
 
     @Inject
     public ApiDataSource() {
@@ -82,8 +85,8 @@ public class ApiDataSource implements ApiInterface {
         });
     }
     @Override
-    public void showProfile(String token, String id, final UserDataCallback userDataCallback){
-        server.getUserProfile(token,id).enqueue(new RetrofitErrorHandler<ApiDTO<List<User>>>(userDataCallback) {
+    public void showProfile(String token, int id, final UserDataCallback userDataCallback){
+        server.getUserProfile(token,String.valueOf(id)).enqueue(new RetrofitErrorHandler<ApiDTO<List<User>>>(userDataCallback) {
             @Override
             public void onResponse(ApiDTO<List<User>> body) {
                 userDataCallback.onSuccess(body);
@@ -92,8 +95,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void showPayments(int id, final PaymentsCallback paymentsCallback) {
-        interceptor.setResponseString("[{\n" +
+    public void showPayments(String token,int id, final PaymentsCallback paymentsCallback) {
+      /**  interceptor.setResponseString("[{\n" +
                 "  \"id\": 1,\n" +
                 "  \"user_id\": 1,\n" +
                 "  \"type\": \"Visa/4B/Euro6000\",\n" +
@@ -120,18 +123,18 @@ public class ApiDataSource implements ApiInterface {
                 "\"postalCode\": 8029,\n" +
                 "\"address\": \"Carrer Diagonal\",\n" +
                 "\"phone\": \"654654654\"\n" +
-                "}]");
-        server.getPaymentInfo().enqueue(new RetrofitErrorHandler<List<Payment>>(paymentsCallback) {
+                "}]"); **/
+        server.getPaymentInfo(token,String.valueOf(id)).enqueue(new RetrofitErrorHandler<ApiDTO<List<Payment>>>(paymentsCallback) {
             @Override
-            public void onResponse(List<Payment> body) {
+            public void onResponse(ApiDTO<List<Payment>> body) {
                 paymentsCallback.onSuccess(body);
             }
         });
     }
 
     @Override
-    public void showShipments(Integer id, final ShipmentsCallback shipmentsCallback) {
-        interceptor.setResponseString("[{\n" +
+    public void showShipments(String token,int id, final ShipmentsCallback shipmentsCallback) {
+     /**   interceptor.setResponseString("[{\n" +
                 "  \"id\": 1,\n" +
                 "  \"user_id\": 1,\n" +
                 "  \"country\": \"Spain\",\n" +
@@ -153,11 +156,11 @@ public class ApiDataSource implements ApiInterface {
                 "  \"name\": \"Pepito Mendizabal\",\n" +
                 "  \"idCard\": \"654845616531\",\n" +
                 "  \"phone\": \"654654654\"\n" +
-                "}]");
+                "}]"); **/
 
-        server.getShipmentInfo().enqueue(new RetrofitErrorHandler<List<Shipment>>(shipmentsCallback) {
+        server.getShipmentInfo(token,String.valueOf(id)).enqueue(new RetrofitErrorHandler<ApiDTO<List<Shipment>>>(shipmentsCallback) {
             @Override
-            public void onResponse(List<Shipment> body) {
+            public void onResponse(ApiDTO<List<Shipment>> body) {
                 shipmentsCallback.onSuccess(body);
             }
         });
@@ -248,8 +251,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void showProducts(int userID, final ProductListDataCallback dataCallback) {
-        List<String> llista = new ArrayList<>();
+    public void showProducts(String token, int userID, final ProductListDataCallback dataCallback) {
+        /*List<String> llista = new ArrayList<>();
         llista.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
         List<String> llista2 = new ArrayList<>();
                 llista2.add("Electrodomesticos");
@@ -264,11 +267,11 @@ public class ApiDataSource implements ApiInterface {
 
         Gson gson = new Gson();
 
-        interceptor.setResponseString(gson.toJson(llistaProd));
+        interceptor.setResponseString(gson.toJson(llistaProd));*/
 
-        server.getUserProducts(/*userID*/).enqueue(new RetrofitErrorHandler< /*ApiDTO<Void>*/ List<Product> >(dataCallback) {
+        server.getUserProducts(token, userID).enqueue(new RetrofitErrorHandler< ApiDTO<List<Product>> /*List<Product> */>(dataCallback) {
             @Override
-            public void onResponse(/*ApiDTO<Void>*/List<Product> body) {
+            public void onResponse(ApiDTO<List<Product>>/*List<Product>*/ body) {
                 dataCallback.onSuccess(body);
             }
         });

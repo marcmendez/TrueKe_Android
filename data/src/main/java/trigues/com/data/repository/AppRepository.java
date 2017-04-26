@@ -7,7 +7,11 @@ import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.inject.Inject;
 
@@ -15,6 +19,7 @@ import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.UserProductsDTO;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -48,15 +53,16 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showProducts(int userID, final ProductListCallback dataCallback) {
-        apiDataSource.showProducts(userID, new ApiInterface.ProductListDataCallback() {
+        apiDataSource.showProducts(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductListDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
             }
 
             @Override
-            public void onSuccess(List<Product> returnParam) {
-                dataCallback.onSuccess(returnParam);
+            public void onSuccess(ApiDTO<List<Product>> returnParam) {
+                List<Product> p = new ArrayList<>();
+                dataCallback.onSuccess(returnParam.getContent());
             }
         });
     }
@@ -88,7 +94,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showPayments(Integer id, final PaymentCallback dataCallback) {
-        apiDataSource.showPayments(id,new ApiInterface.PaymentsCallback(){
+        apiDataSource.showPayments(internalStorage.getToken(), internalStorage.getUser().getId(),new ApiInterface.PaymentsCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -96,15 +102,15 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(List<Payment> returnParam) {
-                dataCallback.onSuccess(returnParam);
+            public void onSuccess(ApiDTO<List<Payment>> returnParam) {
+                dataCallback.onSuccess(returnParam.getContent());
             }
         });
     }
 
     @Override
     public void showShipments(Integer id, final ShipmentCallback dataCallback) {
-        apiDataSource.showShipments(id,new ApiInterface.ShipmentsCallback(){
+        apiDataSource.showShipments(internalStorage.getToken(),internalStorage.getUser().getId(),new ApiInterface.ShipmentsCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -112,8 +118,8 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(List<Shipment> returnParam) {
-                dataCallback.onSuccess(returnParam);
+            public void onSuccess(ApiDTO<List<Shipment>> returnParam) {
+                dataCallback.onSuccess(returnParam.getContent());
             }
         });
     }
@@ -255,8 +261,8 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(ApiDTO<LoginDTO> returnParam) {
-               internalStorage.saveUser(returnParam.getContent().getUser());
-               internalStorage.saveToken(returnParam.getContent().getToken());
+                internalStorage.saveToken(returnParam.getContent().getToken());
+                internalStorage.saveUser(returnParam.getContent().getUser());
                 dataCallback.onSuccess(!returnParam.getError());
 
             }
@@ -280,7 +286,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showProfile(final UserCallback dataCallback) {
-        apiDataSource.showProfile(internalStorage.getToken(), String.valueOf(internalStorage.getUser().getId()),
+        apiDataSource.showProfile(internalStorage.getToken(), internalStorage.getUser().getId(),
                 new ApiInterface.UserDataCallback()
         {
 
