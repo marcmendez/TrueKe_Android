@@ -82,8 +82,8 @@ public class ApiDataSource implements ApiInterface {
         });
     }
     @Override
-    public void showProfile(String token, String id, final UserDataCallback userDataCallback){
-        server.getUserProfile(token,id).enqueue(new RetrofitErrorHandler<ApiDTO<List<User>>>(userDataCallback) {
+    public void showProfile(String token, int id, final UserDataCallback userDataCallback){
+        server.getUserProfile(token,String.valueOf(id)).enqueue(new RetrofitErrorHandler<ApiDTO<List<User>>>(userDataCallback) {
             @Override
             public void onResponse(ApiDTO<List<User>> body) {
                 userDataCallback.onSuccess(body);
@@ -92,8 +92,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void showPayments(int id, final PaymentsCallback paymentsCallback) {
-        interceptor.setResponseString("[{\n" +
+    public void showPayments(String token,int id, final PaymentsCallback paymentsCallback) {
+      /**  interceptor.setResponseString("[{\n" +
                 "  \"id\": 1,\n" +
                 "  \"user_id\": 1,\n" +
                 "  \"type\": \"Visa/4B/Euro6000\",\n" +
@@ -120,18 +120,18 @@ public class ApiDataSource implements ApiInterface {
                 "\"postalCode\": 8029,\n" +
                 "\"address\": \"Carrer Diagonal\",\n" +
                 "\"phone\": \"654654654\"\n" +
-                "}]");
-        server.getPaymentInfo().enqueue(new RetrofitErrorHandler<List<Payment>>(paymentsCallback) {
+                "}]"); **/
+        server.getPaymentInfo(token,String.valueOf(id)).enqueue(new RetrofitErrorHandler<ApiDTO<List<Payment>>>(paymentsCallback) {
             @Override
-            public void onResponse(List<Payment> body) {
+            public void onResponse(ApiDTO<List<Payment>> body) {
                 paymentsCallback.onSuccess(body);
             }
         });
     }
 
     @Override
-    public void showShipments(Integer id, final ShipmentsCallback shipmentsCallback) {
-        interceptor.setResponseString("[{\n" +
+    public void showShipments(String token,int id, final ShipmentsCallback shipmentsCallback) {
+     /**   interceptor.setResponseString("[{\n" +
                 "  \"id\": 1,\n" +
                 "  \"user_id\": 1,\n" +
                 "  \"country\": \"Spain\",\n" +
@@ -153,11 +153,11 @@ public class ApiDataSource implements ApiInterface {
                 "  \"name\": \"Pepito Mendizabal\",\n" +
                 "  \"idCard\": \"654845616531\",\n" +
                 "  \"phone\": \"654654654\"\n" +
-                "}]");
+                "}]"); **/
 
-        server.getShipmentInfo().enqueue(new RetrofitErrorHandler<List<Shipment>>(shipmentsCallback) {
+        server.getShipmentInfo(token,String.valueOf(id)).enqueue(new RetrofitErrorHandler<ApiDTO<List<Shipment>>>(shipmentsCallback) {
             @Override
-            public void onResponse(List<Shipment> body) {
+            public void onResponse(ApiDTO<List<Shipment>> body) {
                 shipmentsCallback.onSuccess(body);
             }
         });

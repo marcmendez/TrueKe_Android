@@ -30,11 +30,11 @@ public interface ApiInterface {
 
     void addProduct(Product product, BooleanDataCallback dataCallback);
 
-    void showProfile(String token, String user,UserDataCallback dataCallback);
+    void showProfile(String token, int id,UserDataCallback dataCallback);
 
-    void showPayments(int id, PaymentsCallback paymentDataCallback);
+    void showPayments(String token, int id, PaymentsCallback paymentDataCallback);
 
-    void showShipments(Integer id, ShipmentsCallback shipmentsCallback);
+    void showShipments(String token, int id, ShipmentsCallback shipmentsCallback);
 
     void changeProfile(User user, BooleanDataCallback booleanDataCallback);
 
@@ -67,7 +67,7 @@ public interface ApiInterface {
 
     interface LoginDataCallback extends DefaultCallback<ApiDTO<LoginDTO>> {}
 
-    interface PaymentsCallback extends DefaultCallback<List<Payment>>{}
+    interface PaymentsCallback extends DefaultCallback<ApiDTO<List<Payment>>>{}
 
-    interface ShipmentsCallback extends DefaultCallback<List<Shipment>>{}
+    interface ShipmentsCallback extends DefaultCallback<ApiDTO<List<Shipment>>>{}
 }

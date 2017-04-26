@@ -128,6 +128,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     }
 
     private void showUserPaymentMethods() {
+        presenter.showPayments();
         Fragment fragment = new UserProfilePaymentMethodsFragImpl();
         Bundle bundle = new Bundle();
         Gson gson = new Gson();
@@ -137,6 +138,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     }
 
     private void showUserAdresses() {
+        presenter.showShipments();
         Fragment fragment = new UserProfileAdressesFragImpl();
         Bundle bundle = new Bundle();
         Gson gson = new Gson();
@@ -260,16 +262,12 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @Override
     public void onPaymentRetrieved(List<Payment> returnParam) {
-        Toast.makeText(getApplicationContext(),"Payment number1: "+returnParam.get(0).getNumber()+ "\n" +
-                "Payment number2: "+returnParam.get(1).getNumber(),Toast.LENGTH_LONG).show();
 
         userPaymentMethods = returnParam;
     }
 
     @Override
     public void onShipmentRetrieved(List<Shipment> returnParam) {
-        Toast.makeText(getApplicationContext(),"Shipment phone1: "+returnParam.get(0).getPhone()+ "\n" +
-                "Shipment phone2: "+returnParam.get(1).getPhone(),Toast.LENGTH_LONG).show();
 
         userShipments = returnParam;
     }

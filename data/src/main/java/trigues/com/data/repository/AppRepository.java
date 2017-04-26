@@ -88,7 +88,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showPayments(Integer id, final PaymentCallback dataCallback) {
-        apiDataSource.showPayments(id,new ApiInterface.PaymentsCallback(){
+        apiDataSource.showPayments(internalStorage.getToken(), internalStorage.getUser().getId(),new ApiInterface.PaymentsCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -96,15 +96,15 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(List<Payment> returnParam) {
-                dataCallback.onSuccess(returnParam);
+            public void onSuccess(ApiDTO<List<Payment>> returnParam) {
+                dataCallback.onSuccess(returnParam.getContent());
             }
         });
     }
 
     @Override
     public void showShipments(Integer id, final ShipmentCallback dataCallback) {
-        apiDataSource.showShipments(id,new ApiInterface.ShipmentsCallback(){
+        apiDataSource.showShipments(internalStorage.getToken(),internalStorage.getUser().getId(),new ApiInterface.ShipmentsCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -112,8 +112,8 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(List<Shipment> returnParam) {
-                dataCallback.onSuccess(returnParam);
+            public void onSuccess(ApiDTO<List<Shipment>> returnParam) {
+                dataCallback.onSuccess(returnParam.getContent());
             }
         });
     }
@@ -280,7 +280,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showProfile(final UserCallback dataCallback) {
-        apiDataSource.showProfile(internalStorage.getToken(), String.valueOf(internalStorage.getUser().getId()),
+        apiDataSource.showProfile(internalStorage.getToken(), internalStorage.getUser().getId(),
                 new ApiInterface.UserDataCallback()
         {
 
