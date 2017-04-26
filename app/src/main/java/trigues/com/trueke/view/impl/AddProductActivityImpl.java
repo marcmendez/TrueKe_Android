@@ -38,6 +38,9 @@ import javax.inject.Inject;
 
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.trueke.R;
+import trigues.com.trueke.dependencyinjection.App;
+import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
+import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.AddProductPresenter;
 import trigues.com.trueke.utils.AddProductSquareImageView;
 import trigues.com.trueke.utils.ProductChecker;
@@ -108,6 +111,13 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
+
+        ((App) getApplication())
+                .getComponent()
+                .plus(new ActivityModule(this),
+                        new ViewModule(this))
+                .inject(this);
+
         ButterKnife.bind(this);
 
         show_fragment = false;
@@ -254,7 +264,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
 
 
     private void getPictureFromCamera(){
-        File file = new File (Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
+       File file = new File (Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
         boolean isDirectoryCreated = file.exists();
 
         if(!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
@@ -364,8 +374,8 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             //String images =  photo1+"-"+photo2+"-"+photo3+"-"+photo4
             List<String> images = Arrays.asList(photo1,photo2,photo3,photo4);
 
-            //presenter.addProduct(userId, title, description, images, productCategory, desiredCategories, minPrice, maxPrice);
-            presenter.addProduct(1, title, description, images, category, Arrays.asList("none1", "none2"), Integer.valueOf(priceMin), Integer.valueOf(priceMax));
+            //presenter.addProduct(title, description, images, productCategory, desiredCategories, minPrice, maxPrice);
+            presenter.addProduct(title, description, images, category, Arrays.asList("none1", "none2"), Integer.valueOf(priceMin), Integer.valueOf(priceMax));
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
                     e.getMessage(), Toast.LENGTH_LONG).show();
@@ -373,7 +383,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     }
 
     public void goToShowProductList(){
-        startActivity(new Intent(this, UserProductsListActivity.class));
+        startActivity(new Intent(this, UserProductsListActivityImpl.class));
         finish();
     }
 

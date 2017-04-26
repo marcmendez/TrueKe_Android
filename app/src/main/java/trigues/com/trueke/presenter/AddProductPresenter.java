@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import trigues.com.data.datasource.InternalStorageInterface;
+import trigues.com.data.entity.ProductDTO;
 import trigues.com.trueke.view.AddProductActivity;
 
 /**
@@ -17,16 +19,19 @@ import trigues.com.trueke.view.AddProductActivity;
 public class AddProductPresenter {
     private AddProductActivity view;
     private AddProductUseCase addProductUseCase;
+    private InternalStorageInterface internalStorage;
 
     @Inject
-    public AddProductPresenter(AddProductActivity view,AddProductUseCase addProductUseCase) {
+    public AddProductPresenter(AddProductActivity view,AddProductUseCase addProductUseCase, InternalStorageInterface internalStorage) {
         this.view = view;
         this.addProductUseCase = addProductUseCase;
+        this.internalStorage = internalStorage;
     }
 
-    public void addProduct(int userId, String title, String description, List<String> images,String productCategory, List<String> desiredCategories, int priceMin, int priceMax) {
+    public void addProduct(String title, String description, List<String> images,String productCategory, List<String> desiredCategories, int priceMin, int priceMax) {
 
         //pasar usuario y categorias que quiere
+        int userId = Integer.valueOf(internalStorage.getUser().getId());
         Product product = new Product(-1, userId, title, description, images, productCategory, desiredCategories, priceMin, priceMax);
         view.showProgress("Creando producto...");
         addProductUseCase.execute(product, new AddProductUseCase.AddProductCallback(){

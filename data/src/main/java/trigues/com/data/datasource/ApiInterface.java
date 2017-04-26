@@ -11,6 +11,7 @@ import java.util.List;
 
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.ProductDTO;
 
 
 /**
@@ -29,7 +30,7 @@ public interface ApiInterface {
 
     void login(User user, LoginDataCallback dataCallback);
 
-    void addProduct(Product product, BooleanDataCallback dataCallback);
+    void addProduct(String token, ProductDTO product, BooleanDataCallback dataCallback);
 
     void showProfile(String token, String user,UserDataCallback dataCallback);
 

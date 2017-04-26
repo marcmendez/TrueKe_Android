@@ -7,6 +7,7 @@ import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.ProductDTO;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -56,7 +58,8 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(List<Product> returnParam) {
-                dataCallback.onSuccess(returnParam);
+                List<Product> p = new ArrayList<>();
+                dataCallback.onSuccess(p);
             }
         });
     }
@@ -265,7 +268,8 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void addProduct(Product product, final BooleanCallback dataCallback) {
-        apiDataSource.addProduct(product, new ApiInterface.BooleanDataCallback() {
+        ProductDTO p2 = new ProductDTO(product);
+        apiDataSource.addProduct(internalStorage.getToken(), p2, new ApiInterface.BooleanDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);

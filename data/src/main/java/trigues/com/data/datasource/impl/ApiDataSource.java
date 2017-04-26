@@ -22,6 +22,7 @@ import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
 
@@ -297,8 +298,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void addProduct(Product product, final BooleanDataCallback dataCallback) {
-        server.addProduct(product).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+    public void addProduct(String token, ProductDTO product, final BooleanDataCallback dataCallback) {
+        server.addProduct(token,product).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 dataCallback.onSuccess(body.getError());
