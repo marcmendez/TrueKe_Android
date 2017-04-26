@@ -163,13 +163,25 @@
                     android:text="Categoria"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/product_detail_category"
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Accesorios"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="#727272" />
+                    android:layout_height="40dp"
+                    android:background="@drawable/chip_background"
+                    android:layout_margin="4dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/product_detail_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Accesorios"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="#727272" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
