@@ -1,5 +1,6 @@
 package trigues.com.data.datasource;
 
+import com.trigues.RepositoryInterface;
 import com.trigues.callback.DefaultCallback;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -51,6 +52,8 @@ public interface ApiInterface {
     void newShipment(Shipment shipment, BooleanDataCallback booleanDataCallback);
 
     void changeShipment(Shipment shipment, BooleanDataCallback booleanDataCallback);
+
+    void deleteProduct(int product_id, BooleanDataCallback booleanDataCallback);
 
 
     //Callbacks:

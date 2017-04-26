@@ -52,6 +52,8 @@ public interface RepositoryInterface {
 
     void changeShipment(Shipment shipment, BooleanCallback dataCallback);
 
+    void deleteProduct(int product_id, BooleanCallback dataCallback);
+
 
     //Callbacks:
 

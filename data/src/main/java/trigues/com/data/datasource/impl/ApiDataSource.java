@@ -3,6 +3,7 @@ package trigues.com.data.datasource.impl;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.trigues.RepositoryInterface;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -301,6 +302,16 @@ public class ApiDataSource implements ApiInterface {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 dataCallback.onSuccess(body.getError());
+            }
+        });
+    }
+
+    @Override
+    public void deleteProduct(int product_id, final BooleanDataCallback booleanDataCallback) {
+        server.deleteProduct(product_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
             }
         });
     }

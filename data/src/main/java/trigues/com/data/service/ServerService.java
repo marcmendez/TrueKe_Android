@@ -36,8 +36,12 @@ public interface ServerService {
     @GET("/")
     Call<Product> getUserProductDetails();
 
-    @POST("")
+    //products
+    @POST("products")
     Call<ApiDTO<Void>> addProduct(@Body Product product);
+
+    @DELETE("products/:id")
+    Call<ApiDTO<Void>> deleteProduct(int product_id);
 
     //bienvenidos a mi hood
 
@@ -76,4 +80,5 @@ public interface ServerService {
 
     @DELETE("shipmentmethods/:id")
     Call<ApiDTO<Void>> deleteShipment(int shipment_id);
+
 }

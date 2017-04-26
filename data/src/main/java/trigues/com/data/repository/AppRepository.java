@@ -295,4 +295,19 @@ public class AppRepository implements RepositoryInterface {
             }
         });
     }
+
+    @Override
+    public void deleteProduct(int product_id, final BooleanCallback dataCallback) {
+        apiDataSource.deleteUser(product_id, new ApiInterface.BooleanDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
 }

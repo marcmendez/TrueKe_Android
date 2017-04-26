@@ -28,6 +28,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -359,8 +361,11 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             ProductChecker.checkCategory(category);
             ProductChecker.checkPrice(priceMin, priceMax);
             ProductChecker.checkImages(photo1,photo2,photo3,photo4);
-            String photos = photo1+"-"+photo2+"-"+photo3+"-"+photo4;
-            //presenter.addProduct(title,description,priceMin,priceMax,category, wants_categories);
+            //String images =  photo1+"-"+photo2+"-"+photo3+"-"+photo4
+            List<String> images = Arrays.asList(photo1,photo2,photo3,photo4);
+
+            //presenter.addProduct(userId, title, description, images, productCategory, desiredCategories, minPrice, maxPrice);
+            presenter.addProduct(1, title, description, images, category, Arrays.asList("none1", "none2"), Integer.valueOf(priceMin), Integer.valueOf(priceMax));
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
                     e.getMessage(), Toast.LENGTH_LONG).show();
