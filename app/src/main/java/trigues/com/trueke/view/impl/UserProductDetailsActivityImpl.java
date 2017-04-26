@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,6 +83,8 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
         presenter.getProductDetails(productId);
 
         setUpBackActionBar(toolbar);
+
+
     }
 
     @Override
@@ -163,9 +166,20 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.user_product_details_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
             finish();
+            return true;
+        }
+        else if(item.getItemId() == R.id.menu_delete_product){
+            //TODO: Delete product
+
             return true;
         }
         return super.onOptionsItemSelected(item);

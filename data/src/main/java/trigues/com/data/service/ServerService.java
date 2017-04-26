@@ -54,8 +54,8 @@ public interface ServerService {
     Call<ApiDTO<Void>> deleteUser(int user_id);
 
     //payments
-    @GET("paymentmethods/:user_id")
-    Call<List<Payment>> getPaymentInfo();
+    @GET("paymentmethods/{id}")
+    Call<ApiDTO<List<Payment>>> getPaymentInfo(@Header("token") String token, @Path("id") String id);
 
     @PUT("paymentmethods/:id")
     Call<ApiDTO<Void>> changePayment(@Body Payment payment);
@@ -67,8 +67,8 @@ public interface ServerService {
     Call<ApiDTO<Void>> deletePayment(int payment_id);
 
     //shipments
-    @GET("shipmentmethods/1")
-    Call<List<Shipment>> getShipmentInfo();
+    @GET("shipmentmethods/{id}")
+    Call<ApiDTO<List<Shipment>>> getShipmentInfo(@Header("token") String token, @Path("id") String id);
 
     @PUT("shipmentmethods/:id")
     Call<ApiDTO<Void>> changeShipment(@Body Shipment shipment);
