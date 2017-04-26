@@ -290,8 +290,8 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(ApiDTO<User> returnParam) {
-                dataCallback.onSuccess(returnParam.getContent());
+            public void onSuccess(ApiDTO<List<User>> returnParam) {
+                dataCallback.onSuccess(returnParam.getContent().get(0));
             }
         });
     }

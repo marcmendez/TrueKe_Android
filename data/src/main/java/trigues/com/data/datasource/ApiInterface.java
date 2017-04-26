@@ -55,7 +55,7 @@ public interface ApiInterface {
 
     //Callbacks:
 
-    interface UserDataCallback extends DefaultCallback<ApiDTO<User>>{}
+    interface UserDataCallback extends DefaultCallback<ApiDTO<List<User>>>{}
 
     interface ProductDataCallback extends DefaultCallback<Product> {}
 

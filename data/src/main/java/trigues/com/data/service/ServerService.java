@@ -43,7 +43,7 @@ public interface ServerService {
 
     //user info
     @GET("users/{id}")
-    Call<ApiDTO<User>> getUserProfile(@Header("token") String token, @Path("id") String id);
+    Call<ApiDTO<List<User>>> getUserProfile(@Header("token") String token, @Path("id") String id);
 
     @PUT("users/:id")
     Call<ApiDTO<Void>> changeProfile(@Body User user);

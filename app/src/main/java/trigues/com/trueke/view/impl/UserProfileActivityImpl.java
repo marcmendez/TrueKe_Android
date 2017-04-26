@@ -93,8 +93,8 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 .inject(this);
         ButterKnife.bind(this);
         presenter.showProfile();
-        presenter.showPayments();
-        presenter.showShipments();
+       // presenter.showPayments();
+       // presenter.showShipments();
         //newPayment();
         //changeUserProfile();
 
@@ -251,8 +251,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     }
     @Override
     public void onProfileRetrieved(User user) {
-        userName.setText(user.getUser()); //em guardo els valors del user?
-        Toast.makeText(getApplicationContext(),"username :"+user.getUser(),Toast.LENGTH_LONG).show();
+        userName.setText(user.getUser());
         userEmail.setText(user.getEmail());
         userNumProducts.setText(String.valueOf(user.getProducts()));
         userNumTruekes.setText(String.valueOf(user.getTruekes()));

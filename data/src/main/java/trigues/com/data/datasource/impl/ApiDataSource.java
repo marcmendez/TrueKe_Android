@@ -82,10 +82,10 @@ public class ApiDataSource implements ApiInterface {
         });
     }
     @Override
-    public void showProfile(String token, String id,final UserDataCallback userDataCallback){
-        server.getUserProfile(token,id).enqueue(new RetrofitErrorHandler<ApiDTO<User>>(userDataCallback) {
+    public void showProfile(String token, String id, final UserDataCallback userDataCallback){
+        server.getUserProfile(token,id).enqueue(new RetrofitErrorHandler<ApiDTO<List<User>>>(userDataCallback) {
             @Override
-            public void onResponse(ApiDTO<User> body) {
+            public void onResponse(ApiDTO<List<User>> body) {
                 userDataCallback.onSuccess(body);
             }
         });
