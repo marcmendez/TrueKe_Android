@@ -19,8 +19,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
+import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.UserProductsDTO;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
 
@@ -32,6 +34,7 @@ public class ApiDataSource implements ApiInterface {
 
     private ServerService server;
     private FakeInterceptor interceptor;
+
 
     @Inject
     public ApiDataSource() {
@@ -249,7 +252,7 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void showProducts(int userID, final ProductListDataCallback dataCallback) {
-        List<String> llista = new ArrayList<>();
+        /*List<String> llista = new ArrayList<>();
         llista.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
         List<String> llista2 = new ArrayList<>();
                 llista2.add("Electrodomesticos");
@@ -264,11 +267,11 @@ public class ApiDataSource implements ApiInterface {
 
         Gson gson = new Gson();
 
-        interceptor.setResponseString(gson.toJson(llistaProd));
+        interceptor.setResponseString(gson.toJson(llistaProd));*/
 
-        server.getUserProducts(/*userID*/).enqueue(new RetrofitErrorHandler< /*ApiDTO<Void>*/ List<Product> >(dataCallback) {
+        server.getUserProducts(userID).enqueue(new RetrofitErrorHandler< ApiDTO<UserProductsDTO> /*List<Product> */>(dataCallback) {
             @Override
-            public void onResponse(/*ApiDTO<Void>*/List<Product> body) {
+            public void onResponse(ApiDTO<UserProductsDTO>/*List<Product>*/ body) {
                 dataCallback.onSuccess(body);
             }
         });

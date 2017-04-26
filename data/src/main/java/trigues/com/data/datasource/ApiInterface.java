@@ -10,6 +10,7 @@ import java.util.List;
 
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.UserProductsDTO;
 
 
 /**
@@ -59,7 +60,7 @@ public interface ApiInterface {
 
     interface ProductDataCallback extends DefaultCallback<Product> {}
 
-    interface ProductListDataCallback extends DefaultCallback<List<Product>> {}
+    interface ProductListDataCallback extends DefaultCallback<ApiDTO<UserProductsDTO>> {}
 
     interface BooleanDataCallback extends DefaultCallback<Boolean> {}
 

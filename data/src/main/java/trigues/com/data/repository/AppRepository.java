@@ -15,6 +15,7 @@ import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.UserProductsDTO;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -48,15 +49,16 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showProducts(int userID, final ProductListCallback dataCallback) {
-        apiDataSource.showProducts(userID, new ApiInterface.ProductListDataCallback() {
+        apiDataSource.showProducts(internalStorage.getUser().getId(), new ApiInterface.ProductListDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
             }
 
             @Override
-            public void onSuccess(List<Product> returnParam) {
-                dataCallback.onSuccess(returnParam);
+            public void onSuccess(ApiDTO<UserProductsDTO> returnParam) {
+
+                dataCallback.onSuccess(returnParam.getContent().getProducts());
             }
         });
     }
@@ -255,8 +257,8 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(ApiDTO<LoginDTO> returnParam) {
-               internalStorage.saveUser(returnParam.getContent().getUser());
-               internalStorage.saveToken(returnParam.getContent().getToken());
+                internalStorage.saveToken(returnParam.getContent().getToken());
+                internalStorage.saveUser(returnParam.getContent().getUser());
                 dataCallback.onSuccess(!returnParam.getError());
 
             }
