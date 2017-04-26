@@ -1,8 +1,12 @@
 package trigues.com.trueke.presenter;
 
+import android.support.v4.util.Pair;
+
 import com.trigues.entity.Product;
 import com.trigues.exception.ErrorBundle;
+import com.trigues.usecase.AcceptMatchUseCase;
 import com.trigues.usecase.GetUserProductsUseCase;
+import com.trigues.usecase.RejectMatchUseCase;
 
 import java.util.List;
 
@@ -18,6 +22,8 @@ public class MatchmakingPresenter {
 
     private MatchmakingActivity view;
     private GetUserProductsUseCase showProductsUseCase;
+    private AcceptMatchUseCase acceptMatchUseCase;
+    private RejectMatchUseCase rejectMatchUseCase;
 
     @Inject
     public MatchmakingPresenter(MatchmakingActivity view, GetUserProductsUseCase showProductsUseCase) {
@@ -30,6 +36,7 @@ public class MatchmakingPresenter {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 view.onError(errorBundle.getErrorMessage());
+
             }
 
             @Override
@@ -38,4 +45,37 @@ public class MatchmakingPresenter {
             }
         });
     }
+
+    public void acceptedProduct(Integer[] productID) {
+        acceptMatchUseCase.execute(productID, new AcceptMatchUseCase.AcceptMatchCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+            }
+        });
+    }
+
+    public void rejectedProduct(Integer[] productID) {
+        rejectMatchUseCase.execute(productID, new RejectMatchUseCase.RejectMatchCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+            }
+        });
+
+
+    }
+
+
+
+
+
 }

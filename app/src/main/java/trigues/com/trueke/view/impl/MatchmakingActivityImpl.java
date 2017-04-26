@@ -38,6 +38,8 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
     @BindView(R.id.matchmaking_list)
     SwipePlaceHolderView matchmakingList;
 
+    private int userProductId;
+
     private int currentProduct = 0;
 
     @Override
@@ -53,6 +55,8 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
 
         ButterKnife.bind(this);
 
+        this.userProductId = getIntent().getIntExtra("product_id", -1);
+
         presenter.getTestProducts();
 
         setUpBackActionBar();
@@ -66,20 +70,30 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                         .setPaddingTop(20)
                         .setRelativeScale(0.01f));
 
-        for(Product product : returnParam){
+        for(final Product product : returnParam){
             matchmakingList.addView(new MatchmakingCard(this, product, matchmakingList, new MatchmakingCardCallback() {
                 @Override
                 public void onAccepted() {
                     ++currentProduct;
 
-                    //TODO: Implementar
+                    Integer[] productes = new Integer[2];
+
+                    productes[0] = product.getId();
+                    productes[1] = userProductId;
+
+                    presenter.acceptedProduct(productes);
                 }
 
                 @Override
                 public void onRejected() {
                     ++currentProduct;
 
-                    //TODO: Implementar
+                    Integer[] productes = new Integer[2];
+
+                    productes[0] = product.getId();
+                    productes[1]= userProductId;
+
+                    presenter.rejectedProduct(productes);
 
                 }
             }));
