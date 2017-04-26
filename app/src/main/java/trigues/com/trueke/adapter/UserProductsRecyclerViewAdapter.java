@@ -39,7 +39,7 @@ public abstract class UserProductsRecyclerViewAdapter extends RecyclerView.Adapt
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         Picasso.with(context).load(product.get(i).getImages().get(0)).into(viewHolder.itemImage);
 
         viewHolder.itemTitle.setText(product.get(i).getTitle());
@@ -50,7 +50,7 @@ public abstract class UserProductsRecyclerViewAdapter extends RecyclerView.Adapt
 
         viewHolder.itemMatchmaking.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                onMatchMakingClick();
+                onMatchMakingClick(product.get(viewHolder.getAdapterPosition()).getId());
             }
         });
 
@@ -67,7 +67,7 @@ public abstract class UserProductsRecyclerViewAdapter extends RecyclerView.Adapt
     }
 
     abstract public void onItemClick();
-    abstract public void  onMatchMakingClick();
+    abstract public void  onMatchMakingClick(int productID);
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
