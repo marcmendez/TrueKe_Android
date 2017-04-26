@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import trigues.com.trueke.R;
 import trigues.com.trueke.adapter.AddProductCategoryAdapter;
 import trigues.com.trueke.utils.ProductCategories;
+import trigues.com.trueke.view.impl.AddProductActivityImpl;
 
 /**
  * Created by mbaque on 19/04/2017.
@@ -41,7 +42,7 @@ public class AddProductCategoryFragImpl extends Fragment {
         AddProductCategoryAdapter adapter = new AddProductCategoryAdapter(getActivity(), ProductCategories.getAllCategories()) {
             @Override
             public void onCategoryClick(String category) {
-
+                ((AddProductActivityImpl) getActivity()).onCategoryPressed(category);
             }
         };
 

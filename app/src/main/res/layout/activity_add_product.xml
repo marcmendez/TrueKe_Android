@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/addProductView"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryDark">
 
@@ -92,11 +93,18 @@
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance">
 
+                <FrameLayout
+                    android:id="@+id/fragment_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"/>
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Categoría"
-                    android:id="@+id/productCategory"/>
+                    android:id="@+id/productCategory"
+                    android:focusableInTouchMode="false"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -116,7 +124,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Precio mín."
-                        android:id="@+id/priceMin"/>
+                        android:id="@+id/priceMin"
+                        android:inputType="number"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -131,7 +140,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Precio max."
-                        android:id="@+id/priceMax"/>
+                        android:id="@+id/priceMax"
+                        android:inputType="number"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -150,9 +160,12 @@
                     android:layout_weight="1"
                     android:padding="16dp"
                     android:foreground="@drawable/dot_border"
-                    android:src="@mipmap/add_image_icon" />
+                    android:src="@mipmap/add_image_icon"
+                    android:id="@+id/image1"
+                    android:clickable="true"/>
 
                 <trigues.com.trueke.utils.AddProductSquareImageView
+                    android:id="@+id/image2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
@@ -160,9 +173,11 @@
                     android:layout_weight="1"
                     android:padding="16dp"
                     android:foreground="@drawable/dot_border"
-                    android:src="@mipmap/add_image_icon" />
+                    android:src="@mipmap/add_image_icon"
+                    android:clickable="true"/>
 
                 <trigues.com.trueke.utils.AddProductSquareImageView
+                    android:id="@+id/image3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
@@ -170,10 +185,11 @@
                     android:layout_weight="1"
                     android:padding="16dp"
                     android:foreground="@drawable/dot_border"
-                    android:src="@mipmap/add_image_icon" />
+                    android:src="@mipmap/add_image_icon"
+                    android:clickable="true"/>
 
                 <trigues.com.trueke.utils.AddProductSquareImageView
-                    android:id="@+id/squareImageView"
+                    android:id="@+id/image4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
@@ -181,7 +197,8 @@
                     android:layout_weight="1"
                     android:padding="16dp"
                     android:foreground="@drawable/dot_border"
-                    android:src="@mipmap/add_image_icon" />
+                    android:src="@mipmap/add_image_icon"
+                    android:clickable="true"/>
 
 
             </LinearLayout>

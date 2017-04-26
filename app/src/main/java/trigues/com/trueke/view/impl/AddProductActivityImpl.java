@@ -1,28 +1,50 @@
 package trigues.com.trueke.view.impl;
 
 
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import javax.inject.Inject;
 
+import trigues.com.data.datasource.ApiInterface;
 import trigues.com.trueke.R;
 import trigues.com.trueke.presenter.AddProductPresenter;
+import trigues.com.trueke.utils.AddProductSquareImageView;
 import trigues.com.trueke.utils.ProductChecker;
 import trigues.com.trueke.view.AddProductActivity;
 import trigues.com.trueke.view.UserProductsListActivity;
 import trigues.com.trueke.view.fragment.AddProductCategoryFragImpl;
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 /**
  * Created by Alba on 24/03/2017.
@@ -30,14 +52,16 @@ import trigues.com.trueke.view.fragment.AddProductCategoryFragImpl;
 
 public class AddProductActivityImpl extends BaseActivityImpl implements AddProductActivity {
 
-    Spinner spinner1, spinner2;
-    ArrayAdapter<CharSequence> adapter1, adapter2;
+    private static String APP_DIRECTORY = "MyTruekeImages";
+    private static String MEDIA_DIRECTORY = APP_DIRECTORY + "TruekeImages";
     private final int PICTURE_TAKEN_FROM_CAMERA = 1;
     private final int PICTURE_TAKEN_FROM_GALLERY = 2;
-    private ImageButton btncamera;
-    private ImageButton btngallery;
-    private ImageView result;
+    private String  photo1, photo2, photo3, photo4, nPath;
+    private int num_photo;
+
     private static final String TAG = "AddProductActivityImpl";
+    private boolean show_fragment;
+    private String category;
 
     AddProductCategoryFragImpl addCategoryFrag;
 
@@ -62,6 +86,18 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     @BindView(R.id.add_product_send_button)
     ImageButton addButton;
 
+    @BindView(R.id.image1)
+    AddProductSquareImageView e_photo1;
+
+    @BindView(R.id.image2)
+    AddProductSquareImageView e_photo2;
+
+    @BindView(R.id.image3)
+    AddProductSquareImageView e_photo3;
+
+    @BindView(R.id.image4)
+    AddProductSquareImageView e_photo4;
+
 
     @Inject
     AddProductPresenter presenter;
@@ -71,6 +107,25 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
         ButterKnife.bind(this);
+
+        show_fragment = false;
+        category = photo1 = photo2 = photo3 = photo4="";
+
+        addCategoryFrag = new AddProductCategoryFragImpl();
+        e_category.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick (View v)
+            {
+                if (show_fragment)
+                    getSupportFragmentManager().beginTransaction()
+                            .show(getSupportFragmentManager().findFragmentById(R.id.fragment_category)).commit();
+                else
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_category, addCategoryFrag)
+                            .commit();
+            }
+        });
 
         closeButton.setOnClickListener(new View.OnClickListener()
         {
@@ -91,69 +146,131 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             }
         });
 
-
-       /*btncamera = (ImageButton) findViewById(R.id.btncamera);
-        btngallery = (ImageButton) findViewById(R.id.btngallery);
-        result = (ImageView) findViewById(R.id.photo);
         addEvents();
-        */
-
-        /*spinner1 = (Spinner) findViewById(R.id.spinner1);
-        adapter1 = ArrayAdapter.createFromResource(this, R.array.category1, android.R.layout.simple_spinner_item);
-        initializeSpinner(spinner1,adapter1);
-
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
-        adapter2 = ArrayAdapter.createFromResource(this, R.array.category2, android.R.layout.simple_spinner_item);
-        initializeSpinner(spinner2,adapter2);*/
     }
 
-    void initializeSpinner (Spinner spin, ArrayAdapter<CharSequence> adapter) {
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin.setAdapter(adapter);
-        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int pos, long id) {
-                // An item was selected. You can retrieve the selected item using
-                // parent.getItemAtPosition(pos)
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Another interface callback
-            }
-        });
-    }
-
-    /*private void addEvents(){
-        btncamera.setOnClickListener(new View.OnClickListener() {
+    private void addEvents(){
+        e_photo1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPictureFromCamera();
+                num_photo = 1;
+                showOptions();
             }
         });
 
-        btngallery.setOnClickListener(new View.OnClickListener() {
+        e_photo2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPictureFromGallery();
+                num_photo = 2;
+                showOptions();
+            }
+        });
+
+        e_photo3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                num_photo = 3;
+                showOptions();
+            }
+        });
+
+        e_photo4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                num_photo = 4;
+                showOptions();
             }
         });
     }
+
+    private void showOptions() {
+        final CharSequence[] options ={"Hacer foto", "Abrir galeria", "Cancelar"};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(AddProductActivityImpl.this);
+        builder.setTitle("Elige una opción");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(options[which] == "Hacer foto") {
+                    //openCamera();
+                    getPictureFromCamera();
+
+                }
+                else if (options[which] == "Abrir galeria") {
+                    getPictureFromGallery();
+                   /* Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("images/*");
+                    startActivityForResult(intent.createChooser(intent, "Selecciona una imagen"), PICTURE_TAKEN_FROM_GALLERY);*/
+                }
+                else dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    /*private void openCamera() {
+        File file = new File (Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
+        boolean isDirectoryCreated = file.exists();
+
+        if(!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
+        if(isDirectoryCreated) {
+            Long timestamp = System.currentTimeMillis()/1000;
+            String imageName = timestamp.toString() + ".jpg";
+
+            nPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
+                    + File.separator + imageName;
+
+            File newFile = new File (nPath);
+
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+            startActivityForResult(intent, PICTURE_TAKEN_FROM_CAMERA);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            switch(requestCode) {
+                case PICTURE_TAKEN_FROM_CAMERA:
+                    MediaScannerConnection.scanFile(this, new String[]{nPath}, null,
+                    new MediaScannerConnection.OnScanCompletedListener (){
+                        @Override
+                        public void onScanCompleted(String path, Uri uri) {
+                            Log.i("ExternalStorage", "Scanned" + path + "i");
+                            Log.i("ExternalStorage", "-> Uri = " + uri);
+                        }
+                    });
+                    Bitmap bitmap = BitmapFactory.decodeFile(nPath);
+                    if (num_photo == 1) e_photo1.setImageBitmap(bitmap);
+                    else if (num_photo == 2) e_photo2.setImageBitmap(bitmap);
+                    else if (num_photo == 3) e_photo3.setImageBitmap(bitmap);
+                    else e_photo4.setImageBitmap(bitmap);
+            }
+        }
+    }*/
 
 
     private void getPictureFromCamera(){
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, PICTURE_TAKEN_FROM_CAMERA);
+        File file = new File (Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
+        boolean isDirectoryCreated = file.exists();
+
+        if(!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
+        if(isDirectoryCreated) {
+            Long timestamp = System.currentTimeMillis()/1000;
+            String imageName = timestamp.toString() + ".jpg";
+
+            nPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
+                    + File.separator + imageName;
+
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, PICTURE_TAKEN_FROM_CAMERA);
+            }
         }
     }
 
     private void getPictureFromGallery(){
-
-    //This allows to select the application to use when selecting an image.
-    //Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-    //i.setType("image/*");
-    //startActivityForResult(Intent.createChooser(i, "Escoge una foto"), PICTURE_TAKEN_FROM_GALLERY);
-
-        //This takes images directly from gallery
         Intent gallerypickerIntent = new Intent(Intent.ACTION_PICK);
         gallerypickerIntent.setType("image/*");
         startActivityForResult(gallerypickerIntent, PICTURE_TAKEN_FROM_GALLERY);
@@ -163,20 +280,59 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICTURE_TAKEN_FROM_CAMERA && resultCode == RESULT_OK ) {
+            MediaScannerConnection.scanFile(this, new String[]{nPath}, null,
+                    new MediaScannerConnection.OnScanCompletedListener (){
+                        @Override
+                        public void onScanCompleted(String path, Uri uri) {
+                            Log.i("ExternalStorage", "Scanned" + path + "i");
+                            Log.i("ExternalStorage", "-> Uri = " + uri);
+                        }
+                    });
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            result.setImageBitmap(imageBitmap);
+            if (num_photo == 1) {
+                e_photo1.setImageBitmap(imageBitmap);
+                photo1 = nPath;
+            }
+            else if (num_photo == 2) {
+                e_photo2.setImageBitmap(imageBitmap);
+                photo2 = nPath;
+            }
+            else if (num_photo == 3) {
+                e_photo3.setImageBitmap(imageBitmap);
+                photo3 = nPath;
+            }
+            else {
+                e_photo4.setImageBitmap(imageBitmap);
+                photo4 = nPath;
+            }
+
         }
         else if (requestCode == PICTURE_TAKEN_FROM_GALLERY && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
             if (null != selectedImageUri) {
-                // Get the path from the Uri
-                String path = getPathFromURI(selectedImageUri);
-                Log.i(TAG, "Image Path : " + path);
-                // Set the image in ImageView
-                result.setImageURI(selectedImageUri);
+                nPath = getPathFromURI(selectedImageUri);
+                Log.i(TAG, "Image Path : " + nPath);
+                if (num_photo == 1) {
+                    e_photo1.setImageURI(selectedImageUri);
+                    photo1 = nPath;
+                }
+                else if (num_photo == 2) {
+                    e_photo2.setImageURI(selectedImageUri);
+                    photo2 = nPath;
+                }
+                else if (num_photo == 3) {
+                    e_photo3.setImageURI(selectedImageUri);
+                    photo3 = nPath;
+                }
+                else {
+                    e_photo4.setImageURI(selectedImageUri);
+                    photo4 = nPath;
+                }
             }
         }
+        Toast.makeText(getApplicationContext(),
+                nPath, Toast.LENGTH_LONG).show();
     }
 
     // Get the real path from the URI
@@ -191,20 +347,19 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         cursor.close();
         return res;
     }
-*/
+
     public void onAddProductPressed() {
         String title = e_title.getText().toString();
         String description = e_description.getText().toString();
         String priceMin = e_priceMin.getText().toString();
         String priceMax = e_priceMax.getText().toString();
-        //String categoryProduct = spinner1.getSelectedItem().toString();
-        //String categoryTrueke = spinner2.getSelectedItem().toString();
-        String category = e_category.getText().toString();
         try {
             ProductChecker.checkTitle(title);
             ProductChecker.checkDescription(description);
-            ProductChecker.checkPrice(priceMin, priceMax);
             ProductChecker.checkCategory(category);
+            ProductChecker.checkPrice(priceMin, priceMax);
+            ProductChecker.checkImages(photo1,photo2,photo3,photo4);
+            String photos = photo1+"-"+photo2+"-"+photo3+"-"+photo4;
             //presenter.addProduct(title,description,priceMin,priceMax,category, wants_categories);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
@@ -216,4 +371,12 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         startActivity(new Intent(this, UserProductsListActivity.class));
         finish();
     }
+
+    public void onCategoryPressed(String cat){
+        category = cat;
+        e_category.setText(cat);
+        show_fragment = true;
+        getSupportFragmentManager().beginTransaction().hide(getSupportFragmentManager().findFragmentById(R.id.fragment_category)).commit();
+    }
+
 }

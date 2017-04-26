@@ -300,7 +300,7 @@ public class ApiDataSource implements ApiInterface {
         server.addProduct(product).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
-                dataCallback.onSuccess(!body.getError());
+                dataCallback.onSuccess(body.getError());
             }
         });
     }
