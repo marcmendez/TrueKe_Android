@@ -15,12 +15,16 @@
         <activity
             android:name=".view.impl.SplashActivityImpl"
             android:theme="@style/SplashTheme">
-        </activity>
-        <activity android:name=".view.impl.LoginActivityImpl">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity android:name=".view.impl.LoginActivityImpl" android:theme="@style/LoginTheme">
+
         </activity>
 
         <activity android:name=".view.impl.UserProductsListActivityImpl"
