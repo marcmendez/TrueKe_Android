@@ -40,7 +40,7 @@ public abstract class UserProductsRecyclerViewAdapter extends RecyclerView.Adapt
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        Picasso.with(context).load(product.get(i).getImages().get(0)).into(viewHolder.itemImage);
+        //Picasso.with(context).load(product.get(i).getImages().get(0)).into(viewHolder.itemImage);
 
         viewHolder.itemTitle.setText(product.get(i).getTitle());
         viewHolder.itemCategory.setText(product.get(i).getProductCategory());

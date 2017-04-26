@@ -17,7 +17,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
-import trigues.com.data.entity.UserProductsDTO;
 
 /**
  * Created by mbaque on 18/03/2017.

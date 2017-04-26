@@ -8,10 +8,7 @@ import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import javax.inject.Inject;
 
@@ -19,7 +16,6 @@ import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
-import trigues.com.data.entity.UserProductsDTO;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -62,7 +58,7 @@ public class AppRepository implements RepositoryInterface {
             @Override
             public void onSuccess(ApiDTO<List<Product>> returnParam) {
                 List<Product> p = new ArrayList<>();
-                dataCallback.onSuccess(p);
+                dataCallback.onSuccess(returnParam.getContent());
             }
         });
     }
