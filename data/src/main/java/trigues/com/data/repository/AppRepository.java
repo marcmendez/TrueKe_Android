@@ -185,7 +185,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void deletePayment(int payment_id, final BooleanCallback dataCallback) {
-        apiDataSource.deletePayment(payment_id, new ApiInterface.BooleanDataCallback(){
+        apiDataSource.deletePayment(internalStorage.getToken(), payment_id, new ApiInterface.BooleanDataCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -201,7 +201,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void deleteShipment(int shipment_id, final BooleanCallback dataCallback) {
-        apiDataSource.deleteShipment(shipment_id, new ApiInterface.BooleanDataCallback(){
+        apiDataSource.deleteShipment(internalStorage.getToken(),shipment_id, new ApiInterface.BooleanDataCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {

@@ -29,6 +29,7 @@ import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.UserInfoPresenter;
+import trigues.com.trueke.utils.FormatChecker;
 import trigues.com.trueke.view.UserProfileActivity;
 import trigues.com.trueke.view.fragment.UserProfileAdressesFragImpl;
 import trigues.com.trueke.view.fragment.UserProfilePaymentMethodsFragImpl;
@@ -39,6 +40,7 @@ import trigues.com.trueke.view.fragment.UserProfilePaymentMethodsFragImpl;
 
 public class UserProfileActivityImpl extends MenuActivityImpl implements UserProfileActivity {
 
+    private User user;
     @Inject
     UserInfoPresenter presenter;
 
@@ -151,7 +153,6 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_change_password, null);
 
-        final EditText actualEditText = (EditText) view.findViewById(R.id.dialog_change_password_actual);
         final EditText newEditText = (EditText) view.findViewById(R.id.dialog_change_password_new);
         final EditText repeatEditText = (EditText) view.findViewById(R.id.dialog_change_password_repeat);
 
@@ -160,13 +161,19 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         alertDialogBuilder.setPositiveButton("Cambiar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String actualPassword = actualEditText.getText().toString();
+
                 String newPassword = newEditText.getText().toString();
                 String repeatPassword = repeatEditText.getText().toString();
+                try {
+                    FormatChecker.CheckPassword(newPassword,repeatPassword);
+                    User newuser = user;
+                    newuser.setPassword(newPassword);
+                    presenter.changeProfile(newuser);
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
 
-                //TODO: Implementar cambiar contrasenya
 
-                dialog.dismiss();
             }
         });
 
@@ -231,10 +238,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 8029,"Carrer Diagonal","654654654"));
         //country,province,city,postalCode,address,name,idCard,phone
     }
-    private void deletePayment(){
-        int payment_id = 1;
-        presenter.deletePayment(payment_id);
-    }
+
     private void newShipment(){
         presenter.newShipment(new Shipment(-1,1,"Spain","Barcelona",
                 "Barcelona",8006,"Calle Falsa 123","Pepesito",
@@ -245,12 +249,10 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 "Barcelona",8006,"Calle Falsa 123","Pepesito",
                 "654845616531","654654654"));
     }
-    private void deleteShipment(){
-        int shipment_id = 1;
-        presenter.deleteShipment(shipment_id);
-    }
+
     @Override
     public void onProfileRetrieved(User user) {
+        this.user = user;
         userName.setText(user.getUser());
         userEmail.setText(user.getEmail());
         userNumProducts.setText(String.valueOf(user.getProducts()));
@@ -284,12 +286,12 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @Override
     public void onAdressDeleteClick(Shipment shipment) {
-        //TODO:
+        presenter.deleteShipment(shipment.getId());
     }
 
     @Override
     public void onPaymentMethodDeleteClick(Payment payment) {
-        //TODO:
+        presenter.deletePayment(payment.getId());
     }
 
     @Override

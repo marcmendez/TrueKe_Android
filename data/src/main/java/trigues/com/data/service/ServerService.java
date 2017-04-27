@@ -62,8 +62,8 @@ public interface ServerService {
     @POST("paymentmethods")
     Call<ApiDTO<Void>> newPayment(@Body Payment payment);
 
-    @DELETE("paymentmethods/:id")
-    Call<ApiDTO<Void>> deletePayment(int payment_id);
+    @DELETE("paymentmethods/{id}")
+    Call<ApiDTO<Void>> deletePayment(@Header("token")String token, @Path("id") String payment_id);
 
     //shipments
     @GET("shipmentmethods/{id}")
@@ -75,6 +75,7 @@ public interface ServerService {
     @POST("shipmentmethods")
     Call<ApiDTO<Void>> newShipment(@Body Shipment shipment);
 
-    @DELETE("shipmentmethods/:id")
-    Call<ApiDTO<Void>> deleteShipment(int shipment_id);
+    @DELETE("shipmentmethods/{id}")
+    Call<ApiDTO<Void>> deleteShipment(@Header("token")String token, @Path("id") String shipment_id);
+
 }

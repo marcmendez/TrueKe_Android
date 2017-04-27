@@ -44,9 +44,9 @@ public interface ApiInterface {
 
     void newPayment(Payment payment, BooleanDataCallback booleanDataCallback);
 
-    void deletePayment(int payment_id, BooleanDataCallback booleanDataCallback);
+    void deletePayment(String token, int payment_id, BooleanDataCallback booleanDataCallback);
 
-    void deleteShipment(int shipment_id, BooleanDataCallback booleanDataCallback);
+    void deleteShipment(String token, int shipment_id, BooleanDataCallback booleanDataCallback);
 
     void newShipment(Shipment shipment, BooleanDataCallback booleanDataCallback);
 

@@ -188,8 +188,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void deletePayment(int payment_id, final BooleanDataCallback booleanDataCallback) {
-        server.deletePayment(payment_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
+    public void deletePayment(String token,int payment_id, final BooleanDataCallback booleanDataCallback) {
+        server.deletePayment(token,String.valueOf(payment_id)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 booleanDataCallback.onSuccess(false);
@@ -198,8 +198,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void deleteShipment(int shipment_id, final BooleanDataCallback booleanDataCallback) {
-        server.deleteShipment(shipment_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
+    public void deleteShipment(String token,int shipment_id, final BooleanDataCallback booleanDataCallback) {
+        server.deleteShipment(token, String.valueOf(shipment_id)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 booleanDataCallback.onSuccess(false);

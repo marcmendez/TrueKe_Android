@@ -79,8 +79,7 @@ public class UserInfoPresenter {
     }
 
     public void showPayments(){
-        int userID=1;
-        showPaymentsUseCase.execute(userID, new ShowPaymentsUseCase.ShowPaymentsUseCaseCallback(){
+        showPaymentsUseCase.execute(-1, new ShowPaymentsUseCase.ShowPaymentsUseCaseCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -95,8 +94,7 @@ public class UserInfoPresenter {
 
     }
     public void showShipments(){
-        int userID=1;
-        showShipmentsUseCase.execute(userID, new ShowShipmentsUseCase.ShowShipmentsUseCaseCallback(){
+        showShipmentsUseCase.execute(-1, new ShowShipmentsUseCase.ShowShipmentsUseCaseCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
