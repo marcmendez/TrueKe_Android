@@ -46,4 +46,8 @@ public class UserProductDetailsPresenter {
     public void onCategoryDeleteButtonClick(String category) {
 
     }
+
+    public void addProductCategory(String category){
+
+    }
 }

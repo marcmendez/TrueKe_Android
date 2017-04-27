@@ -17,4 +17,13 @@
         android:textSize="13sp"
         android:text="Accesorios"/>
 
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:scaleType="fitCenter"
+        android:background="@null"
+        android:src="@mipmap/delete_round_icon"/>
+
 </LinearLayout>

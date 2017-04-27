@@ -7,12 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.trigues.entity.Product;
 
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.UserProductDetailsPresenter;
 import trigues.com.trueke.view.UserProductDetailsActivity;
+import trigues.com.trueke.view.fragment.ProductDetailAddCategoryFragImpl;
 
 /**
  * Created by mbaque on 23/03/2017.
@@ -60,6 +61,9 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
 
     @BindView(R.id.product_detail_category_list)
     RecyclerView categoriesRecyclerview;
+
+    @BindView(R.id.product_detail_add_category)
+    View addCategoryButton;
 
     @Inject
     UserProductDetailsPresenter presenter;
@@ -95,6 +99,14 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
 
         List<String> fakeList = new ArrayList<>();
         fakeList.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
+
+        addCategoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddCategoryDialog();
+            }
+        });
+
         setUpViewPager(fakeList);
 
         setUpProductDetails(returnParam);
@@ -102,6 +114,10 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
         setUpDotCounter();
 
         //setUpDesiredCategoriesList(returnParam.getDesiredCategories());
+    }
+
+    private void showAddCategoryDialog() {
+        addFullScreenFragment(new ProductDetailAddCategoryFragImpl());
     }
 
     private void setUpProductDetails(Product product) {
@@ -168,6 +184,10 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
         }
 
         dots[0].setImageDrawable(getResources().getDrawable(R.drawable.user_product_details_dot_selected));
+    }
+
+    public void addProductCategory(String category){
+        presenter.addProductCategory(category);
     }
 
     @Override
