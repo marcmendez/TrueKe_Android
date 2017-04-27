@@ -250,7 +250,7 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void showProducts(String token,int userID, final ProductListDataCallback dataCallback) {
+    public void showProducts(/*String token,int userID, */final ProductListDataCallback dataCallback) {
         List<String> llista = new ArrayList<>();
         llista.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
         List<String> llista2 = new ArrayList<>();
@@ -268,7 +268,7 @@ public class ApiDataSource implements ApiInterface {
 
         interceptor.setResponseString(gson.toJson(llistaProd));
 
-        server.getUserProducts(token, userID).enqueue(new RetrofitErrorHandler< /*ApiDTO<Void>*/ List<Product> >(dataCallback) {
+        server.getUserProducts(/*token, userID*/).enqueue(new RetrofitErrorHandler< /*ApiDTO<Void>*/ List<Product> >(dataCallback) {
             @Override
             public void onResponse(/*ApiDTO<Void>*/ List<Product> body) {
                 dataCallback.onSuccess(body);
