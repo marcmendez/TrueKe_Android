@@ -2,7 +2,7 @@ package com.trigues.usecase;
 
 import com.trigues.RepositoryInterface;
 import com.trigues.callback.DefaultCallback;
-import com.trigues.entity.User;
+import com.trigues.entity.Parameter;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.executor.PostExecutionThread;
 import com.trigues.executor.ThreadExecutor;
@@ -15,11 +15,11 @@ import javax.inject.Inject;
  * Created by Albert on 14/04/2017.
  */
 
-public class ChangeProfileUseCase extends BaseUseCase<Boolean> implements Interactor<User,Boolean> {
+public class ChangeProfileUseCase extends BaseUseCase<Boolean> implements Interactor<Parameter,Boolean> {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
     private ChangeProfileUseCase.ChangeProfileUseCaseCallback callback;
-    private User user;
+    private String type,value;
 
     @Inject
     public ChangeProfileUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor,
@@ -44,13 +44,14 @@ public class ChangeProfileUseCase extends BaseUseCase<Boolean> implements Intera
 
     @Override
     public void run() {
-        repository.changeProfile(user, dataCallback);
+        repository.changeProfile(type,value, dataCallback);
     }
 
     @Override
-    public <R extends DefaultCallback<Boolean>> void execute(User param, R defaultCallback) {
+    public <R extends DefaultCallback<Boolean>> void execute(Parameter p, R defaultCallback) {
         this.callback = ((ChangeProfileUseCase.ChangeProfileUseCaseCallback) defaultCallback);
-        this.user = param;
+        this.type = p.getType();
+        this.value= p.getValue();
         executor.execute(this);
     }
 

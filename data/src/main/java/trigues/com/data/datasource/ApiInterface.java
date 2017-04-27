@@ -37,19 +37,19 @@ public interface ApiInterface {
 
     void showShipments(String token, int id, ShipmentsCallback shipmentsCallback);
 
-    void changeProfile(User user, BooleanDataCallback booleanDataCallback);
+    void changeProfile(String token, String id, String type, String value, BooleanDataCallback booleanDataCallback);
 
     void deleteUser(int user_id, BooleanDataCallback booleanDataCallback);
 
     void changePayment(Payment payment, BooleanDataCallback booleanDataCallback);
 
-    void newPayment(Payment payment, BooleanDataCallback booleanDataCallback);
+    void newPayment(String token, Payment payment, BooleanDataCallback booleanDataCallback);
 
     void deletePayment(String token, int payment_id, BooleanDataCallback booleanDataCallback);
 
     void deleteShipment(String token, int shipment_id, BooleanDataCallback booleanDataCallback);
 
-    void newShipment(Shipment shipment, BooleanDataCallback booleanDataCallback);
+    void newShipment(String token, Shipment shipment, BooleanDataCallback booleanDataCallback);
 
     void changeShipment(Shipment shipment, BooleanDataCallback booleanDataCallback);
 

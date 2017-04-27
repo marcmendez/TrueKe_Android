@@ -36,7 +36,7 @@ public interface RepositoryInterface {
 
     void showShipments(Integer id, ShipmentCallback dataCallback);
 
-    void changeProfile(User user, BooleanCallback dataCallback);
+    void changeProfile(String type, String value, BooleanCallback dataCallback);
 
     void deleteUser(int user_id, BooleanCallback dataCallback);
 

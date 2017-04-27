@@ -80,6 +80,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     View userChangeUsername;
     private List<Payment> userPaymentMethods;
     private List<Shipment> userShipments;
+    private String cambio;
 
 
     @Override
@@ -165,21 +166,19 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 String repeatPassword = repeatEditText.getText().toString();
                 try {
                     FormatChecker.CheckPassword(newPassword,repeatPassword);
-                    User newuser = user;
-                    newuser.setPassword(newPassword);
-                    presenter.changeProfile(newuser);
+                    presenter.changeProfile("password",newPassword);
+                    cambio = "La contraseña";
+                    dialog.dismiss();
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
 
         alertDialogBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                dialog.cancel();
             }
         });
 
@@ -201,10 +200,14 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newUsername = usernameEditText.getText().toString();
-
-                //TODO: Implementar cambiar nombre usuario
-
-                dialog.dismiss();
+                try {
+                    FormatChecker.CheckName(newUsername);
+                    presenter.changeProfile("username",newUsername);
+                    cambio = "El nombre de usuario";
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -220,11 +223,6 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     }
 
-    private void changeUserProfile() {
-        User user = new User("albert@elputu.com","123456");
-      // phone,user,password,email,birthDate
-        presenter.changeProfile(user);
-    }
 
     public void newPayment(Payment payment){
         presenter.newPayment(payment);
@@ -235,10 +233,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 8029,"Carrer Diagonal","654654654"));
         //country,province,city,postalCode,address,name,idCard,phone
     }
-    private void deletePayment(){
-        int payment_id = 1;
-        presenter.deletePayment(payment_id);
-    }
+
     public void newShipment(Shipment shipment){
         presenter.newShipment(shipment);
     }
@@ -272,8 +267,13 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @Override
     public void onChangeProfileRetrieved(Boolean returnParam) {
-        if(!returnParam)
-            Toast.makeText(getApplicationContext(),"El perfil se ha actualizado correctamente",Toast.LENGTH_LONG).show();
+        if(!returnParam) {
+                Toast.makeText(getApplicationContext(), cambio+" se ha actualizado correctamente", Toast.LENGTH_LONG).show();
+            if (cambio=="El nombre de usuario") userName.setText(user.getUser());
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Ha habido un error", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -314,14 +314,14 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     @Override
     public void OnShipmentDeleted(Boolean returnParam) {
         if(!returnParam)
-            Toast.makeText(getApplicationContext(),"El método de envío se ha borrado correctamente",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"La dirección se ha borrado correctamente",Toast.LENGTH_LONG).show();
 
     }
 
     @Override
     public void onNewShipmentCreated(Boolean returnParam) {
         if(!returnParam)
-            Toast.makeText(getApplicationContext(),"El método de envío se ha añadido correctamente",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"La dirección se ha añadido correctamente",Toast.LENGTH_LONG).show();
 
     }
 

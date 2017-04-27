@@ -17,6 +17,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.Password;
+import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
 
 /**
@@ -48,11 +50,14 @@ public interface ServerService {
     @GET("users/{id}")
     Call<ApiDTO<List<User>>> getUserProfile(@Header("token") String token, @Path("id") String id);
 
-    @PUT("users/:id")
-    Call<ApiDTO<Void>> changeProfile(@Body User user);
+    @PUT("users/{id}")
+    Call<ApiDTO<Void>> changePassword(@Header("token") String token, @Path("id") String id, @Body Password password);
 
-    @DELETE("users/:id")
-    Call<ApiDTO<Void>> deleteUser(int user_id);
+    @PUT("users/{id}")
+    Call<ApiDTO<Void>> changeUsername(@Header("token") String token, @Path("id") String id, @Body UserName username);
+
+    @DELETE("users/{id}")
+    Call<ApiDTO<Void>> deleteUser(int id);
 
     //payments
     @GET("paymentmethods/{id}")
@@ -62,7 +67,7 @@ public interface ServerService {
     Call<ApiDTO<Void>> changePayment(@Body Payment payment);
 
     @POST("paymentmethods")
-    Call<ApiDTO<Void>> newPayment(@Body Payment payment);
+    Call<ApiDTO<Void>> newPayment(@Header("token") String token,@Body Payment payment);
 
     @DELETE("paymentmethods/{id}")
     Call<ApiDTO<Void>> deletePayment(@Header("token")String token, @Path("id") String payment_id);
@@ -75,7 +80,7 @@ public interface ServerService {
     Call<ApiDTO<Void>> changeShipment(@Body Shipment shipment);
 
     @POST("shipmentmethods")
-    Call<ApiDTO<Void>> newShipment(@Body Shipment shipment);
+    Call<ApiDTO<Void>> newShipment(@Header("token") String token,@Body Shipment shipment);
 
     @DELETE("shipmentmethods/{id}")
     Call<ApiDTO<Void>> deleteShipment(@Header("token")String token, @Path("id") String shipment_id);

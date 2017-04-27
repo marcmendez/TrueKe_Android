@@ -126,6 +126,7 @@ public class UserProfileAdressesFragImpl extends Fragment {
         final EditText provinceET = (EditText) view.findViewById(R.id.add_shipment_province);
         final EditText nameET = (EditText) view.findViewById(R.id.add_shipment_name);
         final EditText idCardET = (EditText) view.findViewById(R.id.add_shipment_idCard);
+        final EditText phoneET = (EditText) view.findViewById(R.id.add_shipment_phone);
 
 
         view.findViewById(R.id.add_shipment_close_button).setOnClickListener(new View.OnClickListener() {
@@ -139,7 +140,8 @@ public class UserProfileAdressesFragImpl extends Fragment {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                activity.newShipment(new Shipment(provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()), addressET.getText().toString(), nameET.getText().toString(), idCardET.getText().toString()));
+                activity.newShipment(new Shipment(provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()),
+                        addressET.getText().toString(), nameET.getText().toString(), idCardET.getText().toString(), phoneET.getText().toString()));
             }
         });
 

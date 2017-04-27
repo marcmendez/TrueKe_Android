@@ -122,8 +122,8 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void changeProfile(User user, final BooleanCallback dataCallback) {
-        apiDataSource.changeProfile(user,new ApiInterface.BooleanDataCallback(){
+    public void changeProfile(final String type, final String value, final BooleanCallback dataCallback) {
+        apiDataSource.changeProfile(internalStorage.getToken(),String.valueOf(internalStorage.getUser().getId()),type,value,new ApiInterface.BooleanDataCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -170,7 +170,8 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void newPayment(Payment payment, final BooleanCallback dataCallback) {
-        apiDataSource.newPayment(payment,new ApiInterface.BooleanDataCallback(){
+        payment.setUser_id(internalStorage.getUser().getId());
+        apiDataSource.newPayment(internalStorage.getToken(),payment,new ApiInterface.BooleanDataCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -218,7 +219,8 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void newShipment(Shipment shipment, final BooleanCallback dataCallback) {
-        apiDataSource.newShipment(shipment,new ApiInterface.BooleanDataCallback(){
+        shipment.setUser_id(internalStorage.getUser().getId());
+        apiDataSource.newShipment(internalStorage.getToken(),shipment,new ApiInterface.BooleanDataCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -290,9 +292,12 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(ApiDTO<LoginDTO> returnParam) {
-                internalStorage.saveToken(returnParam.getContent().getToken());
-                internalStorage.saveUser(returnParam.getContent().getUser());
-                dataCallback.onSuccess(!returnParam.getError());
+                if(!returnParam.getError()) {
+                    internalStorage.saveToken(returnParam.getContent().getToken());
+                    internalStorage.saveUser(returnParam.getContent().getUser());
+                }
+                    dataCallback.onSuccess(!returnParam.getError());
+
 
             }
         });

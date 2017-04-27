@@ -19,6 +19,8 @@ import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.Password;
+import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
@@ -146,13 +148,21 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void changeProfile(User user, final BooleanDataCallback booleanDataCallback) {
-        server.changeProfile(user).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
+    public void changeProfile(String token, String id,String type, String value, final BooleanDataCallback booleanDataCallback) {
+        if(type == "password")
+        server.changePassword(token,id,new Password(value)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 booleanDataCallback.onSuccess(false);
             }
         });
+        else if (type == "username")
+            server.changeUsername(token,id,new UserName(value)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
+                @Override
+                public void onResponse(ApiDTO<Void> body) {
+                    booleanDataCallback.onSuccess(false);
+                }
+            });
     }
 
     @Override
@@ -178,8 +188,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void newPayment(Payment payment, final BooleanDataCallback booleanDataCallback) {
-        server.newPayment(payment).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
+    public void newPayment(String token,Payment payment, final BooleanDataCallback booleanDataCallback) {
+        server.newPayment(token,payment).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
 
             @Override
             public void onResponse(ApiDTO<Void> body) {
@@ -209,9 +219,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void newShipment(Shipment shipment, final BooleanDataCallback booleanDataCallback) {
-        Log.i("shipment", "newShipment: ");
-        server.newShipment(shipment).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
+    public void newShipment(String token,Shipment shipment, final BooleanDataCallback booleanDataCallback) {
+        server.newShipment(token,shipment).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 booleanDataCallback.onSuccess(false);

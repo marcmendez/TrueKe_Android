@@ -85,7 +85,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="En venda"/>
+                    android:text="En venta" />
 
                 <TextView
                     android:id="@+id/user_profile_num_products"
@@ -154,9 +154,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:textStyle="bold"
+                        android:text="Nombre de usuario"
                         android:textSize="16sp"
-                        android:text="Nombre"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/user_profile_name"
@@ -218,9 +218,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:textStyle="bold"
+                        android:text="Fecha de nacimiento"
                         android:textSize="16sp"
-                        android:text="Nombre"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/user_profile_birth_date"
@@ -328,9 +328,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:textStyle="bold"
+                        android:text="Cambiar nombre de usuario"
                         android:textSize="16sp"
-                        android:text="Cambiar nombre usuario"/>
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 

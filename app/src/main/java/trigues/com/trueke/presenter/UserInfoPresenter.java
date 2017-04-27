@@ -1,5 +1,6 @@
 package trigues.com.trueke.presenter;
 
+import com.trigues.entity.Parameter;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
@@ -107,8 +108,8 @@ public class UserInfoPresenter {
             }
         });
     }
-    public void changeProfile(User user){
-        changeProfileUseCase.execute(user, new ChangeProfileUseCase.ChangeProfileUseCaseCallback(){
+    public void changeProfile(String type,String value){
+        changeProfileUseCase.execute(new Parameter(type,value), new ChangeProfileUseCase.ChangeProfileUseCaseCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -117,7 +118,7 @@ public class UserInfoPresenter {
 
             @Override
             public void onSuccess(Boolean returnParam) {
-                view.onChangePaymentRetrieved(returnParam);
+                view.onChangeProfileRetrieved(returnParam);
             }
         });
     }

@@ -16,13 +16,14 @@ public class Shipment {
     private String idCard;
     private String phone;
 
-    public Shipment(String province, String city, int postalCode, String address, String name, String idCard) {
+    public Shipment(String province, String city, int postalCode, String address, String name, String idCard, String phone) {
         this.province = province;
         this.city = city;
         this.postalCode = postalCode;
         this.address = address;
         this.name = name;
         this.idCard = idCard;
+        this.phone = phone;
         this.country = "España";
 
     }
