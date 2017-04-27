@@ -19,6 +19,7 @@ import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
 
@@ -74,34 +75,34 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void showPayments(String token,int id, final PaymentsCallback paymentsCallback) {
-      /**  interceptor.setResponseString("[{\n" +
-                "  \"id\": 1,\n" +
-                "  \"user_id\": 1,\n" +
-                "  \"type\": \"Visa/4B/Euro6000\",\n" +
-                "  \"number\": \"123456789\",\n" +
-                "  \"expireDate\": \"1990-05-06\",\n" +
-                "  \"name\": \"Sancho Panza\",\n" +
-                "  \"country\": \"España\",\n" +
-                "  \"province\": \"Barcelona\",\n" +
-                "  \"city\": \"Barcelona\",\n" +
-                "  \"postalCode\": 8029,\n" +
-                "  \"address\": \"Carrer Diagonal\",\n" +
-                "  \"phone\": \"654654654\"\n" +
-                "},\n" +
-                "{\n" +
-                "\"id\": 2,\n" +
-                "\"user_id\": 1,\n" +
-                "\"type\": \"Visa/4B/Euro6000\",\n" +
-                "\"number\": \"987654321\",\n" +
-                "\"expireDate\": \"1990-05-06\",\n" +
-                "\"name\": \"Sancho Panza\",\n" +
-                "\"country\": \"España\",\n" +
-                "\"province\": \"Barcelona\",\n" +
-                "\"city\": \"Barcelona\",\n" +
-                "\"postalCode\": 8029,\n" +
-                "\"address\": \"Carrer Diagonal\",\n" +
-                "\"phone\": \"654654654\"\n" +
-                "}]"); **/
+        /**  interceptor.setResponseString("[{\n" +
+         "  \"id\": 1,\n" +
+         "  \"user_id\": 1,\n" +
+         "  \"type\": \"Visa/4B/Euro6000\",\n" +
+         "  \"number\": \"123456789\",\n" +
+         "  \"expireDate\": \"1990-05-06\",\n" +
+         "  \"name\": \"Sancho Panza\",\n" +
+         "  \"country\": \"España\",\n" +
+         "  \"province\": \"Barcelona\",\n" +
+         "  \"city\": \"Barcelona\",\n" +
+         "  \"postalCode\": 8029,\n" +
+         "  \"address\": \"Carrer Diagonal\",\n" +
+         "  \"phone\": \"654654654\"\n" +
+         "},\n" +
+         "{\n" +
+         "\"id\": 2,\n" +
+         "\"user_id\": 1,\n" +
+         "\"type\": \"Visa/4B/Euro6000\",\n" +
+         "\"number\": \"987654321\",\n" +
+         "\"expireDate\": \"1990-05-06\",\n" +
+         "\"name\": \"Sancho Panza\",\n" +
+         "\"country\": \"España\",\n" +
+         "\"province\": \"Barcelona\",\n" +
+         "\"city\": \"Barcelona\",\n" +
+         "\"postalCode\": 8029,\n" +
+         "\"address\": \"Carrer Diagonal\",\n" +
+         "\"phone\": \"654654654\"\n" +
+         "}]"); **/
         server.getPaymentInfo(token,String.valueOf(id)).enqueue(new RetrofitErrorHandler<ApiDTO<List<Payment>>>(paymentsCallback) {
             @Override
             public void onResponse(ApiDTO<List<Payment>> body) {
@@ -112,29 +113,29 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void showShipments(String token,int id, final ShipmentsCallback shipmentsCallback) {
-     /**   interceptor.setResponseString("[{\n" +
-                "  \"id\": 1,\n" +
-                "  \"user_id\": 1,\n" +
-                "  \"country\": \"Spain\",\n" +
-                "  \"province\": \"Barcelona\",\n" +
-                "  \"city\": \"Barcelona\",\n" +
-                "  \"postalCode\": 8006,\n" +
-                "  \"address\": \"Calle Falsa 123\",\n" +
-                "  \"name\": \"Pepito Mendizabal\",\n" +
-                "  \"idCard\": \"654845616531\",\n" +
-                "  \"phone\": \"654654654\"\n" +
-                "}, {\n" +
-                "  \"id\": 2,\n" +
-                "  \"user_id\": 1,\n" +
-                "  \"country\": \"Spain\",\n" +
-                "  \"province\": \"Barcelona\",\n" +
-                "  \"city\": \"Barcelona\",\n" +
-                "  \"postalCode\": 8029,\n" +
-                "  \"address\": \"Calle Falsa 123\",\n" +
-                "  \"name\": \"Pepito Mendizabal\",\n" +
-                "  \"idCard\": \"654845616531\",\n" +
-                "  \"phone\": \"654654654\"\n" +
-                "}]"); **/
+        /**   interceptor.setResponseString("[{\n" +
+         "  \"id\": 1,\n" +
+         "  \"user_id\": 1,\n" +
+         "  \"country\": \"Spain\",\n" +
+         "  \"province\": \"Barcelona\",\n" +
+         "  \"city\": \"Barcelona\",\n" +
+         "  \"postalCode\": 8006,\n" +
+         "  \"address\": \"Calle Falsa 123\",\n" +
+         "  \"name\": \"Pepito Mendizabal\",\n" +
+         "  \"idCard\": \"654845616531\",\n" +
+         "  \"phone\": \"654654654\"\n" +
+         "}, {\n" +
+         "  \"id\": 2,\n" +
+         "  \"user_id\": 1,\n" +
+         "  \"country\": \"Spain\",\n" +
+         "  \"province\": \"Barcelona\",\n" +
+         "  \"city\": \"Barcelona\",\n" +
+         "  \"postalCode\": 8029,\n" +
+         "  \"address\": \"Calle Falsa 123\",\n" +
+         "  \"name\": \"Pepito Mendizabal\",\n" +
+         "  \"idCard\": \"654845616531\",\n" +
+         "  \"phone\": \"654654654\"\n" +
+         "}]"); **/
 
         server.getShipmentInfo(token,String.valueOf(id)).enqueue(new RetrofitErrorHandler<ApiDTO<List<Shipment>>>(shipmentsCallback) {
             @Override
@@ -188,8 +189,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void deletePayment(int payment_id, final BooleanDataCallback booleanDataCallback) {
-        server.deletePayment(payment_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
+    public void deletePayment(String token,int payment_id, final BooleanDataCallback booleanDataCallback) {
+        server.deletePayment(token,String.valueOf(payment_id)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 booleanDataCallback.onSuccess(false);
@@ -198,8 +199,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void deleteShipment(int shipment_id, final BooleanDataCallback booleanDataCallback) {
-        server.deleteShipment(shipment_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
+    public void deleteShipment(String token,int shipment_id, final BooleanDataCallback booleanDataCallback) {
+        server.deleteShipment(token, String.valueOf(shipment_id)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 booleanDataCallback.onSuccess(false);
@@ -229,6 +230,17 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
+    public void getMatchmakingProducts(String token, int prodID, final ProductListDataCallback dataCallback) {
+        server.getMatchMakingProducts(token, prodID).enqueue(new RetrofitErrorHandler< ApiDTO<List<Product>> /*List<Product> */>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<List<Product>>/*List<Product>*/ body) {
+                dataCallback.onSuccess(body);
+            }
+        });
+
+    }
+
+    @Override
     public void showProducts(String token, int userID, final ProductListDataCallback dataCallback) {
         /*List<String> llista = new ArrayList<>();
         llista.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
@@ -237,14 +249,11 @@ public class ApiDataSource implements ApiInterface {
         Product prod = new Product(12345, 54321, "Mochilla", "Mochila basura",llista ,
                 "Accesorios", llista2, 100, 200);
         List<Product> llistaProd= new ArrayList<>();
-
         llistaProd.add(prod);
         llistaProd.add(prod);
         llistaProd.add(prod);
         llistaProd.add(prod);
-
         Gson gson = new Gson();
-
         interceptor.setResponseString(gson.toJson(llistaProd));*/
 
         server.getUserProducts(token, userID).enqueue(new RetrofitErrorHandler< ApiDTO<List<Product>> /*List<Product> */>(dataCallback) {
@@ -277,11 +286,21 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void addProduct(Product product, final BooleanDataCallback dataCallback) {
-        server.addProduct(product).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+    public void addProduct(String token, ProductDTO product, final BooleanDataCallback dataCallback) {
+        server.addProduct(token, product).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 dataCallback.onSuccess(body.getError());
+            }
+        });
+    }
+
+    @Override
+    public void deleteProduct(String token, int product_id, final BooleanDataCallback dataCallback) {
+        server.deleteProduct(token, product_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                dataCallback.onSuccess(false);
             }
         });
     }

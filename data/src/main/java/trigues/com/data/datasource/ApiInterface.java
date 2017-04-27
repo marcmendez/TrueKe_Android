@@ -10,6 +10,7 @@ import java.util.List;
 
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.ProductDTO;
 
 
 /**
@@ -28,7 +29,7 @@ public interface ApiInterface {
 
     void login(User user, LoginDataCallback dataCallback);
 
-    void addProduct(Product product, BooleanDataCallback dataCallback);
+    void addProduct(String token, ProductDTO product, BooleanDataCallback dataCallback);
 
     void showProfile(String token, int id,UserDataCallback dataCallback);
 
@@ -44,13 +45,17 @@ public interface ApiInterface {
 
     void newPayment(Payment payment, BooleanDataCallback booleanDataCallback);
 
-    void deletePayment(int payment_id, BooleanDataCallback booleanDataCallback);
+    void deletePayment(String token, int payment_id, BooleanDataCallback booleanDataCallback);
 
-    void deleteShipment(int shipment_id, BooleanDataCallback booleanDataCallback);
+    void deleteShipment(String token, int shipment_id, BooleanDataCallback booleanDataCallback);
 
     void newShipment(Shipment shipment, BooleanDataCallback booleanDataCallback);
 
     void changeShipment(Shipment shipment, BooleanDataCallback booleanDataCallback);
+
+    void getMatchmakingProducts(String token, int prodID, ProductListDataCallback dataCallback);
+
+    void deleteProduct(String token, int product_id, BooleanDataCallback booleanDataCallback);
 
 
     //Callbacks:

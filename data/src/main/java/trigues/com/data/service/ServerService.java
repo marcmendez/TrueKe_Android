@@ -17,6 +17,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.ProductDTO;
 
 /**
  * Created by mbaque on 18/03/2017.
@@ -37,10 +38,11 @@ public interface ServerService {
     @GET("")
     Call<Product> getUserProductDetails(String token, int productID);
 
-    @POST("")
-    Call<ApiDTO<Void>> addProduct(@Body Product product);
+    @POST("products")
+    Call<ApiDTO<Void>> addProduct(@Header("token") String token, @Body ProductDTO product);
 
-    //bienvenidos a mi hood
+    @DELETE("products/:product_id")
+    Call<ApiDTO<Void>> deleteProduct(@Header("token") String token, int product_id);
 
     //user info
     @GET("users/{id}")
@@ -62,8 +64,8 @@ public interface ServerService {
     @POST("paymentmethods")
     Call<ApiDTO<Void>> newPayment(@Body Payment payment);
 
-    @DELETE("paymentmethods/:id")
-    Call<ApiDTO<Void>> deletePayment(int payment_id);
+    @DELETE("paymentmethods/{id}")
+    Call<ApiDTO<Void>> deletePayment(@Header("token")String token, @Path("id") String payment_id);
 
     //shipments
     @GET("shipmentmethods/{id}")
@@ -75,6 +77,9 @@ public interface ServerService {
     @POST("shipmentmethods")
     Call<ApiDTO<Void>> newShipment(@Body Shipment shipment);
 
-    @DELETE("shipmentmethods/:id")
-    Call<ApiDTO<Void>> deleteShipment(int shipment_id);
+    @DELETE("shipmentmethods/{id}")
+    Call<ApiDTO<Void>> deleteShipment(@Header("token")String token, @Path("id") String shipment_id);
+
+    @GET("products/matchmaking/{id}")
+    Call<ApiDTO<List<Product>>> getMatchMakingProducts(@Header("token") String token,@Path("id") int prodID);
 }

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -18,13 +19,19 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import trigues.com.trueke.R;
+import trigues.com.trueke.dependencyinjection.App;
+import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
+import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.AddProductPresenter;
 import trigues.com.trueke.utils.AddProductSquareImageView;
 import trigues.com.trueke.utils.ProductChecker;
@@ -39,7 +46,6 @@ import trigues.com.trueke.view.fragment.AddProductDesiredCategoryFragImpl;
 public class AddProductActivityImpl extends BaseActivityImpl implements AddProductActivity {
 
     private static String APP_DIRECTORY = "MyTruekeImages";
-    private static String MEDIA_DIRECTORY = APP_DIRECTORY + "TruekeImages";
     private final int PICTURE_TAKEN_FROM_CAMERA = 1;
     private final int PICTURE_TAKEN_FROM_GALLERY = 2;
     private String  photo1, photo2, photo3, photo4, nPath;
@@ -47,6 +53,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
 
     private static final String TAG = "AddProductActivityImpl";
     private String category;
+    private List<String> desired_categories;
 
     AddProductCategoryFragImpl addCategoryFrag;
 
@@ -94,9 +101,15 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
+        ((App) getApplication())
+                .getComponent()
+                .plus(new ActivityModule(this),
+                        new ViewModule(this))
+                .inject(this);
         ButterKnife.bind(this);
 
         category = photo1 = photo2 = photo3 = photo4="";
+        desired_categories = Arrays.asList("");
 
         addCategoryFrag = new AddProductCategoryFragImpl();
         e_category.setOnClickListener(new View.OnClickListener()
@@ -179,15 +192,10 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(options[which] == "Hacer foto") {
-                    //openCamera();
                     getPictureFromCamera();
-
                 }
                 else if (options[which] == "Abrir galeria") {
                     getPictureFromGallery();
-                   /* Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setType("images/*");
-                    startActivityForResult(intent.createChooser(intent, "Selecciona una imagen"), PICTURE_TAKEN_FROM_GALLERY);*/
                 }
                 else dialog.dismiss();
             }
@@ -195,67 +203,41 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         builder.show();
     }
 
-    /*private void openCamera() {
-        File file = new File (Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
-        boolean isDirectoryCreated = file.exists();
 
-        if(!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
-        if(isDirectoryCreated) {
-            Long timestamp = System.currentTimeMillis()/1000;
-            String imageName = timestamp.toString() + ".jpg";
-
-            nPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
-                    + File.separator + imageName;
-
-            File newFile = new File (nPath);
-
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
-            startActivityForResult(intent, PICTURE_TAKEN_FROM_CAMERA);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
-            switch(requestCode) {
-                case PICTURE_TAKEN_FROM_CAMERA:
-                    MediaScannerConnection.scanFile(this, new String[]{nPath}, null,
-                    new MediaScannerConnection.OnScanCompletedListener (){
-                        @Override
-                        public void onScanCompleted(String path, Uri uri) {
-                            Log.i("ExternalStorage", "Scanned" + path + "i");
-                            Log.i("ExternalStorage", "-> Uri = " + uri);
-                        }
-                    });
-                    Bitmap bitmap = BitmapFactory.decodeFile(nPath);
-                    if (num_photo == 1) e_photo1.setImageBitmap(bitmap);
-                    else if (num_photo == 2) e_photo2.setImageBitmap(bitmap);
-                    else if (num_photo == 3) e_photo3.setImageBitmap(bitmap);
-                    else e_photo4.setImageBitmap(bitmap);
+    private void getPictureFromCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.e("error","error while creating the File");
             }
-        }
-    }*/
-
-
-    private void getPictureFromCamera(){
-        File file = new File (Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
-        boolean isDirectoryCreated = file.exists();
-
-        if(!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
-        if(isDirectoryCreated) {
-            Long timestamp = System.currentTimeMillis()/1000;
-            String imageName = timestamp.toString() + ".jpg";
-
-            nPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
-                    + File.separator + imageName;
-
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            if (photoFile != null) {
+               /* Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);*/
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoFile);
                 startActivityForResult(takePictureIntent, PICTURE_TAKEN_FROM_CAMERA);
             }
         }
+
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = String.valueOf(System.currentTimeMillis()/1000);
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        // Save a file: path for use with ACTION_VIEW intents
+        nPath = image.getAbsolutePath();
+        return image;
     }
 
     private void getPictureFromGallery(){
@@ -345,10 +327,12 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             ProductChecker.checkTitle(title);
             ProductChecker.checkDescription(description);
             ProductChecker.checkCategory(category);
+            ProductChecker.checkDesiredCategories(desired_categories);
             ProductChecker.checkPrice(priceMin, priceMax);
-            ProductChecker.checkImages(photo1,photo2,photo3,photo4);
-            String photos = photo1+"-"+photo2+"-"+photo3+"-"+photo4;
-            //presenter.addProduct(title,description,priceMin,priceMax,category, wants_categories);
+            //ProductChecker.checkImages(photo1,photo2,photo3,photo4);
+            List<String> images = Arrays.asList(photo1,photo2,photo3,photo4);
+            //presenter.addProduct(title, description, images, productCategory, desired_categories,Integer.valueOf(priceMin),Integer.valueOf(priceMax));
+            presenter.addProduct(title,description,images,"utils", Arrays.asList("utils"),Integer.valueOf(priceMin),Integer.valueOf(priceMax));
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
                     e.getMessage(), Toast.LENGTH_LONG).show();
@@ -361,7 +345,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     }
 
     public void onCategoryPressed(String cat){
-        category = cat;
+        category = cat.toLowerCase();
         e_category.setText(cat);
     }
 
@@ -375,5 +359,11 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             desiredCategoryText = desiredCategoryText.substring(0, desiredCategoryText.length() - 1);
         }
         e_desiredCategory.setText(desiredCategoryText);
+        ListIterator<String> iterator = categories.listIterator();
+        while (iterator.hasNext())
+        {
+            iterator.set(iterator.next().toLowerCase());
+        }
+        desired_categories = categories;
     }
 }

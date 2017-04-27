@@ -1,5 +1,7 @@
 package trigues.com.trueke.utils;
 
+import java.util.List;
+
 /**
  * Created by Alba on 05/04/2017.
  */
@@ -21,5 +23,9 @@ public class ProductChecker {
     public final static void checkImages(String photo1, String photo2, String photo3, String photo4) throws Exception {
         if(photo1.isEmpty() && photo2.isEmpty() && photo3.isEmpty() && photo4.isEmpty())
             throw new Exception("Debes subir al menos una fototografia del producto");
+    }
+    public final static void checkDesiredCategories(List<String> target) throws Exception {
+        if(target.get(0) == "")
+            throw new Exception("Debes añadir al menos una categoria que haga referencia al producto deseado");
     }
 }

@@ -56,6 +56,9 @@ public interface RepositoryInterface {
 
     void rejectMatch(Integer[] productsID, VoidCallback dataCallback);
 
+    void getMatchmakingProducts(int prodID, ProductListCallback dataCallback);
+
+    void deleteProduct(int product_id, BooleanCallback dataCallback);
 
 
     //Callbacks:
