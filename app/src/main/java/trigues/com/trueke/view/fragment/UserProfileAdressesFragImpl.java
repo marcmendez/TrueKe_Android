@@ -4,13 +4,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.google.gson.Gson;
@@ -92,12 +96,53 @@ public class UserProfileAdressesFragImpl extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        activity.getMenuInflater().inflate(R.menu.user_profile_menu, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
                 activity.removeFullScreenFragment();
                 return true;
+            case R.id.menu_user_profile_add:
+                showAddDialog();
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showAddDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_shipment, null);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+
+        final EditText addressET = (EditText) view.findViewById(R.id.add_shipment_adress);
+        final EditText postalCodeET = (EditText) view.findViewById(R.id.add_shipment_postalcode);
+        final EditText cityET = (EditText) view.findViewById(R.id.add_shipment_city);
+        final EditText provinceET = (EditText) view.findViewById(R.id.add_shipment_province);
+        final EditText nameET = (EditText) view.findViewById(R.id.add_shipment_name);
+        final EditText idCardET = (EditText) view.findViewById(R.id.add_shipment_idCard);
+
+
+        view.findViewById(R.id.add_shipment_close_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.add_shipment_send).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                activity.newShipment(new Shipment(provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()), addressET.getText().toString(), nameET.getText().toString(), idCardET.getText().toString()));
+            }
+        });
+
+        dialog.show();
     }
 }

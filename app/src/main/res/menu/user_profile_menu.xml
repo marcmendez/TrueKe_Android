@@ -3,6 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menu_user_profile_add"
         android:title="Añadir"
-        android:icon="@mipmap/add_icon"
+        android:icon="@mipmap/add_icon_white"
         app:showAsAction="ifRoom"/>
 </menu>

@@ -188,7 +188,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void deletePayment(int payment_id, final BooleanCallback dataCallback) {
-        apiDataSource.deletePayment(payment_id, new ApiInterface.BooleanDataCallback(){
+        apiDataSource.deletePayment(internalStorage.getToken(), payment_id, new ApiInterface.BooleanDataCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -204,7 +204,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void deleteShipment(int shipment_id, final BooleanCallback dataCallback) {
-        apiDataSource.deleteShipment(shipment_id, new ApiInterface.BooleanDataCallback(){
+        apiDataSource.deleteShipment(internalStorage.getToken(),shipment_id, new ApiInterface.BooleanDataCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -249,6 +249,24 @@ public class AppRepository implements RepositoryInterface {
             }
         });
     }
+
+    @Override
+    public void getMatchmakingProducts(int prodID, final ProductListCallback dataCallback) {
+
+        apiDataSource.getMatchmakingProducts(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductListDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<List<Product>> returnParam) {
+                dataCallback.onSuccess(returnParam.getContent());
+            }
+        });
+
+    }
+
 
     @Override
     public void login(User user, final BooleanCallback dataCallback) {

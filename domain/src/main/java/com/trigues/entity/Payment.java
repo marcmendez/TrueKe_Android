@@ -18,8 +18,17 @@ public class Payment {
     private String address;
     private String phone;
 
-    public Payment(int id, int user_id, String type, String number, String expireDate, String name) {
-
+    public Payment(String type, String number, String expireDate, String name, String province, String city, int postalCode, String address, String phone) {
+        this.type = type;
+        this.number = number;
+        this.expireDate = expireDate;
+        this.name = name;
+        this.province = province;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.address = address;
+        this.phone = phone;
+        this.country = "España";
     }
 
     public Payment(int id, int user_id, String type, String number, String expireDate, String name,

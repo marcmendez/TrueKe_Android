@@ -46,5 +46,9 @@ public class FormatChecker {
             Date today = new Date();
             if(date.after(today)) throw new Exception("Fecha incorrecta");
     }
+
+    public static void CheckPasswordActual(String target, String target2) throws Exception {
+        if(!target.equals(target2)) throw new Exception("Esta no es tu contraseña actual!");
+    }
 }
 
