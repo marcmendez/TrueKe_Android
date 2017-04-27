@@ -78,4 +78,6 @@ public interface ServerService {
     @DELETE("shipmentmethods/{id}")
     Call<ApiDTO<Void>> deleteShipment(@Header("token")String token, @Path("id") String shipment_id);
 
+    @GET("products/matchmaking/{id}")
+    Call<ApiDTO<List<Product>>> getMatchMakingProducts(@Header("token") String token,@Path("id") int prodID);
 }

@@ -5,6 +5,7 @@ import android.support.v4.util.Pair;
 import com.trigues.entity.Product;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.AcceptMatchUseCase;
+import com.trigues.usecase.GetMatchMakingListUseCase;
 import com.trigues.usecase.GetUserProductsUseCase;
 import com.trigues.usecase.RejectMatchUseCase;
 
@@ -21,18 +22,18 @@ import trigues.com.trueke.view.MatchmakingActivity;
 public class MatchmakingPresenter {
 
     private MatchmakingActivity view;
-    private GetUserProductsUseCase showProductsUseCase;
+    private GetMatchMakingListUseCase showProductsUseCase;
     private AcceptMatchUseCase acceptMatchUseCase;
     private RejectMatchUseCase rejectMatchUseCase;
 
     @Inject
-    public MatchmakingPresenter(MatchmakingActivity view, GetUserProductsUseCase showProductsUseCase) {
+    public MatchmakingPresenter(MatchmakingActivity view, GetMatchMakingListUseCase showProductsUseCase) {
         this.view = view;
         this.showProductsUseCase = showProductsUseCase;
     }
 
-    public void getTestProducts(){
-        showProductsUseCase.execute(54321, new GetUserProductsUseCase.UserProductsListCallback() {
+    public void getMatchMakingProducts(int prodID){
+        showProductsUseCase.execute(prodID, new GetMatchMakingListUseCase.MatchMakingCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 view.onError(errorBundle.getErrorMessage());
