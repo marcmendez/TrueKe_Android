@@ -17,6 +17,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.ProductDTO;
 
 /**
  * Created by mbaque on 18/03/2017.
@@ -37,8 +38,12 @@ public interface ServerService {
     @GET("")
     Call<Product> getUserProductDetails(String token, int productID);
 
-    @POST("")
-    Call<ApiDTO<Void>> addProduct(@Body Product product);
+    //products
+    @POST("products")
+    Call<ApiDTO<Void>> addProduct(@Header("token") String token,@Body ProductDTO product);
+
+    @DELETE("products/:id")
+    Call<ApiDTO<Void>> deleteProduct(@Header("token") String token, int product_id);
 
     //bienvenidos a mi hood
 
@@ -77,4 +82,5 @@ public interface ServerService {
 
     @DELETE("shipmentmethods/:id")
     Call<ApiDTO<Void>> deleteShipment(int shipment_id);
+
 }

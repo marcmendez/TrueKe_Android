@@ -1,5 +1,7 @@
 package trigues.com.data.repository;
 
+import android.util.Log;
+
 import com.trigues.RepositoryInterface;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -16,6 +18,7 @@ import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.ProductDTO;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -34,7 +37,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void getUserProductDetails(int productId, final ProductCallback dataCallback) {
-        apiDataSource.getUserProductDetails(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductDataCallback() {
+        apiDataSource.getUserProductDetails(productId, new ApiInterface.ProductDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
@@ -49,16 +52,16 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showProducts(int userID, final ProductListCallback dataCallback) {
-        apiDataSource.showProducts(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductListDataCallback() {
+        apiDataSource.showProducts(userID, new ApiInterface.ProductListDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
             }
 
             @Override
-            public void onSuccess(ApiDTO<List<Product>> returnParam) {
+            public void onSuccess(List<Product> returnParam) {
                 List<Product> p = new ArrayList<>();
-                dataCallback.onSuccess(returnParam.getContent());
+                dataCallback.onSuccess(p);
             }
         });
     }
@@ -90,7 +93,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showPayments(Integer id, final PaymentCallback dataCallback) {
-        apiDataSource.showPayments(internalStorage.getToken(), internalStorage.getUser().getId(),new ApiInterface.PaymentsCallback(){
+        apiDataSource.showPayments(id,new ApiInterface.PaymentsCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -98,15 +101,15 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(ApiDTO<List<Payment>> returnParam) {
-                dataCallback.onSuccess(returnParam.getContent());
+            public void onSuccess(List<Payment> returnParam) {
+                dataCallback.onSuccess(returnParam);
             }
         });
     }
 
     @Override
     public void showShipments(Integer id, final ShipmentCallback dataCallback) {
-        apiDataSource.showShipments(internalStorage.getToken(),internalStorage.getUser().getId(),new ApiInterface.ShipmentsCallback(){
+        apiDataSource.showShipments(id,new ApiInterface.ShipmentsCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -114,8 +117,8 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(ApiDTO<List<Shipment>> returnParam) {
-                dataCallback.onSuccess(returnParam.getContent());
+            public void onSuccess(List<Shipment> returnParam) {
+                dataCallback.onSuccess(returnParam);
             }
         });
     }
@@ -233,7 +236,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void changeShipment(Shipment shipment, final BooleanCallback dataCallback) {
-        apiDataSource.changeShipment(shipment, new ApiInterface.BooleanDataCallback() {
+        apiDataSource.changeShipment(shipment,new ApiInterface.BooleanDataCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -247,20 +250,6 @@ public class AppRepository implements RepositoryInterface {
         });
     }
 
-    public void acceptMatch(Integer[] productsID, VoidCallback dataCallback) {
-        //Aun no se sabe nombre de la query, inventarme algo;
-        // POST /matche0,s al header tinc un token, y al body tinc el product_id1 i product_id2 i un wants (0 o 1 si accepta)
-        //
-        //(productsID[0], productsID[1], 1) //este bool 0 rechaza, 1 acepta
-
-
-    }
-
-    @Override
-    public void rejectMatch(Integer[] productsID, VoidCallback dataCallback) {
-
-    }
-
     @Override
     public void login(User user, final BooleanCallback dataCallback) {
         apiDataSource.login(user, new ApiInterface.LoginDataCallback() {
@@ -271,8 +260,8 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(ApiDTO<LoginDTO> returnParam) {
-                internalStorage.saveToken(returnParam.getContent().getToken());
-                internalStorage.saveUser(returnParam.getContent().getUser());
+               internalStorage.saveUser(returnParam.getContent().getUser());
+               internalStorage.saveToken(returnParam.getContent().getToken());
                 dataCallback.onSuccess(!returnParam.getError());
 
             }
@@ -281,7 +270,16 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void addProduct(Product product, final BooleanCallback dataCallback) {
-        apiDataSource.addProduct(product, new ApiInterface.BooleanDataCallback() {
+        ProductDTO p2 = new ProductDTO(product);
+        /*Log.i("addProduct", "token: "+internalStorage.getToken());
+        Log.i("addProduct", "userId: "+internalStorage.getUser().getId()+" userId_prod: "+p2.getUserId());
+        Log.i("addProduct", "title: "+p2.getTitle());
+        Log.i("addProduct", "description: "+p2.getDescription());
+        Log.i("addProduct", "desiredCategories: "+p2.getDesiredCategories());
+        Log.i("addProduct", "category: "+p2.getProductCategory());
+        Log.i("addProduct", "priceMin: "+p2.getMinPrice());
+        Log.i("addProduct", "priceMax: "+p2.getMaxPrice());*/
+        apiDataSource.addProduct(internalStorage.getToken(), p2, new ApiInterface.BooleanDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
@@ -296,7 +294,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showProfile(final UserCallback dataCallback) {
-        apiDataSource.showProfile(internalStorage.getToken(), internalStorage.getUser().getId(),
+        apiDataSource.showProfile(internalStorage.getToken(), String.valueOf(internalStorage.getUser().getId()),
                 new ApiInterface.UserDataCallback()
         {
 
@@ -308,6 +306,21 @@ public class AppRepository implements RepositoryInterface {
             @Override
             public void onSuccess(ApiDTO<List<User>> returnParam) {
                 dataCallback.onSuccess(returnParam.getContent().get(0));
+            }
+        });
+    }
+
+    @Override
+    public void deleteProduct(int product_id, final BooleanCallback dataCallback) {
+        apiDataSource.deleteProduct(internalStorage.getToken(),product_id, new ApiInterface.BooleanDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
             }
         });
     }

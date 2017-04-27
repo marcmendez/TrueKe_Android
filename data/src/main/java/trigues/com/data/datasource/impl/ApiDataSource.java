@@ -2,11 +2,14 @@ package trigues.com.data.datasource.impl;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.trigues.RepositoryInterface;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +22,7 @@ import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.LoginDTO;
+import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
 
@@ -30,7 +34,6 @@ public class ApiDataSource implements ApiInterface {
 
     private ServerService server;
     private FakeInterceptor interceptor;
-
 
     @Inject
     public ApiDataSource() {
@@ -53,9 +56,27 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void getUserProductDetails(String token, int productId, final ProductDataCallback dataCallback) {
+    public void getUserProductDetails(int productId, final ProductDataCallback dataCallback) {
+        interceptor.setResponseString("{\n" +
+                "  \"id\" : 12345,\n" +
+                "  \"userId\" : 54321,\n" +
+                "  \"title\" : \"Mochila EASTPAK usada\",\n" +
+                "  \"description\" : \"Mochila de gran calidad y duración. Capacidad de 23L. Color negro. En buen estado.\",\n" +
+                "  \"images\" : [\n" +
+                "    \"https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg\",\n" +
+                "    \"https://www.bolsosvandi.com/server/Portal_0001611/img/products/mochila-eastpak-padded-pak-tejano_1037867_29360533.jpg\",\n" +
+                "    \"https://asset3.surfcdn.com/mochilas-eastpak-mochila-eastpak-padded-pak-r-negro.jpg?w=1200&h=1200&r=4&q=80&o=5vHKHHorIf3qW0m5E5ULl$0XIx0j&V=uTZf\",\n" +
+                "    \"https://photos6.spartoo.es/photos/179/1797422/1797422_1200_A.jpg\"\n" +
+                "  ],\n" +
+                "  \"productCategory\" : \"Accesorios\",\n" +
+                "  \"desiredCategories\" : [\n" +
+                "    \"Accesorios\", \"Electrodomesticos\", \"Informatica\", \"Moda\"\n" +
+                "  ],\n" +
+                "  \"minPrice\" : 100,\n" +
+                "  \"maxPrice\" : 200\n" +
+                "}");
 
-        server.getUserProductDetails(token, productId).enqueue(new RetrofitErrorHandler<Product>(dataCallback) {
+        server.getUserProductDetails().enqueue(new RetrofitErrorHandler<Product>(dataCallback) {
             @Override
             public void onResponse(Product body) {
                 dataCallback.onSuccess(body);
@@ -63,8 +84,8 @@ public class ApiDataSource implements ApiInterface {
         });
     }
     @Override
-    public void showProfile(String token, int id, final UserDataCallback userDataCallback){
-        server.getUserProfile(token,String.valueOf(id)).enqueue(new RetrofitErrorHandler<ApiDTO<List<User>>>(userDataCallback) {
+    public void showProfile(String token, String id, final UserDataCallback userDataCallback){
+        server.getUserProfile(token,id).enqueue(new RetrofitErrorHandler<ApiDTO<List<User>>>(userDataCallback) {
             @Override
             public void onResponse(ApiDTO<List<User>> body) {
                 userDataCallback.onSuccess(body);
@@ -73,8 +94,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void showPayments(String token,int id, final PaymentsCallback paymentsCallback) {
-      /**  interceptor.setResponseString("[{\n" +
+    public void showPayments(int id, final PaymentsCallback paymentsCallback) {
+        interceptor.setResponseString("[{\n" +
                 "  \"id\": 1,\n" +
                 "  \"user_id\": 1,\n" +
                 "  \"type\": \"Visa/4B/Euro6000\",\n" +
@@ -101,18 +122,18 @@ public class ApiDataSource implements ApiInterface {
                 "\"postalCode\": 8029,\n" +
                 "\"address\": \"Carrer Diagonal\",\n" +
                 "\"phone\": \"654654654\"\n" +
-                "}]"); **/
-        server.getPaymentInfo(token,String.valueOf(id)).enqueue(new RetrofitErrorHandler<ApiDTO<List<Payment>>>(paymentsCallback) {
+                "}]");
+        server.getPaymentInfo().enqueue(new RetrofitErrorHandler<List<Payment>>(paymentsCallback) {
             @Override
-            public void onResponse(ApiDTO<List<Payment>> body) {
+            public void onResponse(List<Payment> body) {
                 paymentsCallback.onSuccess(body);
             }
         });
     }
 
     @Override
-    public void showShipments(String token,int id, final ShipmentsCallback shipmentsCallback) {
-     /**   interceptor.setResponseString("[{\n" +
+    public void showShipments(Integer id, final ShipmentsCallback shipmentsCallback) {
+        interceptor.setResponseString("[{\n" +
                 "  \"id\": 1,\n" +
                 "  \"user_id\": 1,\n" +
                 "  \"country\": \"Spain\",\n" +
@@ -134,11 +155,11 @@ public class ApiDataSource implements ApiInterface {
                 "  \"name\": \"Pepito Mendizabal\",\n" +
                 "  \"idCard\": \"654845616531\",\n" +
                 "  \"phone\": \"654654654\"\n" +
-                "}]"); **/
+                "}]");
 
-        server.getShipmentInfo(token,String.valueOf(id)).enqueue(new RetrofitErrorHandler<ApiDTO<List<Shipment>>>(shipmentsCallback) {
+        server.getShipmentInfo().enqueue(new RetrofitErrorHandler<List<Shipment>>(shipmentsCallback) {
             @Override
-            public void onResponse(ApiDTO<List<Shipment>> body) {
+            public void onResponse(List<Shipment> body) {
                 shipmentsCallback.onSuccess(body);
             }
         });
@@ -229,8 +250,8 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void showProducts(String token, int userID, final ProductListDataCallback dataCallback) {
-        /*List<String> llista = new ArrayList<>();
+    public void showProducts(int userID, final ProductListDataCallback dataCallback) {
+        List<String> llista = new ArrayList<>();
         llista.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
         List<String> llista2 = new ArrayList<>();
                 llista2.add("Electrodomesticos");
@@ -245,11 +266,11 @@ public class ApiDataSource implements ApiInterface {
 
         Gson gson = new Gson();
 
-        interceptor.setResponseString(gson.toJson(llistaProd));*/
+        interceptor.setResponseString(gson.toJson(llistaProd));
 
-        server.getUserProducts(token, userID).enqueue(new RetrofitErrorHandler< ApiDTO<List<Product>> /*List<Product> */>(dataCallback) {
+        server.getUserProducts(/*userID*/).enqueue(new RetrofitErrorHandler< /*ApiDTO<Void>*/ List<Product> >(dataCallback) {
             @Override
-            public void onResponse(ApiDTO<List<Product>>/*List<Product>*/ body) {
+            public void onResponse(/*ApiDTO<Void>*/List<Product> body) {
                 dataCallback.onSuccess(body);
             }
         });
@@ -277,11 +298,21 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void addProduct(Product product, final BooleanDataCallback dataCallback) {
-        server.addProduct(product).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+    public void addProduct(String token, ProductDTO product, final BooleanDataCallback dataCallback) {
+        server.addProduct(token,product).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 dataCallback.onSuccess(body.getError());
+            }
+        });
+    }
+
+    @Override
+    public void deleteProduct(String token,int product_id, final BooleanDataCallback booleanDataCallback) {
+        server.deleteProduct(token,product_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(false);
             }
         });
     }

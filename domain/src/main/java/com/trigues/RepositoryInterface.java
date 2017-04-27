@@ -52,10 +52,7 @@ public interface RepositoryInterface {
 
     void changeShipment(Shipment shipment, BooleanCallback dataCallback);
 
-    void acceptMatch(Integer[] productID, VoidCallback dataCallback);
-
-    void rejectMatch(Integer[] productsID, VoidCallback dataCallback);
-
+    void deleteProduct(int product_id, BooleanCallback dataCallback);
 
 
     //Callbacks:
