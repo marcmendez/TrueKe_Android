@@ -102,7 +102,10 @@ public class UserProductsListActivityImpl extends MenuActivityImpl implements Us
         recyclerView.setAdapter(adapter);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
 }
 

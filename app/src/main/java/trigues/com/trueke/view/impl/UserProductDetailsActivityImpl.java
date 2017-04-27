@@ -208,7 +208,7 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
             return true;
         }
         else if(item.getItemId() == R.id.menu_delete_product){
-            //TODO: Delete product
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder.setMessage("¿Está seguro de que desea eliminar este elemento de forma permanente?")
