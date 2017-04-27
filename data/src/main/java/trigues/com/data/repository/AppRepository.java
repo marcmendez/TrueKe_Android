@@ -1,5 +1,7 @@
 package trigues.com.data.repository;
 
+import android.util.Log;
+
 import com.trigues.RepositoryInterface;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -50,14 +52,14 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showProducts(int userID, final ProductListCallback dataCallback) {
-        apiDataSource.showProducts(userID, new ApiInterface.ProductListDataCallback() {
+        apiDataSource.showProducts(/*userID,*/ new ApiInterface.ProductListDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
             }
 
             @Override
-            public void onSuccess(List<Product> returnParam) {
+            public void onSuccess(/*ApiDTO<Void>*/List<Product> returnParam) {
                 List<Product> p = new ArrayList<>();
                 dataCallback.onSuccess(p);
             }
@@ -269,6 +271,14 @@ public class AppRepository implements RepositoryInterface {
     @Override
     public void addProduct(Product product, final BooleanCallback dataCallback) {
         ProductDTO p2 = new ProductDTO(product);
+        Log.i("addProduct", "token: "+internalStorage.getToken());
+        Log.i("addProduct", "userId: "+internalStorage.getUser().getId()+" userId_prod: "+p2.getUserId());
+        Log.i("addProduct", "title: "+p2.getTitle());
+        Log.i("addProduct", "description: "+p2.getDescription());
+        Log.i("addProduct", "desiredCategories: "+p2.getDesiredCategories());
+        Log.i("addProduct", "category: "+p2.getProductCategory());
+        Log.i("addProduct", "priceMin: "+p2.getMinPrice());
+        Log.i("addProduct", "priceMax: "+p2.getMaxPrice());
         apiDataSource.addProduct(internalStorage.getToken(), p2, new ApiInterface.BooleanDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -302,7 +312,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void deleteProduct(int product_id, final BooleanCallback dataCallback) {
-        apiDataSource.deleteUser(product_id, new ApiInterface.BooleanDataCallback(){
+        apiDataSource.deleteProduct(internalStorage.getToken(),product_id, new ApiInterface.BooleanDataCallback(){
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);

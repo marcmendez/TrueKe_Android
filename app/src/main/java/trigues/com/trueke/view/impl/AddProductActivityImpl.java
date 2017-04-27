@@ -370,12 +370,12 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             ProductChecker.checkDescription(description);
             ProductChecker.checkCategory(category);
             ProductChecker.checkPrice(priceMin, priceMax);
-            ProductChecker.checkImages(photo1,photo2,photo3,photo4);
+           //ProductChecker.checkImages(photo1,photo2,photo3,photo4);
             //String images =  photo1+"-"+photo2+"-"+photo3+"-"+photo4
             List<String> images = Arrays.asList(photo1,photo2,photo3,photo4);
 
-            //presenter.addProduct(title, description, images, productCategory, desiredCategories, minPrice, maxPrice);
-            presenter.addProduct(title, description, images, category, Arrays.asList("none1", "none2"), Integer.valueOf(priceMin), Integer.valueOf(priceMax));
+            //presenter.addProduct(title, description, images, category, desiredCategories, minPrice, maxPrice);
+            presenter.addProduct(title, description, images, "utils", Arrays.asList("vehiculos", "electronico"), Integer.valueOf(priceMin), Integer.valueOf(priceMax));
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
                     e.getMessage(), Toast.LENGTH_LONG).show();
@@ -388,7 +388,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     }
 
     public void onCategoryPressed(String cat){
-        category = cat;
+        category = cat.toLowerCase();
         e_category.setText(cat);
         show_fragment = true;
         getSupportFragmentManager().beginTransaction().hide(getSupportFragmentManager().findFragmentById(R.id.fragment_category)).commit();

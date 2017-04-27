@@ -1,5 +1,7 @@
 package trigues.com.data.entity;
 
+import android.text.TextUtils;
+
 import com.trigues.entity.Product;
 
 /**
@@ -7,32 +9,63 @@ import com.trigues.entity.Product;
  */
 
 public class ProductDTO {
-    int id;
-    int userId;
+    int user_id;
     String title;
     String description;
    // String images;
-    String productCategory;
-    String desiredCategories;
-    int minPrice;
-    int maxPrice;
+    String category;
+    String wants_categories;
+    int min_price;
+    int max_price;
 
     public ProductDTO(Product p) {
-        this.id = p.getId();
-        this.userId = p.getUserId();
+        this.user_id = p.getUserId();
         this.title = p.getTitle();
         this.description = p.getDescription();
       //  this.images = p.getImages();
-        this.productCategory = p.getProductCategory();
+        this.category = p.getProductCategory();
         boolean first = true;
-        for (String iter: p.getDesiredCategories()) {
+        /*for (String iter: p.getDesiredCategories()) {
             if(first) {
                 this.desiredCategories = iter;
                 first = false;
             }
             else this.desiredCategories = this.desiredCategories+ "-" + iter;
-        }
-        this.minPrice = p.getMinPrice();
-        this.maxPrice = p.getMaxPrice();
+        }*/
+        this.wants_categories = TextUtils.join("-", p.getDesiredCategories());
+        this.min_price = p.getMinPrice();
+        this.max_price = p.getMaxPrice();
+    }
+
+    public int getUserId() {
+        return user_id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+   /* public String getImages() {
+        return images;
+    }*/
+
+    public String getProductCategory() {
+        return category;
+    }
+
+    public String getDesiredCategories() {
+        return wants_categories;
+    }
+
+    public int getMinPrice() {
+        return min_price;
+    }
+
+    public int getMaxPrice() {
+        return max_price;
     }
 }

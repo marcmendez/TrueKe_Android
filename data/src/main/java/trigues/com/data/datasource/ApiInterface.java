@@ -24,7 +24,7 @@ public interface ApiInterface {
 
     void getUserProductDetails(int productId, ProductDataCallback dataCallback);
 
-    void showProducts(int userID, ProductListDataCallback dataCallback);
+    void showProducts(/*String token, int userID,*/ ProductListDataCallback dataCallback);
 
     void register(User user, BooleanDataCallback dataCallback);
 
@@ -54,7 +54,7 @@ public interface ApiInterface {
 
     void changeShipment(Shipment shipment, BooleanDataCallback booleanDataCallback);
 
-    void deleteProduct(int product_id, BooleanDataCallback booleanDataCallback);
+    void deleteProduct(String token,int product_id, BooleanDataCallback booleanDataCallback);
 
 
     //Callbacks:

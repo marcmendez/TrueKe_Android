@@ -42,7 +42,7 @@ public interface ServerService {
     Call<ApiDTO<Void>> addProduct(@Header("token") String token,@Body ProductDTO product);
 
     @DELETE("products/:id")
-    Call<ApiDTO<Void>> deleteProduct(int product_id);
+    Call<ApiDTO<Void>> deleteProduct(@Header("token") String token, int product_id);
 
     //bienvenidos a mi hood
 
