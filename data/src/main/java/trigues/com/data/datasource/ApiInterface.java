@@ -24,7 +24,7 @@ public interface ApiInterface {
 
     void getUserProductDetails(int productId, ProductDataCallback dataCallback);
 
-    void showProducts(/*String token, int userID,*/ ProductListDataCallback dataCallback);
+    void showProducts(int userID, ProductListDataCallback dataCallback);
 
     void register(User user, BooleanDataCallback dataCallback);
 

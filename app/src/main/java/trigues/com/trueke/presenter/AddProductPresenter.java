@@ -44,7 +44,7 @@ public class AddProductPresenter {
             @Override
             public void onSuccess(Boolean returnParam) {
                 view.hideProgress();
-                if(returnParam){
+                if(!returnParam){
                     view.goToShowProductList();
                 }
                 else{

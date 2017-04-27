@@ -375,7 +375,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             List<String> images = Arrays.asList(photo1,photo2,photo3,photo4);
 
             //presenter.addProduct(title, description, images, category, desiredCategories, minPrice, maxPrice);
-            presenter.addProduct(title, description, images, "utils", Arrays.asList("utils", "utils"), Integer.valueOf(priceMin), Integer.valueOf(priceMax));
+            presenter.addProduct(title, description, images, "utils", Arrays.asList("utils"), Integer.valueOf(priceMin), Integer.valueOf(priceMax));
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
                     e.getMessage(), Toast.LENGTH_LONG).show();
