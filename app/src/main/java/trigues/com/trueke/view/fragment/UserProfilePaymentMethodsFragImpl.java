@@ -116,31 +116,32 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
 
     private void showAddDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setView(R.layout.dialog_add_payment_method);
-        AlertDialog dialog = builder.create();
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_payment_method, null);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
 
-        final EditText typeET = (EditText) dialog.findViewById(R.id.add_payment_type);
-        final EditText numberET = (EditText) dialog.findViewById(R.id.add_payment_number);
-        final EditText expireDateET = (EditText) dialog.findViewById(R.id.add_payment_expireDate);
-        final EditText nameET = (EditText) dialog.findViewById(R.id.add_payment_name);
-        final EditText addressET = (EditText) dialog.findViewById(R.id.add_payment_address);
-        final EditText cityET = (EditText) dialog.findViewById(R.id.add_payment_city);
-        final EditText postalCodeET = (EditText) dialog.findViewById(R.id.add_payment_postalcode);
-        final EditText provinceET = (EditText) dialog.findViewById(R.id.add_payment_province);
-        final EditText phoneET = (EditText) dialog.findViewById(R.id.add_payment_phone);
+        final EditText typeET = (EditText) view.findViewById(R.id.add_payment_type);
+        final EditText numberET = (EditText) view.findViewById(R.id.add_payment_number);
+        final EditText expireDateET = (EditText) view.findViewById(R.id.add_payment_expireDate);
+        final EditText nameET = (EditText) view.findViewById(R.id.add_payment_name);
+        final EditText addressET = (EditText) view.findViewById(R.id.add_payment_address);
+        final EditText cityET = (EditText) view.findViewById(R.id.add_payment_city);
+        final EditText postalCodeET = (EditText) view.findViewById(R.id.add_payment_postalcode);
+        final EditText provinceET = (EditText) view.findViewById(R.id.add_payment_province);
+        final EditText phoneET = (EditText) view.findViewById(R.id.add_payment_phone);
 
-        dialog.findViewById(R.id.add_payment_close_button).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.add_payment_close_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.removeFullScreenFragment();
+                dialog.dismiss();
             }
         });
 
-        dialog.findViewById(R.id.add_payment_send_button).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.add_payment_send_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activity.newPayment(new Payment(typeET.getText().toString(), numberET.getText().toString(), expireDateET.getText().toString(), nameET.getText().toString(), provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()), addressET.getText().toString(), phoneET.getText().toString()));
-                activity.removeFullScreenFragment();
+                dialog.dismiss();
             }
         });
 
