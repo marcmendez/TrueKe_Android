@@ -306,7 +306,7 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void deleteProduct(String token, int product_id, final BooleanDataCallback dataCallback) {
-        server.deleteProduct(token, product_id).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+        server.deleteProduct(token, String.valueOf(product_id)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 dataCallback.onSuccess(false);

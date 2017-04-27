@@ -366,4 +366,9 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         }
         desired_categories = categories;
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

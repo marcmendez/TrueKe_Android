@@ -33,7 +33,7 @@ public interface ServerService {
     @POST("users")
     Call<ApiDTO<Void>> register(@Body User user);
 
-
+    //products
     @GET("products/{userid}")
     Call<ApiDTO<List<Product>>> getUserProducts(@Header("token") String token, @Path("userid") Integer userID);
 
@@ -43,8 +43,8 @@ public interface ServerService {
     @POST("products")
     Call<ApiDTO<Void>> addProduct(@Header("token") String token, @Body ProductDTO product);
 
-    @DELETE("products/:product_id")
-    Call<ApiDTO<Void>> deleteProduct(@Header("token") String token, int product_id);
+    @DELETE("products/{product_id}")
+    Call<ApiDTO<Void>> deleteProduct(@Header("token") String token,  @Path("product_id") String product_id);
 
     //user info
     @GET("users/{id}")

@@ -8,4 +8,5 @@ import com.trigues.entity.Product;
 
 public interface UserProductDetailsActivity extends BaseActivity {
     void onDetailsRetrieved(Product returnParam);
+    void goToShowProductList();
 }
