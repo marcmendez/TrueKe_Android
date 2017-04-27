@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -227,10 +226,8 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         presenter.changeProfile(user);
     }
 
-    private void newPayment(){
-        presenter.newPayment(new Payment(-1,1,"Visa/4B/Euro6000","123456789"
-                ,"1990-05-06","Sancho Panza","España","Barcelona","Barcelona",
-                8029,"Carrer Diagonal","654654654"));
+    public void newPayment(Payment payment){
+        presenter.newPayment(payment);
     }
     private void changePayment(){
         presenter.changePayment(new Payment(2,1,"Visa/4B/Euro6000","123456789"
@@ -238,11 +235,12 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 8029,"Carrer Diagonal","654654654"));
         //country,province,city,postalCode,address,name,idCard,phone
     }
-
-    private void newShipment(){
-        presenter.newShipment(new Shipment(-1,1,"Spain","Barcelona",
-                "Barcelona",8006,"Calle Falsa 123","Pepesito",
-                "654845616531","654654654"));
+    private void deletePayment(){
+        int payment_id = 1;
+        presenter.deletePayment(payment_id);
+    }
+    public void newShipment(Shipment shipment){
+        presenter.newShipment(shipment);
     }
     private void changeShipment(){
         presenter.changeShipment(new Shipment(-1,1,"Spain","Barcelona",

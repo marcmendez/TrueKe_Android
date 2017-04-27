@@ -1,7 +1,6 @@
 package trigues.com.trueke.view.impl;
 
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,7 +29,6 @@ import trigues.com.trueke.presenter.AddProductPresenter;
 import trigues.com.trueke.utils.AddProductSquareImageView;
 import trigues.com.trueke.utils.ProductChecker;
 import trigues.com.trueke.view.AddProductActivity;
-import trigues.com.trueke.view.UserProductsListActivity;
 import trigues.com.trueke.view.fragment.AddProductCategoryFragImpl;
 import trigues.com.trueke.view.fragment.AddProductDesiredCategoryFragImpl;
 
@@ -358,7 +356,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     }
 
     public void goToShowProductList(){
-        startActivity(new Intent(this, UserProductsListActivity.class));
+        startActivity(new Intent(this, UserProductsListActivityImpl.class));
         finish();
     }
 
