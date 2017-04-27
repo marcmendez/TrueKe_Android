@@ -1,10 +1,15 @@
 package trigues.com.trueke.view.impl;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -203,7 +208,32 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
             return true;
         }
         else if(item.getItemId() == R.id.menu_delete_product){
-            //TODO: Delete product
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setMessage("¿Está seguro de que desea eliminar este elemento de forma permanente?")
+                    .setTitle("Confirmación")
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener()  {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            Log.i("Dialogos", "Confirmacion Aceptada.");
+
+                            Gson gson = new Gson();
+                            Product p = gson.fromJson(getIntent().getStringExtra("product"),Product.class);
+                            presenter.deleteProduct(p.getId());
+
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            Log.i("Dialogos", "Confirmacion Cancelada.");
+                            dialog.cancel();
+                        }
+                    });
+
+            builder.create().show();
 
             return true;
         }
@@ -212,6 +242,11 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
 
     @Override
     public void onBackPressed() {
+        finish();
+    }
+
+    public void goToShowProductList(){
+        startActivity(new Intent(this, UserProductsListActivityImpl.class));
         finish();
     }
 }

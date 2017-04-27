@@ -45,7 +45,6 @@ import trigues.com.trueke.view.fragment.AddProductDesiredCategoryFragImpl;
 
 public class AddProductActivityImpl extends BaseActivityImpl implements AddProductActivity {
 
-    private static String APP_DIRECTORY = "MyTruekeImages";
     private final int PICTURE_TAKEN_FROM_CAMERA = 1;
     private final int PICTURE_TAKEN_FROM_GALLERY = 2;
     private String  photo1, photo2, photo3, photo4, nPath;
@@ -215,9 +214,10 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
                 Log.e("error","error while creating the File");
             }
             if (photoFile != null) {
-               /* Uri photoURI = FileProvider.getUriForFile(this,
+               /*Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
-                        photoFile);*/
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);   */
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoFile);
                 startActivityForResult(takePictureIntent, PICTURE_TAKEN_FROM_CAMERA);
             }
@@ -365,5 +365,10 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             iterator.set(iterator.next().toLowerCase());
         }
         desired_categories = categories;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
