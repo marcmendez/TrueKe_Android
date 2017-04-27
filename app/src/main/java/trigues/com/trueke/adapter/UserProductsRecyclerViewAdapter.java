@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.trigues.entity.Product;
 
@@ -56,7 +57,9 @@ public abstract class UserProductsRecyclerViewAdapter extends RecyclerView.Adapt
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-            onItemClick();
+            Gson gson= new Gson();
+            String json = gson.toJson(product.get(viewHolder.getAdapterPosition()));
+            onItemClick(json);
             }
         });
     }
@@ -66,7 +69,7 @@ public abstract class UserProductsRecyclerViewAdapter extends RecyclerView.Adapt
         return product.size();
     }
 
-    abstract public void onItemClick();
+    abstract public void onItemClick(String gson);
     abstract public void  onMatchMakingClick(int productID);
 
     class ViewHolder extends RecyclerView.ViewHolder{

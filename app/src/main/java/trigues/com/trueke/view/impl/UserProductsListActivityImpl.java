@@ -7,7 +7,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.trigues.entity.Product;
 
 import java.util.List;
@@ -62,7 +64,7 @@ public class UserProductsListActivityImpl extends MenuActivityImpl implements Us
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        presenter.getUserProducts(54321);
+        presenter.getUserProducts(0);
 
         addProductButton.setOnClickListener(new View.OnClickListener()
         {
@@ -72,6 +74,7 @@ public class UserProductsListActivityImpl extends MenuActivityImpl implements Us
                 startActivity(new Intent(UserProductsListActivityImpl.this, AddProductActivityImpl.class));
             }
         });
+
 
 
     }
@@ -86,8 +89,12 @@ public class UserProductsListActivityImpl extends MenuActivityImpl implements Us
                 startActivity(intent);
             }
             @Override
-            public void onItemClick() {
-                startActivity(new Intent(UserProductsListActivityImpl.this, UserProductDetailsActivityImpl.class));
+            public void onItemClick(String gson) {
+
+
+                Intent intent = new Intent(UserProductsListActivityImpl.this, UserProductDetailsActivityImpl.class);
+                intent.putExtra("product", gson);
+                startActivity(intent);
             }
 
         };

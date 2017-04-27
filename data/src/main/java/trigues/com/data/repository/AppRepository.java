@@ -34,7 +34,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void getUserProductDetails(int productId, final ProductCallback dataCallback) {
-        apiDataSource.getUserProductDetails(productId, new ApiInterface.ProductDataCallback() {
+        apiDataSource.getUserProductDetails(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);

@@ -29,7 +29,7 @@ public class ShowProductsPresenter {
 
 
     public void getUserProducts(int userID) {
-        if (userID == 54321) {
+        if (userID == 0) {
 
             showProductsUseCase.execute(userID, new GetUserProductsUseCase.UserProductsListCallback() {
                 @Override

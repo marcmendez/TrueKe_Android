@@ -20,7 +20,7 @@ public interface ApiInterface {
 
     //Functions:
 
-    void getUserProductDetails(int productId, ProductDataCallback dataCallback);
+    void getUserProductDetails(String token, int productId, ProductDataCallback dataCallback);
 
     void showProducts(String token, int userID, ProductListDataCallback dataCallback);
 

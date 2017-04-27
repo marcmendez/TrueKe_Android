@@ -11,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.trigues.entity.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -77,10 +80,9 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
                 .inject(this);
 
         ButterKnife.bind(this);
-
-        int productId = getIntent().getIntExtra("user_product_id", -1);
-
-        presenter.getProductDetails(productId);
+        Gson gson = new Gson();
+        Product p = gson.fromJson(getIntent().getStringExtra("product"),Product.class);
+        onDetailsRetrieved(p);
 
         setUpBackActionBar(toolbar);
 
@@ -89,14 +91,17 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
 
     @Override
     public void onDetailsRetrieved(Product returnParam) {
+        //Fake mentre no hi hagi imatges
 
-        setUpViewPager(returnParam.getImages());
+        List<String> fakeList = new ArrayList<>();
+        fakeList.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
+        setUpViewPager(fakeList);
 
         setUpProductDetails(returnParam);
 
         setUpDotCounter();
 
-        setUpDesiredCategoriesList(returnParam.getDesiredCategories());
+        //setUpDesiredCategoriesList(returnParam.getDesiredCategories());
     }
 
     private void setUpProductDetails(Product product) {
