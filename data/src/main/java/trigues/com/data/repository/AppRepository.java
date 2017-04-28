@@ -254,10 +254,6 @@ public class AppRepository implements RepositoryInterface {
 
 
     public void acceptMatch(Integer[] productsID, final VoidCallback dataCallback) {
-        //Aun no se sabe nombre de la query, inventarme algo;
-        // POST /matches al header tinc un token, y al body tinc el product_id1 i product_id2 i un wants (0 o 1 si accepta)
-        //
-        //(productsID[0], productsID[1], 1) //este bool 0 rechaza, 1 acepta
 
         apiDataSource.acceptMatch(internalStorage.getToken(), productsID, new ApiInterface.VoidDataCallback() {
 
@@ -275,8 +271,19 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void rejectMatch(Integer[] productsID, VoidCallback dataCallback) {
+    public void rejectMatch(Integer[] productsID, final VoidCallback dataCallback) {
+        apiDataSource.rejectMatch(internalStorage.getToken(), productsID, new ApiInterface.VoidDataCallback() {
 
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
     }
 
     @Override
