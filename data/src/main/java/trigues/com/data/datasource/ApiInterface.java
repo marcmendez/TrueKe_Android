@@ -57,6 +57,8 @@ public interface ApiInterface {
 
     void deleteProduct(String token, int product_id, BooleanDataCallback booleanDataCallback);
 
+    void acceptMatch(String token, Integer[] productsID, VoidDataCallback voidDataCallback);
+
 
     //Callbacks:
 

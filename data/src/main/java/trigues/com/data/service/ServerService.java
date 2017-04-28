@@ -82,6 +82,16 @@ public interface ServerService {
     @POST("shipmentmethods")
     Call<ApiDTO<Void>> newShipment(@Header("token") String token,@Body Shipment shipment);
 
+    @DELETE("shipmentmethods/:id")
+    Call<ApiDTO<Void>> deleteShipment(int shipment_id);
+
+    //Matches
+    @POST("matches")
+    Call<ApiDTO<Void>> acceptMatch(@Header("token") String token, Integer product_id1, Integer product_id2, Integer wants);
+
+    @POST("matches")
+    Call<ApiDTO<Void>> rejectMatch(@Header("token") String token, Integer product_id1, Integer product_id2, Integer wants);
+
     @DELETE("shipmentmethods/{id}")
     Call<ApiDTO<Void>> deleteShipment(@Header("token")String token, @Path("id") String shipment_id);
 
