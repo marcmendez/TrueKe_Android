@@ -1,6 +1,7 @@
 package trigues.com.trueke.view.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 import com.trigues.entity.Payment;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -134,6 +136,44 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+            }
+        });
+
+        typeET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Tipo");
+                final List<String> list = new ArrayList<String>();
+                list.add("Visa/4B/Euro6000");
+                list.add("MasterCard/4B/Euro6000");
+                list.add("American Express");
+                list.add("Maestro");
+
+                final int[] position = {0};
+
+                builder.setSingleChoiceItems(list.toArray(new CharSequence[list.size()]), 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        position[0] = which;
+                    }
+                });
+
+
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        typeET.setText(list.get(position[0]));
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
             }
         });
 
