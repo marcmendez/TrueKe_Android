@@ -282,7 +282,7 @@ public class AppRepository implements RepositoryInterface {
     @Override
     public void getMatchmakingProducts(int prodID, final ProductListCallback dataCallback) {
 
-        apiDataSource.getMatchmakingProducts(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductListDataCallback() {
+        apiDataSource.getMatchmakingProducts(internalStorage.getToken(), prodID, new ApiInterface.ProductListDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);

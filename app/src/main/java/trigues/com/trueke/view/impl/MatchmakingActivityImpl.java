@@ -3,7 +3,6 @@ package trigues.com.trueke.view.impl;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -54,7 +53,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
 
         ButterKnife.bind(this);
 
-        currentProduct = getIntent().getIntExtra("product", 0);
+        currentProduct = getIntent().getIntExtra("product_id", 0);
         presenter.getMatchMakingProducts(currentProduct);
 
         setUpBackActionBar();

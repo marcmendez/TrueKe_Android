@@ -1,15 +1,12 @@
 package trigues.com.data.datasource.impl;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.trigues.RepositoryInterface;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
+import com.trigues.exception.ErrorBundle;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,12 +21,10 @@ import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
-import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
+import trigues.com.data.entity.UserName;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
-
-import static android.R.attr.category;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -39,6 +34,8 @@ public class ApiDataSource implements ApiInterface {
 
     private ServerService server;
     private FakeInterceptor interceptor;
+
+    private static final String ADMIN_TOKEN = "f4493ed183abba6b096f3903a5fc3b64";
 
 
     @Inject
@@ -52,12 +49,272 @@ public class ApiDataSource implements ApiInterface {
         OkHttpClient client = builder.build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                //.baseUrl("http://10.4.41.147:3000/")
                 .baseUrl("http://10.4.41.147:3000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
         server = retrofit.create(ServerService.class);
+        //initDatabase();
+    }
+
+    public void initDatabase(){
+
+        register(new User(1, "000000000", "test", "1234567", "test@test.com", "1996-09-19", 0, 0, 0.0F), new BooleanDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                login(new User("test@test.com", "1234567"), new LoginDataCallback() {
+                    @Override
+                    public void onError(ErrorBundle errorBundle) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(ApiDTO<LoginDTO> returnParam) {
+                        User user = returnParam.getContent().getUser();
+
+                        List<String> desiredCategories = new ArrayList<String>();
+                        desiredCategories.add("Deporte y ocio");
+
+                        Product product = new Product(0, user.getId(), "Poupala", "Description", null, "Deporte y ocio", desiredCategories, 15, 20);
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala2");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala3");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala4");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala5");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala6");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala7");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+
+
+                    }
+                });
+            }
+        });
+
+        register(new User(2, "111111111", "test", "1234567", "test@test.pou", "1992-09-19", 0, 0, 0.0F), new BooleanDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                login(new User("test@test.pou", "1234567"), new LoginDataCallback() {
+                    @Override
+                    public void onError(ErrorBundle errorBundle) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(ApiDTO<LoginDTO> returnParam) {
+                        User user = returnParam.getContent().getUser();
+
+                        List<String> desiredCategories = new ArrayList<String>();
+                        desiredCategories.add("Deporte y ocio");
+
+                        Product product = new Product(0, user.getId(), "Poupala", "Description", null, "Deporte y ocio", desiredCategories, 15, 20);
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala2");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala3");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala4");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala5");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala6");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala7");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+
+                            }
+                        });
+
+
+
+                    }
+                });
+            }
+        });
+
+
+
+
+
 
     }
 
