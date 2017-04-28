@@ -76,7 +76,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                     Integer[] productes = new Integer[2];
 
                     productes[0] = product.getId();
-                    productes[1] = 1;
+                    productes[1] = currentProduct;
 
                     presenter.acceptedProduct(productes);
                 }
@@ -88,7 +88,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                     Integer[] productes = new Integer[2];
 
                     productes[0] = product.getId();
-                    productes[1]= 1;
+                    productes[1]= currentProduct;
 
                     presenter.rejectedProduct(productes);
 

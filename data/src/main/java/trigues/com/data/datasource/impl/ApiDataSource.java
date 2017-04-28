@@ -22,6 +22,7 @@ import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductDTO;
+import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
@@ -514,7 +515,8 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void acceptMatch(String token, Integer[] productsID, final VoidDataCallback voidDataCallback) {
-        server.acceptMatch(token, productsID[0], productsID[1], 1).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
+        ProductsMatchDTO dto = new ProductsMatchDTO(productsID[0], productsID[1], 1);
+        server.acceptMatch(token, dto).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
 
             @Override
             public void onResponse(ApiDTO<Void> body) {
@@ -525,7 +527,8 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void rejectMatch(String token, Integer[] productsID, final VoidDataCallback voidDataCallback) {
-        server.rejectMatch(token, productsID[0], productsID[1], 0).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
+        ProductsMatchDTO dto = new ProductsMatchDTO(productsID[0], productsID[1], 0);
+        server.rejectMatch(token, dto).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
 
             @Override
             public void onResponse(ApiDTO<Void> body) {

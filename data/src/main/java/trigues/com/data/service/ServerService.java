@@ -20,6 +20,7 @@ import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
+import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
 
@@ -89,10 +90,10 @@ public interface ServerService {
 
     //Matches
     @POST("matches")
-    Call<ApiDTO<Void>> acceptMatch(@Header("token") String token, Integer product_id1, Integer product_id2, Integer wants);
+    Call<ApiDTO<Void>> acceptMatch(@Header("token") String token, @Body ProductsMatchDTO dto);
 
     @POST("matches")
-    Call<ApiDTO<Void>> rejectMatch(@Header("token") String token, Integer product_id1, Integer product_id2, Integer wants);
+    Call<ApiDTO<Void>> rejectMatch(@Header("token") String token, @Body ProductsMatchDTO dto);
 
     @DELETE("shipmentmethods/{id}")
     Call<ApiDTO<Void>> deleteShipment(@Header("token")String token, @Path("id") String shipment_id);

@@ -1,15 +1,15 @@
-package com.trigues.entity;
+package trigues.com.data.entity;
 
 /**
  * Created by Eduard on 28/04/2017.
  */
 
-public class productsMatch {
+public class ProductsMatchDTO {
     private Integer product_id1;
     private Integer product_id2;
     private Integer wants;
 
-    public productsMatch(Integer product_id1, Integer product_id2, Integer wants) {
+    public ProductsMatchDTO(Integer product_id1, Integer product_id2, Integer wants) {
         this.product_id1 = product_id1;
         this.product_id2 = product_id2;
         this.wants = wants;
