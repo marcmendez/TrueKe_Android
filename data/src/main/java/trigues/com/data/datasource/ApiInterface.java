@@ -53,6 +53,8 @@ public interface ApiInterface {
 
     void changeShipment(Shipment shipment, BooleanDataCallback booleanDataCallback);
 
+    void acceptMatch(String token, Integer[] productsID, VoidDataCallback voidDataCallback);
+
 
     //Callbacks:
 

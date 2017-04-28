@@ -78,4 +78,12 @@ public interface ServerService {
 
     @DELETE("shipmentmethods/:id")
     Call<ApiDTO<Void>> deleteShipment(int shipment_id);
+
+    //Matches
+    @POST("matches")
+    Call<ApiDTO<Void>> acceptMatch(@Header("token") String token, Integer product_id1, Integer product_id2, Integer wants);
+
+    @POST("matches")
+    Call<ApiDTO<Void>> rejectMatch(@Header("token") String token, Integer product_id1, Integer product_id2, Integer wants);
+
 }
