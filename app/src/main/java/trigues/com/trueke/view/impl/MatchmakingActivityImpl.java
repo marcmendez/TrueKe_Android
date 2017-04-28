@@ -67,6 +67,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                         .setPaddingTop(20)
                         .setRelativeScale(0.01f));
 
+
         for(final Product product : returnParam){
             matchmakingList.addView(new MatchmakingCard(this, product, matchmakingList, new MatchmakingCardCallback() {
                 @Override
@@ -75,8 +76,8 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
 
                     Integer[] productes = new Integer[2];
 
-                    productes[0] = product.getId();
-                    productes[1] = currentProduct;
+                    productes[1] = product.getId();
+                    productes[0] = currentProduct;
 
                     presenter.acceptedProduct(productes);
                 }
@@ -87,8 +88,8 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
 
                     Integer[] productes = new Integer[2];
 
-                    productes[0] = product.getId();
-                    productes[1]= currentProduct;
+                    productes[1] = product.getId();
+                    productes[0]= currentProduct;
 
                     presenter.rejectedProduct(productes);
 

@@ -101,10 +101,10 @@ public interface ServerService {
     @GET("products/matchmaking/{id}")
     Call<ApiDTO<List<Product>>> getMatchMakingProducts(@Header("token") String token,@Path("id") int prodID);
 
-    @HTTP(method = "POST", path = "productwantscategory", hasBody = true)//nidea del path
+    @HTTP(method = "POST", path = "productwantscategory", hasBody = true)
     Call<ApiDTO<Void>> addProductCategory(@Header("token") String token, @Body CategoryDTO category);
 
-    @HTTP(method = "DELETE", path = "productwantscategory", hasBody = true)//nidea del path
+    @HTTP(method = "DELETE", path = "productwantscategory", hasBody = true)
     Call<ApiDTO<Void>> deleteProductCategory(@Header("token") String token,  @Body CategoryDTO category);
 
     @GET("productwantscategory/{product_id}")
