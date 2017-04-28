@@ -59,6 +59,9 @@ public interface ApiInterface {
 
     void acceptMatch(String token, Integer[] productsID, VoidDataCallback voidDataCallback);
 
+    void rejectMatch(String token, Integer[] productsID, VoidDataCallback voidDataCallback);
+
+
 
     //Callbacks:
 

@@ -261,6 +261,17 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
+    public void rejectMatch(String token, Integer[] productsID, final VoidDataCallback voidDataCallback) {
+        server.rejectMatch(token, productsID[0], productsID[1], 0).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
+
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                voidDataCallback.onSuccess(null);
+            }
+        });
+    }
+
+    @Override
     public void showProducts(String token, int userID, final ProductListDataCallback dataCallback) {
         /*List<String> llista = new ArrayList<>();
         llista.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
