@@ -72,7 +72,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
             matchmakingList.addView(new MatchmakingCard(this, product, matchmakingList, new MatchmakingCardCallback() {
                 @Override
                 public void onAccepted() {
-                    ++currentProduct;
+
 
                     Integer[] productes = new Integer[2];
 
@@ -84,7 +84,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
 
                 @Override
                 public void onRejected() {
-                    ++currentProduct;
+
 
                     Integer[] productes = new Integer[2];
 
