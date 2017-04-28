@@ -2,6 +2,9 @@ package trigues.com.data.datasource.impl;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.trigues.RepositoryInterface;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -18,12 +21,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.entity.ApiDTO;
+import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
+
+import static android.R.attr.category;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -325,4 +331,47 @@ public class ApiDataSource implements ApiInterface {
         });
     }
 
+    @Override
+    public void addProductCategory(String token,List<String> category1, final BooleanDataCallback dataCallback) {
+
+        int product_id = Integer.parseInt(category1.get(1));
+        String category = category1.get(0);
+        CategoryDTO desiredCat = new CategoryDTO();
+        desiredCat.setProduct_id(product_id);
+        desiredCat.setCategory(category);
+
+        server.addProductCategory(token, desiredCat).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                dataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void deleteProductCategory(String token,List<String> category1, final BooleanDataCallback dataCallback) {
+        int product_id = Integer.parseInt(category1.get(1));
+        String category = category1.get(0);
+        CategoryDTO desiredCat = new CategoryDTO();
+        desiredCat.setProduct_id(product_id);
+        desiredCat.setCategory(category);
+
+        server.deleteProductCategory(token, desiredCat).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                dataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void getDesiredCategories(String token, int productID, final StringListDataCallback dataCallback) {
+
+        server.getDesiredCategories(token,productID).enqueue(new RetrofitErrorHandler<ApiDTO<List<CategoryDTO>>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<List<CategoryDTO>> body) {
+                dataCallback.onSuccess(body);
+            }
+        });
+    }
 }

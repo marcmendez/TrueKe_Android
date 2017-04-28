@@ -81,6 +81,7 @@ public class MatchmakingDetailsFragImpl extends Fragment {
     ImageViewPageAdapter viewPageAdapter;
     int numImages;
     ImageView[] dots;
+    Product product;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,7 +110,7 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         String productJson = getArguments().getString("product");
 
         Gson gson = new Gson();
-        Product product = gson.fromJson(productJson, Product.class);
+        product = gson.fromJson(productJson, Product.class);
 
         setUpProductDetails(product);
 
@@ -136,7 +137,7 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         this.categoriesRecyclerview.setAdapter(new DesiredCategoriesAdapter(getContext(), desiredCategories) {
             @Override
             public void onCategoryDeleteButtonClick(String category) {
-                presenter.onCategoryDeleteButtonClick(category);
+                presenter.onCategoryDeleteButtonClick(category,product.getId());
             }
         });
     }

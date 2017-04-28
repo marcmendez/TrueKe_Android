@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
+import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
 
@@ -370,6 +371,55 @@ public class AppRepository implements RepositoryInterface {
             @Override
             public void onSuccess(Boolean returnParam) {
                 dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void addProductCategory(List<String> category, final BooleanCallback dataCallback) {
+        apiDataSource.addProductCategory(internalStorage.getToken(),category, new ApiInterface.BooleanDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void deleteProductCategory(List<String> category, final BooleanCallback dataCallback) {
+        apiDataSource.deleteProductCategory(internalStorage.getToken(),category, new ApiInterface.BooleanDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void getDesiredCategories(int productID, final StringListCallback dataCallback) {
+        apiDataSource.getDesiredCategories(internalStorage.getToken(),productID, new ApiInterface.StringListDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<List<CategoryDTO>> returnParam/*funcio per cambiar de category dto a list strings*/) {
+                List<String> categories = new ArrayList<>();
+                for (CategoryDTO element : returnParam.getContent()) {
+                    categories.add(element.getCategory());
+                }
+                dataCallback.onSuccess(categories);
             }
         });
     }

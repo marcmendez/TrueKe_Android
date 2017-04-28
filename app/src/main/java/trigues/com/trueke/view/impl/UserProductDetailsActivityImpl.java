@@ -76,6 +76,7 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
     ImageViewPageAdapter viewPageAdapter;
     int numImages;
     ImageView[] dots;
+    Product p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
 
         ButterKnife.bind(this);
         Gson gson = new Gson();
-        Product p = gson.fromJson(getIntent().getStringExtra("product"),Product.class);
+        p = gson.fromJson(getIntent().getStringExtra("product"),Product.class);
         onDetailsRetrieved(p);
 
         setUpBackActionBar(toolbar);
@@ -118,7 +119,7 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
 
         setUpDotCounter();
 
-        //setUpDesiredCategoriesList(returnParam.getDesiredCategories());
+        presenter.getDesiredCategories(returnParam.getId());
     }
 
     private void showAddCategoryDialog() {
@@ -133,12 +134,12 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
         category.setText(product.getProductCategory());
     }
 
-    private void setUpDesiredCategoriesList(List<String> desiredCategories) {
+    public void setUpDesiredCategoriesList(List<String> desiredCategories) {
         this.categoriesRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         this.categoriesRecyclerview.setAdapter(new DesiredCategoriesAdapter(this, desiredCategories) {
             @Override
             public void onCategoryDeleteButtonClick(String category) {
-                presenter.onCategoryDeleteButtonClick(category);
+                presenter.onCategoryDeleteButtonClick(category, p.getId());
             }
         });
     }
@@ -192,7 +193,7 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
     }
 
     public void addProductCategory(String category){
-        presenter.addProductCategory(category);
+        presenter.addProductCategory(category, p.getId());
     }
 
     @Override

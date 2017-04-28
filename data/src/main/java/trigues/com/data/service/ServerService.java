@@ -11,11 +11,13 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
+import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.UserName;
@@ -97,4 +99,14 @@ public interface ServerService {
 
     @GET("products/matchmaking/{id}")
     Call<ApiDTO<List<Product>>> getMatchMakingProducts(@Header("token") String token,@Path("id") int prodID);
+
+    @HTTP(method = "POST", path = "productwantscategory", hasBody = true)//nidea del path
+    Call<ApiDTO<Void>> addProductCategory(@Header("token") String token, @Body CategoryDTO category);
+
+    @HTTP(method = "DELETE", path = "productwantscategory", hasBody = true)//nidea del path
+    Call<ApiDTO<Void>> deleteProductCategory(@Header("token") String token,  @Body CategoryDTO category);
+
+    @GET("productwantscategory/{product_id}")
+    Call<ApiDTO<List<CategoryDTO>>> getDesiredCategories(@Header("token") String token, @Path("product_id") int prodID);
+
 }

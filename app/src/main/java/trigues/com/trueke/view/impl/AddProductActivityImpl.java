@@ -331,8 +331,8 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             ProductChecker.checkPrice(priceMin, priceMax);
             //ProductChecker.checkImages(photo1,photo2,photo3,photo4);
             List<String> images = Arrays.asList(photo1,photo2,photo3,photo4);
-            //presenter.addProduct(title, description, images, productCategory, desired_categories,Integer.valueOf(priceMin),Integer.valueOf(priceMax));
-            presenter.addProduct(title,description,images,"utils", Arrays.asList("utils"),Integer.valueOf(priceMin),Integer.valueOf(priceMax));
+            presenter.addProduct(title, description, images, category, desired_categories,Integer.valueOf(priceMin),Integer.valueOf(priceMax));
+            //presenter.addProduct(title,description,images,"utils", Arrays.asList("utils"),Integer.valueOf(priceMin),Integer.valueOf(priceMax));
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
                     e.getMessage(), Toast.LENGTH_LONG).show();
@@ -359,11 +359,11 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             desiredCategoryText = desiredCategoryText.substring(0, desiredCategoryText.length() - 1);
         }
         e_desiredCategory.setText(desiredCategoryText);
-        ListIterator<String> iterator = categories.listIterator();
+        /*ListIterator<String> iterator = categories.listIterator();
         while (iterator.hasNext())
         {
             iterator.set(iterator.next().toLowerCase());
-        }
+        }*/
         desired_categories = categories;
     }
 

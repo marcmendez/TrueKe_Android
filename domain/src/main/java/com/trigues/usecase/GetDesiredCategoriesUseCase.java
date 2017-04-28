@@ -9,50 +9,53 @@ import com.trigues.executor.ThreadExecutor;
 import com.trigues.interactor.BaseUseCase;
 import com.trigues.interactor.Interactor;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
- * Created by mbaque on 24/03/2017.
+ * Created by marc on 28/04/17.
  */
 
-public class GetUserProductDetailsUseCase extends BaseUseCase<Product> implements Interactor<Integer,Product> {
+public class GetDesiredCategoriesUseCase  extends BaseUseCase<List<String>> implements Interactor<Integer,List<String>> {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
-    private GetUserProductDetailsCallback callback;
+    private GetDesiredCategoriesCallback callback;
 
     private int productId;
 
-    RepositoryInterface.ProductCallback dataCallback = new RepositoryInterface.ProductCallback() {
+    RepositoryInterface.StringListCallback dataCallback = new RepositoryInterface.StringListCallback() {
         @Override
         public void onError(ErrorBundle errorBundle) {
             notifyOnError(errorBundle, callback);
         }
 
         @Override
-        public void onSuccess(Product returnParam) {
+        public void onSuccess(List<String> returnParam) {
             notifyOnSuccess(returnParam, callback);
         }
     };
 
     @Inject
-    public GetUserProductDetailsUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor, RepositoryInterface repository) {
+    public GetDesiredCategoriesUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor, RepositoryInterface repository) {
         super(postExecutionThread);
         this.repository = repository;
         this.executor = executor;
     }
 
     @Override
-    public <R extends DefaultCallback<Product>> void execute(Integer productId, R defaultCallback) {
-        this.callback = ((GetUserProductDetailsCallback) defaultCallback);
+    public <R extends DefaultCallback<List<String>>> void execute(Integer productId, R defaultCallback) {
+        this.callback = ((GetDesiredCategoriesCallback) defaultCallback);
         this.productId = productId;
         executor.execute(this);
     }
 
     @Override
     public void run() {
-        repository.getUserProductDetails(productId, dataCallback);
+        repository.getDesiredCategories(productId, dataCallback);
     }
 
-    public interface GetUserProductDetailsCallback extends DefaultCallback<Product>{}
+    public interface GetDesiredCategoriesCallback extends DefaultCallback<List<String>>{}
 
 }
+

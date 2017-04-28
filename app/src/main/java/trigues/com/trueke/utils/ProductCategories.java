@@ -9,10 +9,10 @@ import java.util.List;
 
 public class ProductCategories {
 
-    public static final String VEHICULOS = "Vehiculos";
-    public static final String ELECTRONICA = "Electronico";
+    public static final String VEHICULOS = "Vehículos";
+    public static final String ELECTRONICA = "Electrónico";
     public static final String DEPORTE_Y_OCIO = "Deporte y ocio";
-    public static final String HOGAR_Y_ELECTRODOMESTICOS = "Hogar y electrodomesticos";
+    public static final String HOGAR_Y_ELECTRODOMESTICOS = "Hogar y electrodomésticos";
     public static final String CONSOLAS_Y_VIDEOJUEGOS = "Consolas y videojuegos";
     public static final String LIBROS_PELICULAS_MUSICA = "Libros, películas o música";
     public static final String MODA_Y_ACCESORIOS = "Moda y accesorios";

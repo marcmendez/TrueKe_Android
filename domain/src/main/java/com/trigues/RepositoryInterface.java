@@ -60,6 +60,11 @@ public interface RepositoryInterface {
 
     void deleteProduct(int product_id, BooleanCallback dataCallback);
 
+    void addProductCategory(List<String> product_id, BooleanCallback dataCallback);
+
+    void deleteProductCategory(List<String> product_id, BooleanCallback dataCallback);
+
+    void getDesiredCategories(int productID, StringListCallback dataCallback);
 
     //Callbacks:
 
@@ -70,4 +75,5 @@ public interface RepositoryInterface {
     interface UserCallback extends DefaultCallback<User>{}
     interface PaymentCallback extends DefaultCallback<List<Payment>>{}
     interface ShipmentCallback extends DefaultCallback<List<Shipment>>{}
+    interface StringListCallback extends DefaultCallback<List<String>>{}
 }
