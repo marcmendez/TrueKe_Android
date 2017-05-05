@@ -4,6 +4,7 @@ import dagger.Module;
 import dagger.Provides;
 import trigues.com.trueke.view.AddProductActivity;
 import trigues.com.trueke.view.BaseActivity;
+import trigues.com.trueke.view.ChatListActivity;
 import trigues.com.trueke.view.LoginActivity;
 import trigues.com.trueke.view.MatchmakingActivity;
 import trigues.com.trueke.view.MenuActivity;
@@ -63,5 +64,10 @@ public class ViewModule {
     @Provides
     AddProductActivity providesAddProductView() {
         return (AddProductActivity) view;
+    }
+
+    @Provides
+    ChatListActivity providesChatView() {
+        return (ChatListActivity) view;
     }
 }

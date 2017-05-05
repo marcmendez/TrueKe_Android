@@ -5,6 +5,7 @@ import trigues.com.data.dependencyinjection.scope.PerActivity;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.view.impl.AddProductActivityImpl;
 import trigues.com.trueke.view.impl.BaseActivityImpl;
+import trigues.com.trueke.view.impl.ChatListActivityImpl;
 import trigues.com.trueke.view.impl.LoginActivityImpl;
 import trigues.com.trueke.view.impl.MatchmakingActivityImpl;
 import trigues.com.trueke.view.impl.MenuActivityImpl;
@@ -25,6 +26,8 @@ public interface ActivityComponent {
     void inject(MenuActivityImpl activity);
 
     void inject(LoginActivityImpl activity);
+
+    void inject(ChatListActivityImpl activity);
 
     void inject(UserProductsListActivityImpl activity);
 

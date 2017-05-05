@@ -6,7 +6,9 @@
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
 
     <application
@@ -27,6 +29,10 @@
         </activity>
 
         <activity android:name=".view.impl.LoginActivityImpl" android:theme="@style/LoginTheme">
+
+        </activity>
+
+        <activity android:name=".view.impl.ChatListActivityImpl" android:label="Mensajes">
 
         </activity>
 
