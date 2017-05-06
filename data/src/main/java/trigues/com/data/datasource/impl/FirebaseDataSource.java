@@ -14,6 +14,7 @@ import com.trigues.entity.ChatImage;
 import com.trigues.entity.ChatLocation;
 import com.trigues.entity.ChatMessage;
 import com.trigues.entity.ChatTextMessage;
+import com.trigues.entity.ChatTrueke;
 import com.trigues.exception.ErrorBundle;
 
 import java.util.ArrayList;
@@ -143,6 +144,16 @@ public class FirebaseDataSource implements FirebaseInterface {
                 }
             }
         });
+    }
+
+    @Override
+    public void acceptTrueke(String chatId, ChatTrueke trueke, FirebaseVoidCallback dataCallback) {
+        database.child(chatId).child(trueke.getTruekeId()).child("status").setValue(2);
+    }
+
+    @Override
+    public void rejectTrueke(String chatId, ChatTrueke trueke, FirebaseVoidCallback dataCallback) {
+        database.child(chatId).child(trueke.getTruekeId()).child("status").setValue(1);
     }
 
     @Override

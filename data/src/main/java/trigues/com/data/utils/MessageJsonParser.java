@@ -5,10 +5,12 @@ import com.trigues.entity.ChatImage;
 import com.trigues.entity.ChatLocation;
 import com.trigues.entity.ChatMessage;
 import com.trigues.entity.ChatTextMessage;
+import com.trigues.entity.ChatTrueke;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by mbaque on 06/05/2017.
@@ -21,15 +23,18 @@ public class MessageJsonParser {
 
         List<ChatMessage> result = new ArrayList<>();
 
-        for(HashMap<String, Object> entry : firebaseResponse.values()){
-            if(entry.containsKey("message")){
-                result.add(new ChatTextMessage(entry));
+        for(Map.Entry<String, HashMap<String, Object>> entry: firebaseResponse.entrySet()){
+            if(entry.getValue().containsKey("message")){
+                result.add(new ChatTextMessage(entry.getValue()));
             }
-            else if (entry.containsKey("latitude")){
-                result.add(new ChatLocation(entry));
+            else if (entry.getValue().containsKey("latitude")){
+                result.add(new ChatLocation(entry.getValue()));
+            }
+            else if (entry.getValue().containsKey("status")){
+                result.add(new ChatTrueke(entry.getValue(), entry.getKey()));
             }
             else{
-                result.add(new ChatImage(entry));
+                result.add(new ChatImage(entry.getValue()));
             }
         }
 

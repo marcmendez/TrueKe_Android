@@ -3,6 +3,7 @@ package trigues.com.trueke.view.fragment;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -38,6 +39,7 @@ import com.trigues.entity.ChatImage;
 import com.trigues.entity.ChatLocation;
 import com.trigues.entity.ChatMessage;
 import com.trigues.entity.ChatTextMessage;
+import com.trigues.entity.ChatTrueke;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -121,7 +123,7 @@ public class ChatFragImpl extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        manager.setReverseLayout(true);
+        manager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(manager);
 
         Type listType = new TypeToken<ArrayList<ChatTextMessage>>(){}.getType();
@@ -157,7 +159,17 @@ public class ChatFragImpl extends Fragment {
 
         List<ChatMessage> chat = new Gson().fromJson(chatJson, listType);
 
-        adapter = new ChatAdapter(getContext(), chat, 1);
+        adapter = new ChatAdapter(getContext(), chatRecyclerView, chat, 1) {
+            @Override
+            public void onAcceptTrueke(ChatTrueke trueke) {
+                //TODO:
+            }
+
+            @Override
+            public void onRejectTrueke(ChatTrueke trueke) {
+                //TODO:
+            }
+        };
 
         chatRecyclerView.setAdapter(adapter);
 
@@ -166,6 +178,7 @@ public class ChatFragImpl extends Fragment {
             public void onClick(View v) {
                 Random rand = new Random();
                 int user = rand.nextInt() % 2;
+                user = (user < 0) ? -user : user;
                 String message = messageEditText.getText().toString();
                 if(!message.equals("")) {
                     adapter.addMessage(new ChatTextMessage(user, Calendar.getInstance().getTimeInMillis(), message));
@@ -191,8 +204,44 @@ public class ChatFragImpl extends Fragment {
             case R.id.menu_chat_image:
                 showAttachOptions();
                 return true;
+            case R.id.menu_chat_trueke:
+                showCreateTruekeDialog();
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showCreateTruekeDialog() {
+        final CharSequence[] options ={"Entrega a mano", "Transporte externo"};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Elige una opción");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(options[which] == "Entrega a mano") {
+                    Random rand = new Random();
+                    int user = rand.nextInt() % 2;
+                    user = (user < 0) ? -user : user;
+                    adapter.addMessage(new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 0, 0));
+                    dialog.dismiss();
+                }
+                else if (options[which] == "Transporte externo") {
+                    Random rand = new Random();
+                    int user = rand.nextInt() % 2;
+                    user = (user < 0) ? -user : user;
+                    adapter.addMessage(new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 1, 0));
+                    dialog.dismiss();
+                }
+                else dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void showAttachOptions() {
@@ -239,7 +288,8 @@ public class ChatFragImpl extends Fragment {
                 public void onNewLocationAvailable(LocationProvider.GPSCoordinates location) {
                     Random rand = new Random();
                     int userId = rand.nextInt() % 2;
-                    adapter.addLocation(new ChatLocation(userId, Calendar.getInstance().getTimeInMillis(), location.latitude, location.longitude));
+                    userId = (userId < 0) ? -userId : userId;
+                    adapter.addMessage(new ChatLocation(userId, Calendar.getInstance().getTimeInMillis(), location.latitude, location.longitude));
                 }
             });
         }
@@ -307,6 +357,7 @@ public class ChatFragImpl extends Fragment {
 
             Random rand = new Random();
             int userId = rand.nextInt() % 2;
+            userId = (userId < 0) ? -userId : userId;
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
@@ -314,7 +365,7 @@ public class ChatFragImpl extends Fragment {
 
             String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-            adapter.addImage(new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage));
+            adapter.addMessage(new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage));
 
         }
         else if (requestCode == PICTURE_TAKEN_FROM_GALLERY && resultCode == activity.RESULT_OK) {
@@ -325,6 +376,7 @@ public class ChatFragImpl extends Fragment {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), selectedImageUri);
                     Random rand = new Random();
                     int userId = rand.nextInt() % 2;
+                    userId = (userId < 0) ? -userId : userId;
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
@@ -332,7 +384,7 @@ public class ChatFragImpl extends Fragment {
 
                     String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-                    adapter.addImage(new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage));
+                    adapter.addMessage(new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
