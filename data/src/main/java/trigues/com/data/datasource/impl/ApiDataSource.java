@@ -24,7 +24,7 @@ import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.UserName;
-import trigues.com.data.service.RetrofitErrorHandler;
+import trigues.com.data.utils.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
 
 /**

@@ -51,3 +51,5 @@ dependencies {
     compile "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 }
+
+apply plugin: 'com.google.gms.google-services'

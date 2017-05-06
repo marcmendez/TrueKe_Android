@@ -1,5 +1,7 @@
 package com.trigues.entity;
 
+import java.util.HashMap;
+
 /**
  * Created by mbaque on 05/05/2017.
  */
@@ -16,6 +18,13 @@ public class ChatLocation extends ChatMessage {
         super(fromUserId, date);
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public ChatLocation (HashMap<String, Object> params){
+        super(((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"));
+
+        this.latitude = ((Double) params.get("latitude")).floatValue();
+        this.longitude = ((Double) params.get("longitude")).floatValue();
     }
 
     public Float getLatitude() {

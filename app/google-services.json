@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "754151030565",
+    "firebase_url": "https://trueke-ec028.firebaseio.com",
+    "project_id": "trueke-ec028",
+    "storage_bucket": "trueke-ec028.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754151030565:android:2dfc6fe20c39ee16",
+        "android_client_info": {
+          "package_name": "trigues.com.trueke"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "754151030565-ubtj0cpktp8nb9isrfefaqjp1i69qr0b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNloSGckNOFQSOdIdVD1AYay_iz6C2EHM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

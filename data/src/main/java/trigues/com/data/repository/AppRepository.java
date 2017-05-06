@@ -13,6 +13,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import trigues.com.data.datasource.ApiInterface;
+import trigues.com.data.datasource.FirebaseInterface;
 import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
@@ -27,11 +28,13 @@ public class AppRepository implements RepositoryInterface {
 
     private ApiInterface apiDataSource;
     private InternalStorageInterface internalStorage;
+    private FirebaseInterface firebaseDataSource;
 
     @Inject
-    public AppRepository(ApiInterface apiDataSource, InternalStorageInterface internalStorage) {
+    public AppRepository(ApiInterface apiDataSource, InternalStorageInterface internalStorage, FirebaseInterface firebaseDataSource) {
         this.apiDataSource = apiDataSource;
         this.internalStorage = internalStorage;
+        this.firebaseDataSource = firebaseDataSource;
     }
 
     @Override

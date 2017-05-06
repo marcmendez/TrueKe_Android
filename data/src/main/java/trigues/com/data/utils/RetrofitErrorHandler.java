@@ -1,4 +1,4 @@
-package trigues.com.data.service;
+package trigues.com.data.utils;
 
 import com.trigues.callback.DefaultCallback;
 import com.trigues.exception.ErrorBundle;

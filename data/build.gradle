@@ -41,4 +41,6 @@ dependencies {
     compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 
     compile "com.google.dagger:dagger:$daggerVersion"
+
+    compile "com.google.firebase:firebase-database:$firebaseVersion"
 }
