@@ -12,4 +12,13 @@
         <item>Moda y accesorios</item>
         <item>Otros</item>
     </string-array>
+
+    <string name="type_prompt">Tipo de tarjeta</string>
+
+    <string-array name="type_arrays">
+        <item>Visa/4B/Euro6000</item>
+        <item>MasterCard/4B/Euro6000</item>
+        <item>American Express</item>
+        <item>Maestro</item>
+    </string-array>
 </resources>

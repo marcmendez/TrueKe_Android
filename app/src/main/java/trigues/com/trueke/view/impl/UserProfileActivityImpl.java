@@ -2,8 +2,8 @@ package trigues.com.trueke.view.impl;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -40,6 +40,8 @@ import trigues.com.trueke.view.fragment.UserProfilePaymentMethodsFragImpl;
 public class UserProfileActivityImpl extends MenuActivityImpl implements UserProfileActivity {
 
     private User user;
+    private UserProfilePaymentMethodsFragImpl payments;
+    private UserProfileAdressesFragImpl shipments;
     @Inject
     UserInfoPresenter presenter;
 
@@ -95,10 +97,6 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
                 .inject(this);
         ButterKnife.bind(this);
         presenter.showProfile();
-       // presenter.showPayments();
-       // presenter.showShipments();
-        //newPayment();
-        //changeUserProfile();
 
         userChangeUsername.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,22 +127,31 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         });
     }
 
+    private void fillShipments() {
+        for (int i = 1; i <10 ; i++) {
+            Log.i("fill", "fillShipments: "+i);
+            newShipment(new Shipment(-1,-1,"Spain","Barcelona",
+                    "Barcelona",i,"Calle Falsa 73","Pepesito",
+                    "654845616531","654654654"));
+        }
+    }
+
     private void showUserPaymentMethods() {
-        Fragment fragment = new UserProfilePaymentMethodsFragImpl();
+        payments = new UserProfilePaymentMethodsFragImpl();
         Bundle bundle = new Bundle();
         Gson gson = new Gson();
         bundle.putString("payment_methods", gson.toJson(userPaymentMethods));
-        fragment.setArguments(bundle);
-        addFullScreenFragment(fragment);
+        payments.setArguments(bundle);
+        addFullScreenFragment(payments);
     }
 
     private void showUserAdresses() {
-        Fragment fragment = new UserProfileAdressesFragImpl();
+        shipments = new UserProfileAdressesFragImpl();
         Bundle bundle = new Bundle();
         Gson gson = new Gson();
         bundle.putString("user_adresses", gson.toJson(userShipments));
-        fragment.setArguments(bundle);
-        addFullScreenFragment(fragment);
+        shipments.setArguments(bundle);
+        addFullScreenFragment(shipments);
     }
 
     private void changePassword() {
@@ -225,7 +232,9 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
 
     public void newPayment(Payment payment){
+
         presenter.newPayment(payment);
+        userPaymentMethods.add(payment);
     }
     private void changePayment(){
         presenter.changePayment(new Payment(2,1,"Visa/4B/Euro6000","123456789"
@@ -235,7 +244,9 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     }
 
     public void newShipment(Shipment shipment){
+
         presenter.newShipment(shipment);
+        userShipments.add(shipment);
     }
     private void changeShipment(){
         presenter.changeShipment(new Shipment(-1,1,"Spain","Barcelona",
@@ -288,6 +299,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @Override
     public void onAdressDeleteClick(Shipment shipment) {
+        Log.i("", "shipment :"+shipment);
         presenter.deleteShipment(shipment.getId());
     }
 
@@ -298,8 +310,10 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @Override
     public void onNewPaymentCreated(Boolean returnParam) {
-        if(!returnParam)
+        if(!returnParam){
+            presenter.showPayments();
             Toast.makeText(getApplicationContext(),"El nuevo método de pago se ha creado correctamente",Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -310,22 +324,33 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @Override
     public void OnPaymentDeleted(Boolean returnParam) {
-        if(!returnParam)
+        if(!returnParam){
+            if(payments!=null) {
+                payments.updateAdapter();
+            }
             Toast.makeText(getApplicationContext(),"El método de pago se ha borrado correctamente",Toast.LENGTH_LONG).show();
+            }
 
     }
 
     @Override
     public void OnShipmentDeleted(Boolean returnParam) {
-        if(!returnParam)
+        if(!returnParam) {
+            if(shipments!=null) {
+                shipments.updateAdapter();
+            }
             Toast.makeText(getApplicationContext(),"La dirección se ha borrado correctamente",Toast.LENGTH_LONG).show();
+        }
 
     }
 
     @Override
     public void onNewShipmentCreated(Boolean returnParam) {
         if(!returnParam)
+        {
+            presenter.showShipments();
             Toast.makeText(getApplicationContext(),"La dirección se ha añadido correctamente",Toast.LENGTH_LONG).show();
+        }
 
     }
 

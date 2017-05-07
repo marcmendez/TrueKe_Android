@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -85,11 +87,12 @@ public class UserProfileAdressesFragImpl extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         userAdressesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        userAdressesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),1));
         userAdressesRecyclerView.setAdapter(new UserProfileAddressesAdapter(getContext(), adresses) {
             @Override
             public void onAdressDeleteClick(Shipment shipment) {
                 activity.onAdressDeleteClick(shipment);
+                adresses.remove(shipment);
             }
         });
 
@@ -139,12 +142,17 @@ public class UserProfileAdressesFragImpl extends Fragment {
         view.findViewById(R.id.add_shipment_send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Shipment s = new Shipment(provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()),
+                        addressET.getText().toString(), nameET.getText().toString(), idCardET.getText().toString(), phoneET.getText().toString());
+                activity.newShipment(s);
                 dialog.dismiss();
-                activity.newShipment(new Shipment(provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()),
-                        addressET.getText().toString(), nameET.getText().toString(), idCardET.getText().toString(), phoneET.getText().toString()));
             }
         });
 
         dialog.show();
+    }
+
+    public void updateAdapter() {
+        userAdressesRecyclerView.getAdapter().notifyDataSetChanged();
     }
 }

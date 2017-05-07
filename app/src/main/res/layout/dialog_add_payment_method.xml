@@ -59,12 +59,12 @@
                     android:layout_height="wrap_content"
                     app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance">
 
-                    <EditText
+                    <Spinner
+                        android:id="@+id/add_payment_type"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Tipo"
-                        android:id="@+id/add_payment_type"/>
-
+                        android:layout_height="37dp"
+                        android:entries="@array/type_arrays"
+                        android:prompt="@string/type_prompt"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout

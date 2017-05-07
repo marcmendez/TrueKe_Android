@@ -24,7 +24,7 @@ public class Shipment {
         this.name = name;
         this.idCard = idCard;
         this.phone = phone;
-        this.country = "España";
+        this.country = "Espa\u00f1a";
 
     }
 

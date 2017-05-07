@@ -180,8 +180,7 @@ public class UserInfoPresenter {
         });
     }
     public void deleteShipment(Integer shipment_id){
-        int user_id=1;
-        deleteShipmentUseCase.execute(user_id, new DeleteShipmentUseCase.DeleteShipmentUseCaseCallback(){
+        deleteShipmentUseCase.execute(shipment_id, new DeleteShipmentUseCase.DeleteShipmentUseCaseCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {

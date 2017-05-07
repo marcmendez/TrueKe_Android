@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -90,6 +91,7 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
             @Override
             public void onPaymentDeleteClick(Payment payment) {
                 activity.onPaymentMethodDeleteClick(payment);
+                userPayments.remove(payment);
             }
         });
 
@@ -120,7 +122,7 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
         builder.setView(view);
         final AlertDialog dialog = builder.create();
 
-        final EditText typeET = (EditText) view.findViewById(R.id.add_payment_type);
+        final Spinner typeET = (Spinner) view.findViewById(R.id.add_payment_type);
         final EditText numberET = (EditText) view.findViewById(R.id.add_payment_number);
         final EditText expireDateET = (EditText) view.findViewById(R.id.add_payment_expireDate);
         final EditText nameET = (EditText) view.findViewById(R.id.add_payment_name);
@@ -140,12 +142,18 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
         view.findViewById(R.id.add_payment_send_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.newPayment(new Payment(typeET.getText().toString(), numberET.getText().toString(), expireDateET.getText().toString(), nameET.getText().toString(), provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()), addressET.getText().toString(), phoneET.getText().toString()));
+                Payment p = new Payment(typeET.getSelectedItem().toString(), numberET.getText().toString(), expireDateET.getText().toString(), nameET.getText().toString(), provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()),
+                        addressET.getText().toString(), phoneET.getText().toString());
+                activity.newPayment(p);
                 dialog.dismiss();
             }
         });
 
 
         dialog.show();
+    }
+
+    public void updateAdapter() {
+        userPaymentMethodsRecyclerView.getAdapter().notifyDataSetChanged();
     }
 }
