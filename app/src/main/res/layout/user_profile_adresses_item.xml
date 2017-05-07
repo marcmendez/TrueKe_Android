@@ -23,18 +23,22 @@
         android:layout_margin="8dp"
         android:layout_toLeftOf="@id/user_profile_adresses_delete"
         android:gravity="center_vertical"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:weightSum="1">
 
         <TextView
-            android:id="@+id/user_profile_adresses_street"
+            android:id="@+id/user_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            android:layout_height="31dp"
+            android:layout_marginBottom="16dp"
+            android:autoText="true"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/user_profile_adresses_city"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:id="@+id/user_profile_info"
+            android:layout_width="331dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp" />
 
     </LinearLayout>
 
