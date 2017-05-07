@@ -248,9 +248,13 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         this.user = user;
         userName.setText(user.getUser());
         userEmail.setText(user.getEmail());
+        userBirthDate.setText(user.getBirthDate());
         userNumProducts.setText(String.valueOf(user.getProducts()));
         userNumTruekes.setText(String.valueOf(user.getTruekes()));
-        userRating.setRating(user.getRating());
+        if(user.getRatingsNumber()!=0)
+        userRating.setRating(user.getRatingsValue()/user.getRatingsNumber());
+        else userRating.setRating(0);
+        userNumValorations.setText(String.valueOf(user.getRatingsNumber()));
     }
 
     @Override

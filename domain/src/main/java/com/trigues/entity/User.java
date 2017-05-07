@@ -5,22 +5,24 @@ package com.trigues.entity;
  */
 public class User {
 
-    int id;
-    String phone;
-    String user;
-    String password;
-    String email;
-    String birthDate;
-    int products;
-    int truekes;
-    float rating;
+    private int id;
+    private String phone;
+    private String user;
+    private String password;
+    private String email;
+    private String birthDate;
+    private int products;
+    private int truekes;
+    private int ratingsNumber;
+    private float ratingsValue;
+
 
     public User(String email, String password){
         this.email = email;
         this.password = password;
     }
 
-    public User(int id, String phone, String user, String password, String email, String birthDate, int products, int truekes, float rating) {
+    public User(int id, String phone, String user, String password, String email, String birthDate, int products, int truekes, int ratingsNumber, float ratingsValue) {
         this.id = id;
         this.phone = phone;
         this.user = user;
@@ -29,7 +31,8 @@ public class User {
         this.birthDate = birthDate;
         this.products = products;
         this.truekes = truekes;
-        this.rating = rating;
+        this.ratingsNumber = ratingsNumber;
+        this.ratingsValue = ratingsValue;
     }
 
     public int getId() {
@@ -96,11 +99,19 @@ public class User {
         this.truekes = truekes;
     }
 
-    public float getRating() {
-        return rating;
+    public float getRatingsValue() {
+        return ratingsValue;
     }
 
-    public void setRating(float rating) {
-        this.rating = rating;
+    public void setRatingsValue(float ratingsValue) {
+        this.ratingsValue = ratingsValue;
+    }
+
+    public int getRatingsNumber() {
+        return ratingsNumber;
+    }
+
+    public void setRatingsNumber(int ratingsNumber) {
+        this.ratingsNumber = ratingsNumber;
     }
 }

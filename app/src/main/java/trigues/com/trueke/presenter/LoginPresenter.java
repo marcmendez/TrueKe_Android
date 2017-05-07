@@ -35,7 +35,7 @@ public class LoginPresenter {
 
     public void register(String nombre, String apellidos, String contraseña, String telefono, String mail, String fecha) {
         User user = new User(-1,telefono,
-                nombre+" "+apellidos,contraseña,mail,fecha,0,0,0);
+                nombre+" "+apellidos,contraseña,mail,fecha,0,0,0,0);
         view.showProgress("Creando usuario...");
         registerUseCase.execute(user,new RegisterUseCase.RegisterUseCaseCallback(){
 
