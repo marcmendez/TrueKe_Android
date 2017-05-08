@@ -47,4 +47,7 @@ dependencies {
     compile "com.google.dagger:dagger:$daggerVersion"
 
     compile "com.google.firebase:firebase-database:$firebaseVersion"
+    compile "com.google.firebase:firebase-core:$firebaseVersion"
+
+
 }

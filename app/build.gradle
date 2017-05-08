@@ -53,6 +53,13 @@ dependencies {
 
     compile "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
+    compile 'com.sun.mail:android-mail:1.5.5'
+    compile 'com.sun.mail:android-activation:1.5.5'
+    //compile 'com.sun.mail:android-additional:1.5.5'
+
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'
