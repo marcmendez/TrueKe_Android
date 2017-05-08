@@ -1,11 +1,13 @@
 package trigues.com.trueke.adapter;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.trigues.entity.Payment;
@@ -43,6 +45,11 @@ public abstract class UserProfilePaymentMethodsAdapter extends RecyclerView.Adap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Payment payment = payments.get(position);
+        /**if(payment.getType().contains("Visa")){}
+        else if(){}
+        else if(){}
+        else**/
+       // holder.paymentImage.setImageDrawable();
         holder.paymentNumber.setText(payment.getNumber());
         holder.paymentType.setText(payment.getType());
 
@@ -63,10 +70,12 @@ public abstract class UserProfilePaymentMethodsAdapter extends RecyclerView.Adap
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.user_profile_payment_numb)
+        @BindView(R.id.credit_type_image)
+        ImageView paymentImage;
+        @BindView(R.id.creditNumber)
         TextView paymentNumber;
 
-        @BindView(R.id.user_profile_payment_type)
+        @BindView(R.id.credit_type)
         TextView paymentType;
 
         @BindView(R.id.user_profile_payment_delete)
