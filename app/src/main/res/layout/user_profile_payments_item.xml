@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.2"
-                app:srcCompat="@drawable/Visa" />
+                app:srcCompat="@drawable/visa" />
 
             <LinearLayout
                 android:layout_width="match_parent"

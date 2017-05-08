@@ -64,7 +64,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="37dp"
                         android:entries="@array/type_arrays"
-                        android:prompt="@string/type_prompt"/>
+                        android:prompt="@string/type_prompt"
+                        android:spinnerMode="dialog" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout

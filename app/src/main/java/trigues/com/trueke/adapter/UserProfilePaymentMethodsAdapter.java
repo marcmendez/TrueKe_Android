@@ -45,14 +45,19 @@ public abstract class UserProfilePaymentMethodsAdapter extends RecyclerView.Adap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Payment payment = payments.get(position);
-        /**if(payment.getType().contains("Visa")){}
-        else if(){}
-        else if(){}
-        else**/
-       // holder.paymentImage.setImageDrawable();
-        holder.paymentNumber.setText(payment.getNumber());
-        holder.paymentType.setText(payment.getType());
-
+        if(payment.getType().contains("Visa")){
+            holder.paymentImage.setImageResource(R.drawable.visa);
+        }
+        else if(payment.getType().contains("MasterCard")){
+            holder.paymentImage.setImageResource(R.drawable.mastercard);
+        }
+        else if(payment.getType().contains("American")){
+            holder.paymentImage.setImageResource(R.drawable.amex);
+        }
+        else holder.paymentImage.setImageResource(R.drawable.maestro);
+        holder.paymentNumber.setText("**** **** **** "+payment.getNumber().substring(12));
+        String[] parts= payment.getType().split("/");
+        holder.paymentType.setText(parts[0]);
         holder.paymentDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

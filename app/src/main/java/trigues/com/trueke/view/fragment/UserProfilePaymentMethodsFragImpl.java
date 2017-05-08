@@ -1,10 +1,12 @@
 package trigues.com.trueke.view.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -86,12 +88,26 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
         userPaymentMethodsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        userPaymentMethodsRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),1));
         userPaymentMethodsRecyclerView.setAdapter(new UserProfilePaymentMethodsAdapter(getContext(), userPayments) {
             @Override
-            public void onPaymentDeleteClick(Payment payment) {
-                activity.onPaymentMethodDeleteClick(payment);
-                userPayments.remove(payment);
+            public void onPaymentDeleteClick(final Payment payment) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Seguro que quiere borrar este método de pago?")
+                        .setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                activity.onPaymentMethodDeleteClick(payment);
+                                userPayments.remove(payment);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                builder.create().show();
             }
         });
 

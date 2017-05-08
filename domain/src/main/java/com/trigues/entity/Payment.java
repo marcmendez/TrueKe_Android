@@ -28,7 +28,7 @@ public class Payment {
         this.postalCode = postalCode;
         this.address = address;
         this.phone = phone;
-        this.country = "España";
+        this.country = "Espa\u00f1a";
     }
 
     public Payment(int id, int user_id, String type, String number, String expireDate, String name,

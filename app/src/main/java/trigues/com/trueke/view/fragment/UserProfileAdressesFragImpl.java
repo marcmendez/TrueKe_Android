@@ -1,6 +1,7 @@
 package trigues.com.trueke.view.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -90,9 +91,23 @@ public class UserProfileAdressesFragImpl extends Fragment {
         userAdressesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),1));
         userAdressesRecyclerView.setAdapter(new UserProfileAddressesAdapter(getContext(), adresses) {
             @Override
-            public void onAdressDeleteClick(Shipment shipment) {
-                activity.onAdressDeleteClick(shipment);
-                adresses.remove(shipment);
+            public void onAdressDeleteClick(final Shipment shipment) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Seguro que quiere borrar esta dirección?")
+                        .setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                activity.onAdressDeleteClick(shipment);
+                                adresses.remove(shipment);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                builder.create().show();
             }
         });
 

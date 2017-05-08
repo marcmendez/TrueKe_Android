@@ -237,7 +237,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         userPaymentMethods.add(payment);
     }
     private void changePayment(){
-        presenter.changePayment(new Payment(2,1,"Visa/4B/Euro6000","123456789"
+        presenter.changePayment(new Payment(2,1,"visa/4B/Euro6000","123456789"
                 ,"1990-05-06","Sancho Panza","España","Barcelona","Barcelona",
                 8029,"Carrer Diagonal","654654654"));
         //country,province,city,postalCode,address,name,idCard,phone
