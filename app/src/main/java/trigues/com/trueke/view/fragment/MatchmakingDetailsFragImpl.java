@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -72,6 +73,9 @@ public class MatchmakingDetailsFragImpl extends Fragment {
     @BindView(R.id.matchmaking_dots_layout)
     LinearLayout dotsLayout;
 
+    @BindView(R.id.reportProdButton)
+    ImageButton reportProdButton;
+
     @BindView(R.id.matchmaking_category_list)
     RecyclerView categoriesRecyclerview;
 
@@ -113,12 +117,8 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         product = gson.fromJson(productJson, Product.class);
 
         setUpProductDetails(product);
-
-        setUpViewPager(product.getImages());
-
-        setUpDotCounter();
-
-        setUpDesiredCategoriesList(product.getDesiredCategories());
+        //setUpViewPager(product.getImages());
+        //setUpDotCounter()
     }
 
     private void setUpProductDetails(Product product) {
@@ -235,4 +235,8 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void reportProd(View view) {
+    }
+
 }

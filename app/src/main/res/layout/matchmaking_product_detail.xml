@@ -77,7 +77,8 @@ tools:context=".view.impl.UserProductsListActivityImpl">
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:orientation="horizontal"
             android:background="@drawable/rectangle_border"
-            android:padding="@dimen/activity_horizontal_margin">
+            android:padding="@dimen/activity_horizontal_margin"
+            android:weightSum="1">
 
             <ImageView
                 android:id="@+id/matchmaking_user_avatar"
@@ -108,6 +109,22 @@ tools:context=".view.impl.UserProductsListActivityImpl">
                     android:numStars="5"
                     android:layout_alignParentBottom="true"/>
 
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/reportProdButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/presence_busy"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:onClick="reportProd"
+                    />
             </RelativeLayout>
 
         </LinearLayout>

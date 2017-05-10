@@ -39,6 +39,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
     SwipePlaceHolderView matchmakingList;
 
     private int currentProduct;
+    private int indexProduct;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
         ButterKnife.bind(this);
 
         currentProduct = getIntent().getIntExtra("product_id", 0);
+        indexProduct = 0;
         presenter.getMatchMakingProducts(currentProduct);
 
         setUpBackActionBar();
@@ -72,7 +74,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
             matchmakingList.addView(new MatchmakingCard(this, product, matchmakingList, new MatchmakingCardCallback() {
                 @Override
                 public void onAccepted() {
-
+                    ++indexProduct;
 
                     Integer[] productes = new Integer[2];
 
@@ -84,7 +86,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
 
                 @Override
                 public void onRejected() {
-
+                    ++indexProduct;
 
                     Integer[] productes = new Integer[2];
 
@@ -108,9 +110,10 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
             @Override
             public void onClick(View v) {
                 MatchmakingDetailsFragImpl fragment = new MatchmakingDetailsFragImpl();
+
                 Gson gson = new Gson();
                 Bundle bundle = new Bundle();
-                bundle.putString("product", gson.toJson(returnParam.get(currentProduct)));
+                bundle.putString("product", gson.toJson(returnParam.get(indexProduct)));
                 fragment.setArguments(bundle);
                 //addFullScreenFragmentWithTransition(fragment, R.anim.enter_from_bottom, R.anim.exit_to_right);
                 addFullScreenFragment(fragment);
