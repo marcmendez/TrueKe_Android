@@ -113,9 +113,8 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         product = gson.fromJson(productJson, Product.class);
 
         setUpProductDetails(product);
-        setUpViewPager(product.getImages());
-        setUpDotCounter();
-        setUpDesiredCategoriesList(product.getDesiredCategories());
+        //setUpViewPager(product.getImages());
+        //setUpDotCounter()
     }
 
     private void setUpProductDetails(Product product) {
