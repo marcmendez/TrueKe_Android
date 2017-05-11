@@ -1,5 +1,7 @@
 package trigues.com.data.datasource.impl;
 
+import com.trigues.RepositoryInterface;
+import com.trigues.entity.ChatInfo;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -19,6 +21,7 @@ import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductDTO;
@@ -641,6 +644,17 @@ public class ApiDataSource implements ApiInterface {
         server.getDesiredCategories(token,productID).enqueue(new RetrofitErrorHandler<ApiDTO<List<CategoryDTO>>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<List<CategoryDTO>> body) {
+                dataCallback.onSuccess(body);
+            }
+        });
+    }
+
+    @Override
+    public void getUserChats(String token, int userID, final ChatListDataCallback dataCallback) {
+
+        server.getUserChats(token,userID).enqueue(new RetrofitErrorHandler<ApiDTO<List<ChatDTO>>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<List<ChatDTO>> body) {
                 dataCallback.onSuccess(body);
             }
         });

@@ -11,6 +11,7 @@ import java.util.List;
 
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
 
@@ -69,6 +70,8 @@ public interface ApiInterface {
 
     void rejectMatch(String token, Integer[] productsID, VoidDataCallback voidDataCallback);
 
+    void getUserChats(String token, int userID, ChatListDataCallback voidDataCallback);
+
 
 
     //Callbacks:
@@ -90,5 +93,7 @@ public interface ApiInterface {
     interface ShipmentsCallback extends DefaultCallback<ApiDTO<List<Shipment>>>{}
 
     interface StringListDataCallback extends DefaultCallback<ApiDTO<List<CategoryDTO>>>{}
+
+    interface ChatListDataCallback extends DefaultCallback<ApiDTO<List<ChatDTO>>>{}
 
 }

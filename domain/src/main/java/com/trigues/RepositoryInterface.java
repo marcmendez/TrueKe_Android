@@ -1,6 +1,7 @@
 package com.trigues;
 
 import com.trigues.callback.DefaultCallback;
+import com.trigues.entity.ChatInfo;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -66,6 +67,8 @@ public interface RepositoryInterface {
 
     void getDesiredCategories(int productID, StringListCallback dataCallback);
 
+    void getUserChats(int userID, ChatListCallback dataCallback);
+
     //Callbacks:
 
     interface VoidCallback extends DefaultCallback<Void> {}
@@ -76,4 +79,5 @@ public interface RepositoryInterface {
     interface PaymentCallback extends DefaultCallback<List<Payment>>{}
     interface ShipmentCallback extends DefaultCallback<List<Shipment>>{}
     interface StringListCallback extends DefaultCallback<List<String>>{}
+    interface ChatListCallback extends DefaultCallback<List<ChatInfo>>{}
 }
