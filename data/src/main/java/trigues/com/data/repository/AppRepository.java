@@ -348,8 +348,8 @@ public class AppRepository implements RepositoryInterface {
             @Override
             public void onSuccess(ApiDTO<ProductId> returnParam) {
                 if(!returnParam.getError()) {
-                    Log.i("ID PRODUCT: ", String.valueOf(returnParam.getContent().getProductId()));
                     internalStorage.saveProductId(returnParam.getContent().getProductId());
+                    Log.i("ID PRODUCT: ", "productId: "+internalStorage.getProductId());
                 }
                 dataCallback.onSuccess(!returnParam.getError());
             }

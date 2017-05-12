@@ -20,7 +20,7 @@ public class InternalStorageDataSource implements InternalStorageInterface {
 
     private static final String USER_TOKEN = "user_token";
     private static final String USER = "user";
-    private static final String PRODUCT_ID = "product_id";
+    private static final String PRODUCT = "product";
 
     SharedPreferences internalStorage;
 
@@ -72,13 +72,13 @@ public class InternalStorageDataSource implements InternalStorageInterface {
 
     @Override
     public void saveProductId(Integer id) {
-        internalStorage.edit().putString(PRODUCT_ID, String.valueOf(id)).commit();
+        internalStorage.edit().putInt(PRODUCT, id).commit();
     }
 
     @Override
     public int getProductId() {
-        String productId = internalStorage.getString(PRODUCT_ID, null);
-        return Integer.valueOf(productId);
+        Integer productId = internalStorage.getInt(PRODUCT, 0);
+        return productId;
     }
 
 

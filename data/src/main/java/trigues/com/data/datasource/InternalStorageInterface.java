@@ -21,7 +21,7 @@ public interface InternalStorageInterface {
 
     void onLogOut();
 
-    void saveProductId(Integer id);
+    void saveProductId (Integer id);
 
     int getProductId();
 

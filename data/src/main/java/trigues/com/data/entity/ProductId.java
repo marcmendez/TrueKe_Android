@@ -7,14 +7,15 @@ import com.trigues.entity.Product;
  */
 
 public class ProductId {
-    Integer id;
+    //Integer id;
+    Product product;
 
     public ProductId() {
     }
 
     public Integer getProductId() {
-        return id;
+        return product.getId();
     }
 
-    public void setProductId(Integer id) {this.id = id;}
+    public void setProductId(Product product) {this.product = product;}
 }
