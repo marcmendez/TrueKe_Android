@@ -10,6 +10,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
@@ -20,6 +22,7 @@ import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
+import trigues.com.data.entity.ProductId;
 import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
@@ -44,7 +47,7 @@ public interface ServerService {
     Call<Product> getUserProductDetails(String token, int productID);
 
     @POST("products")
-    Call<ApiDTO<Void>> addProduct(@Header("token") String token, @Body ProductDTO product);
+    Call<ApiDTO<ProductId>> addProduct(@Header("token") String token, @Body ProductDTO product);
 
     @DELETE("products/{product_id}")
     Call<ApiDTO<Void>> deleteProduct(@Header("token") String token,  @Path("product_id") String product_id);
@@ -110,4 +113,11 @@ public interface ServerService {
     @GET("productwantscategory/{product_id}")
     Call<ApiDTO<List<CategoryDTO>>> getDesiredCategories(@Header("token") String token, @Path("product_id") int prodID);
 
+    //images
+    @FormUrlEncoded
+    @POST("images")
+    Call<String> addImages(@Field("image") String image);
+
+    @POST("products/{id}/images")
+    Call<ApiDTO<Void>> addImagesProduct(@Header("token") String token,@Path("id") int prodId, @Body int product_id, @Body String image_md5);
 }

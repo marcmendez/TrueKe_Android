@@ -22,6 +22,7 @@ import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductDTO;
+import trigues.com.data.entity.ProductId;
 import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.service.RetrofitErrorHandler;
@@ -83,104 +84,106 @@ public class ApiDataSource implements ApiInterface {
 
                         Product product = new Product(0, user.getId(), "Poupala", "Description", null, "Deporte y ocio", desiredCategories, 15, 20);
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
 
                         product.setTitle("Poupala2");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
+
 
                         product.setTitle("Poupala3");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
+
 
                         product.setTitle("Poupala4");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
+
 
                         product.setTitle("Poupala5");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
+
 
                         product.setTitle("Poupala6");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
+
 
                         product.setTitle("Poupala7");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
-
-
-
                     }
                 });
             }
@@ -209,103 +212,107 @@ public class ApiDataSource implements ApiInterface {
 
                         Product product = new Product(0, user.getId(), "Poupala", "Description", null, "Deporte y ocio", desiredCategories, 15, 20);
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
-                            @Override
-                            public void onError(ErrorBundle errorBundle) {
+                       addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                           @Override
+                           public void onError(ErrorBundle errorBundle) {
 
-                            }
+                           }
 
-                            @Override
-                            public void onSuccess(Boolean returnParam) {
+                           @Override
+                           public void onSuccess(ApiDTO<ProductId> returnParam) {
 
-                            }
-                        });
+                           }
+                       });
+
 
                         product.setTitle("Poupala2");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
+
 
                         product.setTitle("Poupala3");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
+
 
                         product.setTitle("Poupala4");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
+
 
                         product.setTitle("Poupala5");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
+
 
                         product.setTitle("Poupala6");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
+
 
                         product.setTitle("Poupala7");
 
-                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new BooleanDataCallback() {
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
                             public void onError(ErrorBundle errorBundle) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean returnParam) {
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
 
                             }
                         });
-
-
 
                     }
                 });
@@ -583,11 +590,11 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void addProduct(String token, ProductDTO product, final BooleanDataCallback dataCallback) {
-        server.addProduct(token, product).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+    public void addProduct(String token, ProductDTO product, final AddProductDataCallback dataCallback) {
+        server.addProduct(token, product).enqueue(new RetrofitErrorHandler<ApiDTO<ProductId>>(dataCallback) {
             @Override
-            public void onResponse(ApiDTO<Void> body) {
-                dataCallback.onSuccess(body.getError());
+            public void onResponse(ApiDTO<ProductId> body) {
+                dataCallback.onSuccess(body);
             }
         });
     }
@@ -641,6 +648,27 @@ public class ApiDataSource implements ApiInterface {
         server.getDesiredCategories(token,productID).enqueue(new RetrofitErrorHandler<ApiDTO<List<CategoryDTO>>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<List<CategoryDTO>> body) {
+                dataCallback.onSuccess(body);
+            }
+        });
+    }
+
+    @Override
+    public void addImagesProduct(String token, int product_id, String image_md5, final BooleanDataCallback dataCallback) {
+        int prodId = product_id;
+        server.addImagesProduct(token, prodId, product_id, image_md5).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                dataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void addImages(String image, final AddImagesDataCallback dataCallback) {
+        server.addImages(image).enqueue(new RetrofitErrorHandler<String>(dataCallback) {
+            @Override
+            public void onResponse(String body) {
                 dataCallback.onSuccess(body);
             }
         });

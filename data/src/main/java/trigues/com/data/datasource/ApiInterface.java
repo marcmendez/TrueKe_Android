@@ -13,6 +13,7 @@ import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
+import trigues.com.data.entity.ProductId;
 
 
 /**
@@ -31,7 +32,7 @@ public interface ApiInterface {
 
     void login(User user, LoginDataCallback dataCallback);
 
-    void addProduct(String token, ProductDTO product, BooleanDataCallback dataCallback);
+    void addProduct(String token, ProductDTO product, AddProductDataCallback dataCallback);
 
     void showProfile(String token, int id,UserDataCallback dataCallback);
 
@@ -69,6 +70,10 @@ public interface ApiInterface {
 
     void rejectMatch(String token, Integer[] productsID, VoidDataCallback voidDataCallback);
 
+    void addImagesProduct(String token, int product_id, String image_md5, BooleanDataCallback booleanDataCallback);
+
+    void addImages(String image_base64, AddImagesDataCallback addImageDataCallback);
+
 
 
     //Callbacks:
@@ -90,5 +95,9 @@ public interface ApiInterface {
     interface ShipmentsCallback extends DefaultCallback<ApiDTO<List<Shipment>>>{}
 
     interface StringListDataCallback extends DefaultCallback<ApiDTO<List<CategoryDTO>>>{}
+
+    interface AddProductDataCallback extends DefaultCallback<ApiDTO<ProductId>> {}
+
+    interface AddImagesDataCallback extends DefaultCallback<String> {}
 
 }

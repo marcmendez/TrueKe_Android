@@ -1,5 +1,7 @@
 package trigues.com.data.repository;
 
+import android.util.Log;
+
 import com.trigues.RepositoryInterface;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -18,6 +20,7 @@ import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
+import trigues.com.data.entity.ProductId;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -336,15 +339,19 @@ public class AppRepository implements RepositoryInterface {
         Log.i("addProduct", "category: "+p2.getProductCategory());
         Log.i("addProduct", "priceMin: "+p2.getMinPrice());
         Log.i("addProduct", "priceMax: "+p2.getMaxPrice());*/
-        apiDataSource.addProduct(internalStorage.getToken(), p2, new ApiInterface.BooleanDataCallback() {
+        apiDataSource.addProduct(internalStorage.getToken(), p2, new ApiInterface.AddProductDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
             }
 
             @Override
-            public void onSuccess(Boolean returnParam) {
-                dataCallback.onSuccess(returnParam);
+            public void onSuccess(ApiDTO<ProductId> returnParam) {
+                if(!returnParam.getError()) {
+                    Log.i("ID PRODUCT: ", String.valueOf(returnParam.getContent().getProductId()));
+                    internalStorage.saveProductId(returnParam.getContent().getProductId());
+                }
+                dataCallback.onSuccess(!returnParam.getError());
             }
         });
     }
@@ -427,6 +434,36 @@ public class AppRepository implements RepositoryInterface {
                     categories.add(element.getCategory());
                 }
                 dataCallback.onSuccess(categories);
+            }
+        });
+    }
+
+    @Override
+    public void addImagesProduct(String image, final BooleanCallback dataCallback) {
+         apiDataSource.addImagesProduct(internalStorage.getToken(),internalStorage.getProductId(), image, new ApiInterface.BooleanDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void addImages(String image_base64, final AddImagesCallback dataCallback) {
+        apiDataSource.addImages(image_base64, new ApiInterface.AddImagesDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(String returnParam) {
+                dataCallback.onSuccess(returnParam);
             }
         });
     }
