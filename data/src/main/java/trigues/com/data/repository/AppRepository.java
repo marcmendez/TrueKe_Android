@@ -1,7 +1,6 @@
 package trigues.com.data.repository;
 
 import com.trigues.RepositoryInterface;
-import com.trigues.callback.FirebaseChatListener;
 import com.trigues.entity.ChatInfo;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -56,7 +55,7 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void showProducts(int userID, final ProductListCallback dataCallback) {
+    public void showProducts(final ProductListCallback dataCallback) {
         apiDataSource.showProducts(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductListDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -65,7 +64,6 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(ApiDTO<List<Product>> returnParam) {
-                List<Product> p = new ArrayList<>();
                 dataCallback.onSuccess(returnParam.getContent());
             }
         });
@@ -93,6 +91,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void logout(VoidCallback dataCallback) {
+        internalStorage.onLogOut();
         dataCallback.onSuccess(null);
     }
 
@@ -257,8 +256,7 @@ public class AppRepository implements RepositoryInterface {
         });
     }
 
-
-
+    @Override
     public void acceptMatch(Integer[] productsID, final VoidCallback dataCallback) {
 
         apiDataSource.acceptMatch(internalStorage.getToken(), productsID, new ApiInterface.VoidDataCallback() {

@@ -1,7 +1,5 @@
 package trigues.com.data.datasource.impl;
 
-import com.trigues.RepositoryInterface;
-import com.trigues.entity.ChatInfo;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -27,8 +25,8 @@ import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.UserName;
-import trigues.com.data.utils.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
+import trigues.com.data.utils.RetrofitErrorHandler;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -58,7 +56,7 @@ public class ApiDataSource implements ApiInterface {
                 .client(client)
                 .build();
         server = retrofit.create(ServerService.class);
-        //initDatabase();
+        initDatabase();
     }
 
     public void initDatabase(){
@@ -189,7 +187,7 @@ public class ApiDataSource implements ApiInterface {
             }
         });
 
-        register(new User(2, "111111111", "test", "1234567", "test@test.pou", "1992-09-19", 0, 0, 0.0F), new BooleanDataCallback() {
+        register(new User(2, "111111111", "test", "1234567", "test@test.org", "1992-09-19", 0, 0, 0.0F), new BooleanDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
 
@@ -197,7 +195,7 @@ public class ApiDataSource implements ApiInterface {
 
             @Override
             public void onSuccess(Boolean returnParam) {
-                login(new User("test@test.pou", "1234567"), new LoginDataCallback() {
+                login(new User("test@test.org", "1234567"), new LoginDataCallback() {
                     @Override
                     public void onError(ErrorBundle errorBundle) {
 

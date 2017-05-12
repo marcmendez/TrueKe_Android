@@ -41,7 +41,7 @@ public class FirebaseDataSource implements FirebaseInterface {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.database = database.getReference();
         //initTestDatabase();
-        //testNewMessage();
+        testNewMessage();
 
     }
 
@@ -50,15 +50,16 @@ public class FirebaseDataSource implements FirebaseInterface {
         list.add(new ChatTextMessage(1, Calendar.getInstance().getTimeInMillis(), "Test text message"));
         list.add(new ChatImage(2, Calendar.getInstance().getTimeInMillis(), "janfoagfeponmwqefmqwpoenfq"));
         list.add(new ChatLocation(1, Calendar.getInstance().getTimeInMillis(), 120.12F, 133.5F));
-        database.child("testchat").setValue(list);
+        database.child("1").setValue(list);
     }
 
     private void testNewMessage(){
         ChatTextMessage testText = new ChatTextMessage(1, Calendar.getInstance().getTimeInMillis(), "Test text message");
         ChatImage testImage = new ChatImage(2, Calendar.getInstance().getTimeInMillis(), "janfoagfeponmwqefmqwpoenfq");
         ChatLocation testLocation = new ChatLocation(1, Calendar.getInstance().getTimeInMillis(), 120.12F, 133.5F);
+        ChatTrueke trueke = new ChatTrueke(1, Calendar.getInstance().getTimeInMillis(), 1, 3);
 
-        newMessage("testchat", testText, new FirebaseVoidCallback() {
+        newMessage("1", testText, new FirebaseVoidCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
 
@@ -70,7 +71,7 @@ public class FirebaseDataSource implements FirebaseInterface {
             }
         });
 
-        newMessage("testchat", testLocation, new FirebaseVoidCallback() {
+        newMessage("1", testLocation, new FirebaseVoidCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
 
@@ -82,7 +83,19 @@ public class FirebaseDataSource implements FirebaseInterface {
             }
         });
 
-        newMessage("testchat", testImage, new FirebaseVoidCallback() {
+        newMessage("1", testImage, new FirebaseVoidCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+
+            }
+        });
+
+        newMessage("1", trueke, new FirebaseVoidCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
 
@@ -147,13 +160,8 @@ public class FirebaseDataSource implements FirebaseInterface {
     }
 
     @Override
-    public void acceptTrueke(String chatId, ChatTrueke trueke, FirebaseVoidCallback dataCallback) {
-        database.child(chatId).child(trueke.getTruekeId()).child("status").setValue(2);
-    }
-
-    @Override
-    public void rejectTrueke(String chatId, ChatTrueke trueke, FirebaseVoidCallback dataCallback) {
-        database.child(chatId).child(trueke.getTruekeId()).child("status").setValue(1);
+    public void setTruekeStatus(int status, String chatId, String truekeId, FirebaseVoidCallback dataCallback) {
+        database.child(chatId).child(truekeId).child("status").setValue(status);
     }
 
     @Override

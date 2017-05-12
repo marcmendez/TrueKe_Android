@@ -1,6 +1,5 @@
 package trigues.com.trueke.view.impl;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.LayoutRes;
@@ -12,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import javax.inject.Inject;
 
@@ -32,9 +33,9 @@ public class BaseActivityImpl extends AppCompatActivity implements BaseActivity 
     BasePresenter presenter;
 
     @LayoutRes
-    int layoutRes;
+    private int layoutRes;
 
-    protected ProgressDialog progressDialog;
+    protected MaterialDialog progressDialog;
     private FrameLayout baseContainer;
 
     @Override
@@ -94,13 +95,14 @@ public class BaseActivityImpl extends AppCompatActivity implements BaseActivity 
 
     @Override
     public void showProgress(String message) {
+        if(progressDialog == null || !progressDialog.isShowing()) {
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
+            builder.content(message);
+            builder.progress(true, 0);
+            progressDialog = builder.build();
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(message);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();
+            progressDialog.show();
+        }
 
     }
 

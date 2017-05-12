@@ -19,7 +19,7 @@ public interface RepositoryInterface {
 
     void getUserProductDetails(int productId, ProductCallback dataCallback);
 
-    void showProducts(int userID, ProductListCallback dataCallback);
+    void showProducts(ProductListCallback dataCallback);
 
     void login(User user, BooleanCallback dataCallback);
 

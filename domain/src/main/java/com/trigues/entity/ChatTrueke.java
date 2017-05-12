@@ -13,7 +13,7 @@ public class ChatTrueke extends ChatMessage {
     // 0 -> A mà ; 1 -> Amb transport extern
     int shipmentType;
 
-    // 0 - Pendent, 1 - Denegat, 2 - Acceptat, 3 - Esperar pagament, 4 - Finalitzat
+    // 0 - Pendent, 1 - Denegat, 2 - Acceptat, 3 - Esperar pagament, 4 - Transport 5 - Finalitzat
     int status;
 
     public ChatTrueke(int fromUserId, Long date, int shipmentType, int status) {
@@ -54,6 +54,8 @@ public class ChatTrueke extends ChatMessage {
             case 3 :
                 return "Esperando pago";
             case 4 :
+                return "En transport";
+            case 5 :
                 return "Finalizado";
         }
         return "";

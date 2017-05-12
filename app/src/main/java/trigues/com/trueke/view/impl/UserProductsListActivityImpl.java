@@ -7,9 +7,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.trigues.entity.Product;
 
 import java.util.List;
@@ -64,7 +62,7 @@ public class UserProductsListActivityImpl extends MenuActivityImpl implements Us
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        presenter.getUserProducts(0);
+        presenter.getUserProducts();
 
         addProductButton.setOnClickListener(new View.OnClickListener()
         {

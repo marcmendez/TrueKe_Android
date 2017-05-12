@@ -54,6 +54,7 @@ public class LoginPresenter {
     }
 
     public void login(String usuari, String password) {
+
         view.showProgress("Iniciando sesión...");
         loginUseCase.execute(new User(usuari, password), new LoginUseCase.LoginUseCaseCallback() {
             @Override
