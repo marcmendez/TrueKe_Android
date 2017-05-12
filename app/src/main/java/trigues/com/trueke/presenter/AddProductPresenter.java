@@ -26,7 +26,6 @@ public class AddProductPresenter {
     private InternalStorageInterface internalStorage;
     private AddImagesUseCase addImagesUseCase;
     private AddImagesProductUseCase addImagesProductUseCase;
-    private String image_md5;
 
     @Inject
     public AddProductPresenter(AddProductActivity view,AddProductUseCase addProductUseCase, InternalStorageInterface internalStorage,
@@ -76,22 +75,25 @@ public class AddProductPresenter {
 
                     @Override
                     public void onSuccess(String returnParam) {
-                        image_md5 = returnParam;
+                        Log.i("image_md5",  "returnParam: "+returnParam );
+                        Log.i("image_md5",  "simplificado: "+returnParam.substring(8));
+                        //returnParam: "/image/aeosnfaoei"
+                        //substring returnPAram: "aeosnfaoei"
+                        addImagesProductUseCase.execute(returnParam.substring(8), new AddImagesProductUseCase.AddImagesProductCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+                                view.onError(errorBundle.getErrorMessage());
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean returnParam) {
+                                if(!returnParam){
+                                    view.goToShowProductList();
+                                }
+                            }
+                        });
                     }
                 });
-                /*addImagesProductUseCase.execute(image_md5, new AddImagesProductUseCase.AddImagesProductCallback() {
-                    @Override
-                    public void onError(ErrorBundle errorBundle) {
-                        view.onError(errorBundle.getErrorMessage());
-                    }
-
-                    @Override
-                    public void onSuccess(Boolean returnParam) {
-                        if(!returnParam){
-                            view.goToShowProductList();
-                        }
-                    }
-                });*/
             }
         }
     }

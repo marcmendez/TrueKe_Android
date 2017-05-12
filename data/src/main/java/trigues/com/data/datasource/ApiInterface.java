@@ -98,6 +98,6 @@ public interface ApiInterface {
 
     interface AddProductDataCallback extends DefaultCallback<ApiDTO<ProductId>> {}
 
-    interface AddImagesDataCallback extends DefaultCallback<String> {}
+    interface AddImagesDataCallback extends DefaultCallback<ApiDTO<String>> {}
 
 }

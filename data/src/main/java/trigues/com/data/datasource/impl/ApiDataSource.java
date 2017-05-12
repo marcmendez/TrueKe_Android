@@ -1,5 +1,6 @@
 package trigues.com.data.datasource.impl;
 
+import com.google.gson.Gson;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -19,6 +20,7 @@ import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ImageDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductDTO;
@@ -655,8 +657,9 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void addImagesProduct(String token, int product_id, String image_md5, final BooleanDataCallback dataCallback) {
-        int prodId = product_id;
-        server.addImagesProduct(token, prodId, product_id, image_md5).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+        ImageDTO im = new ImageDTO(product_id, image_md5);
+        //product_id, image_md5
+        server.addImagesProduct(token, product_id, im).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 dataCallback.onSuccess(false);
@@ -666,9 +669,9 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void addImages(String image, final AddImagesDataCallback dataCallback) {
-        server.addImages(image).enqueue(new RetrofitErrorHandler<String>(dataCallback) {
+        server.addImages(image).enqueue(new RetrofitErrorHandler<ApiDTO<String>>(dataCallback) {
             @Override
-            public void onResponse(String body) {
+            public void onResponse(ApiDTO<String> body) {
                 dataCallback.onSuccess(body);
             }
         });
