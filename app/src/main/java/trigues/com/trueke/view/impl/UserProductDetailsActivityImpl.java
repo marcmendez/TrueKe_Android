@@ -149,7 +149,6 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
     }
 
     public void setUpViewPager(List<String> images) {
-        //TODO: Set info to views
         Log.i("Images", "images1: "+ images.get(0));
         List<Bitmap> imagesUrl = new ArrayList<>();
         for(String image: images) {

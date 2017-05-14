@@ -1,5 +1,7 @@
 package trigues.com.data.datasource.impl;
 
+import android.util.Log;
+
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -656,6 +658,8 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void addImagesProduct(String token, int product_id, String image_md5, final BooleanDataCallback dataCallback) {
+        Log.i("image_md5", "server returnParam: "+image_md5);
+        Log.i("image_md5", "server returnParam product: "+product_id);
         server.addImagesProduct(token, product_id, image_md5).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {

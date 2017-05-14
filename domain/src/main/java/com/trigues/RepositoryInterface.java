@@ -68,7 +68,7 @@ public interface RepositoryInterface {
 
     void addImages(String image, ImagesCallback dataCallback);
 
-    void addImagesProduct(String image, BooleanCallback dataCallback);
+    void addImagesProduct(String image_md5, BooleanCallback dataCallback);
 
     void getImagesProduct(int product_id, GetImagesProductCallback dataCallback);
 

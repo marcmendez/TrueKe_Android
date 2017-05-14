@@ -439,8 +439,9 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void addImagesProduct(String image, final BooleanCallback dataCallback) {
-         apiDataSource.addImagesProduct(internalStorage.getToken(),internalStorage.getProductId(), image, new ApiInterface.BooleanDataCallback(){
+    public void addImagesProduct(String image_md5, final BooleanCallback dataCallback) {
+        Log.i("image_md5",  "returnParam appRepository: "+image_md5 );
+         apiDataSource.addImagesProduct(internalStorage.getToken(),internalStorage.getProductId(), image_md5, new ApiInterface.BooleanDataCallback(){
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);

@@ -7,11 +7,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import java.text.SimpleDateFormat;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.util.Base64;
 import android.util.Log;
@@ -24,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -100,6 +104,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     AddProductPresenter presenter;
 
     @Override
+    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
@@ -152,6 +157,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         addEvents();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void addEvents(){
         e_photo1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,6 +192,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void showOptions() {
         final CharSequence[] options ={"Hacer foto", "Abrir galeria", "Cancelar"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(AddProductActivityImpl.this);
@@ -206,6 +213,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void getPictureFromCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -228,9 +236,10 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = String.valueOf(System.currentTimeMillis()/1000);
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -267,22 +276,18 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
 
             if (num_photo == 1) {
                 e_photo1.setImageBitmap(imageBitmap);
-               // photo1 = nPath;
                 photo1 = encoded_image;
             }
             else if (num_photo == 2) {
                 e_photo2.setImageBitmap(imageBitmap);
-                // photo2 = nPath;
                 photo2 = encoded_image;
             }
             else if (num_photo == 3) {
                 e_photo3.setImageBitmap(imageBitmap);
-                //photo3 = nPath;
                 photo3 = encoded_image;
             }
             else {
                 e_photo4.setImageBitmap(imageBitmap);
-                //photo4 = nPath;
                 photo4 = encoded_image;
             }
 
@@ -293,23 +298,22 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
                 nPath = getPathFromURI(selectedImageUri);
                 Bitmap bm = BitmapFactory.decodeFile(nPath);
                 String encoded_image = BitMapToString (bm);
-                Log.i(TAG, "Image Path : " + nPath);
+                //Log.i(TAG, "Image Path : " + nPath);
                 if (num_photo == 1) {
                     e_photo1.setImageURI(selectedImageUri);
-                    //photo1 = nPath;
                     photo1 = encoded_image;
                 }
                 else if (num_photo == 2) {
                     e_photo2.setImageURI(selectedImageUri);
-                    photo2 = nPath;
+                    photo2 =  encoded_image;
                 }
                 else if (num_photo == 3) {
                     e_photo3.setImageURI(selectedImageUri);
-                    photo3 = nPath;
+                    photo3 =  encoded_image;
                 }
                 else {
                     e_photo4.setImageURI(selectedImageUri);
-                    photo4 = nPath;
+                    photo4 =  encoded_image;
                 }
             }
         }
@@ -352,8 +356,10 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             ProductChecker.checkPrice(priceMin, priceMax);
             ProductChecker.checkImages(photo1,photo2,photo3,photo4);
             List<String> images = Arrays.asList(photo1,photo2,photo3,photo4);
+            //Log.i("images","ret image1 addProduct"+photo1);
+            //Log.i("images","ret image2 addProduct"+photo2);
+            //Log.i("images","ret image3 addProduct"+photo3);
             presenter.addProduct(title, description, images, category, desired_categories,Integer.valueOf(priceMin),Integer.valueOf(priceMax));
-            presenter.addImagesProduct(images);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
                     e.getMessage(), Toast.LENGTH_LONG).show();
@@ -371,7 +377,6 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     }
 
     public void onDesiredCategoryPressed(List<String> categories){
-        //TODO:
         String desiredCategoryText = "";
         for(String category : categories){
             desiredCategoryText = desiredCategoryText + category + "\n";

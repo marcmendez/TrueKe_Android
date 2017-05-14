@@ -37,7 +37,7 @@ public class AddProductPresenter {
         this.addImagesProductUseCase = addImagesProductUseCase;
     }
 
-    public void addProduct(String title, String description, List<String> images,String productCategory, List<String> desiredCategories, int priceMin, int priceMax) {
+    public void addProduct(String title, String description, final List<String> images,String productCategory, List<String> desiredCategories, int priceMin, int priceMax) {
 
         //pasar usuario y categorias que quiere
         int userId = Integer.valueOf(internalStorage.getUser().getId());
@@ -54,7 +54,8 @@ public class AddProductPresenter {
             public void onSuccess(Boolean returnParam) {
                 view.hideProgress();
                 if(returnParam){
-                  // view.goToShowProductList();
+                    addImages(images);
+                    view.goToShowProductList();
                 }
                 else{
                     view.onError("No se ha añadido el producto correctamente");
@@ -63,7 +64,7 @@ public class AddProductPresenter {
         });
 
     }
-    public void addImagesProduct(List<String> images) {
+    public void addImages(List<String> images) {
         //para cada imagen
         for(String image : images){
             if(image!="") {
@@ -75,27 +76,28 @@ public class AddProductPresenter {
 
                     @Override
                     public void onSuccess(String returnParam) {
-                        Log.i("image_md5",  "returnParam: "+returnParam );
-                        Log.i("image_md5",  "simplificado: "+returnParam.substring(8));
+                        Log.i("image_md5", "returnParam: " + returnParam);
+                        Log.i("image_md5", "simplificado: " + returnParam.substring(8));
                         //returnParam: "/image/aeosnfaoei"
                         //substring returnPAram: "aeosnfaoei"
-                        addImagesProductUseCase.execute(returnParam.substring(8), new AddImagesProductUseCase.AddImagesProductCallback() {
-                            @Override
-                            public void onError(ErrorBundle errorBundle) {
-                                view.onError(errorBundle.getErrorMessage());
-                            }
-
-                            @Override
-                            public void onSuccess(Boolean returnParam) {
-                                if(!returnParam){
-                                    view.goToShowProductList();
-                                }
-                            }
-                        });
+                        addImagesProduct(returnParam.substring(8));
                     }
                 });
             }
         }
+    }
+
+    public void addImagesProduct(String image) {
+        addImagesProductUseCase.execute(image, new AddImagesProductUseCase.AddImagesProductCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+            }
+        });
     }
 
 }

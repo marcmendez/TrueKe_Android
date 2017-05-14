@@ -23,7 +23,7 @@ public class AddImagesProductUseCase extends BaseUseCase<Boolean> implements Int
     private final ThreadExecutor executor;
     private AddImagesProductUseCase.AddImagesProductCallback callback;
 
-    private String image;
+    private String image_md5;
 
 
     @Inject
@@ -49,13 +49,13 @@ public class AddImagesProductUseCase extends BaseUseCase<Boolean> implements Int
     @Override
     public <R extends DefaultCallback<Boolean>> void execute(String param,R defaultCallback) {
         this.callback = ((AddImagesProductUseCase.AddImagesProductCallback) defaultCallback);
-        this.image = param;
+        this.image_md5 = param;
         executor.execute(this);
     }
 
     @Override
     public void run() {
-        repository.addImagesProduct(image, dataCallback);
+        repository.addImagesProduct(image_md5, dataCallback);
     }
 
     public interface AddImagesProductCallback extends DefaultCallback<Boolean> {}
