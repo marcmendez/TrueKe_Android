@@ -112,13 +112,13 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         Gson gson = new Gson();
         product = gson.fromJson(productJson, Product.class);
 
-        setUpProductDetails(product);
+       // setUpProductDetails(product);
 
-        setUpViewPager(product.getImages());
+        //setUpViewPager(product.getImages());
 
-        setUpDotCounter();
+    //    setUpDotCounter();
 
-        setUpDesiredCategoriesList(product.getDesiredCategories());
+  //      setUpDesiredCategoriesList(product.getDesiredCategories());
     }
 
     private void setUpProductDetails(Product product) {
@@ -144,7 +144,7 @@ public class MatchmakingDetailsFragImpl extends Fragment {
 
     private void setUpViewPager(List<String> images) {
         //TODO: Set info to views
-        this.viewPageAdapter = new ImageViewPageAdapter(getContext(), images);
+        //this.viewPageAdapter = new ImageViewPageAdapter(getContext(), images);
         viewPager.setAdapter(viewPageAdapter);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

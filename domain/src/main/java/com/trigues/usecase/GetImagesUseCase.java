@@ -2,12 +2,11 @@ package com.trigues.usecase;
 
 import com.trigues.RepositoryInterface;
 import com.trigues.callback.DefaultCallback;
-import com.trigues.entity.Product;
+import com.trigues.exception.ErrorBundle;
 import com.trigues.executor.PostExecutionThread;
 import com.trigues.executor.ThreadExecutor;
 import com.trigues.interactor.BaseUseCase;
 import com.trigues.interactor.Interactor;
-import com.trigues.exception.ErrorBundle;
 
 import javax.inject.Inject;
 
@@ -15,12 +14,12 @@ import javax.inject.Inject;
  * Created by Alba on 11/05/2017.
  */
 
-public class AddImagesUseCase extends BaseUseCase<String> implements Interactor<String,String> {
+public class GetImagesUseCase extends BaseUseCase<String> implements Interactor<String,String> {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
-    private AddImagesCallback callback;
+    private GetImagesCallback callback;
 
-    private String image_base64;
+    private String image_md5;
 
     RepositoryInterface.ImagesCallback dataCallback = new RepositoryInterface.ImagesCallback() {
         @Override
@@ -35,24 +34,24 @@ public class AddImagesUseCase extends BaseUseCase<String> implements Interactor<
     };
 
     @Inject
-    public AddImagesUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor, RepositoryInterface repository) {
+    public GetImagesUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor, RepositoryInterface repository) {
         super(postExecutionThread);
         this.repository = repository;
         this.executor = executor;
     }
 
     @Override
-    public <R extends DefaultCallback<String>> void execute(String image_base64, R defaultCallback) {
-        this.callback = ((AddImagesCallback) defaultCallback);
-        this.image_base64 = image_base64;
+    public <R extends DefaultCallback<String>> void execute(String image_md5, R defaultCallback) {
+        this.callback = ((GetImagesCallback) defaultCallback);
+        this.image_md5 = image_md5;
         executor.execute(this);
     }
 
     @Override
     public void run() {
-        repository.addImages(image_base64, dataCallback);
+        repository.getImages(image_md5, dataCallback);
     }
 
-    public interface AddImagesCallback extends DefaultCallback<String>{}
+    public interface GetImagesCallback extends DefaultCallback<String>{}
 
 }

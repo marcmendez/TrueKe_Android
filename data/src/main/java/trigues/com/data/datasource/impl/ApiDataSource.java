@@ -1,6 +1,5 @@
 package trigues.com.data.datasource.impl;
 
-import com.google.gson.Gson;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -20,7 +19,7 @@ import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
-import trigues.com.data.entity.ImageDTO;
+import trigues.com.data.entity.ImagePath;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductDTO;
@@ -657,9 +656,7 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void addImagesProduct(String token, int product_id, String image_md5, final BooleanDataCallback dataCallback) {
-        ImageDTO im = new ImageDTO(product_id, image_md5);
-        //product_id, image_md5
-        server.addImagesProduct(token, product_id, im).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+        server.addImagesProduct(token, product_id, image_md5).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 dataCallback.onSuccess(false);
@@ -668,7 +665,7 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void addImages(String image, final AddImagesDataCallback dataCallback) {
+    public void addImages(String image, final ImagesDataCallback dataCallback) {
         server.addImages(image).enqueue(new RetrofitErrorHandler<ApiDTO<String>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<String> body) {
@@ -676,4 +673,30 @@ public class ApiDataSource implements ApiInterface {
             }
         });
     }
+
+    @Override
+    public void getImagesProduct(int product_id, final GetImagesProductDataCallback dataCallback) {
+        server.getImagesProduct(product_id).enqueue(new RetrofitErrorHandler<ApiDTO<List<ImagePath>>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<List<ImagePath>> body) {
+                List<String> returnparam = new ArrayList();
+                for(ImagePath b : body.getContent()){
+                    returnparam.add(b.getImagePath());
+                }
+                ApiDTO<List<String>> bod = new ApiDTO(body.getError(),body.getMessage(),returnparam);
+                dataCallback.onSuccess(bod);
+            }
+        });
+    }
+
+    @Override
+    public void getImages(String md5, final ImagesDataCallback dataCallback) {
+        server.getImages(md5).enqueue(new RetrofitErrorHandler<ApiDTO<String>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<String> body) {
+                dataCallback.onSuccess(body);
+            }
+        });
+    }
+
 }

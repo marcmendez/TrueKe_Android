@@ -454,8 +454,38 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void addImages(String image_base64, final AddImagesCallback dataCallback) {
-        apiDataSource.addImages(image_base64, new ApiInterface.AddImagesDataCallback() {
+    public void addImages(String image_base64, final ImagesCallback dataCallback) {
+        apiDataSource.addImages(image_base64, new ApiInterface.ImagesDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<String> returnParam) {
+                if(!returnParam.getError()) dataCallback.onSuccess(returnParam.getContent());
+            }
+        });
+    }
+
+    @Override
+    public void getImagesProduct(int product_id, final GetImagesProductCallback dataCallback) {
+        apiDataSource.getImagesProduct(product_id, new ApiInterface.GetImagesProductDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<List<String>> returnParam) {
+                if(!returnParam.getError()) dataCallback.onSuccess(returnParam.getContent());
+            }
+        });
+    }
+
+    @Override
+    public void getImages(String image_md5, final ImagesCallback dataCallback) {
+        apiDataSource.getImages(image_md5, new ApiInterface.ImagesDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);

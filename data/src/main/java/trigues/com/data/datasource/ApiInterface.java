@@ -11,6 +11,7 @@ import java.util.List;
 
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ImagePath;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.entity.ProductId;
@@ -72,9 +73,11 @@ public interface ApiInterface {
 
     void addImagesProduct(String token, int product_id, String image_md5, BooleanDataCallback booleanDataCallback);
 
-    void addImages(String image_base64, AddImagesDataCallback addImageDataCallback);
+    void addImages(String image_base64, ImagesDataCallback ImageDataCallback);
 
+    void getImagesProduct(int product_id, GetImagesProductDataCallback dataCallback);
 
+    void getImages(String md5, ImagesDataCallback ImageDataCallback);
 
     //Callbacks:
 
@@ -98,6 +101,8 @@ public interface ApiInterface {
 
     interface AddProductDataCallback extends DefaultCallback<ApiDTO<ProductId>> {}
 
-    interface AddImagesDataCallback extends DefaultCallback<ApiDTO<String>> {}
+    interface ImagesDataCallback extends DefaultCallback<ApiDTO<String>> {}
+
+    interface GetImagesProductDataCallback extends DefaultCallback<ApiDTO<List<String>>> {}
 
 }

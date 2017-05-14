@@ -15,14 +15,12 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
-import trigues.com.data.entity.ImageDTO;
+import trigues.com.data.entity.ImagePath;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductId;
@@ -123,5 +121,12 @@ public interface ServerService {
 
     @FormUrlEncoded
     @POST("products/{id}/images")
-    Call<ApiDTO<Void>> addImagesProduct(@Header("token") String token, @Path("id") int prodId, @Field("info") ImageDTO im);
+    Call<ApiDTO<Void>> addImagesProduct(@Header("token") String token, @Path("id") int id, @Field("image_md5") String image_md5);
+
+    @GET("products/{id}/images")
+    Call<ApiDTO<List<ImagePath>>> getImagesProduct(@Path("id") int product_id);
+
+    @GET("images/{md5}")
+    Call<ApiDTO<String>> getImages(@Path("md5") String md5);
+
 }
