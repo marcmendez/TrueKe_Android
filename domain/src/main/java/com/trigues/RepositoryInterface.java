@@ -69,6 +69,8 @@ public interface RepositoryInterface {
 
     void getUserChats(int userID, ChatListCallback dataCallback);
 
+    void reportProduct(Integer[] userProdID, VoidCallback dataCallback);
+
     //Callbacks:
 
     interface VoidCallback extends DefaultCallback<Void> {}

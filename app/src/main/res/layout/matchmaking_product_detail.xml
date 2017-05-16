@@ -123,7 +123,6 @@ tools:context=".view.impl.UserProductsListActivityImpl">
                     android:layout_alignParentTop="true"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
-                    android:onClick="reportProd"
                     />
             </RelativeLayout>
 
