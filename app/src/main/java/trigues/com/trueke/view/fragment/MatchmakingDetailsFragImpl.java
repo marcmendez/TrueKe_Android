@@ -237,6 +237,7 @@ public class MatchmakingDetailsFragImpl extends Fragment {
     }
 
     public void reportProd(View view) {
+
     }
 
 }
