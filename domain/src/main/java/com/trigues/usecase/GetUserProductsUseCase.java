@@ -19,12 +19,10 @@ import javax.inject.Inject;
 
 
 
-public class GetUserProductsUseCase extends BaseUseCase<List<Product>> implements Interactor<Integer, List<Product> > {
+public class GetUserProductsUseCase extends BaseUseCase<List<Product>> implements Interactor<Void, List<Product> > {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
     private UserProductsListCallback callback;
-
-    private int userID;
 
     RepositoryInterface.ProductListCallback dataCallback = new RepositoryInterface.ProductListCallback() {
         @Override
@@ -46,15 +44,14 @@ public class GetUserProductsUseCase extends BaseUseCase<List<Product>> implement
     }
 
     @Override
-    public <R extends DefaultCallback<List<Product>>> void execute(Integer userID, R defaultCallback) {
+    public <R extends DefaultCallback<List<Product>>> void execute(Void aVoid, R defaultCallback) {
         this.callback = ((UserProductsListCallback) defaultCallback);
-        this.userID= userID;
         executor.execute(this);
 
     }
     @Override
     public void run() {
-        repository.showProducts(userID, dataCallback);
+        repository.showProducts(dataCallback);
     }
 
 

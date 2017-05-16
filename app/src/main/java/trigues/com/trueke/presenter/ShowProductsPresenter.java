@@ -28,23 +28,21 @@ public class ShowProductsPresenter {
     }
 
 
-    public void getUserProducts(int userID) {
-        if (userID == 0) {
+    public void getUserProducts() {
+        view.showProgress("Cargando productos...");
+        showProductsUseCase.execute(null, new GetUserProductsUseCase.UserProductsListCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.hideProgress();
+                view.onError(errorBundle.getErrorMessage());
+            }
 
-            showProductsUseCase.execute(userID, new GetUserProductsUseCase.UserProductsListCallback() {
-                @Override
-                public void onError(ErrorBundle errorBundle) {
-                    view.onError(errorBundle.getErrorMessage());
-                }
-
-                @Override
-                public void onSuccess(List<Product> returnParam) { view.generateProds(returnParam);
-                }
-            });
-        }
-        else{
-            view.onError("Producto no válido");
-        }
+            @Override
+            public void onSuccess(List<Product> returnParam) {
+                view.generateProds(returnParam);
+                view.hideProgress();
+            }
+        });
     }
 }
 

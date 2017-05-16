@@ -1,12 +1,9 @@
 package trigues.com.trueke.presenter;
 
-import android.support.v4.util.Pair;
-
 import com.trigues.entity.Product;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.AcceptMatchUseCase;
 import com.trigues.usecase.GetMatchMakingListUseCase;
-import com.trigues.usecase.GetUserProductsUseCase;
 import com.trigues.usecase.RejectMatchUseCase;
 
 import java.util.List;
@@ -37,9 +34,11 @@ public class MatchmakingPresenter {
     }
 
     public void getMatchMakingProducts(int prodID){
+        view.showProgress("Cargando productos...");
         showProductsUseCase.execute(prodID, new GetMatchMakingListUseCase.MatchMakingCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
+                view.hideProgress();
                 view.onError(errorBundle.getErrorMessage());
 
             }
@@ -47,32 +46,39 @@ public class MatchmakingPresenter {
             @Override
             public void onSuccess(List<Product> returnParam) {
                 view.onProductsRetrieved(returnParam);
+                view.hideProgress();
             }
         });
     }
 
     public void acceptedProduct(Integer[] productID) {
+        view.showProgress("Aceptando...");
         acceptMatchUseCase.execute(productID, new AcceptMatchUseCase.AcceptMatchCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
+                view.hideProgress();
                 view.onError(errorBundle.getErrorMessage());
             }
 
             @Override
             public void onSuccess(Void returnParam) {
+                view.hideProgress();
             }
         });
     }
 
     public void rejectedProduct(Integer[] productID) {
+        view.showProgress("Rechazando...");
         rejectMatchUseCase.execute(productID, new RejectMatchUseCase.RejectMatchCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
+                view.hideProgress();
                 view.onError(errorBundle.getErrorMessage());
             }
 
             @Override
             public void onSuccess(Void returnParam) {
+                view.hideProgress();
             }
         });
 

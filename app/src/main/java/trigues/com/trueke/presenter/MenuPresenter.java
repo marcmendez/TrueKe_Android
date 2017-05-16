@@ -23,14 +23,17 @@ public class MenuPresenter {
     }
 
     public void logout() {
+        view.showProgress("Cerrando sesión...");
         logoutUseCase.execute(null, new LogoutUseCase.LogoutUseCaseCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
+                view.hideProgress();
                 view.onError(errorBundle.getErrorMessage());
             }
 
             @Override
             public void onSuccess(Void returnParam) {
+                view.hideProgress();
                 view.onLogout();
             }
         });

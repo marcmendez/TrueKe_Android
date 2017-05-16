@@ -312,7 +312,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     }
 
     @Override
-    public void OnShipmentDeleted(Boolean returnParam) {
+    public void onShipmentDeleted(Boolean returnParam) {
         if(!returnParam)
             Toast.makeText(getApplicationContext(),"La dirección se ha borrado correctamente",Toast.LENGTH_LONG).show();
 

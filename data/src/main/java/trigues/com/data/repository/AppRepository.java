@@ -1,6 +1,7 @@
 package trigues.com.data.repository;
 
 import com.trigues.RepositoryInterface;
+import com.trigues.entity.ChatInfo;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -17,6 +18,7 @@ import trigues.com.data.datasource.FirebaseInterface;
 import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
 
@@ -53,7 +55,7 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void showProducts(int userID, final ProductListCallback dataCallback) {
+    public void showProducts(final ProductListCallback dataCallback) {
         apiDataSource.showProducts(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductListDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -62,7 +64,6 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(ApiDTO<List<Product>> returnParam) {
-                List<Product> p = new ArrayList<>();
                 dataCallback.onSuccess(returnParam.getContent());
             }
         });
@@ -90,6 +91,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void logout(VoidCallback dataCallback) {
+        internalStorage.onLogOut();
         dataCallback.onSuccess(null);
     }
 
@@ -254,8 +256,7 @@ public class AppRepository implements RepositoryInterface {
         });
     }
 
-
-
+    @Override
     public void acceptMatch(Integer[] productsID, final VoidCallback dataCallback) {
 
         apiDataSource.acceptMatch(internalStorage.getToken(), productsID, new ApiInterface.VoidDataCallback() {
@@ -433,4 +434,29 @@ public class AppRepository implements RepositoryInterface {
             }
         });
     }
+
+    @Override
+    public void getUserChats(int userID, final ChatListCallback dataCallback) {
+        apiDataSource.getUserChats(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ChatListDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<List<ChatDTO>> returnParam/*funcio per cambiar de category dto a list strings*/) {
+                List<ChatInfo> chats = new ArrayList<>();
+                for (ChatDTO element : returnParam.getContent()) {
+                    ChatInfo chati = new ChatInfo();
+                    chati.setChatID(element.getChatID());
+                    chati.setProductID1(element.getProductID1());
+                    chati.setProductID2(element.getProductID2());
+                    chats.add(chati);
+                }
+                dataCallback.onSuccess(chats);
+            }
+        });
+    }
+
+
 }

@@ -18,6 +18,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductsMatchDTO;
@@ -110,4 +111,6 @@ public interface ServerService {
     @GET("productwantscategory/{product_id}")
     Call<ApiDTO<List<CategoryDTO>>> getDesiredCategories(@Header("token") String token, @Path("product_id") int prodID);
 
+    @GET("chats/{user_id}")
+    Call<ApiDTO<List<ChatDTO>>> getUserChats(@Header("token") String token, @Path("user_id") int userID);
 }
