@@ -9,6 +9,7 @@ import com.trigues.usecase.AddProductUseCase;
 import com.trigues.exception.ErrorBundle;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -83,6 +84,12 @@ public class AddProductPresenter {
                         addImagesProduct(returnParam.substring(8));
                     }
                 });
+                try { //delay entre llamadas
+                    TimeUnit.MILLISECONDS.sleep(10);
+                    //TimeUnit.SECONDS.sleep(100);
+                } catch (InterruptedException e) {
+
+                }
             }
         }
     }

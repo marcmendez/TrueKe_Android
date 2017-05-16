@@ -14,6 +14,7 @@ import com.trigues.usecase.GetImagesProductUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -163,6 +164,12 @@ public class UserProductDetailsPresenter {
                 for(String ret: returnParam) {
                     Log.i("images presenter", "images ret: "+ret);
                     getImage(ret);
+                    try { //delay entre llamadas
+                        TimeUnit.MILLISECONDS.sleep(10);
+                        //TimeUnit.SECONDS.sleep(100);
+                    } catch (InterruptedException e) {
+
+                    }
                 }
             }
         }) ;
