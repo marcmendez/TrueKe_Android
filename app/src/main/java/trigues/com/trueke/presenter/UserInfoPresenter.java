@@ -6,12 +6,14 @@ import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.AddImagesUseCase;
+import com.trigues.usecase.ChangeImageUserUseCase;
 import com.trigues.usecase.ChangePaymentUseCase;
 import com.trigues.usecase.ChangeProfileUseCase;
 import com.trigues.usecase.ChangeShipmentUseCase;
 import com.trigues.usecase.DeletePaymentUseCase;
 import com.trigues.usecase.DeleteShipmentUseCase;
 import com.trigues.usecase.DeleteUserUseCase;
+import com.trigues.usecase.GetImagesUseCase;
 import com.trigues.usecase.NewPaymentUseCase;
 import com.trigues.usecase.NewShipmentUseCase;
 import com.trigues.usecase.ShowPaymentsUseCase;
@@ -41,6 +43,9 @@ public class UserInfoPresenter {
     private NewShipmentUseCase newShipmentUseCase;
     private ChangeShipmentUseCase changeShipmentUseCase;
     private AddImagesUseCase changeProfileImageUseCase;
+    private ChangeImageUserUseCase changeImageUserUseCase;
+    private GetImagesUseCase showProfileImageUseCase;
+
     @Inject
     public UserInfoPresenter(UserProfileActivity view,
                              ShowProfileUseCase showProfileUseCase,
@@ -50,7 +55,7 @@ public class UserInfoPresenter {
                              DeleteUserUseCase deleteUserUseCase,
                              NewPaymentUseCase newPaymentUseCase,
                              ChangePaymentUseCase changePaymentUseCase,
-                             DeletePaymentUseCase deletePaymentUseCase, DeleteShipmentUseCase deleteShipmentUseCase, NewShipmentUseCase newShipmentUseCase, ChangeShipmentUseCase changeShipmentUseCase, AddImagesUseCase changeProfileImageUseCase) {
+                             DeletePaymentUseCase deletePaymentUseCase, DeleteShipmentUseCase deleteShipmentUseCase, NewShipmentUseCase newShipmentUseCase, ChangeShipmentUseCase changeShipmentUseCase, AddImagesUseCase changeProfileImageUseCase, ChangeImageUserUseCase changeImageUserUseCase, ShowProfileImageUseCase showProfileImageUseCase) {
         this.view = view;
         this.showProfileUseCase=showProfileUseCase;
         this.showPaymentsUseCase = showPaymentsUseCase;
@@ -64,6 +69,8 @@ public class UserInfoPresenter {
         this.newShipmentUseCase = newShipmentUseCase;
         this.changeShipmentUseCase = changeShipmentUseCase;
         this.changeProfileImageUseCase = changeProfileImageUseCase;
+        this.changeImageUserUseCase = changeImageUserUseCase;
+        this.showProfileImageUseCase = showProfileImageUseCase;
     }
 
     public void showProfile(){
@@ -242,10 +249,32 @@ public class UserInfoPresenter {
     }
 
     public void changeImageUser(String imagepath) {
+        changeImageUserUseCase.execute(imagepath, new AddImagesUseCase.AddImagesCallback(){
 
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(String returnParam) {
+                view.OnProfileUserImageChanged(returnParam);
+            }
+        });
     }
 
     public void getProfileImage(String returnParam) {
+        showProfileImageUseCase.execute(returnParam, new AddImagesUseCase.AddImagesCallback(){
 
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(String returnParam) {
+                view.OnProfileImageRetrieved(returnParam);
+            }
+        });
     }
 }

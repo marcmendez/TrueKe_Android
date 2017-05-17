@@ -29,4 +29,8 @@ public interface UserProfileActivity extends MenuActivity {
     void onChangeShipmentRetrieved(Boolean returnParam);
 
     void OnProfileImageChanged(String returnParam);
+
+    void OnProfileImageRetrieved(String returnParam);
+
+    void OnProfileUserImageChanged(String returnParam);
 }
