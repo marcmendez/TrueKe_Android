@@ -105,7 +105,7 @@ public class MatchmakingDetailsFragImpl extends Fragment {
             public void onClick(View view) {
 
                 Integer[] userProdID = new Integer[2];
-                userProdID[0] = 1;
+                userProdID[0] = -1;
                 userProdID[1] = product.getId();
 
                 // Pasar los datos hacia abajo;
