@@ -70,8 +70,8 @@ public class FormatChecker {
         Date today = new Date();
         if(date.before(today)) throw new Exception("Tarjeta caducada");
     }
-    public final static void CheckIdCard(String target) throws Exception {
-        if(target.length()<=12 || target.length()>=20) throw new Exception("Tarjeta de crédito inválida");
+    public final static void CheckCard(String target) throws Exception {
+        if(target.length()<=14 || target.length()>=17) throw new Exception("Tarjeta de crédito inválida");
     }
     public final static void CheckDNI(String target) throws Exception{
         String snum = target.substring(0,target.length()-1);
@@ -82,6 +82,13 @@ public class FormatChecker {
         int num = Integer.parseInt(snum) % 23;
         if (target.charAt(target.length()-1) != letraDni[num]) throw new Exception ("DNI inválido");
     }
+
+    public final static void CheckDirecció(String target) throws Exception {
+        if(target.length()==0) throw new Exception("No has llenado todos los campos");
+        if(target.length()<5) throw new Exception("Dirección mínimo 5 caracteres");
+        if(target.length()>40) throw new Exception ("Dirección demasiado larga");
+    }
+
 
 }
 

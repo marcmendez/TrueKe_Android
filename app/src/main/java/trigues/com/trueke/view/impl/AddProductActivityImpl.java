@@ -222,7 +222,6 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
                 startActivityForResult(takePictureIntent, PICTURE_TAKEN_FROM_CAMERA);
             }
         }
-
     }
 
     private File createImageFile() throws IOException {

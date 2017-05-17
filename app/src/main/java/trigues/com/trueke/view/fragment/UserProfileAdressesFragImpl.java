@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import trigues.com.trueke.R;
 import trigues.com.trueke.adapter.UserProfileAddressesAdapter;
+import trigues.com.trueke.utils.FormatChecker;
 import trigues.com.trueke.view.impl.UserProfileActivityImpl;
 
 /**
@@ -96,9 +98,10 @@ public class UserProfileAdressesFragImpl extends Fragment {
                 builder.setMessage("Seguro que quiere borrar esta dirección?")
                         .setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                activity.onAdressDeleteClick(shipment);
-                                adresses.remove(shipment);
-                                dialog.dismiss();
+
+                                    activity.onAdressDeleteClick(shipment);
+                                    adresses.remove(shipment);
+                                    dialog.dismiss();
                             }
                         })
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -157,10 +160,21 @@ public class UserProfileAdressesFragImpl extends Fragment {
         view.findViewById(R.id.add_shipment_send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Shipment s = new Shipment(provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()),
-                        addressET.getText().toString(), nameET.getText().toString(), idCardET.getText().toString(), phoneET.getText().toString());
-                activity.newShipment(s);
-                dialog.dismiss();
+                  try {
+                    FormatChecker.CheckDirecció(addressET.getText().toString());
+                    FormatChecker.CheckPostalCode(postalCodeET.getText().toString());
+                    FormatChecker.CheckPlace(cityET.getText().toString());
+                    FormatChecker.CheckPlace(provinceET.getText().toString());
+                    FormatChecker.CheckName(nameET.getText().toString());
+                    FormatChecker.CheckDNI(idCardET.getText().toString());
+                    FormatChecker.CheckPhone(phoneET.getText().toString());
+                    Shipment s = new Shipment(provinceET.getText().toString(), cityET.getText().toString(), postalCodeET.getText().toString(),
+                            addressET.getText().toString(), nameET.getText().toString(), idCardET.getText().toString(), phoneET.getText().toString());
+                    activity.newShipment(s);
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

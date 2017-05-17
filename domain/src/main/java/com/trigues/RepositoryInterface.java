@@ -60,6 +60,8 @@ public interface RepositoryInterface {
 
     void deleteProduct(int product_id, BooleanCallback dataCallback);
 
+    void changeProfileImage(String image, BooleanCallback dataCallback);
+
 
     //Callbacks:
 

@@ -25,12 +25,14 @@ import com.google.gson.reflect.TypeToken;
 import com.trigues.entity.Payment;
 
 import java.lang.reflect.Type;
+import java.text.Normalizer;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import trigues.com.trueke.R;
 import trigues.com.trueke.adapter.UserProfilePaymentMethodsAdapter;
+import trigues.com.trueke.utils.FormatChecker;
 import trigues.com.trueke.view.impl.UserProfileActivityImpl;
 
 /**
@@ -158,10 +160,22 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
         view.findViewById(R.id.add_payment_send_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Payment p = new Payment(typeET.getSelectedItem().toString(), numberET.getText().toString(), expireDateET.getText().toString(), nameET.getText().toString(), provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()),
-                        addressET.getText().toString(), phoneET.getText().toString());
-                activity.newPayment(p);
-                dialog.dismiss();
+                try {
+                    FormatChecker.CheckCard(numberET.getText().toString());
+                    FormatChecker.CheckExpirationDate(expireDateET.getText().toString());
+                    FormatChecker.CheckName(nameET.getText().toString());
+                    FormatChecker.CheckDirecció(addressET.getText().toString());
+                    FormatChecker.CheckPostalCode(postalCodeET.getText().toString());
+                    FormatChecker.CheckPlace(cityET.getText().toString());
+                    FormatChecker.CheckPlace(provinceET.getText().toString());
+                    FormatChecker.CheckPhone(phoneET.getText().toString());
+                    Payment p = new Payment(typeET.getSelectedItem().toString(), numberET.getText().toString(), expireDateET.getText().toString(), nameET.getText().toString(), provinceET.getText().toString(), cityET.getText().toString(), postalCodeET.getText().toString(),
+                            addressET.getText().toString(), phoneET.getText().toString());
+                    activity.newPayment(p);
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 

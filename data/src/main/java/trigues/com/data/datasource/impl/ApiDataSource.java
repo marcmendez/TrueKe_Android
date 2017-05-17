@@ -153,14 +153,14 @@ public class ApiDataSource implements ApiInterface {
         server.changePassword(token,id,new Password(value)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
             @Override
             public void onResponse(ApiDTO<Void> body) {
-                booleanDataCallback.onSuccess(false);
+                booleanDataCallback.onSuccess(body.getError());
             }
         });
         else if (type == "username")
             server.changeUsername(token,id,new UserName(value)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
                 @Override
                 public void onResponse(ApiDTO<Void> body) {
-                    booleanDataCallback.onSuccess(false);
+                    booleanDataCallback.onSuccess(body.getError());
                 }
             });
     }
@@ -193,7 +193,7 @@ public class ApiDataSource implements ApiInterface {
 
             @Override
             public void onResponse(ApiDTO<Void> body) {
-                booleanDataCallback.onSuccess(false);
+                booleanDataCallback.onSuccess(body.getError());
             }
         });
     }
@@ -203,7 +203,7 @@ public class ApiDataSource implements ApiInterface {
         server.deletePayment(token,String.valueOf(payment_id)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
-                booleanDataCallback.onSuccess(false);
+                booleanDataCallback.onSuccess(body.getError());
             }
         });
     }
@@ -213,7 +213,7 @@ public class ApiDataSource implements ApiInterface {
         server.deleteShipment(token, String.valueOf(shipment_id)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
-                booleanDataCallback.onSuccess(false);
+                booleanDataCallback.onSuccess(body.getError());
             }
         });
     }
@@ -223,7 +223,7 @@ public class ApiDataSource implements ApiInterface {
         server.newShipment(token,shipment).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback){
             @Override
             public void onResponse(ApiDTO<Void> body) {
-                booleanDataCallback.onSuccess(false);
+                booleanDataCallback.onSuccess(body.getError());
             }
         });
     }
@@ -314,4 +314,13 @@ public class ApiDataSource implements ApiInterface {
         });
     }
 
+    @Override
+    public void changeProfileImage(String image, final BooleanDataCallback booleanDataCallback) {
+        server.changeProfileImage(image).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(body.getError());
+            }
+        });
+    }
 }

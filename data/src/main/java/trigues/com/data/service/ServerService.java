@@ -87,4 +87,7 @@ public interface ServerService {
 
     @GET("products/matchmaking/{id}")
     Call<ApiDTO<List<Product>>> getMatchMakingProducts(@Header("token") String token,@Path("id") int prodID);
+
+    @POST("")
+    Call<ApiDTO<Void>> changeProfileImage(String image);
 }

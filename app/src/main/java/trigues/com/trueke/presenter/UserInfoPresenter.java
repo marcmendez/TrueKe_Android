@@ -1,11 +1,14 @@
 package trigues.com.trueke.presenter;
 
+import android.graphics.Bitmap;
+
 import com.trigues.entity.Parameter;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.ChangePaymentUseCase;
+import com.trigues.usecase.ChangeProfileImageUseCase;
 import com.trigues.usecase.ChangeProfileUseCase;
 import com.trigues.usecase.ChangeShipmentUseCase;
 import com.trigues.usecase.DeletePaymentUseCase;
@@ -39,7 +42,7 @@ public class UserInfoPresenter {
     private DeleteShipmentUseCase deleteShipmentUseCase;
     private NewShipmentUseCase newShipmentUseCase;
     private ChangeShipmentUseCase changeShipmentUseCase;
-
+    private ChangeProfileImageUseCase changeProfileImageUseCase;
     @Inject
     public UserInfoPresenter(UserProfileActivity view,
                              ShowProfileUseCase showProfileUseCase,
@@ -222,5 +225,9 @@ public class UserInfoPresenter {
                 view.OnUserDeleted(returnParam);
             }
         });
+    }
+
+    public void changeImage(Bitmap imageBitmap) {
+
     }
 }

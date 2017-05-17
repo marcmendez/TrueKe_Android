@@ -10,13 +10,13 @@ public class Shipment {
     private String country;
     private String province;
     private String city;
-    private int postalCode;
+    private String postalCode;
     private String address;
     private String name;
     private String idCard;
     private String phone;
 
-    public Shipment(String province, String city, int postalCode, String address, String name, String idCard, String phone) {
+    public Shipment(String province, String city, String postalCode, String address, String name, String idCard, String phone) {
         this.province = province;
         this.city = city;
         this.postalCode = postalCode;
@@ -28,7 +28,7 @@ public class Shipment {
 
     }
 
-    public Shipment(int id, int user_id, String country, String province, String city, int postalCode, String adress, String name, String idCard, String phone) {
+    public Shipment(int id, int user_id, String country, String province, String city, String postalCode, String adress, String name, String idCard, String phone) {
         this.id = id;
         this.user_id = user_id;
         this.country = country;
@@ -81,11 +81,11 @@ public class Shipment {
         this.city = city;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
