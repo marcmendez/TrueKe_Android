@@ -64,7 +64,7 @@ public class ApiDataSource implements ApiInterface {
 
     public void initDatabase(){
 
-        register(new User(1, "000000000", "test", "1234567", "test@test.com", "1996-09-19", 0, 0, 0.0F), new BooleanDataCallback() {
+        register(new User(1, "000000000", "test", "1234567", "test@test.com", "1996-09-19", 0, 0,0, 0), new BooleanDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
 
@@ -192,7 +192,7 @@ public class ApiDataSource implements ApiInterface {
             }
         });
 
-        register(new User(2, "111111111", "test", "1234567", "test@test.pou", "1992-09-19", 0, 0, 0.0F), new BooleanDataCallback() {
+        register(new User(2, "111111111", "test", "1234567", "test@test.pou", "1992-09-19", 0, 0, 0,0), new BooleanDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
 

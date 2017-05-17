@@ -182,7 +182,7 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
 
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        typeET.setText(list.get(position[0]));
+                        typeET.setPrompt(list.get(position[0]));
                         dialog.dismiss();
                     }
                 });
