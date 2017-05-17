@@ -7,9 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -99,6 +101,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
 
     @Override
+    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
@@ -146,7 +149,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
             }
         });
     }
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void ChangeProfileImage() {
         final CharSequence[] options ={"Hacer foto", "Abrir galeria"};
         final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(UserProfileActivityImpl.this);
@@ -165,7 +168,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         });
         builder.show();
     }
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void getPictureFromCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
