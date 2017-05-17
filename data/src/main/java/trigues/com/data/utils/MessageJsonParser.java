@@ -18,27 +18,31 @@ import java.util.Map;
 
 public class MessageJsonParser {
 
-    public static List<ChatMessage> parseJson(DataSnapshot dataSnapshot){
+    public static List<ChatMessage> parseMessages(DataSnapshot dataSnapshot){
         HashMap<String, HashMap<String, Object>> firebaseResponse = (HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue();
 
         List<ChatMessage> result = new ArrayList<>();
 
         for(Map.Entry<String, HashMap<String, Object>> entry: firebaseResponse.entrySet()){
-            if(entry.getValue().containsKey("message")){
-                result.add(new ChatTextMessage(entry.getValue()));
-            }
-            else if (entry.getValue().containsKey("latitude")){
-                result.add(new ChatLocation(entry.getValue()));
-            }
-            else if (entry.getValue().containsKey("status")){
-                result.add(new ChatTrueke(entry.getValue(), entry.getKey()));
-            }
-            else{
-                result.add(new ChatImage(entry.getValue()));
-            }
+            result.add(parseMessage(entry.getKey(), entry.getValue()));
         }
 
         return result;
+    }
+
+    public static ChatMessage parseMessage(String key, HashMap<String, Object> message){
+        if(message.containsKey("message")){
+            return new ChatTextMessage(key, message);
+        }
+        else if (message.containsKey("latitude")){
+            return new ChatLocation(key, message);
+        }
+        else if (message.containsKey("status")){
+            return new ChatTrueke(key, message);
+        }
+        else{
+            return new ChatImage(key, message);
+        }
     }
 
 }

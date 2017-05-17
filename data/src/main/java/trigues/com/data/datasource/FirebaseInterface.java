@@ -16,6 +16,8 @@ public interface FirebaseInterface {
 
     void setTruekeStatus(int status, String chatId, String truekeId, FirebaseVoidCallback dataCallback);
 
+    void setMessageAsRead(String chatId, String key);
+
     void removeListeners(String chatId);
 
 

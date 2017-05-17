@@ -15,8 +15,13 @@ public class ChatImage extends ChatMessage {
         this.encodedImage = encodedImage;
     }
 
-    public ChatImage (HashMap<String,Object> params){
-        super(((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"));
+    public ChatImage (String key, int userId, long date, String encodedImage){
+        super(key, userId, date);
+        this.encodedImage = encodedImage;
+    }
+
+    public ChatImage (String key, HashMap<String,Object> params){
+        super(key, ((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"));
 
         this.encodedImage = (String) params.get("encodedImage");
     }

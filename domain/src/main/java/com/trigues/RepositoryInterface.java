@@ -69,6 +69,8 @@ public interface RepositoryInterface {
 
     void getUserChats(int userID, ChatListCallback dataCallback);
 
+    void setMessageAsRead(String chatId, String key);
+
     //Callbacks:
 
     interface VoidCallback extends DefaultCallback<Void> {}

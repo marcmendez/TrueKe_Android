@@ -56,7 +56,7 @@ public class ApiDataSource implements ApiInterface {
                 .client(client)
                 .build();
         server = retrofit.create(ServerService.class);
-        initDatabase();
+        //initDatabase();
     }
 
     public void initDatabase(){

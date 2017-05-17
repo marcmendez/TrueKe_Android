@@ -458,5 +458,10 @@ public class AppRepository implements RepositoryInterface {
         });
     }
 
+    @Override
+    public void setMessageAsRead(String chatId, String key) {
+        firebaseDataSource.setMessageAsRead(chatId, key);
+    }
+
 
 }
