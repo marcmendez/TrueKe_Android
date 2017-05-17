@@ -1,7 +1,9 @@
 package trigues.com.data.repository;
 
 import com.trigues.RepositoryInterface;
+import com.trigues.callback.FirebaseChatListener;
 import com.trigues.entity.ChatInfo;
+import com.trigues.entity.ChatMessage;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -454,6 +456,21 @@ public class AppRepository implements RepositoryInterface {
                     chats.add(chati);
                 }
                 dataCallback.onSuccess(chats);
+            }
+        });
+    }
+
+    @Override
+    public void getChatMessages(String chatId, final ChatMessagesCallback dataCallback) {
+        firebaseDataSource.getChatMessages(chatId, new FirebaseChatListener() {
+            @Override
+            public void onNewMessage(List<ChatMessage> messages) {
+                dataCallback.onSuccess(messages);
+            }
+
+            @Override
+            public void onError(ErrorBundle bundle) {
+                dataCallback.onError(bundle);
             }
         });
     }

@@ -2,17 +2,19 @@ package trigues.com.trueke.view.impl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.trigues.entity.Chat;
+import com.trigues.entity.ChatMessage;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +23,7 @@ import trigues.com.trueke.adapter.ChatListAdapter;
 import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
+import trigues.com.trueke.presenter.ChatPresenter;
 import trigues.com.trueke.view.ChatListActivity;
 import trigues.com.trueke.view.fragment.ChatFragImpl;
 
@@ -32,6 +35,10 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
 
     @BindView(R.id.chat_list_recyclerview)
     RecyclerView chatListRecyclerView;
+
+    @Inject
+    ChatPresenter presenter;
+    private ChatFragImpl fragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +86,7 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         chatListRecyclerView.setAdapter(new ChatListAdapter(this, chatList) {
             @Override
             public void onChatClick(Chat chat) {
-                Fragment fragment = new ChatFragImpl();
+                fragment = new ChatFragImpl();
                 Bundle bundle = new Bundle();
                 bundle.putString("chat", new Gson().toJson(chat));
                 fragment.setArguments(bundle);
@@ -89,4 +96,13 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
 
     }
 
+    public void getChatMessages(String id) {
+        presenter.getChatMessages(id);
+    }
+
+
+    @Override
+    public void setChatMessages(List<ChatMessage> messages) {
+        fragment.setChatMessages(messages);
+    }
 }

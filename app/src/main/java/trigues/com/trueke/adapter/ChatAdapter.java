@@ -195,7 +195,25 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
         recyclerView.scrollToPosition(getItemCount() - 1);
     }
 
+    public void addMessages(List<ChatMessage> messages){
+        messages.addAll(messages);
+        sortList();
+        notifyDataSetChanged();
+        recyclerView.scrollToPosition(getItemCount() - 1);
+    }
+
     private void sortList(){
+        for(int i = 0; i<messages.size(); ++i){
+            for(int j = 0; j<messages.size(); ++j){
+                ChatMessage message1 = messages.get(i);
+                ChatMessage message2 = messages.get(j);
+                if(message1.getDate() == message2.getDate()){
+                    messages.remove(j);
+                }
+            }
+        }
+
+
         Collections.sort(this.messages, new Comparator<ChatMessage>() {
             @Override
             public int compare(ChatMessage o1, ChatMessage o2) {

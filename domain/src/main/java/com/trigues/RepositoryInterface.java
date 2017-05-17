@@ -2,6 +2,7 @@ package com.trigues;
 
 import com.trigues.callback.DefaultCallback;
 import com.trigues.entity.ChatInfo;
+import com.trigues.entity.ChatMessage;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -69,6 +70,8 @@ public interface RepositoryInterface {
 
     void getUserChats(int userID, ChatListCallback dataCallback);
 
+    void getChatMessages(String chatId, ChatMessagesCallback dataCallback);
+
     void setMessageAsRead(String chatId, String key);
 
     //Callbacks:
@@ -82,4 +85,5 @@ public interface RepositoryInterface {
     interface ShipmentCallback extends DefaultCallback<List<Shipment>>{}
     interface StringListCallback extends DefaultCallback<List<String>>{}
     interface ChatListCallback extends DefaultCallback<List<ChatInfo>>{}
+    interface ChatMessagesCallback extends DefaultCallback<List<ChatMessage>> {}
 }

@@ -33,7 +33,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.trigues.entity.Chat;
 import com.trigues.entity.ChatImage;
 import com.trigues.entity.ChatLocation;
@@ -44,8 +43,6 @@ import com.trigues.entity.ChatTrueke;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -87,6 +84,8 @@ public class ChatFragImpl extends Fragment {
     private String nPath;
     private ChatAdapter adapter;
 
+    private List<ChatMessage> messages;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,52 +125,40 @@ public class ChatFragImpl extends Fragment {
         manager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(manager);
 
-        Type listType = new TypeToken<ArrayList<ChatTextMessage>>(){}.getType();
+//        Type listType = new TypeToken<ArrayList<ChatTextMessage>>(){}.getType();
+//
+//        String chatJson = "[\n" +
+//                "  {\n" +
+//                "    \"fromUserId\" : 1,\n" +
+//                "    \"message\" : \"Holisss\",\n" +
+//                "    \"date\" : 10000000\n" +
+//                "  },\n" +
+//                "\n" +
+//                "  {\n" +
+//                "    \"fromUserId\" : 2,\n" +
+//                "    \"message\" : \"Afofahoah\",\n" +
+//                "    \"date\" : 10000001\n" +
+//                "  },\n" +
+//                "  {\n" +
+//                "    \"fromUserId\" : 2,\n" +
+//                "    \"message\" : \"ohqhofhq\",\n" +
+//                "    \"date\" : 10000002\n" +
+//                "  },\n" +
+//                "  {\n" +
+//                "    \"fromUserId\" : 1,\n" +
+//                "    \"message\" : \"iqowhfouhwq\",\n" +
+//                "    \"date\" : 10000003\n" +
+//                "  },\n" +
+//                "  {\n" +
+//                "    \"fromUserId\" : 1,\n" +
+//                "    \"message\" : \"oqheofbqwoef\",\n" +
+//                "    \"date\" : 10000004\n" +
+//                "  }\n" +
+//                "]";
+//
+//        List<ChatMessage> chat = new Gson().fromJson(chatJson, listType);
 
-        String chatJson = "[\n" +
-                "  {\n" +
-                "    \"fromUserId\" : 1,\n" +
-                "    \"message\" : \"Holisss\",\n" +
-                "    \"date\" : 10000000\n" +
-                "  },\n" +
-                "\n" +
-                "  {\n" +
-                "    \"fromUserId\" : 2,\n" +
-                "    \"message\" : \"Afofahoah\",\n" +
-                "    \"date\" : 10000001\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"fromUserId\" : 2,\n" +
-                "    \"message\" : \"ohqhofhq\",\n" +
-                "    \"date\" : 10000002\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"fromUserId\" : 1,\n" +
-                "    \"message\" : \"iqowhfouhwq\",\n" +
-                "    \"date\" : 10000003\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"fromUserId\" : 1,\n" +
-                "    \"message\" : \"oqheofbqwoef\",\n" +
-                "    \"date\" : 10000004\n" +
-                "  }\n" +
-                "]";
-
-        List<ChatMessage> chat = new Gson().fromJson(chatJson, listType);
-
-        adapter = new ChatAdapter(getContext(), chatRecyclerView, chat, 1) {
-            @Override
-            public void onAcceptTrueke(ChatTrueke trueke) {
-                //TODO:
-            }
-
-            @Override
-            public void onRejectTrueke(ChatTrueke trueke) {
-                //TODO:
-            }
-        };
-
-        chatRecyclerView.setAdapter(adapter);
+        activity.getChatMessages("1");
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,6 +174,28 @@ public class ChatFragImpl extends Fragment {
                 messageEditText.setText("");
             }
         });
+    }
+
+    public void setChatMessages(List<ChatMessage> messages){
+        if(adapter == null) {
+            adapter = new ChatAdapter(getContext(), chatRecyclerView, messages, 1) {
+                @Override
+                public void onAcceptTrueke(ChatTrueke trueke) {
+                    //TODO:
+                }
+
+                @Override
+                public void onRejectTrueke(ChatTrueke trueke) {
+                    //TODO:
+                }
+            };
+
+            chatRecyclerView.setAdapter(adapter);
+        }
+
+        else{
+            adapter.addMessages(messages);
+        }
     }
 
     @Override
@@ -209,6 +218,10 @@ public class ChatFragImpl extends Fragment {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addChatMessages(List<ChatMessage> messages){
+
     }
 
     private void showCreateTruekeDialog() {
