@@ -8,8 +8,6 @@ import java.util.HashMap;
 
 public class ChatTrueke extends ChatMessage {
 
-    String truekeId;
-
     // 0 -> A mà ; 1 -> Amb transport extern
     int shipmentType;
 
@@ -22,10 +20,14 @@ public class ChatTrueke extends ChatMessage {
         this.status = status;
     }
 
-    public ChatTrueke (HashMap<String, Object> params, String id){
-        super(((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"));
+    public ChatTrueke(String key, int fromUserId, Long date, int shipmentType, int status) {
+        super(key, fromUserId, date);
+        this.shipmentType = shipmentType;
+        this.status = status;
+    }
 
-        this.truekeId = id;
+    public ChatTrueke (String key, HashMap<String, Object> params){
+        super(key, ((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"));
 
         this.shipmentType = ((Long) params.get("shipmentType")).intValue();
         this.status = ((Long) params.get("status")).intValue();
@@ -59,14 +61,6 @@ public class ChatTrueke extends ChatMessage {
                 return "Finalizado";
         }
         return "";
-    }
-
-    public String getTruekeId() {
-        return truekeId;
-    }
-
-    public void setTruekeId(String truekeId) {
-        this.truekeId = truekeId;
     }
 
     public int getShipmentType() {

@@ -17,9 +17,7 @@ import com.trigues.entity.ChatTextMessage;
 import com.trigues.entity.ChatTrueke;
 import com.trigues.exception.ErrorBundle;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -45,19 +43,11 @@ public class FirebaseDataSource implements FirebaseInterface {
 
     }
 
-    private void initTestDatabase(){
-        List<ChatMessage> list = new ArrayList<>();
-        list.add(new ChatTextMessage(1, Calendar.getInstance().getTimeInMillis(), "Test text message"));
-        list.add(new ChatImage(2, Calendar.getInstance().getTimeInMillis(), "janfoagfeponmwqefmqwpoenfq"));
-        list.add(new ChatLocation(1, Calendar.getInstance().getTimeInMillis(), 120.12F, 133.5F));
-        database.child("1").setValue(list);
-    }
-
     private void testNewMessage(){
-        ChatTextMessage testText = new ChatTextMessage(1, Calendar.getInstance().getTimeInMillis(), "Test text message");
-        ChatImage testImage = new ChatImage(2, Calendar.getInstance().getTimeInMillis(), "janfoagfeponmwqefmqwpoenfq");
-        ChatLocation testLocation = new ChatLocation(1, Calendar.getInstance().getTimeInMillis(), 120.12F, 133.5F);
-        ChatTrueke trueke = new ChatTrueke(1, Calendar.getInstance().getTimeInMillis(), 1, 3);
+        ChatTextMessage testText = new ChatTextMessage("key1", 1, Calendar.getInstance().getTimeInMillis(), "Test text message");
+        ChatImage testImage = new ChatImage("key2", 2, Calendar.getInstance().getTimeInMillis(), "janfoagfeponmwqefmqwpoenfq");
+        ChatLocation testLocation = new ChatLocation("key3", 1, Calendar.getInstance().getTimeInMillis(), 120.12F, 133.5F);
+        ChatTrueke trueke = new ChatTrueke("key4", 1, Calendar.getInstance().getTimeInMillis(), 1, 3);
 
         newMessage("1", testText, new FirebaseVoidCallback() {
             @Override
@@ -113,7 +103,7 @@ public class FirebaseDataSource implements FirebaseInterface {
         this.listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                dataCallback.onNewMessage(MessageJsonParser.parseJson(dataSnapshot));
+                dataCallback.onNewMessage(MessageJsonParser.parseMessages(dataSnapshot));
             }
 
             @Override
@@ -162,6 +152,11 @@ public class FirebaseDataSource implements FirebaseInterface {
     @Override
     public void setTruekeStatus(int status, String chatId, String truekeId, FirebaseVoidCallback dataCallback) {
         database.child(chatId).child(truekeId).child("status").setValue(status);
+    }
+
+    @Override
+    public void setMessageAsRead(String chatId, String key) {
+        database.child(chatId).child(key).child("read").setValue(false);
     }
 
     @Override
