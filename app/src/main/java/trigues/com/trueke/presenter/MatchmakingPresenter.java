@@ -91,7 +91,8 @@ public class MatchmakingPresenter {
 
 
     public void report(Integer[] userProdID) {
-        reportProductUseCase.execute(userProdID, new RejectMatchUseCase.RejectMatchCallback() {
+        view.showProgress("Reportando producto...");
+        reportProductUseCase.execute(userProdID, new ReportProductUseCase.ReportProductCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 view.hideProgress();
