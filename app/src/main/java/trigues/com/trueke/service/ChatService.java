@@ -110,42 +110,38 @@ public class ChatService extends Service {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     ChatMessage message = MessageJsonParser.parseMessage(dataSnapshot.getKey(), (HashMap<String, Object>) dataSnapshot.getValue());
-
-                    if(!message.isRead()) {
-                        if (message instanceof ChatTextMessage) {
-                            ChatTextMessage text = (ChatTextMessage) message;
-                            setupNotification(chat, text.getMessage(), text.getMessage());
-                        }
-                        else if(message instanceof ChatImage){
-                            ChatImage image = (ChatImage) message;
-                            setupImageNotification(chat, image.getEncodedImage());
-                        }
-                        else if(message instanceof ChatLocation){
-                            ChatLocation location = (ChatLocation) message;
-                            final String coordinates = Float.toString(location.getLatitude()) + "," + Float.toString(location.getLongitude());
-                            String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + coordinates + "&zoom=13&size=500x300&markers=" + coordinates;
-
-                            Target target = new Target() {
-                                @Override
-                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                    setupImageNotification(chat, bitmap);
-                                }
-
-                                @Override
-                                public void onBitmapFailed(Drawable errorDrawable) {
-
-                                }
-
-                                @Override
-                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                }
-                            };
-
-                            Picasso.with(getApplicationContext()).load(mapUrl).into(target);
-                        }
+                    if (message instanceof ChatTextMessage) {
+                        ChatTextMessage text = (ChatTextMessage) message;
+                        setupNotification(chat, text.getMessage(), text.getMessage());
                     }
+                    else if(message instanceof ChatImage){
+                        ChatImage image = (ChatImage) message;
+                        setupImageNotification(chat, image.getEncodedImage());
+                    }
+                    else if(message instanceof ChatLocation){
+                        ChatLocation location = (ChatLocation) message;
+                        final String coordinates = Float.toString(location.getLatitude()) + "," + Float.toString(location.getLongitude());
+                        String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + coordinates + "&zoom=13&size=500x300&markers=" + coordinates;
 
+                        Target target = new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                setupImageNotification(chat, bitmap);
+                            }
+
+                            @Override
+                            public void onBitmapFailed(Drawable errorDrawable) {
+
+                            }
+
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                            }
+                        };
+
+                        Picasso.with(getApplicationContext()).load(mapUrl).into(target);
+                    }
                 }
 
                 @Override

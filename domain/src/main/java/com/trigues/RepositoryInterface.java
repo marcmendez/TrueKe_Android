@@ -74,6 +74,8 @@ public interface RepositoryInterface {
 
     void setMessageAsRead(String chatId, String key);
 
+    void sendChatMessage(ChatMessage message, VoidCallback dataCallback);
+
     //Callbacks:
 
     interface VoidCallback extends DefaultCallback<Void> {}
@@ -85,5 +87,5 @@ public interface RepositoryInterface {
     interface ShipmentCallback extends DefaultCallback<List<Shipment>>{}
     interface StringListCallback extends DefaultCallback<List<String>>{}
     interface ChatListCallback extends DefaultCallback<List<ChatInfo>>{}
-    interface ChatMessagesCallback extends DefaultCallback<List<ChatMessage>> {}
+    interface ChatMessagesCallback extends DefaultCallback<ChatMessage> {}
 }

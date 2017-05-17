@@ -44,7 +44,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -83,8 +82,6 @@ public class ChatFragImpl extends Fragment {
     private Chat chat;
     private String nPath;
     private ChatAdapter adapter;
-
-    private List<ChatMessage> messages;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -168,7 +165,8 @@ public class ChatFragImpl extends Fragment {
                 user = (user < 0) ? -user : user;
                 String message = messageEditText.getText().toString();
                 if(!message.equals("")) {
-                    adapter.addMessage(new ChatTextMessage(user, Calendar.getInstance().getTimeInMillis(), message));
+                    ChatTextMessage chatTextMessage = new ChatTextMessage(user, Calendar.getInstance().getTimeInMillis(), message, chat.getId());
+                    activity.sendMessage(chatTextMessage);
                 }
 
                 messageEditText.setText("");
@@ -176,9 +174,9 @@ public class ChatFragImpl extends Fragment {
         });
     }
 
-    public void setChatMessages(List<ChatMessage> messages){
+    public void addChatMessage(ChatMessage message){
         if(adapter == null) {
-            adapter = new ChatAdapter(getContext(), chatRecyclerView, messages, 1) {
+            adapter = new ChatAdapter(getContext(), chatRecyclerView, 1) {
                 @Override
                 public void onAcceptTrueke(ChatTrueke trueke) {
                     //TODO:
@@ -193,9 +191,8 @@ public class ChatFragImpl extends Fragment {
             chatRecyclerView.setAdapter(adapter);
         }
 
-        else{
-            adapter.addMessages(messages);
-        }
+        adapter.addMessage(message);
+
     }
 
     @Override
@@ -220,10 +217,6 @@ public class ChatFragImpl extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addChatMessages(List<ChatMessage> messages){
-
-    }
-
     private void showCreateTruekeDialog() {
         final CharSequence[] options ={"Entrega a mano", "Transporte externo"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -235,14 +228,16 @@ public class ChatFragImpl extends Fragment {
                     Random rand = new Random();
                     int user = rand.nextInt() % 2;
                     user = (user < 0) ? -user : user;
-                    adapter.addMessage(new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 0, 0));
+                    ChatTrueke chatTrueke = new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 0, 0, chat.getId());
+                    activity.sendMessage(chatTrueke);
                     dialog.dismiss();
                 }
                 else if (options[which] == "Transporte externo") {
                     Random rand = new Random();
                     int user = rand.nextInt() % 2;
                     user = (user < 0) ? -user : user;
-                    adapter.addMessage(new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 1, 0));
+                    ChatTrueke chatTrueke = new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 1, 0, chat.getId());
+                    activity.sendMessage(chatTrueke);
                     dialog.dismiss();
                 }
                 else dialog.dismiss();
@@ -302,7 +297,8 @@ public class ChatFragImpl extends Fragment {
                     Random rand = new Random();
                     int userId = rand.nextInt() % 2;
                     userId = (userId < 0) ? -userId : userId;
-                    adapter.addMessage(new ChatLocation(userId, Calendar.getInstance().getTimeInMillis(), location.latitude, location.longitude));
+                    ChatLocation chatLocation = new ChatLocation(userId, Calendar.getInstance().getTimeInMillis(), location.latitude, location.longitude, chat.getId());
+                    activity.sendMessage(chatLocation);
                 }
             });
         }
@@ -378,7 +374,9 @@ public class ChatFragImpl extends Fragment {
 
             String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-            adapter.addMessage(new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage));
+            ChatImage chatImage = new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage, chat.getId());
+
+            activity.sendMessage(chatImage);
 
         }
         else if (requestCode == PICTURE_TAKEN_FROM_GALLERY && resultCode == activity.RESULT_OK) {
@@ -397,7 +395,10 @@ public class ChatFragImpl extends Fragment {
 
                     String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-                    adapter.addMessage(new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage));
+                    ChatImage chatImage = new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage, chat.getId());
+
+                    activity.sendMessage(chatImage);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -464,7 +464,7 @@ public class AppRepository implements RepositoryInterface {
     public void getChatMessages(String chatId, final ChatMessagesCallback dataCallback) {
         firebaseDataSource.getChatMessages(chatId, new FirebaseChatListener() {
             @Override
-            public void onNewMessage(List<ChatMessage> messages) {
+            public void onNewMessage(ChatMessage messages) {
                 dataCallback.onSuccess(messages);
             }
 
@@ -478,6 +478,21 @@ public class AppRepository implements RepositoryInterface {
     @Override
     public void setMessageAsRead(String chatId, String key) {
         firebaseDataSource.setMessageAsRead(chatId, key);
+    }
+
+    @Override
+    public void sendChatMessage(ChatMessage message, final VoidCallback dataCallback) {
+        firebaseDataSource.newMessage(message.getChatId(), message, new FirebaseInterface.FirebaseVoidCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                dataCallback.onSuccess(null);
+            }
+        });
     }
 
 

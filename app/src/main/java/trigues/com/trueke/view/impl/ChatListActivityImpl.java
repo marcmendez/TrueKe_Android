@@ -63,18 +63,22 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
 
         String chatListJson = "[\n" +
                 "  {\n" +
+                "    \"id\" : \"1\",\n" +
                 "    \"user\" : \"Marc Mandez\",\n" +
                 "    \"lastMessage\" : \"Hoooliis\"\n" +
                 "  },\n" +
                 "  {\n" +
+                "    \"id\" : \"1\",\n" +
                 "    \"user\" : \"Albert Valpou\",\n" +
                 "    \"lastMessage\" : \"Ets un hater\"\n" +
                 "  },\n" +
                 "  {\n" +
+                "    \"id\" : \"1\",\n" +
                 "    \"user\" : \"Jordi Estapa\",\n" +
                 "    \"lastMessage\" : \"<3\"\n" +
                 "  },\n" +
                 "  {\n" +
+                "    \"id\" : \"1\",\n" +
                 "    \"user\" : \"Marc Baqua\",\n" +
                 "    \"lastMessage\" : \"Excel·lent\"\n" +
                 "  }\n" +
@@ -102,7 +106,13 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
 
 
     @Override
-    public void setChatMessages(List<ChatMessage> messages) {
-        fragment.setChatMessages(messages);
+    public void addChatMessage(ChatMessage messages) {
+        if(fragment != null) {
+            fragment.addChatMessage(messages);
+        }
+    }
+
+    public void sendMessage(ChatMessage chatTextMessage) {
+        presenter.sendMessage(chatTextMessage);
     }
 }

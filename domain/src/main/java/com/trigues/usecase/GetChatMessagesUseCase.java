@@ -9,15 +9,13 @@ import com.trigues.executor.ThreadExecutor;
 import com.trigues.interactor.BaseUseCase;
 import com.trigues.interactor.Interactor;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 /**
  * Created by mbaque on 17/05/2017.
  */
 
-public class GetChatMessagesUseCase extends BaseUseCase<List<ChatMessage>> implements Interactor<String, List<ChatMessage>> {
+public class GetChatMessagesUseCase extends BaseUseCase<ChatMessage> implements Interactor<String, ChatMessage> {
 
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
@@ -32,7 +30,7 @@ public class GetChatMessagesUseCase extends BaseUseCase<List<ChatMessage>> imple
         }
 
         @Override
-        public void onSuccess(List<ChatMessage> returnParam) {
+        public void onSuccess(ChatMessage returnParam) {
             notifyOnSuccess(returnParam, callback);
         }
     };
@@ -45,7 +43,7 @@ public class GetChatMessagesUseCase extends BaseUseCase<List<ChatMessage>> imple
     }
 
     @Override
-    public <R extends DefaultCallback<List<ChatMessage>>> void execute(String chatId, R defaultCallback) {
+    public <R extends DefaultCallback<ChatMessage>> void execute(String chatId, R defaultCallback) {
         this.callback = ((GetChatMessagesUseCase.GetChatMessagesListener) defaultCallback);
         this.chatId = chatId;
         executor.execute(this);
@@ -56,5 +54,5 @@ public class GetChatMessagesUseCase extends BaseUseCase<List<ChatMessage>> imple
         repository.getChatMessages(chatId, dataCallback);
     }
 
-    public interface GetChatMessagesListener extends DefaultCallback<List<ChatMessage>>{}
+    public interface GetChatMessagesListener extends DefaultCallback<ChatMessage>{}
 }

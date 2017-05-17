@@ -3,8 +3,7 @@ package trigues.com.trueke.presenter;
 import com.trigues.entity.ChatMessage;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.GetChatMessagesUseCase;
-
-import java.util.List;
+import com.trigues.usecase.SendChatMessageUseCase;
 
 import javax.inject.Inject;
 
@@ -18,11 +17,14 @@ public class ChatPresenter {
 
     ChatListActivity view;
     private GetChatMessagesUseCase getChatMessagesUseCase;
+    private SendChatMessageUseCase sendChatMessageUseCase;
 
     @Inject
-    public ChatPresenter(ChatListActivity view, GetChatMessagesUseCase getChatMessagesUseCase) {
+    public ChatPresenter(ChatListActivity view, GetChatMessagesUseCase getChatMessagesUseCase,
+                         SendChatMessageUseCase sendChatMessageUseCase) {
         this.view = view;
         this.getChatMessagesUseCase = getChatMessagesUseCase;
+        this.sendChatMessageUseCase = sendChatMessageUseCase;
     }
 
     public void getChatMessages(String chatId){
@@ -33,8 +35,22 @@ public class ChatPresenter {
             }
 
             @Override
-            public void onSuccess(List<ChatMessage> returnParam) {
-                view.setChatMessages(returnParam);
+            public void onSuccess(ChatMessage returnParam) {
+                view.addChatMessage(returnParam);
+            }
+        });
+    }
+
+    public void sendMessage(ChatMessage chatTextMessage) {
+        sendChatMessageUseCase.execute(chatTextMessage, new SendChatMessageUseCase.SendChatMessageCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+
             }
         });
     }

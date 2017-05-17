@@ -10,18 +10,13 @@ public class ChatTextMessage extends ChatMessage {
 
     String message;
 
-    public ChatTextMessage (int userId, long date, String message){
-        super(userId, date);
+    public ChatTextMessage (int userId, long date, String message, String chatId){
+        super(userId, date, chatId);
         this.message = message;
     }
 
-    public ChatTextMessage (String key, int userId, long date, String message){
-        super(key, userId, date);
-        this.message = message;
-    }
-
-    public ChatTextMessage (String key, HashMap<String, Object> params){
-        super(key, ((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"));
+    public ChatTextMessage (HashMap<String, Object> params){
+        super(((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"), (String) params.get("chatId"));
 
         this.message = (String) params.get("message");
     }
