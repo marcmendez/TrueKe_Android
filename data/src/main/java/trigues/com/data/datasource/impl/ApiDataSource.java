@@ -6,7 +6,9 @@ import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
+import com.trigues.exception.ErrorBundle;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -18,10 +20,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.entity.ApiDTO;
+import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ImagePath;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
-import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
+import trigues.com.data.entity.ProductId;
+import trigues.com.data.entity.ProductsMatchDTO;
+import trigues.com.data.entity.UserName;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
 
@@ -33,6 +39,8 @@ public class ApiDataSource implements ApiInterface {
 
     private ServerService server;
     private FakeInterceptor interceptor;
+
+    private static final String ADMIN_TOKEN = "f4493ed183abba6b096f3903a5fc3b64";
 
 
     @Inject
@@ -46,12 +54,278 @@ public class ApiDataSource implements ApiInterface {
         OkHttpClient client = builder.build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                //.baseUrl("http://10.4.41.147:3000/")
                 .baseUrl("http://10.4.41.147:3000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
         server = retrofit.create(ServerService.class);
+        //initDatabase();
+    }
+
+    public void initDatabase(){
+
+        register(new User(1, "000000000", "test", "1234567", "test@test.com", "1996-09-19", 0, 0, 0.0F), new BooleanDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                login(new User("test@test.com", "1234567"), new LoginDataCallback() {
+                    @Override
+                    public void onError(ErrorBundle errorBundle) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(ApiDTO<LoginDTO> returnParam) {
+                        User user = returnParam.getContent().getUser();
+
+                        List<String> desiredCategories = new ArrayList<String>();
+                        desiredCategories.add("Deporte y ocio");
+
+                        Product product = new Product(0, user.getId(), "Poupala", "Description", null, "Deporte y ocio", desiredCategories, 15, 20);
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+                        product.setTitle("Poupala2");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+
+                        product.setTitle("Poupala3");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+
+                        product.setTitle("Poupala4");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+
+                        product.setTitle("Poupala5");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+
+                        product.setTitle("Poupala6");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+
+                        product.setTitle("Poupala7");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        register(new User(2, "111111111", "test", "1234567", "test@test.pou", "1992-09-19", 0, 0, 0.0F), new BooleanDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                login(new User("test@test.pou", "1234567"), new LoginDataCallback() {
+                    @Override
+                    public void onError(ErrorBundle errorBundle) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(ApiDTO<LoginDTO> returnParam) {
+                        User user = returnParam.getContent().getUser();
+
+                        List<String> desiredCategories = new ArrayList<String>();
+                        desiredCategories.add("Deporte y ocio");
+
+                        Product product = new Product(0, user.getId(), "Poupala", "Description", null, "Deporte y ocio", desiredCategories, 15, 20);
+
+                       addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                           @Override
+                           public void onError(ErrorBundle errorBundle) {
+
+                           }
+
+                           @Override
+                           public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                           }
+                       });
+
+
+                        product.setTitle("Poupala2");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+
+                        product.setTitle("Poupala3");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+
+                        product.setTitle("Poupala4");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+
+                        product.setTitle("Poupala5");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+
+                        product.setTitle("Poupala6");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+
+                        product.setTitle("Poupala7");
+
+                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
+                            @Override
+                            public void onError(ErrorBundle errorBundle) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(ApiDTO<ProductId> returnParam) {
+
+                            }
+                        });
+
+                    }
+                });
+            }
+        });
+
+
+
+
+
 
     }
 
@@ -250,6 +524,30 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
+    public void acceptMatch(String token, Integer[] productsID, final VoidDataCallback voidDataCallback) {
+        ProductsMatchDTO dto = new ProductsMatchDTO(productsID[0], productsID[1], 1);
+        server.acceptMatch(token, dto).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
+
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                voidDataCallback.onSuccess(null);
+            }
+        });
+    }
+
+    @Override
+    public void rejectMatch(String token, Integer[] productsID, final VoidDataCallback voidDataCallback) {
+        ProductsMatchDTO dto = new ProductsMatchDTO(productsID[0], productsID[1], 0);
+        server.rejectMatch(token, dto).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
+
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                voidDataCallback.onSuccess(null);
+            }
+        });
+    }
+
+    @Override
     public void showProducts(String token, int userID, final ProductListDataCallback dataCallback) {
         /*List<String> llista = new ArrayList<>();
         llista.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
@@ -295,11 +593,11 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void addProduct(String token, ProductDTO product, final BooleanDataCallback dataCallback) {
-        server.addProduct(token, product).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+    public void addProduct(String token, ProductDTO product, final AddProductDataCallback dataCallback) {
+        server.addProduct(token, product).enqueue(new RetrofitErrorHandler<ApiDTO<ProductId>>(dataCallback) {
             @Override
-            public void onResponse(ApiDTO<Void> body) {
-                dataCallback.onSuccess(body.getError());
+            public void onResponse(ApiDTO<ProductId> body) {
+                dataCallback.onSuccess(body);
             }
         });
     }
@@ -310,6 +608,97 @@ public class ApiDataSource implements ApiInterface {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 dataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void addProductCategory(String token,List<String> category1, final BooleanDataCallback dataCallback) {
+
+        int product_id = Integer.parseInt(category1.get(1));
+        String category = category1.get(0);
+        CategoryDTO desiredCat = new CategoryDTO();
+        desiredCat.setProduct_id(product_id);
+        desiredCat.setCategory(category);
+
+        server.addProductCategory(token, desiredCat).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                dataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void deleteProductCategory(String token,List<String> category1, final BooleanDataCallback dataCallback) {
+        int product_id = Integer.parseInt(category1.get(1));
+        String category = category1.get(0);
+        CategoryDTO desiredCat = new CategoryDTO();
+        desiredCat.setProduct_id(product_id);
+        desiredCat.setCategory(category);
+
+        server.deleteProductCategory(token, desiredCat).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                dataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void getDesiredCategories(String token, int productID, final StringListDataCallback dataCallback) {
+
+        server.getDesiredCategories(token,productID).enqueue(new RetrofitErrorHandler<ApiDTO<List<CategoryDTO>>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<List<CategoryDTO>> body) {
+                dataCallback.onSuccess(body);
+            }
+        });
+    }
+
+    @Override
+    public void addImagesProduct(String token, int product_id, String image_md5, final BooleanDataCallback dataCallback) {
+        Log.i("image_md5", "server returnParam: "+image_md5);
+        Log.i("image_md5", "server returnParam product: "+product_id);
+        server.addImagesProduct(token, product_id, image_md5).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                dataCallback.onSuccess(false);
+            }
+        });
+    }
+
+    @Override
+    public void addImages(String image, final ImagesDataCallback dataCallback) {
+        server.addImages(image).enqueue(new RetrofitErrorHandler<ApiDTO<String>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<String> body) {
+                dataCallback.onSuccess(body);
+            }
+        });
+    }
+
+    @Override
+    public void getImagesProduct(int product_id, final GetImagesProductDataCallback dataCallback) {
+        server.getImagesProduct(product_id).enqueue(new RetrofitErrorHandler<ApiDTO<List<ImagePath>>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<List<ImagePath>> body) {
+                List<String> returnparam = new ArrayList();
+                for(ImagePath b : body.getContent()){
+                    returnparam.add(b.getImagePath());
+                }
+                ApiDTO<List<String>> bod = new ApiDTO(body.getError(),body.getMessage(),returnparam);
+                dataCallback.onSuccess(bod);
+            }
+        });
+    }
+
+    @Override
+    public void getImages(String md5, final ImagesDataCallback dataCallback) {
+        server.getImages(md5).enqueue(new RetrofitErrorHandler<ApiDTO<String>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<String> body) {
+                dataCallback.onSuccess(body);
             }
         });
     }

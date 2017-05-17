@@ -10,14 +10,21 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
+import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ImagePath;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
+import trigues.com.data.entity.ProductId;
+import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
 
@@ -41,7 +48,7 @@ public interface ServerService {
     Call<Product> getUserProductDetails(String token, int productID);
 
     @POST("products")
-    Call<ApiDTO<Void>> addProduct(@Header("token") String token, @Body ProductDTO product);
+    Call<ApiDTO<ProductId>> addProduct(@Header("token") String token, @Body ProductDTO product);
 
     @DELETE("products/{product_id}")
     Call<ApiDTO<Void>> deleteProduct(@Header("token") String token,  @Path("product_id") String product_id);
@@ -82,11 +89,46 @@ public interface ServerService {
     @POST("shipmentmethods")
     Call<ApiDTO<Void>> newShipment(@Header("token") String token,@Body Shipment shipment);
 
+    @DELETE("shipmentmethods/:id")
+    Call<ApiDTO<Void>> deleteShipment(int shipment_id);
+
+    //Matches
+    @POST("matches")
+    Call<ApiDTO<Void>> acceptMatch(@Header("token") String token, @Body ProductsMatchDTO dto);
+
+    @POST("matches")
+    Call<ApiDTO<Void>> rejectMatch(@Header("token") String token, @Body ProductsMatchDTO dto);
+
     @DELETE("shipmentmethods/{id}")
     Call<ApiDTO<Void>> deleteShipment(@Header("token")String token, @Path("id") String shipment_id);
 
     @GET("products/matchmaking/{id}")
     Call<ApiDTO<List<Product>>> getMatchMakingProducts(@Header("token") String token,@Path("id") int prodID);
+
+    @HTTP(method = "POST", path = "productwantscategory", hasBody = true)
+    Call<ApiDTO<Void>> addProductCategory(@Header("token") String token, @Body CategoryDTO category);
+
+    @HTTP(method = "DELETE", path = "productwantscategory", hasBody = true)
+    Call<ApiDTO<Void>> deleteProductCategory(@Header("token") String token,  @Body CategoryDTO category);
+
+    @GET("productwantscategory/{product_id}")
+    Call<ApiDTO<List<CategoryDTO>>> getDesiredCategories(@Header("token") String token, @Path("product_id") int prodID);
+
+    //images
+    @FormUrlEncoded
+    @POST("images")
+    Call<ApiDTO<String>> addImages(@Field("image") String image);
+
+    @FormUrlEncoded
+    @POST("products/{id}/images")
+    Call<ApiDTO<Void>> addImagesProduct(@Header("token") String token, @Path("id") int id, @Field("image_md5") String image_md5);
+
+    @GET("products/{id}/images")
+    Call<ApiDTO<List<ImagePath>>> getImagesProduct(@Path("id") int product_id);
+
+    @GET("images/{md5}")
+    Call<ApiDTO<String>> getImages(@Path("md5") String md5);
+
 
     @POST("")
     Call<ApiDTO<Void>> changeProfileImage(String image);

@@ -1,5 +1,6 @@
 package trigues.com.data.datasource;
 
+import com.trigues.entity.Product;
 import com.trigues.entity.User;
 
 /**
@@ -19,5 +20,9 @@ public interface InternalStorageInterface {
     String getToken();
 
     void onLogOut();
+
+    void saveProductId (Integer id);
+
+    int getProductId();
 
 }

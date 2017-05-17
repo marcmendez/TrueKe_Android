@@ -9,50 +9,55 @@ import com.trigues.executor.ThreadExecutor;
 import com.trigues.interactor.BaseUseCase;
 import com.trigues.interactor.Interactor;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
+
+
 /**
- * Created by mbaque on 24/03/2017.
+ * Created by marc on 28/04/17.
  */
 
-public class GetUserProductDetailsUseCase extends BaseUseCase<Product> implements Interactor<Integer,Product> {
+public class AddCategoryToProductUseCase extends BaseUseCase<Boolean> implements Interactor<List<String>,Boolean> {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
-    private GetUserProductDetailsCallback callback;
+    private BooleanCallback callback;
 
-    private int productId;
+    private List<String> category;
 
-    RepositoryInterface.ProductCallback dataCallback = new RepositoryInterface.ProductCallback() {
+    RepositoryInterface.BooleanCallback dataCallback = new RepositoryInterface.BooleanCallback() {
         @Override
         public void onError(ErrorBundle errorBundle) {
             notifyOnError(errorBundle, callback);
         }
 
         @Override
-        public void onSuccess(Product returnParam) {
+        public void onSuccess(Boolean returnParam) {
             notifyOnSuccess(returnParam, callback);
         }
     };
 
     @Inject
-    public GetUserProductDetailsUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor, RepositoryInterface repository) {
+    public AddCategoryToProductUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor, RepositoryInterface repository) {
         super(postExecutionThread);
         this.repository = repository;
         this.executor = executor;
     }
 
     @Override
-    public <R extends DefaultCallback<Product>> void execute(Integer productId, R defaultCallback) {
-        this.callback = ((GetUserProductDetailsCallback) defaultCallback);
-        this.productId = productId;
+    public <R extends DefaultCallback<Boolean>> void execute(List<String> p, R defaultCallback) {
+        this.callback = ((BooleanCallback) defaultCallback);
+        this.category = p;
         executor.execute(this);
-    }
 
+    }
     @Override
     public void run() {
-        repository.getUserProductDetails(productId, dataCallback);
+        repository.addProductCategory(category, dataCallback);
     }
 
-    public interface GetUserProductDetailsCallback extends DefaultCallback<Product>{}
+
+    public interface BooleanCallback extends DefaultCallback<Boolean> {}
 
 }

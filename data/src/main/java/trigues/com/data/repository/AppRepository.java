@@ -1,5 +1,7 @@
 package trigues.com.data.repository;
 
+import android.util.Log;
+
 import com.trigues.RepositoryInterface;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -15,8 +17,10 @@ import javax.inject.Inject;
 import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
+import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
+import trigues.com.data.entity.ProductId;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -250,24 +254,45 @@ public class AppRepository implements RepositoryInterface {
         });
     }
 
-    public void acceptMatch(Integer[] productsID, VoidCallback dataCallback) {
-        //Aun no se sabe nombre de la query, inventarme algo;
-        // POST /matche0,s al header tinc un token, y al body tinc el product_id1 i product_id2 i un wants (0 o 1 si accepta)
-        //
-        //(productsID[0], productsID[1], 1) //este bool 0 rechaza, 1 acepta
 
+
+    public void acceptMatch(Integer[] productsID, final VoidCallback dataCallback) {
+
+        apiDataSource.acceptMatch(internalStorage.getToken(), productsID, new ApiInterface.VoidDataCallback() {
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
 
     }
 
     @Override
-    public void rejectMatch(Integer[] productsID, VoidCallback dataCallback) {
+    public void rejectMatch(Integer[] productsID, final VoidCallback dataCallback) {
+        apiDataSource.rejectMatch(internalStorage.getToken(), productsID, new ApiInterface.VoidDataCallback() {
 
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
     }
 
     @Override
     public void getMatchmakingProducts(int prodID, final ProductListCallback dataCallback) {
 
-        apiDataSource.getMatchmakingProducts(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductListDataCallback() {
+        apiDataSource.getMatchmakingProducts(internalStorage.getToken(), prodID, new ApiInterface.ProductListDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
@@ -314,15 +339,19 @@ public class AppRepository implements RepositoryInterface {
         Log.i("addProduct", "category: "+p2.getProductCategory());
         Log.i("addProduct", "priceMin: "+p2.getMinPrice());
         Log.i("addProduct", "priceMax: "+p2.getMaxPrice());*/
-        apiDataSource.addProduct(internalStorage.getToken(), p2, new ApiInterface.BooleanDataCallback() {
+        apiDataSource.addProduct(internalStorage.getToken(), p2, new ApiInterface.AddProductDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
             }
 
             @Override
-            public void onSuccess(Boolean returnParam) {
-                dataCallback.onSuccess(returnParam);
+            public void onSuccess(ApiDTO<ProductId> returnParam) {
+                if(!returnParam.getError()) {
+                    internalStorage.saveProductId(returnParam.getContent().getProductId());
+                    Log.i("ID PRODUCT: ", "productId: "+internalStorage.getProductId());
+                }
+                dataCallback.onSuccess(!returnParam.getError());
             }
         });
     }
@@ -372,6 +401,116 @@ public class AppRepository implements RepositoryInterface {
             @Override
             public void onSuccess(Boolean returnParam) {
                 dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void addProductCategory(List<String> category, final BooleanCallback dataCallback) {
+        apiDataSource.addProductCategory(internalStorage.getToken(),category, new ApiInterface.BooleanDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void deleteProductCategory(List<String> category, final BooleanCallback dataCallback) {
+        apiDataSource.deleteProductCategory(internalStorage.getToken(),category, new ApiInterface.BooleanDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void getDesiredCategories(int productID, final StringListCallback dataCallback) {
+        apiDataSource.getDesiredCategories(internalStorage.getToken(),productID, new ApiInterface.StringListDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<List<CategoryDTO>> returnParam/*funcio per cambiar de category dto a list strings*/) {
+                List<String> categories = new ArrayList<>();
+                for (CategoryDTO element : returnParam.getContent()) {
+                    categories.add(element.getCategory());
+                }
+                dataCallback.onSuccess(categories);
+            }
+        });
+    }
+
+    @Override
+    public void addImagesProduct(String image_md5, final BooleanCallback dataCallback) {
+        Log.i("image_md5",  "returnParam appRepository: "+image_md5 );
+         apiDataSource.addImagesProduct(internalStorage.getToken(),internalStorage.getProductId(), image_md5, new ApiInterface.BooleanDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void addImages(String image_base64, final ImagesCallback dataCallback) {
+        apiDataSource.addImages(image_base64, new ApiInterface.ImagesDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<String> returnParam) {
+                if(!returnParam.getError()) dataCallback.onSuccess(returnParam.getContent());
+            }
+        });
+    }
+
+    @Override
+    public void getImagesProduct(int product_id, final GetImagesProductCallback dataCallback) {
+        apiDataSource.getImagesProduct(product_id, new ApiInterface.GetImagesProductDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<List<String>> returnParam) {
+                if(!returnParam.getError()) dataCallback.onSuccess(returnParam.getContent());
+            }
+        });
+    }
+
+    @Override
+    public void getImages(String image_md5, final ImagesCallback dataCallback) {
+        apiDataSource.getImages(image_md5, new ApiInterface.ImagesDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<String> returnParam) {
+                if(!returnParam.getError()) dataCallback.onSuccess(returnParam.getContent());
             }
         });
     }

@@ -1,5 +1,6 @@
 package trigues.com.data.datasource;
 
+import com.trigues.RepositoryInterface;
 import com.trigues.callback.DefaultCallback;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -9,8 +10,11 @@ import com.trigues.entity.User;
 import java.util.List;
 
 import trigues.com.data.entity.ApiDTO;
+import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ImagePath;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
+import trigues.com.data.entity.ProductId;
 
 
 /**
@@ -29,7 +33,7 @@ public interface ApiInterface {
 
     void login(User user, LoginDataCallback dataCallback);
 
-    void addProduct(String token, ProductDTO product, BooleanDataCallback dataCallback);
+    void addProduct(String token, ProductDTO product, AddProductDataCallback dataCallback);
 
     void showProfile(String token, int id,UserDataCallback dataCallback);
 
@@ -59,6 +63,23 @@ public interface ApiInterface {
 
     void changeProfileImage(String image, BooleanDataCallback booleanDataCallback);
 
+    void addProductCategory(String token, List<String> product_id, BooleanDataCallback booleanDataCallback);
+
+    void deleteProductCategory(String token, List<String> product_id, BooleanDataCallback booleanDataCallback);
+
+    void getDesiredCategories(String token, int product_id, StringListDataCallback stringListDataCallback);
+
+    void acceptMatch(String token, Integer[] productsID, VoidDataCallback voidDataCallback);
+
+    void rejectMatch(String token, Integer[] productsID, VoidDataCallback voidDataCallback);
+
+    void addImagesProduct(String token, int product_id, String image_md5, BooleanDataCallback booleanDataCallback);
+
+    void addImages(String image_base64, ImagesDataCallback ImageDataCallback);
+
+    void getImagesProduct(int product_id, GetImagesProductDataCallback dataCallback);
+
+    void getImages(String md5, ImagesDataCallback ImageDataCallback);
 
     //Callbacks:
 
@@ -77,4 +98,13 @@ public interface ApiInterface {
     interface PaymentsCallback extends DefaultCallback<ApiDTO<List<Payment>>>{}
 
     interface ShipmentsCallback extends DefaultCallback<ApiDTO<List<Shipment>>>{}
+
+    interface StringListDataCallback extends DefaultCallback<ApiDTO<List<CategoryDTO>>>{}
+
+    interface AddProductDataCallback extends DefaultCallback<ApiDTO<ProductId>> {}
+
+    interface ImagesDataCallback extends DefaultCallback<ApiDTO<String>> {}
+
+    interface GetImagesProductDataCallback extends DefaultCallback<ApiDTO<List<String>>> {}
+
 }

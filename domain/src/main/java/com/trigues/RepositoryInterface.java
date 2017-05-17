@@ -62,6 +62,20 @@ public interface RepositoryInterface {
 
     void changeProfileImage(String image, BooleanCallback dataCallback);
 
+    void addProductCategory(List<String> product_id, BooleanCallback dataCallback);
+
+    void deleteProductCategory(List<String> product_id, BooleanCallback dataCallback);
+
+    void getDesiredCategories(int productID, StringListCallback dataCallback);
+
+    void addImages(String image, ImagesCallback dataCallback);
+
+    void addImagesProduct(String image_md5, BooleanCallback dataCallback);
+
+    void getImagesProduct(int product_id, GetImagesProductCallback dataCallback);
+
+    void getImages(String image, ImagesCallback dataCallback);
+
 
     //Callbacks:
 
@@ -72,4 +86,7 @@ public interface RepositoryInterface {
     interface UserCallback extends DefaultCallback<User>{}
     interface PaymentCallback extends DefaultCallback<List<Payment>>{}
     interface ShipmentCallback extends DefaultCallback<List<Shipment>>{}
+    interface StringListCallback extends DefaultCallback<List<String>>{}
+    interface ImagesCallback extends DefaultCallback<String>{}
+    interface GetImagesProductCallback extends DefaultCallback<List<String>>{}
 }

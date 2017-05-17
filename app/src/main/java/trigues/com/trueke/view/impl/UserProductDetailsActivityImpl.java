@@ -3,12 +3,15 @@ package trigues.com.trueke.view.impl;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,6 +79,7 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
     ImageViewPageAdapter viewPageAdapter;
     int numImages;
     ImageView[] dots;
+    Product p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +94,7 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
 
         ButterKnife.bind(this);
         Gson gson = new Gson();
-        Product p = gson.fromJson(getIntent().getStringExtra("product"),Product.class);
+        p = gson.fromJson(getIntent().getStringExtra("product"),Product.class);
         onDetailsRetrieved(p);
 
         setUpBackActionBar(toolbar);
@@ -102,8 +106,8 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
     public void onDetailsRetrieved(Product returnParam) {
         //Fake mentre no hi hagi imatges
 
-        List<String> fakeList = new ArrayList<>();
-        fakeList.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
+        //List<String> fakeList = new ArrayList<>();
+        //fakeList.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
 
         addCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,13 +116,14 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
             }
         });
 
-        setUpViewPager(fakeList);
+       // setUpViewPager(fakeList);
+        presenter.getImagesProduct(returnParam.getId());
 
         setUpProductDetails(returnParam);
 
-        setUpDotCounter();
+        //setUpDotCounter();
 
-        //setUpDesiredCategoriesList(returnParam.getDesiredCategories());
+        presenter.getDesiredCategories(returnParam.getId());
     }
 
     private void showAddCategoryDialog() {
@@ -133,19 +138,25 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
         category.setText(product.getProductCategory());
     }
 
-    private void setUpDesiredCategoriesList(List<String> desiredCategories) {
+    public void setUpDesiredCategoriesList(List<String> desiredCategories) {
         this.categoriesRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         this.categoriesRecyclerview.setAdapter(new DesiredCategoriesAdapter(this, desiredCategories) {
             @Override
             public void onCategoryDeleteButtonClick(String category) {
-                presenter.onCategoryDeleteButtonClick(category);
+                presenter.onCategoryDeleteButtonClick(category, p.getId());
             }
         });
     }
 
-    private void setUpViewPager(List<String> images) {
-        //TODO: Set info to views
-        this.viewPageAdapter = new ImageViewPageAdapter(this, images);
+    public void setUpViewPager(List<String> images) {
+        Log.i("Images", "images1: "+ images.get(0));
+        List<Bitmap> imagesUrl = new ArrayList<>();
+        for(String image: images) {
+            byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            imagesUrl.add(decodedByte);
+        }
+        this.viewPageAdapter = new ImageViewPageAdapter(this, imagesUrl);
         viewPager.setAdapter(viewPageAdapter);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -168,6 +179,7 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
 
             }
         });
+        setUpDotCounter();
     }
 
     private void setUpDotCounter() {
@@ -192,7 +204,7 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
     }
 
     public void addProductCategory(String category){
-        presenter.addProductCategory(category);
+        presenter.addProductCategory(category, p.getId());
     }
 
     @Override

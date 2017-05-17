@@ -27,9 +27,13 @@ public class MatchmakingPresenter {
     private RejectMatchUseCase rejectMatchUseCase;
 
     @Inject
-    public MatchmakingPresenter(MatchmakingActivity view, GetMatchMakingListUseCase showProductsUseCase) {
+    public MatchmakingPresenter(MatchmakingActivity view, GetMatchMakingListUseCase showProductsUseCase,
+                                AcceptMatchUseCase acceptMatchUseCase, RejectMatchUseCase rejectMatchUseCase) {
         this.view = view;
         this.showProductsUseCase = showProductsUseCase;
+        this.acceptMatchUseCase = acceptMatchUseCase;
+        this.rejectMatchUseCase = rejectMatchUseCase;
+
     }
 
     public void getMatchMakingProducts(int prodID){
