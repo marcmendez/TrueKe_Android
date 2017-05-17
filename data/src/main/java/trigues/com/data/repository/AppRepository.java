@@ -390,22 +390,6 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void changeProfileImage(String image, final BooleanCallback dataCallback) {
-        apiDataSource.changeProfileImage(image /*alguna cosa més?*/, new ApiInterface.BooleanDataCallback(){
-
-            @Override
-            public void onError(ErrorBundle errorBundle) {
-                dataCallback.onError(errorBundle);
-            }
-
-            @Override
-            public void onSuccess(Boolean returnParam) {
-                dataCallback.onSuccess(returnParam);
-            }
-        });
-    }
-
-    @Override
     public void addProductCategory(List<String> category, final BooleanCallback dataCallback) {
         apiDataSource.addProductCategory(internalStorage.getToken(),category, new ApiInterface.BooleanDataCallback(){
             @Override

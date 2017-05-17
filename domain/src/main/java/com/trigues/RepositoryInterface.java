@@ -60,7 +60,7 @@ public interface RepositoryInterface {
 
     void deleteProduct(int product_id, BooleanCallback dataCallback);
 
-    void changeProfileImage(String image, BooleanCallback dataCallback);
+   // void changeProfileImage(String image, BooleanCallback dataCallback);
 
     void addProductCategory(List<String> product_id, BooleanCallback dataCallback);
 

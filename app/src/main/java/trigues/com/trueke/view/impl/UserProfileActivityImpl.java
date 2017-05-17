@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.trigues.entity.Payment;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -98,6 +100,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     private List<Shipment> userShipments;
     private String cambio;
     private String nPath;
+    private String profileimage;
 
 
     @Override
@@ -190,7 +193,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         gallerypickerIntent.setType("image/*");
         startActivityForResult(gallerypickerIntent, PICTURE_TAKEN_FROM_GALLERY);
     }
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = String.valueOf(System.currentTimeMillis()/1000);
@@ -204,6 +207,14 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
         nPath = image.getAbsolutePath();
         return image;
+    }
+    //path to base64
+    public String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -219,14 +230,17 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             userAvatar.setImageBitmap(imageBitmap);
-            presenter.changeImage(imageBitmap);
+            profileimage = BitMapToString(imageBitmap);
+            presenter.changeImage(profileimage);
         }
         else if (requestCode == PICTURE_TAKEN_FROM_GALLERY && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
             if (null != selectedImageUri) {
                 nPath = getPathFromURI(selectedImageUri);
-                Log.i("path", "Image Path : " + nPath);
+                Bitmap bm = BitmapFactory.decodeFile(nPath);
+                profileimage = BitMapToString(bm);
                 userAvatar.setImageURI(selectedImageUri);
+                presenter.changeImage(profileimage);
             }
         }
         Toast.makeText(getApplicationContext(),
@@ -459,6 +473,12 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     public void onChangeShipmentRetrieved(Boolean returnParam) {
         if(!returnParam)
             Toast.makeText(getApplicationContext(),"El método de envío se ha actualizado correctamente",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void OnProfileImageChanged(String returnParam) {
+        presenter.changeImageUser(returnParam);
+        presenter.getProfileImage(returnParam);
     }
 
 }

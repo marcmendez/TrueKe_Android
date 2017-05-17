@@ -702,14 +702,4 @@ public class ApiDataSource implements ApiInterface {
             }
         });
     }
-
-    @Override
-    public void changeProfileImage(String image, final BooleanDataCallback booleanDataCallback) {
-        server.changeProfileImage(image).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
-            @Override
-            public void onResponse(ApiDTO<Void> body) {
-                booleanDataCallback.onSuccess(body.getError());
-            }
-        });
-    }
 }

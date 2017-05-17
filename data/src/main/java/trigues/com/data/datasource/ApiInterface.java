@@ -61,8 +61,6 @@ public interface ApiInterface {
 
     void deleteProduct(String token, int product_id, BooleanDataCallback booleanDataCallback);
 
-    void changeProfileImage(String image, BooleanDataCallback booleanDataCallback);
-
     void addProductCategory(String token, List<String> product_id, BooleanDataCallback booleanDataCallback);
 
     void deleteProductCategory(String token, List<String> product_id, BooleanDataCallback booleanDataCallback);
