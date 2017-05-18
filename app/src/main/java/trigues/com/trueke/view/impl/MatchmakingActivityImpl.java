@@ -150,4 +150,8 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
         void onAccepted();
         void onRejected();
     }
+
+    public void onReportPressed(Integer[] userProdID) {
+        presenter.report(userProdID);
+    }
 }

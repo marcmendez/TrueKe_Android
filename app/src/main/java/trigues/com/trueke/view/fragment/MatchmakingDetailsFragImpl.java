@@ -76,6 +76,7 @@ public class MatchmakingDetailsFragImpl extends Fragment {
     @BindView(R.id.reportProdButton)
     ImageButton reportProdButton;
 
+
     @BindView(R.id.matchmaking_category_list)
     RecyclerView categoriesRecyclerview;
 
@@ -99,6 +100,20 @@ public class MatchmakingDetailsFragImpl extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.matchmaking_product_detail, container, false);
         ButterKnife.bind(this, view);
+
+        reportProdButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                Integer[] userProdID = new Integer[2];
+                userProdID[0] = -1;
+                userProdID[1] = product.getId();
+
+                // Pasar los datos hacia abajo;
+                ((MatchmakingActivityImpl) getActivity()).onReportPressed(userProdID);
+            }
+        });
+
+
 
         ((MatchmakingActivityImpl) getActivity()).setSupportActionBar(toolbar);
         ((MatchmakingActivityImpl) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -236,7 +251,5 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void reportProd(View view) {
-    }
 
 }

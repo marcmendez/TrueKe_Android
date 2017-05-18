@@ -5,6 +5,7 @@ import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.AcceptMatchUseCase;
 import com.trigues.usecase.GetMatchMakingListUseCase;
 import com.trigues.usecase.RejectMatchUseCase;
+import com.trigues.usecase.ReportProductUseCase;
 
 import java.util.List;
 
@@ -22,14 +23,17 @@ public class MatchmakingPresenter {
     private GetMatchMakingListUseCase showProductsUseCase;
     private AcceptMatchUseCase acceptMatchUseCase;
     private RejectMatchUseCase rejectMatchUseCase;
+    private ReportProductUseCase reportProductUseCase;
 
     @Inject
     public MatchmakingPresenter(MatchmakingActivity view, GetMatchMakingListUseCase showProductsUseCase,
-                                AcceptMatchUseCase acceptMatchUseCase, RejectMatchUseCase rejectMatchUseCase) {
+                                AcceptMatchUseCase acceptMatchUseCase, RejectMatchUseCase rejectMatchUseCase,
+                                ReportProductUseCase reportProductUseCase) {
         this.view = view;
         this.showProductsUseCase = showProductsUseCase;
         this.acceptMatchUseCase = acceptMatchUseCase;
         this.rejectMatchUseCase = rejectMatchUseCase;
+        this.reportProductUseCase = reportProductUseCase;
 
     }
 
@@ -86,7 +90,19 @@ public class MatchmakingPresenter {
     }
 
 
+    public void report(Integer[] userProdID) {
+        view.showProgress("Reportando producto...");
+        reportProductUseCase.execute(userProdID, new ReportProductUseCase.ReportProductCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.hideProgress();
+                view.onError(errorBundle.getErrorMessage());
+            }
 
-
-
+            @Override
+            public void onSuccess(Void returnParam) {
+                view.hideProgress();
+            }
+        });
+    }
 }

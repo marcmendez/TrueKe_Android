@@ -72,6 +72,7 @@ public interface ApiInterface {
 
     void getUserChats(String token, int userID, ChatListDataCallback voidDataCallback);
 
+    void reportProduct(String token, Integer[] userProdID, VoidDataCallback voidDataCallback);
 
 
     //Callbacks:
