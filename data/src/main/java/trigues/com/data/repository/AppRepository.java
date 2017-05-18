@@ -438,7 +438,7 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void getUserChats(int userID, final ChatListCallback dataCallback) {
+    public void getUserChats(final ChatListCallback dataCallback) {
         apiDataSource.getUserChats(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ChatListDataCallback(){
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -448,14 +448,18 @@ public class AppRepository implements RepositoryInterface {
             @Override
             public void onSuccess(ApiDTO<List<ChatDTO>> returnParam/*funcio per cambiar de category dto a list strings*/) {
                 List<ChatInfo> chats = new ArrayList<>();
-                for (ChatDTO element : returnParam.getContent()) {
-                    ChatInfo chati = new ChatInfo();
-                    chati.setChatID(element.getChatID());
-                    chati.setProductID1(element.getProductID1());
-                    chati.setProductID2(element.getProductID2());
-                    chats.add(chati);
+                if (returnParam.getContent().isEmpty()) {
+                    for (ChatDTO element : returnParam.getContent()) {
+                        ChatInfo chati = new ChatInfo();
+                        chati.setChatID(element.getid());
+                        chati.setTitle(element.getTitle());
+                        chati.setProductID1(element.getproduct_id1());
+                        chati.setProductID2(element.getproduct_id2());
+                        chats.add(chati);
+                    }
+                    dataCallback.onSuccess(chats);
                 }
-                dataCallback.onSuccess(chats);
+                else dataCallback.onSuccess(chats);
             }
         });
     }

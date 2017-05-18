@@ -1,5 +1,8 @@
 package trigues.com.data.datasource.impl;
 
+import com.google.gson.Gson;
+import com.trigues.RepositoryInterface;
+import com.trigues.entity.ChatInfo;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -56,7 +59,7 @@ public class ApiDataSource implements ApiInterface {
                 .client(client)
                 .build();
         server = retrofit.create(ServerService.class);
-        //initDatabase();
+        initDatabase();
     }
 
     public void initDatabase(){
@@ -650,7 +653,7 @@ public class ApiDataSource implements ApiInterface {
     @Override
     public void getUserChats(String token, int userID, final ChatListDataCallback dataCallback) {
 
-        server.getUserChats(token,userID).enqueue(new RetrofitErrorHandler<ApiDTO<List<ChatDTO>>>(dataCallback) {
+            server.getUserChats(token,userID).enqueue(new RetrofitErrorHandler<ApiDTO<List<ChatDTO>>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<List<ChatDTO>> body) {
                 dataCallback.onSuccess(body);

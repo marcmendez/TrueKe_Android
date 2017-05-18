@@ -53,7 +53,7 @@ public class LoginPresenter {
                 });
     }
 
-    public void login(String usuari, String password) {
+    public void login(final String usuari, String password) {
 
         view.showProgress("Iniciando sesión...");
         loginUseCase.execute(new User(usuari, password), new LoginUseCase.LoginUseCaseCallback() {
@@ -67,7 +67,7 @@ public class LoginPresenter {
             public void onSuccess(Boolean returnParam) {
                 view.hideProgress();
                 if(returnParam){
-                    view.goToShowProductList();
+                    view.goToVerificationView(usuari);
                 }
                 else{
                     view.onError("Login incorrecto");

@@ -68,7 +68,7 @@ public interface RepositoryInterface {
 
     void getDesiredCategories(int productID, StringListCallback dataCallback);
 
-    void getUserChats(int userID, ChatListCallback dataCallback);
+    void getUserChats(ChatListCallback dataCallback);
 
     void getChatMessages(String chatId, ChatMessagesCallback dataCallback);
 

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.trigues.entity.Chat;
+import com.trigues.entity.ChatInfo;
 import com.trigues.entity.ChatMessage;
 
 import java.lang.reflect.Type;
@@ -23,6 +24,7 @@ import trigues.com.trueke.adapter.ChatListAdapter;
 import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
+import trigues.com.trueke.presenter.GetChatsPresenter;
 import trigues.com.trueke.presenter.ChatPresenter;
 import trigues.com.trueke.view.ChatListActivity;
 import trigues.com.trueke.view.fragment.ChatFragImpl;
@@ -32,6 +34,8 @@ import trigues.com.trueke.view.fragment.ChatFragImpl;
  */
 
 public class ChatListActivityImpl extends MenuActivityImpl implements ChatListActivity {
+    @Inject
+    GetChatsPresenter presenterChatsuser;
 
     @BindView(R.id.chat_list_recyclerview)
     RecyclerView chatListRecyclerView;
@@ -52,44 +56,16 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
                 .inject(this);
 
         ButterKnife.bind(this);
+        presenterChatsuser.getChats();
 
-        initRecyclerView();
     }
 
-    private void initRecyclerView() {
+    public void initChatList(List<ChatInfo> chatinf) {
         chatListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        Type listType = new TypeToken<ArrayList<Chat>>(){}.getType();
-
-        String chatListJson = "[\n" +
-                "  {\n" +
-                "    \"id\" : \"1\",\n" +
-                "    \"user\" : \"Marc Mandez\",\n" +
-                "    \"lastMessage\" : \"Hoooliis\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\" : \"1\",\n" +
-                "    \"user\" : \"Albert Valpou\",\n" +
-                "    \"lastMessage\" : \"Ets un hater\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\" : \"1\",\n" +
-                "    \"user\" : \"Jordi Estapa\",\n" +
-                "    \"lastMessage\" : \"<3\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\" : \"1\",\n" +
-                "    \"user\" : \"Marc Baqua\",\n" +
-                "    \"lastMessage\" : \"Excel·lent\"\n" +
-                "  }\n" +
-                "\n" +
-                "]";
-
-        List<Chat> chatList = new Gson().fromJson(chatListJson, listType);
-
-        chatListRecyclerView.setAdapter(new ChatListAdapter(this, chatList) {
+        chatListRecyclerView.setAdapter(new ChatListAdapter(this, chatinf) {
             @Override
-            public void onChatClick(Chat chat) {
+            public void onChatClick(ChatInfo chat) {
                 fragment = new ChatFragImpl();
                 Bundle bundle = new Bundle();
                 bundle.putString("chat", new Gson().toJson(chat));

@@ -57,13 +57,18 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
                 .commit();
     }
 
-    public void goToShowProductList() {
-        startActivity(new Intent(this, UserProductsListActivityImpl.class));
+    public void goToVerificationView(String usuari) {
+        int code = (int) (Math.random() * 100000);
+        String output = String.format("%05d", code);
+        sendMail(usuari,output);
+        Intent intent = new Intent(this, UserProductsListActivityImpl.class);
+        intent.putExtra("Verification Code", code);
+        startActivity(intent);
     }
 
     public void onLoginPressed(String usuari, String password) {
 
-        sendMail(usuari);
+
         presenter.login(usuari, password);
     }
 
@@ -86,7 +91,7 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
     }
 
 
-    public void sendMail(final String usuari) {
+    public void sendMail(final String usuari, final String output) {
 
 
         new Thread(new Runnable() {
@@ -100,11 +105,6 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
                             "no.reply.trueke@gmail.com",
 
                             "trueke77");
-
-
-
-                    int rand = (int) (Math.random() * 100000);
-                    String output = String.format("%05d", rand);
 
                     sender.sendMail("Your verification code has been sent", "Your verification code is "+ output + "",
 
@@ -122,7 +122,7 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
 
             }
 
-        }).start();
 
+        }).start();
     }
 }

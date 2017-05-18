@@ -111,6 +111,6 @@ public interface ServerService {
     @GET("productwantscategory/{product_id}")
     Call<ApiDTO<List<CategoryDTO>>> getDesiredCategories(@Header("token") String token, @Path("product_id") int prodID);
 
-    @GET("chats/{user_id}")
+    @GET("chats/byuser/{user_id}")
     Call<ApiDTO<List<ChatDTO>>> getUserChats(@Header("token") String token, @Path("user_id") int userID);
 }
