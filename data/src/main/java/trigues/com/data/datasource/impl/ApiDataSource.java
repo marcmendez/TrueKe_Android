@@ -326,9 +326,9 @@ public class ApiDataSource implements ApiInterface {
     @Override
     public void getUserProductDetails(String token, int productId, final ProductDataCallback dataCallback) {
 
-        server.getUserProductDetails(token, productId).enqueue(new RetrofitErrorHandler<Product>(dataCallback) {
+        server.getUserProductDetails(token, productId).enqueue(new RetrofitErrorHandler<ApiDTO<Product>>(dataCallback) {
             @Override
-            public void onResponse(Product body) {
+            public void onResponse(ApiDTO<Product> body) {
                 dataCallback.onSuccess(body);
             }
         });
@@ -656,6 +656,17 @@ public class ApiDataSource implements ApiInterface {
             server.getUserChats(token,userID).enqueue(new RetrofitErrorHandler<ApiDTO<List<ChatDTO>>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<List<ChatDTO>> body) {
+                dataCallback.onSuccess(body);
+            }
+        });
+    }
+
+    @Override
+    public void getProductInfo(String token, int userID, final ProductDataCallback dataCallback) {
+
+        server.getProductInfo(token,userID).enqueue(new RetrofitErrorHandler<ApiDTO<Product>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Product> body) {
                 dataCallback.onSuccess(body);
             }
         });

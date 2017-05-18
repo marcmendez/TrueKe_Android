@@ -67,8 +67,6 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
     }
 
     public void onLoginPressed(String usuari, String password) {
-
-
         presenter.login(usuari, password);
     }
 

@@ -76,6 +76,7 @@ public interface RepositoryInterface {
 
     void sendChatMessage(ChatMessage message, VoidCallback dataCallback);
 
+
     //Callbacks:
 
     interface VoidCallback extends DefaultCallback<Void> {}

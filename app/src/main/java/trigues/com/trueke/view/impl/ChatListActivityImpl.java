@@ -6,13 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.trigues.entity.Chat;
 import com.trigues.entity.ChatInfo;
 import com.trigues.entity.ChatMessage;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -91,4 +87,6 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     public void sendMessage(ChatMessage chatTextMessage) {
         presenter.sendMessage(chatTextMessage);
     }
+
+
 }

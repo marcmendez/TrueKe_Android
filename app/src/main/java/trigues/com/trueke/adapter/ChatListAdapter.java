@@ -40,8 +40,8 @@ public abstract class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapt
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.avatarImageView.setImageResource(R.mipmap.avatar_icon);
-        holder.titleTextView.setText(chatList.get(position).getProductID2());
-        holder.lastMessage.setText(chatList.get(position).getChatID());
+        holder.titleTextView.setText(chatList.get(position).getProductMatched());
+        holder.lastMessage.setText(chatList.get(position).getTitle());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -72,13 +72,14 @@ public interface ApiInterface {
 
     void getUserChats(String token, int userID, ChatListDataCallback voidDataCallback);
 
+    void getProductInfo(String token, int prodID, ProductDataCallback productDataCallback);
 
 
     //Callbacks:
 
     interface UserDataCallback extends DefaultCallback<ApiDTO<List<User>>>{}
 
-    interface ProductDataCallback extends DefaultCallback<Product> {}
+    interface ProductDataCallback extends DefaultCallback<ApiDTO<Product>> {}
 
     interface ProductListDataCallback extends DefaultCallback<ApiDTO<List<Product>>> {}
 

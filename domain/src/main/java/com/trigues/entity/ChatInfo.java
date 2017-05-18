@@ -5,31 +5,29 @@ package com.trigues.entity;
  */
 
 public class ChatInfo {
-    int chatID;
+    String nameOtherUser;
     String title;
-    int productID1;
-    int productID2;
+    String productMatched;
+
 
     public ChatInfo() {
     }
 
-    public int getChatID() {
-        return chatID;
+    public String getNameOtherUser() {
+        return nameOtherUser;
     }
     public String getTitle() { return title;}
-    public int getProductID1() {
-        return productID1;
-    }
-    public int getProductID2() {
-        return productID2;
+    public String getProductMatched() {
+        return productMatched;
     }
 
-    public void setChatID(int chatID) {
-        this.chatID = chatID;
+
+    public void setProductOwn(String nameOtherUser) {
+        this.nameOtherUser = nameOtherUser;
     }
     public void setTitle(String title) {this.title = title;}
-    public void setProductID1(int productID1) {this.productID1 = productID1;}
-    public void setProductID2(int productID2) {this.productID2 = productID2; }
+    public void setProductMatched(String productMatched) {this.productMatched = productMatched;}
+
 
 
 
