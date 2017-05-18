@@ -39,11 +39,15 @@ import com.trigues.entity.ChatLocation;
 import com.trigues.entity.ChatMessage;
 import com.trigues.entity.ChatTextMessage;
 import com.trigues.entity.ChatTrueke;
+import com.trigues.entity.Payment;
+import com.trigues.entity.Shipment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -429,5 +433,73 @@ public class ChatFragImpl extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         getLocation();
+    }
+
+    public void showPaymentMethodsDialog(final List<Payment> payments){
+        final List<String> paymentsString = new ArrayList<>();
+        for(Payment payment : payments){
+            paymentsString.add(payment.getNumber());
+        }
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Selecciona método de pago");
+        builder.setSingleChoiceItems(paymentsString.toArray(new CharSequence[paymentsString.size()]), 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                builder2.setTitle("Estas seguro?");
+                builder2.setMessage("Seguro que quieres seleccionar " + paymentsString.get(which) + "?");
+                builder2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO:
+                    }
+                });
+
+                builder2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showPaymentMethodsDialog(payments);
+                    }
+                });
+            }
+        });
+
+        builder.show();
+    }
+
+    public void showAdressDialog(final List<Shipment> shipments){
+        final List<String> shipmentsString = new ArrayList<>();
+        for(Shipment shipment : shipments){
+            shipmentsString.add(shipment.getAddress());
+        }
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Selecciona una dirección de envio");
+        builder.setSingleChoiceItems(shipmentsString.toArray(new CharSequence[shipmentsString.size()]), 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                builder2.setTitle("Estas seguro?");
+                builder2.setMessage("Seguro que quieres seleccionar " + shipmentsString.get(which) + "?");
+                builder2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO:
+                    }
+                });
+
+                builder2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showAdressDialog(shipments);
+                    }
+                });
+            }
+        });
+
+        builder.show();
     }
 }
