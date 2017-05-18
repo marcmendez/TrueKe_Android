@@ -62,7 +62,6 @@ public class AppRepository implements RepositoryInterface {
 
             @Override
             public void onSuccess(ApiDTO<List<Product>> returnParam) {
-                List<Product> p = new ArrayList<>();
                 dataCallback.onSuccess(returnParam.getContent());
             }
         });

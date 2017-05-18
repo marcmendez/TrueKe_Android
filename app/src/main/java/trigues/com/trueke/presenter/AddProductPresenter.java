@@ -85,7 +85,7 @@ public class AddProductPresenter {
                     }
                 });
                 try { //delay entre llamadas
-                    TimeUnit.MILLISECONDS.sleep(10);
+                    TimeUnit.MILLISECONDS.sleep(5);
                     //TimeUnit.SECONDS.sleep(100);
                 } catch (InterruptedException e) {
 

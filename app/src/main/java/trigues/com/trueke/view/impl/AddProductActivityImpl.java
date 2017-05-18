@@ -1,9 +1,11 @@
 package trigues.com.trueke.view.impl;
 
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,13 +16,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -46,12 +52,16 @@ import trigues.com.trueke.view.AddProductActivity;
 import trigues.com.trueke.view.fragment.AddProductCategoryFragImpl;
 import trigues.com.trueke.view.fragment.AddProductDesiredCategoryFragImpl;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 /**
  * Created by Alba on 24/03/2017.
  */
 
 public class AddProductActivityImpl extends BaseActivityImpl implements AddProductActivity {
 
+    private final int MY_PERMISSIONS = 3;
     private final int PICTURE_TAKEN_FROM_CAMERA = 1;
     private final int PICTURE_TAKEN_FROM_GALLERY = 2;
     private String  photo1, photo2, photo3, photo4, nPath;
@@ -60,6 +70,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     private static final String TAG = "AddProductActivityImpl";
     private String category;
     private List<String> desired_categories;
+    private RelativeLayout mRlView;
 
     AddProductCategoryFragImpl addCategoryFrag;
 
@@ -154,7 +165,45 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             }
         });
 
+        if(mayRequestStoragePermission()) {
+            e_photo1.setEnabled(true);
+            e_photo2.setEnabled(true);
+            e_photo3.setEnabled(true);
+            e_photo4.setEnabled(true);
+        }
+        else {
+            e_photo1.setEnabled(false);
+            e_photo2.setEnabled(false);
+            e_photo3.setEnabled(false);
+            e_photo4.setEnabled(false);
+        }
+
         addEvents();
+    }
+
+    private boolean mayRequestStoragePermission() {
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            return true;
+
+        if((checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) &&
+                (checkSelfPermission(CAMERA) == PackageManager.PERMISSION_GRANTED))
+            return true;
+
+        if((shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) || (shouldShowRequestPermissionRationale(CAMERA))){
+            Snackbar.make(mRlView, "Los permisos son necesarios para poder usar la aplicación",
+                    Snackbar.LENGTH_INDEFINITE).setAction(android.R.string.ok, new View.OnClickListener() {
+                @TargetApi(Build.VERSION_CODES.M)
+                @Override
+                public void onClick(View v) {
+                    requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MY_PERMISSIONS);
+                }
+            });
+        }else{
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MY_PERMISSIONS);
+        }
+
+        return false;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -256,6 +305,48 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         Intent gallerypickerIntent = new Intent(Intent.ACTION_PICK);
         gallerypickerIntent.setType("image/*");
         startActivityForResult(gallerypickerIntent, PICTURE_TAKEN_FROM_GALLERY);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == MY_PERMISSIONS){
+            if(grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(AddProductActivityImpl.this, "Permisos aceptados", Toast.LENGTH_SHORT).show();
+                e_photo1.setEnabled(true);
+                e_photo2.setEnabled(true);
+                e_photo3.setEnabled(true);
+                e_photo4.setEnabled(true);
+            }
+        }else{
+            showExplanation();
+        }
+    }
+
+    private void showExplanation() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddProductActivityImpl.this);
+        builder.setTitle("Permisos denegados");
+        builder.setMessage("Para usar las funciones de la app necesitas aceptar los permisos");
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        builder.show();
     }
 
 
