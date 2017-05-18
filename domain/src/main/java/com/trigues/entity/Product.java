@@ -2,6 +2,7 @@ package com.trigues.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +41,24 @@ public class Product {
         this.desiredCategories = desiredCategories;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
+    }
+
+    public void setProduct(Product p) {
+        this.id = p.getId();
+        this.userId = p.getUserId();
+        this.title = p.getTitle();
+        this.description = p.getDescription();
+        if(p.getImages() != null) this.images = p.getImages();
+        else this.images = new ArrayList();
+        this.productCategory = p.getProductCategory();
+        this.desiredCategories = p.getDesiredCategories();
+        this.minPrice = p.getMinPrice();
+        this.maxPrice = p.getMaxPrice();
+    }
+
+    public boolean haveImages() {
+        if(images.isEmpty()) return false;
+        else return true;
     }
 
     public int getId() {
