@@ -4,11 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.trigues.callback.FirebaseChatListener;
 import com.trigues.entity.ChatImage;
 import com.trigues.entity.ChatLocation;
@@ -18,6 +18,7 @@ import com.trigues.entity.ChatTrueke;
 import com.trigues.exception.ErrorBundle;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -32,22 +33,22 @@ public class FirebaseDataSource implements FirebaseInterface {
 
     private DatabaseReference database;
 
-    private ValueEventListener listener;
+    private ChildEventListener listener;
 
     @Inject
     public FirebaseDataSource() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.database = database.getReference();
         //initTestDatabase();
-        testNewMessage();
+        //testNewMessage();
 
     }
 
     private void testNewMessage(){
-        ChatTextMessage testText = new ChatTextMessage("key1", 1, Calendar.getInstance().getTimeInMillis(), "Test text message");
-        ChatImage testImage = new ChatImage("key2", 2, Calendar.getInstance().getTimeInMillis(), "janfoagfeponmwqefmqwpoenfq");
-        ChatLocation testLocation = new ChatLocation("key3", 1, Calendar.getInstance().getTimeInMillis(), 120.12F, 133.5F);
-        ChatTrueke trueke = new ChatTrueke("key4", 1, Calendar.getInstance().getTimeInMillis(), 1, 3);
+        ChatTextMessage testText = new ChatTextMessage(1, Calendar.getInstance().getTimeInMillis(), "Test text message", "1");
+        ChatImage testImage = new ChatImage(2, Calendar.getInstance().getTimeInMillis(), "janfoagfeponmwqefmqwpoenfq", "1");
+        ChatLocation testLocation = new ChatLocation(1, Calendar.getInstance().getTimeInMillis(), 120.12F, 133.5F, "1");
+        ChatTrueke trueke = new ChatTrueke(1, Calendar.getInstance().getTimeInMillis(), 1, 3, "1");
 
         newMessage("1", testText, new FirebaseVoidCallback() {
             @Override
@@ -100,10 +101,25 @@ public class FirebaseDataSource implements FirebaseInterface {
 
     @Override
     public void getChatMessages(String chatId, final FirebaseChatListener dataCallback) {
-        this.listener = new ValueEventListener() {
+        this.listener = new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                dataCallback.onNewMessage(MessageJsonParser.parseMessages(dataSnapshot));
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                dataCallback.onNewMessage(MessageJsonParser.parseMessage(dataSnapshot.getKey(), (HashMap<String, Object>) dataSnapshot.getValue()));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
@@ -122,7 +138,7 @@ public class FirebaseDataSource implements FirebaseInterface {
             }
         };
 
-        database.child(chatId).addValueEventListener(listener);
+        database.child(chatId).addChildEventListener(listener);
     }
 
     @Override

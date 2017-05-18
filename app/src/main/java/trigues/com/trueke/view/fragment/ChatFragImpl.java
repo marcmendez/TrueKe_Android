@@ -33,7 +33,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.trigues.entity.Chat;
 import com.trigues.entity.ChatImage;
 import com.trigues.entity.ChatLocation;
@@ -44,10 +43,7 @@ import com.trigues.entity.ChatTrueke;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -126,52 +122,40 @@ public class ChatFragImpl extends Fragment {
         manager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(manager);
 
-        Type listType = new TypeToken<ArrayList<ChatTextMessage>>(){}.getType();
+//        Type listType = new TypeToken<ArrayList<ChatTextMessage>>(){}.getType();
+//
+//        String chatJson = "[\n" +
+//                "  {\n" +
+//                "    \"fromUserId\" : 1,\n" +
+//                "    \"message\" : \"Holisss\",\n" +
+//                "    \"date\" : 10000000\n" +
+//                "  },\n" +
+//                "\n" +
+//                "  {\n" +
+//                "    \"fromUserId\" : 2,\n" +
+//                "    \"message\" : \"Afofahoah\",\n" +
+//                "    \"date\" : 10000001\n" +
+//                "  },\n" +
+//                "  {\n" +
+//                "    \"fromUserId\" : 2,\n" +
+//                "    \"message\" : \"ohqhofhq\",\n" +
+//                "    \"date\" : 10000002\n" +
+//                "  },\n" +
+//                "  {\n" +
+//                "    \"fromUserId\" : 1,\n" +
+//                "    \"message\" : \"iqowhfouhwq\",\n" +
+//                "    \"date\" : 10000003\n" +
+//                "  },\n" +
+//                "  {\n" +
+//                "    \"fromUserId\" : 1,\n" +
+//                "    \"message\" : \"oqheofbqwoef\",\n" +
+//                "    \"date\" : 10000004\n" +
+//                "  }\n" +
+//                "]";
+//
+//        List<ChatMessage> chat = new Gson().fromJson(chatJson, listType);
 
-        String chatJson = "[\n" +
-                "  {\n" +
-                "    \"fromUserId\" : 1,\n" +
-                "    \"message\" : \"Holisss\",\n" +
-                "    \"date\" : 10000000\n" +
-                "  },\n" +
-                "\n" +
-                "  {\n" +
-                "    \"fromUserId\" : 2,\n" +
-                "    \"message\" : \"Afofahoah\",\n" +
-                "    \"date\" : 10000001\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"fromUserId\" : 2,\n" +
-                "    \"message\" : \"ohqhofhq\",\n" +
-                "    \"date\" : 10000002\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"fromUserId\" : 1,\n" +
-                "    \"message\" : \"iqowhfouhwq\",\n" +
-                "    \"date\" : 10000003\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"fromUserId\" : 1,\n" +
-                "    \"message\" : \"oqheofbqwoef\",\n" +
-                "    \"date\" : 10000004\n" +
-                "  }\n" +
-                "]";
-
-        List<ChatMessage> chat = new Gson().fromJson(chatJson, listType);
-
-        adapter = new ChatAdapter(getContext(), chatRecyclerView, chat, 1) {
-            @Override
-            public void onAcceptTrueke(ChatTrueke trueke) {
-                //TODO:
-            }
-
-            @Override
-            public void onRejectTrueke(ChatTrueke trueke) {
-                //TODO:
-            }
-        };
-
-        chatRecyclerView.setAdapter(adapter);
+        activity.getChatMessages("1");
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,12 +165,34 @@ public class ChatFragImpl extends Fragment {
                 user = (user < 0) ? -user : user;
                 String message = messageEditText.getText().toString();
                 if(!message.equals("")) {
-                    adapter.addMessage(new ChatTextMessage(user, Calendar.getInstance().getTimeInMillis(), message));
+                    ChatTextMessage chatTextMessage = new ChatTextMessage(user, Calendar.getInstance().getTimeInMillis(), message, chat.getId());
+                    activity.sendMessage(chatTextMessage);
                 }
 
                 messageEditText.setText("");
             }
         });
+    }
+
+    public void addChatMessage(ChatMessage message){
+        if(adapter == null) {
+            adapter = new ChatAdapter(getContext(), chatRecyclerView, 1) {
+                @Override
+                public void onAcceptTrueke(ChatTrueke trueke) {
+                    //TODO:
+                }
+
+                @Override
+                public void onRejectTrueke(ChatTrueke trueke) {
+                    //TODO:
+                }
+            };
+
+            chatRecyclerView.setAdapter(adapter);
+        }
+
+        adapter.addMessage(message);
+
     }
 
     @Override
@@ -222,14 +228,16 @@ public class ChatFragImpl extends Fragment {
                     Random rand = new Random();
                     int user = rand.nextInt() % 2;
                     user = (user < 0) ? -user : user;
-                    adapter.addMessage(new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 0, 0));
+                    ChatTrueke chatTrueke = new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 0, 0, chat.getId());
+                    activity.sendMessage(chatTrueke);
                     dialog.dismiss();
                 }
                 else if (options[which] == "Transporte externo") {
                     Random rand = new Random();
                     int user = rand.nextInt() % 2;
                     user = (user < 0) ? -user : user;
-                    adapter.addMessage(new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 1, 0));
+                    ChatTrueke chatTrueke = new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 1, 0, chat.getId());
+                    activity.sendMessage(chatTrueke);
                     dialog.dismiss();
                 }
                 else dialog.dismiss();
@@ -289,7 +297,8 @@ public class ChatFragImpl extends Fragment {
                     Random rand = new Random();
                     int userId = rand.nextInt() % 2;
                     userId = (userId < 0) ? -userId : userId;
-                    adapter.addMessage(new ChatLocation(userId, Calendar.getInstance().getTimeInMillis(), location.latitude, location.longitude));
+                    ChatLocation chatLocation = new ChatLocation(userId, Calendar.getInstance().getTimeInMillis(), location.latitude, location.longitude, chat.getId());
+                    activity.sendMessage(chatLocation);
                 }
             });
         }
@@ -365,7 +374,9 @@ public class ChatFragImpl extends Fragment {
 
             String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-            adapter.addMessage(new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage));
+            ChatImage chatImage = new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage, chat.getId());
+
+            activity.sendMessage(chatImage);
 
         }
         else if (requestCode == PICTURE_TAKEN_FROM_GALLERY && resultCode == activity.RESULT_OK) {
@@ -384,7 +395,10 @@ public class ChatFragImpl extends Fragment {
 
                     String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-                    adapter.addMessage(new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage));
+                    ChatImage chatImage = new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage, chat.getId());
+
+                    activity.sendMessage(chatImage);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -32,16 +32,16 @@ public class MessageJsonParser {
 
     public static ChatMessage parseMessage(String key, HashMap<String, Object> message){
         if(message.containsKey("message")){
-            return new ChatTextMessage(key, message);
+            return new ChatTextMessage(message);
         }
         else if (message.containsKey("latitude")){
-            return new ChatLocation(key, message);
+            return new ChatLocation(message);
         }
         else if (message.containsKey("status")){
-            return new ChatTrueke(key, message);
+            return new ChatTrueke(message);
         }
         else{
-            return new ChatImage(key, message);
+            return new ChatImage(message);
         }
     }
 

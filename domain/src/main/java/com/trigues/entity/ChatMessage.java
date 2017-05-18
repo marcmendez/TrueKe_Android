@@ -6,23 +6,25 @@ package com.trigues.entity;
 
 public class ChatMessage {
 
-    String key;
     int fromUserId;
     Long date;
-    boolean read = false;
+    String chatId;
 
     public ChatMessage() {
     }
 
-    public ChatMessage(int fromUserId, Long date) {
+    public ChatMessage(int fromUserId, Long date, String chatId) {
         this.fromUserId = fromUserId;
         this.date = date;
+        this.chatId = chatId;
     }
 
-    public ChatMessage(String key, int fromUserId, Long date) {
-        this.key = key;
-        this.fromUserId = fromUserId;
-        this.date = date;
+    public String getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 
     public int getFromUserId() {
@@ -39,21 +41,5 @@ public class ChatMessage {
 
     public void setDate(Long date) {
         this.date = date;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public boolean isRead() {
-        return read;
-    }
-
-    public void setRead(boolean read) {
-        this.read = read;
     }
 }

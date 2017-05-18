@@ -6,15 +6,25 @@ package com.trigues.entity;
 
 public class Chat {
 
+    String id;
     String user;
     String lastMessage;
 
     public Chat() {
     }
 
-    public Chat(String user, String lastMessage) {
+    public Chat(String id, String user, String lastMessage) {
+        this.id = id;
         this.user = user;
         this.lastMessage = lastMessage;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUser() {
