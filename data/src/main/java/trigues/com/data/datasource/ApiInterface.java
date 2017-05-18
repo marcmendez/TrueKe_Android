@@ -79,6 +79,8 @@ public interface ApiInterface {
 
     void getImages(String md5, ImagesDataCallback ImageDataCallback);
 
+    void changeUserImageProfile(String token, String id, String image_path, BooleanDataCallback booleanDataCallback);
+
     //Callbacks:
 
     interface UserDataCallback extends DefaultCallback<ApiDTO<List<User>>>{}

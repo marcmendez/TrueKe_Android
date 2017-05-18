@@ -1,7 +1,9 @@
 package trigues.com.trueke.view.impl;
 
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +13,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.Log;
@@ -20,6 +25,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +53,9 @@ import trigues.com.trueke.view.UserProfileActivity;
 import trigues.com.trueke.view.fragment.UserProfileAdressesFragImpl;
 import trigues.com.trueke.view.fragment.UserProfilePaymentMethodsFragImpl;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 /**
  * Created by mbaque on 09/04/2017.
  */
@@ -55,6 +64,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     private static final int PICTURE_TAKEN_FROM_GALLERY = 2;
     private static final int PICTURE_TAKEN_FROM_CAMERA = 1;
+    private static final int MY_PERMISSIONS = 3;
     private User user;
     private UserProfilePaymentMethodsFragImpl payments;
     private UserProfileAdressesFragImpl shipments;
@@ -154,6 +164,8 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void ChangeProfileImage() {
+        if(mayRequestStoragePermission()) userAvatar.setEnabled(true);
+        else userAvatar.setEnabled(false);
         final CharSequence[] options ={"Hacer foto", "Abrir galeria"};
         final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(UserProfileActivityImpl.this);
         builder.setTitle("Cambiar foto de perfil");
@@ -245,6 +257,68 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         }
         Toast.makeText(getApplicationContext(),
                 nPath, Toast.LENGTH_LONG).show();
+    }
+    private boolean mayRequestStoragePermission() {
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            return true;
+
+        if((checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) &&
+                (checkSelfPermission(CAMERA) == PackageManager.PERMISSION_GRANTED))
+            return true;
+
+        if((shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) || (shouldShowRequestPermissionRationale(CAMERA))){
+            Snackbar.make(new RelativeLayout(getApplicationContext()), "Los permisos son necesarios para poder usar la aplicación",
+                    Snackbar.LENGTH_INDEFINITE).setAction(android.R.string.ok, new View.OnClickListener() {
+                @TargetApi(Build.VERSION_CODES.M)
+                @Override
+                public void onClick(View v) {
+                    requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MY_PERMISSIONS);
+                }
+            });
+        }else{
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MY_PERMISSIONS);
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == MY_PERMISSIONS){
+            if(grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(getApplicationContext(), "Permisos aceptados", Toast.LENGTH_SHORT).show();
+                userAvatar.setEnabled(true);
+            }
+        }else{
+            showExplanation();
+        }
+    }
+    private void showExplanation() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getApplicationContext());
+        builder.setTitle("Permisos denegados");
+        builder.setMessage("Para usar las funciones de la app necesitas aceptar los permisos");
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        builder.show();
     }
     public String getPathFromURI(Uri contentUri) {
         String res = null;
@@ -381,6 +455,9 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         userRating.setRating(user.getRatingsValue()/user.getRatingsNumber());
         else userRating.setRating(0);
         userNumValorations.setText(String.valueOf(user.getRatingsNumber()));
+        if(user.getImagePath()!=""){
+            presenter.getProfileImage(user.getImagePath());
+        }
     }
 
     @Override
@@ -477,8 +554,21 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
 
     @Override
     public void OnProfileImageChanged(String returnParam) {
-        presenter.changeImageUser(returnParam);
-        presenter.getProfileImage(returnParam);
+        String[] parts = returnParam.split("/");
+        presenter.changeImageUser(parts[parts.length-1]);
+    }
+
+    @Override
+    public void OnProfileImageRetrieved(String encodedImage) {
+        Log.i("image", "OnProfileImageRetrieved: "+encodedImage);
+        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        userAvatar.setImageBitmap(decodedByte);
+    }
+
+    @Override
+    public void OnProfileUserImageChanged(Boolean returnParam) {
+       if(!returnParam) Toast.makeText(getApplicationContext(),"Imagen actualizada correctamente",Toast.LENGTH_SHORT).show();
     }
 
 }

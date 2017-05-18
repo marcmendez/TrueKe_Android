@@ -55,7 +55,7 @@ public class UserInfoPresenter {
                              DeleteUserUseCase deleteUserUseCase,
                              NewPaymentUseCase newPaymentUseCase,
                              ChangePaymentUseCase changePaymentUseCase,
-                             DeletePaymentUseCase deletePaymentUseCase, DeleteShipmentUseCase deleteShipmentUseCase, NewShipmentUseCase newShipmentUseCase, ChangeShipmentUseCase changeShipmentUseCase, AddImagesUseCase changeProfileImageUseCase, ChangeImageUserUseCase changeImageUserUseCase, ShowProfileImageUseCase showProfileImageUseCase) {
+                             DeletePaymentUseCase deletePaymentUseCase, DeleteShipmentUseCase deleteShipmentUseCase, NewShipmentUseCase newShipmentUseCase, ChangeShipmentUseCase changeShipmentUseCase, AddImagesUseCase changeProfileImageUseCase, ChangeImageUserUseCase changeImageUserUseCase, GetImagesUseCase showProfileImageUseCase) {
         this.view = view;
         this.showProfileUseCase=showProfileUseCase;
         this.showPaymentsUseCase = showPaymentsUseCase;
@@ -249,7 +249,7 @@ public class UserInfoPresenter {
     }
 
     public void changeImageUser(String imagepath) {
-        changeImageUserUseCase.execute(imagepath, new AddImagesUseCase.AddImagesCallback(){
+        changeImageUserUseCase.execute(imagepath, new ChangeImageUserUseCase.ChangeProfileUserImageUseCaseCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -257,14 +257,14 @@ public class UserInfoPresenter {
             }
 
             @Override
-            public void onSuccess(String returnParam) {
+            public void onSuccess(Boolean returnParam) {
                 view.OnProfileUserImageChanged(returnParam);
             }
         });
     }
 
     public void getProfileImage(String returnParam) {
-        showProfileImageUseCase.execute(returnParam, new AddImagesUseCase.AddImagesCallback(){
+        showProfileImageUseCase.execute(returnParam, new GetImagesUseCase.GetImagesCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {

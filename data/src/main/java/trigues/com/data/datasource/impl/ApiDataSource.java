@@ -27,6 +27,7 @@ import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.entity.ProductId;
 import trigues.com.data.entity.ProductsMatchDTO;
+import trigues.com.data.entity.UserImage;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
@@ -64,7 +65,7 @@ public class ApiDataSource implements ApiInterface {
 
     public void initDatabase(){
 
-        register(new User(1, "000000000", "test", "1234567", "test@test.com", "1996-09-19", 0, 0,0, 0), new BooleanDataCallback() {
+        register(new User(1, "000000000", "test", "1234567", "test@test.com", "1996-09-19", "", 0, 0,0, 0), new BooleanDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
 
@@ -192,7 +193,7 @@ public class ApiDataSource implements ApiInterface {
             }
         });
 
-        register(new User(2, "111111111", "test", "1234567", "test@test.pou", "1992-09-19", 0, 0, 0,0), new BooleanDataCallback() {
+        register(new User(2, "111111111", "test", "1234567", "test@test.pou", "1992-09-19", "", 0, 0, 0,0), new BooleanDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
 
@@ -695,10 +696,21 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void getImages(String md5, final ImagesDataCallback dataCallback) {
+        Log.i("imagepath", "getImages: "+md5);
         server.getImages(md5).enqueue(new RetrofitErrorHandler<ApiDTO<String>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<String> body) {
                 dataCallback.onSuccess(body);
+            }
+        });
+    }
+
+    @Override
+    public void changeUserImageProfile(String token, String id, String image_path, final BooleanDataCallback booleanDataCallback) {
+        server.changeProfileUserImage(token,id,new UserImage(image_path)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(booleanDataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                booleanDataCallback.onSuccess(body.getError());
             }
         });
     }

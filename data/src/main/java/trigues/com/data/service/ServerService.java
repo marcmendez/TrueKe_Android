@@ -25,6 +25,7 @@ import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductId;
 import trigues.com.data.entity.ProductsMatchDTO;
+import trigues.com.data.entity.UserImage;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
 
@@ -129,7 +130,6 @@ public interface ServerService {
     @GET("images/{md5}")
     Call<ApiDTO<String>> getImages(@Path("md5") String md5);
 
-
-    @POST("")
-    Call<ApiDTO<Void>> changeProfileImage(String image);
+    @PUT("users/{id}")
+    Call<ApiDTO<Void>> changeProfileUserImage(@Header("token") String token, @Path("id") String id, @Body UserImage userImage);
 }

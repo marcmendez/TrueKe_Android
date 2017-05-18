@@ -32,5 +32,5 @@ public interface UserProfileActivity extends MenuActivity {
 
     void OnProfileImageRetrieved(String returnParam);
 
-    void OnProfileUserImageChanged(String returnParam);
+    void OnProfileUserImageChanged(Boolean returnParam);
 }

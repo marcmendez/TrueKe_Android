@@ -11,6 +11,7 @@ public class User {
     private String password;
     private String email;
     private String birthDate;
+    private String imagePath;
     private int products;
     private int truekes;
     private int ratingsNumber;
@@ -22,13 +23,14 @@ public class User {
         this.password = password;
     }
 
-    public User(int id, String phone, String user, String password, String email, String birthDate, int products, int truekes, int ratingsNumber, float ratingsValue) {
+    public User(int id, String phone, String user, String password, String email, String birthDate, String imagePath, int products, int truekes, int ratingsNumber, float ratingsValue) {
         this.id = id;
         this.phone = phone;
         this.user = user;
         this.password = password;
         this.email = email;
         this.birthDate = birthDate;
+        this.imagePath = imagePath;
         this.products = products;
         this.truekes = truekes;
         this.ratingsNumber = ratingsNumber;
@@ -114,4 +116,12 @@ public class User {
     public void setRatingsNumber(int ratingsNumber) {
         this.ratingsNumber = ratingsNumber;
     }
-}
+
+                public String getImagePath() {
+                    return imagePath;
+                }
+
+                public void setImagePath(String imagePath) {
+                    this.imagePath = imagePath;
+                }
+            }

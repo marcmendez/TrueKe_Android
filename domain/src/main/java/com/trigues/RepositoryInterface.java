@@ -76,6 +76,8 @@ public interface RepositoryInterface {
 
     void getImages(String image, ImagesCallback dataCallback);
 
+    void changeProfileUserImage(String image_path, BooleanCallback dataCallback);
+
 
     //Callbacks:
 

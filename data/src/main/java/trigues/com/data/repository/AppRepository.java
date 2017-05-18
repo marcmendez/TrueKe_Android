@@ -497,4 +497,20 @@ public class AppRepository implements RepositoryInterface {
             }
         });
     }
+
+    @Override
+    public void changeProfileUserImage(String image_path, final BooleanCallback dataCallback) {
+        apiDataSource.changeUserImageProfile(internalStorage.getToken(),String.valueOf(internalStorage.getUser().getId()),image_path,new ApiInterface.BooleanDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
 }
