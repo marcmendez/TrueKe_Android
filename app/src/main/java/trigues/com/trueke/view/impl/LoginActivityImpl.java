@@ -1,12 +1,15 @@
 package trigues.com.trueke.view.impl;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import trigues.com.trueke.sendmail.GMailSender;
 import trigues.com.trueke.R;
 import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
@@ -22,6 +25,7 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
     LoginPresenter presenter;
     LoginFragImpl loginFrag;
     RegisterFragImpl registerFrag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,28 +45,30 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
 
     }
 
-    public void openRegisterFragment(){
+    public void openRegisterFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_view, registerFrag)
                 .commit();
     }
 
-    public void openLoginFragment(){
+    public void openLoginFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_view, loginFrag)
                 .commit();
     }
 
-    public void goToShowProductList(){
+    public void goToShowProductList() {
         startActivity(new Intent(this, UserProductsListActivityImpl.class));
     }
 
-    public void onLoginPressed(String usuari, String password){
+    public void onLoginPressed(String usuari, String password) {
+
+        sendMail(usuari);
         presenter.login(usuari, password);
     }
 
-    public void onRegisterPressed(String nombre, String apellidos, String contraseña, String telefono, String mail, String fecha ){
-        presenter.register(nombre,apellidos,contraseña,telefono,mail,fecha);
+    public void onRegisterPressed(String nombre, String apellidos, String contraseña, String telefono, String mail, String fecha) {
+        presenter.register(nombre, apellidos, contraseña, telefono, mail, fecha);
     }
 
     @Override
@@ -72,11 +78,51 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
     }
 
 
-
     @Override
     public void onRegisterRetrieved(Boolean returnParam) {
         RegisterFragImpl registerFrag = (RegisterFragImpl)
-       getSupportFragmentManager().findFragmentById(R.id.fragment_view);
+                getSupportFragmentManager().findFragmentById(R.id.fragment_view);
         registerFrag.onRegisterRetrieved(returnParam);
+    }
+
+
+    public void sendMail(final String usuari) {
+
+
+        new Thread(new Runnable() {
+
+            public void run() {
+
+                try {
+
+                    GMailSender sender = new GMailSender(
+
+                            "no.reply.trueke@gmail.com",
+
+                            "trueke77");
+
+
+
+                    int rand = (int) (Math.random() * 100000);
+                    String output = String.format("%05d", rand);
+
+                    sender.sendMail("Your verification code has been sent", "Your verification code is "+ output + "",
+
+                            "no.reply.trueke@gmail.com",
+
+                            usuari);
+
+                } catch (Exception e) {
+
+                    Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+
+
+
+                }
+
+            }
+
+        }).start();
+
     }
 }

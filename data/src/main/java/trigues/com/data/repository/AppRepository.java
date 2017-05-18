@@ -3,6 +3,9 @@ package trigues.com.data.repository;
 import android.util.Log;
 
 import com.trigues.RepositoryInterface;
+import com.trigues.callback.FirebaseChatListener;
+import com.trigues.entity.ChatInfo;
+import com.trigues.entity.ChatMessage;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -15,9 +18,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import trigues.com.data.datasource.ApiInterface;
+import trigues.com.data.datasource.FirebaseInterface;
 import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.entity.ProductId;
@@ -30,11 +35,13 @@ public class AppRepository implements RepositoryInterface {
 
     private ApiInterface apiDataSource;
     private InternalStorageInterface internalStorage;
+    private FirebaseInterface firebaseDataSource;
 
     @Inject
-    public AppRepository(ApiInterface apiDataSource, InternalStorageInterface internalStorage) {
+    public AppRepository(ApiInterface apiDataSource, InternalStorageInterface internalStorage, FirebaseInterface firebaseDataSource) {
         this.apiDataSource = apiDataSource;
         this.internalStorage = internalStorage;
+        this.firebaseDataSource = firebaseDataSource;
     }
 
     @Override
@@ -53,7 +60,7 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void showProducts(int userID, final ProductListCallback dataCallback) {
+    public void showProducts(final ProductListCallback dataCallback) {
         apiDataSource.showProducts(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductListDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -89,6 +96,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void logout(VoidCallback dataCallback) {
+        internalStorage.onLogOut();
         dataCallback.onSuccess(null);
     }
 
@@ -253,8 +261,7 @@ public class AppRepository implements RepositoryInterface {
         });
     }
 
-
-
+    @Override
     public void acceptMatch(Integer[] productsID, final VoidCallback dataCallback) {
 
         apiDataSource.acceptMatch(internalStorage.getToken(), productsID, new ApiInterface.VoidDataCallback() {
@@ -513,4 +520,64 @@ public class AppRepository implements RepositoryInterface {
             }
         });
     }
+
+    @Override
+    public void getUserChats(int userID, final ChatListCallback dataCallback) {
+        apiDataSource.getUserChats(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ChatListDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<List<ChatDTO>> returnParam/*funcio per cambiar de category dto a list strings*/) {
+                List<ChatInfo> chats = new ArrayList<>();
+                for (ChatDTO element : returnParam.getContent()) {
+                    ChatInfo chati = new ChatInfo();
+                    chati.setChatID(element.getChatID());
+                    chati.setProductID1(element.getProductID1());
+                    chati.setProductID2(element.getProductID2());
+                    chats.add(chati);
+                }
+                dataCallback.onSuccess(chats);
+            }
+        });
+    }
+
+    @Override
+    public void getChatMessages(String chatId, final ChatMessagesCallback dataCallback) {
+        firebaseDataSource.getChatMessages(chatId, new FirebaseChatListener() {
+            @Override
+            public void onNewMessage(ChatMessage messages) {
+                dataCallback.onSuccess(messages);
+            }
+
+            @Override
+            public void onError(ErrorBundle bundle) {
+                dataCallback.onError(bundle);
+            }
+        });
+    }
+
+    @Override
+    public void setMessageAsRead(String chatId, String key) {
+        firebaseDataSource.setMessageAsRead(chatId, key);
+    }
+
+    @Override
+    public void sendChatMessage(ChatMessage message, final VoidCallback dataCallback) {
+        firebaseDataSource.newMessage(message.getChatId(), message, new FirebaseInterface.FirebaseVoidCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                dataCallback.onSuccess(null);
+            }
+        });
+    }
+
+
 }

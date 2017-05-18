@@ -43,42 +43,21 @@ public class ShowProductsPresenter {
     }
 
 
-    public void getUserProducts(int userID) {
-        if (userID == 0) {
+    public void getUserProducts() {
+        view.showProgress("Cargando productos...");
+        showProductsUseCase.execute(null, new GetUserProductsUseCase.UserProductsListCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.hideProgress();
+                view.onError(errorBundle.getErrorMessage());
+            }
 
-            showProductsUseCase.execute(userID, new GetUserProductsUseCase.UserProductsListCallback() {
-                @Override
-                public void onError(ErrorBundle errorBundle) {
-                    view.onError(errorBundle.getErrorMessage());
-                }
-
-                @Override
-                public void onSuccess(final List<Product> returnParam) {
-                   /* final int[] i = {0};
-                    Handler handler1 = new Handler();
-                    for(final Product p: returnParam) {
-                        handler1.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                getImagesProduct(p, p.getId());*/
-                        /*try { //delay entre llamadas
-                            TimeUnit.MILLISECONDS.sleep(1);
-                        } catch (InterruptedException e) {
-
-                        }*/
-                    /*            returnParam.get(i[0]).setProduct(p);
-                                i[0]++;
-                            }
-                        },100* i[0]);
-                    }*/
-                    //while(returnParam.size() > i){}
-                    view.generateProds(returnParam);
-                }
-            });
-        }
-        else{
-            view.onError("Producto no válido");
-        }
+            @Override
+            public void onSuccess(List<Product> returnParam) {
+                view.generateProds(returnParam);
+                view.hideProgress();
+            }
+        });
     }
 
     public void getImagesProduct(final Product p, int prod_id) {

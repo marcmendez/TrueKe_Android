@@ -5,6 +5,11 @@
             android:id="@+id/menu_user_products_list"
             android:title="Mis productos"
             android:icon="@mipmap/inbox_icon"/>
+
+        <item
+            android:id="@+id/menu_chat"
+            android:title="Mensajes"
+            android:icon="@mipmap/message_icon"/>
     </group>
 
     <group>

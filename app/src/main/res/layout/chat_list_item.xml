@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_height="84dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/chat_list_avatar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="20dp"
+        android:src="@mipmap/avatar_icon"
+        app:civ_fill_color="#F0F0F0"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#E0E0E0"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/chat_list_avatar"
+        android:layout_marginStart="20dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/chat_list_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:text="Marc Mandez"/>
+
+        <TextView
+            android:id="@+id/chat_last_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="2dp"
+            android:text="Holiiiiss"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:foreground="#E0E0E0" />
+
+</RelativeLayout>

@@ -58,15 +58,18 @@ public class UserProductDetailsPresenter {
 
     public void getProductDetails(int productId) {
         if(productId == -1){
+            view.showProgress("Cargando producto...");
             getUserProductDetailsUseCase.execute(productId, new GetUserProductDetailsUseCase.GetUserProductDetailsCallback() {
                 @Override
                 public void onError(ErrorBundle errorBundle) {
+                    view.hideProgress();
                     view.onError(errorBundle.getErrorMessage());
                 }
 
                 @Override
                 public void onSuccess(Product returnParam) {
                     view.onDetailsRetrieved(returnParam);
+                    view.hideProgress();
                 }
             });
         }
@@ -77,15 +80,18 @@ public class UserProductDetailsPresenter {
 
     public void getDesiredCategories(int productId) {
         if(productId != -1){
+            view.showProgress("Cargando producto...");
             getDesiredCategoriesUseCase.execute(productId, new GetDesiredCategoriesUseCase.GetDesiredCategoriesCallback() {
                 @Override
                 public void onError(ErrorBundle errorBundle) {
+                    view.hideProgress();
                     view.onError(errorBundle.getErrorMessage());
                 }
 
                 @Override
                 public void onSuccess(List<String> returnParam) {
                     view.setUpDesiredCategoriesList(returnParam);
+                    view.hideProgress();
                 }
             });
         }
@@ -95,20 +101,21 @@ public class UserProductDetailsPresenter {
     }
 
     public void onCategoryDeleteButtonClick(String category, final int productID) {
-
-
         List<String> list = new ArrayList<>();
         list.add(category);
         list.add(String.valueOf(productID));
+
+        view.showProgress("Eliminando categoria...");
         deleteCategoryUseCase.execute(list, new DeleteCategoryToProductUseCase.BooleanCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
+                view.hideProgress();
                 view.onError(errorBundle.getErrorMessage());
             }
 
             @Override
             public void onSuccess(Boolean returnParam) {
-               getDesiredCategories(productID);
+                getDesiredCategories(productID);
             }
         });
     }
@@ -117,9 +124,12 @@ public class UserProductDetailsPresenter {
         List<String> list = new ArrayList<>();
         list.add(category);
         list.add(String.valueOf(productID));
+
+        view.showProgress("Añadiendo categoria...");
         addCategoryUseCase.execute(list, new AddCategoryToProductUseCase.BooleanCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
+                view.hideProgress();
                 view.onError(errorBundle.getErrorMessage());
             }
 
@@ -131,6 +141,7 @@ public class UserProductDetailsPresenter {
     }
 
     public void deleteProduct(int prod_id) {
+        view.showProgress("Eliminando producto...");
         deleteProduct.execute(prod_id, new DeleteProductUseCase.DeleteProductUseCaseCallback(){
             @Override
             public void onError(ErrorBundle errorBundle) {

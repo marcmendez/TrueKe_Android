@@ -21,6 +21,7 @@ import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.ImagePath;
+import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductId;
@@ -132,4 +133,6 @@ public interface ServerService {
 
     @PUT("users/{id}")
     Call<ApiDTO<Void>> changeProfileUserImage(@Header("token") String token, @Path("id") String id, @Body UserImage userImage);
+    @GET("chats/{user_id}")
+    Call<ApiDTO<List<ChatDTO>>> getUserChats(@Header("token") String token, @Path("user_id") int userID);
 }

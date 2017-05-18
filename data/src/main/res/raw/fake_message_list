@@ -1,0 +1,28 @@
+[
+  {
+    "fromUserId" : 1,
+    "message" : "Holisss",
+    "date" : 10000000
+  },
+
+  {
+    "fromUserId" : 2,
+    "message" : "Afofahoah",
+    "date" : 10000001
+  },
+  {
+    "fromUserId" : 2,
+    "message" : "ohqhofhq",
+    "date" : 10000002
+  },
+  {
+    "fromUserId" : 1,
+    "message" : "iqowhfouhwq",
+    "date" : 10000003
+  },
+  {
+    "fromUserId" : 1,
+    "message" : "oqheofbqwoef",
+    "date" : 10000004
+  }
+]

@@ -1,6 +1,8 @@
 package trigues.com.trueke.view.impl;
 
-import android.app.ProgressDialog;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.LayoutRes;
@@ -13,6 +15,11 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import trigues.com.trueke.R;
@@ -20,6 +27,7 @@ import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.BasePresenter;
+import trigues.com.trueke.service.ChatService;
 import trigues.com.trueke.view.BaseActivity;
 
 /**
@@ -32,9 +40,9 @@ public class BaseActivityImpl extends AppCompatActivity implements BaseActivity 
     BasePresenter presenter;
 
     @LayoutRes
-    int layoutRes;
+    private int layoutRes;
 
-    protected ProgressDialog progressDialog;
+    protected MaterialDialog progressDialog;
     private FrameLayout baseContainer;
 
     @Override
@@ -46,6 +54,18 @@ public class BaseActivityImpl extends AppCompatActivity implements BaseActivity 
                 .plus(new ActivityModule(this),
                         new ViewModule(this))
                 .inject(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(!isChatServiceRunning()){
+            List<String> chats = new ArrayList<>();
+            chats.add("1");
+            ChatService.setChats(chats);
+            Intent serviceIntent = new Intent(this, ChatService.class);
+            startService(serviceIntent);
+        }
     }
 
     @Override
@@ -92,15 +112,26 @@ public class BaseActivityImpl extends AppCompatActivity implements BaseActivity 
         getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.base_container)).commit();
     }
 
+    private boolean isChatServiceRunning(){
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (ChatService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void showProgress(String message) {
+        if(progressDialog == null || !progressDialog.isShowing()) {
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
+            builder.content(message);
+            builder.progress(true, 0);
+            progressDialog = builder.build();
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(message);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();
+            progressDialog.show();
+        }
 
     }
 

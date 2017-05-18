@@ -23,7 +23,7 @@ public interface UserProfileActivity extends MenuActivity {
     void onChangePaymentRetrieved(Boolean returnParam);
     void OnPaymentDeleted(Boolean returnParam);
 
-    void OnShipmentDeleted(Boolean returnParam);
+    void onShipmentDeleted(Boolean returnParam);
     void onNewShipmentCreated(Boolean returnParam);
     void onShipmentRetrieved(List<Shipment> returnParam);
     void onChangeShipmentRetrieved(Boolean returnParam);

@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dexOptions {
+        preDexLibraries = false
+    }
 }
 
 dependencies {
@@ -43,6 +46,8 @@ dependencies {
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
+    compile 'com.afollestad.material-dialogs:core:0.9.4.4'
+
     compile "com.google.dagger:dagger:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
@@ -50,4 +55,13 @@ dependencies {
 
     compile "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
+    compile 'com.sun.mail:android-mail:1.5.5'
+    compile 'com.sun.mail:android-activation:1.5.5'
+    //compile 'com.sun.mail:android-additional:1.5.5'
+
+
+
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -22,6 +22,7 @@ import trigues.com.data.datasource.ApiInterface;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.ImagePath;
+import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductDTO;
@@ -29,8 +30,8 @@ import trigues.com.data.entity.ProductId;
 import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.UserImage;
 import trigues.com.data.entity.UserName;
-import trigues.com.data.service.RetrofitErrorHandler;
 import trigues.com.data.service.ServerService;
+import trigues.com.data.utils.RetrofitErrorHandler;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -193,7 +194,7 @@ public class ApiDataSource implements ApiInterface {
             }
         });
 
-        register(new User(2, "111111111", "test", "1234567", "test@test.pou", "1992-09-19", "", 0, 0, 0,0), new BooleanDataCallback() {
+        register(new User(2, "111111111", "test", "1234567", "test@test.org", "1992-09-19", "", 0, 0, 0,0), new BooleanDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
 
@@ -201,7 +202,7 @@ public class ApiDataSource implements ApiInterface {
 
             @Override
             public void onSuccess(Boolean returnParam) {
-                login(new User("test@test.pou", "1234567"), new LoginDataCallback() {
+                login(new User("test@test.org", "1234567"), new LoginDataCallback() {
                     @Override
                     public void onError(ErrorBundle errorBundle) {
 
@@ -711,6 +712,17 @@ public class ApiDataSource implements ApiInterface {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 booleanDataCallback.onSuccess(body.getError());
+            }
+        });
+    }
+
+    @Override
+    public void getUserChats(String token, int userID, final ChatListDataCallback dataCallback) {
+
+        server.getUserChats(token,userID).enqueue(new RetrofitErrorHandler<ApiDTO<List<ChatDTO>>>(dataCallback) {
+            @Override
+            public void onResponse(ApiDTO<List<ChatDTO>> body) {
+                dataCallback.onSuccess(body);
             }
         });
     }

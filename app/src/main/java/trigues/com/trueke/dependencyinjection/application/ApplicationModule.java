@@ -11,8 +11,10 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import trigues.com.data.datasource.ApiInterface;
+import trigues.com.data.datasource.FirebaseInterface;
 import trigues.com.data.datasource.InternalStorageInterface;
 import trigues.com.data.datasource.impl.ApiDataSource;
+import trigues.com.data.datasource.impl.FirebaseDataSource;
 import trigues.com.data.datasource.impl.InternalStorageDataSource;
 import trigues.com.data.executor.JobExecutor;
 import trigues.com.data.repository.AppRepository;
@@ -55,6 +57,12 @@ public class ApplicationModule {
     @Provides
     @Singleton
     public ApiInterface providesApiDataSource(ApiDataSource dataSource){
+        return dataSource;
+    }
+
+    @Provides
+    @Singleton
+    public FirebaseInterface providesFirebaseDataSource(FirebaseDataSource dataSource){
         return dataSource;
     }
 

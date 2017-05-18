@@ -1,6 +1,8 @@
 package com.trigues;
 
 import com.trigues.callback.DefaultCallback;
+import com.trigues.entity.ChatInfo;
+import com.trigues.entity.ChatMessage;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
@@ -18,7 +20,7 @@ public interface RepositoryInterface {
 
     void getUserProductDetails(int productId, ProductCallback dataCallback);
 
-    void showProducts(int userID, ProductListCallback dataCallback);
+    void showProducts(ProductListCallback dataCallback);
 
     void login(User user, BooleanCallback dataCallback);
 
@@ -79,6 +81,14 @@ public interface RepositoryInterface {
     void changeProfileUserImage(String image_path, BooleanCallback dataCallback);
 
 
+    void getUserChats(int userID, ChatListCallback dataCallback);
+
+    void getChatMessages(String chatId, ChatMessagesCallback dataCallback);
+
+    void setMessageAsRead(String chatId, String key);
+
+    void sendChatMessage(ChatMessage message, VoidCallback dataCallback);
+
     //Callbacks:
 
     interface VoidCallback extends DefaultCallback<Void> {}
@@ -91,4 +101,6 @@ public interface RepositoryInterface {
     interface StringListCallback extends DefaultCallback<List<String>>{}
     interface ImagesCallback extends DefaultCallback<String>{}
     interface GetImagesProductCallback extends DefaultCallback<List<String>>{}
+    interface ChatListCallback extends DefaultCallback<List<ChatInfo>>{}
+    interface ChatMessagesCallback extends DefaultCallback<ChatMessage> {}
 }
