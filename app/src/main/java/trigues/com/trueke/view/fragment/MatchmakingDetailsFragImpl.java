@@ -122,7 +122,7 @@ public class MatchmakingDetailsFragImpl extends Fragment {
 
     private void createAndShowAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Vols reportar el producte ??");
+        builder.setTitle("Quieres reportar el producto ??");
         builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
