@@ -61,7 +61,7 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
         int code = (int) (Math.random() * 100000);
         String output = String.format("%05d", code);
         sendMail(usuari,output);
-        Intent intent = new Intent(this, UserProductsListActivityImpl.class);
+        Intent intent = new Intent(this, PopActivityImpl.class);
         intent.putExtra("Verification Code", code);
         startActivity(intent);
     }

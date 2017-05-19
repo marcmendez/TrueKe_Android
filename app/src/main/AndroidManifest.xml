@@ -33,6 +33,9 @@
 
         </activity>
 
+        <activity android:name=".view.impl.PopActivityImpl" android:label="Mi verificacion">
+        </activity>
+
         <activity android:name=".view.impl.ChatListActivityImpl" android:label="Mensajes">
 
         </activity>
