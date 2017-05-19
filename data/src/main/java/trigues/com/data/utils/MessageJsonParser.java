@@ -38,7 +38,7 @@ public class MessageJsonParser {
             return new ChatLocation(message);
         }
         else if (message.containsKey("status")){
-            return new ChatTrueke(message);
+            return new ChatTrueke(message,key);
         }
         else{
             return new ChatImage(message);

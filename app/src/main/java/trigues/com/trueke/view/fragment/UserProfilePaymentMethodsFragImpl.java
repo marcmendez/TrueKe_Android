@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,14 +16,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.trigues.entity.Payment;
 
 import java.lang.reflect.Type;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import trigues.com.trueke.R;
 import trigues.com.trueke.adapter.UserProfilePaymentMethodsAdapter;
+import trigues.com.trueke.utils.FormatChecker;
 import trigues.com.trueke.view.impl.UserProfileActivityImpl;
 
 /**
@@ -87,11 +93,26 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
         userPaymentMethodsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        userPaymentMethodsRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),1));
         userPaymentMethodsRecyclerView.setAdapter(new UserProfilePaymentMethodsAdapter(getContext(), userPayments) {
             @Override
-            public void onPaymentDeleteClick(Payment payment) {
-                activity.onPaymentMethodDeleteClick(payment);
+            public void onPaymentDeleteClick(final Payment payment) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Seguro que quiere borrar este método de pago?")
+                        .setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                activity.onPaymentMethodDeleteClick(payment);
+                                userPayments.remove(payment);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                builder.create().show();
             }
         });
 
@@ -122,7 +143,8 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
         builder.setView(view);
         final AlertDialog dialog = builder.create();
 
-        final EditText typeET = (EditText) view.findViewById(R.id.add_payment_type);
+        //final Spinner typeET = (Spinner) view.findViewById(R.id.add_payment_type);
+        final TextView typeET = (TextView) view.findViewById(R.id.add_payment_type);
         final EditText numberET = (EditText) view.findViewById(R.id.add_payment_number);
         final EditText expireDateET = (EditText) view.findViewById(R.id.add_payment_expireDate);
         final EditText nameET = (EditText) view.findViewById(R.id.add_payment_name);
@@ -150,20 +172,18 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
                 list.add("American Express");
                 list.add("Maestro");
 
-                final int[] position = {0};
+                final int[] pos = {0};
 
                 builder.setSingleChoiceItems(list.toArray(new CharSequence[list.size()]), 0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        position[0] = which;
+                        pos[0] = which;
                     }
                 });
 
-
-
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        typeET.setText(list.get(position[0]));
+                        typeET.setText(list.get(pos[0]));
                         dialog.dismiss();
                     }
                 });
@@ -180,12 +200,30 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
         view.findViewById(R.id.add_payment_send_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.newPayment(new Payment(typeET.getText().toString(), numberET.getText().toString(), expireDateET.getText().toString(), nameET.getText().toString(), provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()), addressET.getText().toString(), phoneET.getText().toString()));
-                dialog.dismiss();
+                try {
+                    FormatChecker.CheckCard(numberET.getText().toString());
+                    FormatChecker.CheckExpirationDate(expireDateET.getText().toString());
+                    FormatChecker.CheckName(nameET.getText().toString());
+                    FormatChecker.CheckDirecció(addressET.getText().toString());
+                    FormatChecker.CheckPostalCode(postalCodeET.getText().toString());
+                    FormatChecker.CheckPlace(cityET.getText().toString());
+                    FormatChecker.CheckPlace(provinceET.getText().toString());
+                    FormatChecker.CheckPhone(phoneET.getText().toString());
+                    Payment p = new Payment(typeET.getText().toString(), numberET.getText().toString(), expireDateET.getText().toString(), nameET.getText().toString(), provinceET.getText().toString(), cityET.getText().toString(), postalCodeET.getText().toString(),
+                            addressET.getText().toString(), phoneET.getText().toString());
+                    activity.newPayment(p);
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
 
         dialog.show();
+    }
+
+    public void updateAdapter() {
+        userPaymentMethodsRecyclerView.getAdapter().notifyDataSetChanged();
     }
 }

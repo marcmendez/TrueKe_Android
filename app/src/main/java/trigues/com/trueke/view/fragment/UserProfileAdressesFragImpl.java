@@ -1,13 +1,16 @@
 package trigues.com.trueke.view.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import trigues.com.trueke.R;
 import trigues.com.trueke.adapter.UserProfileAddressesAdapter;
+import trigues.com.trueke.utils.FormatChecker;
 import trigues.com.trueke.view.impl.UserProfileActivityImpl;
 
 /**
@@ -85,11 +90,27 @@ public class UserProfileAdressesFragImpl extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         userAdressesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        userAdressesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),1));
         userAdressesRecyclerView.setAdapter(new UserProfileAddressesAdapter(getContext(), adresses) {
             @Override
-            public void onAdressDeleteClick(Shipment shipment) {
-                activity.onAdressDeleteClick(shipment);
+            public void onAdressDeleteClick(final Shipment shipment) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Seguro que quiere borrar esta dirección?")
+                        .setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                    activity.onAdressDeleteClick(shipment);
+                                    adresses.remove(shipment);
+                                    dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                builder.create().show();
             }
         });
 
@@ -139,12 +160,28 @@ public class UserProfileAdressesFragImpl extends Fragment {
         view.findViewById(R.id.add_shipment_send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
-                activity.newShipment(new Shipment(provinceET.getText().toString(), cityET.getText().toString(), Integer.parseInt(postalCodeET.getText().toString()),
-                        addressET.getText().toString(), nameET.getText().toString(), idCardET.getText().toString(), phoneET.getText().toString()));
+                  try {
+                    FormatChecker.CheckDirecció(addressET.getText().toString());
+                    FormatChecker.CheckPostalCode(postalCodeET.getText().toString());
+                    FormatChecker.CheckPlace(cityET.getText().toString());
+                    FormatChecker.CheckPlace(provinceET.getText().toString());
+                    FormatChecker.CheckName(nameET.getText().toString());
+                    FormatChecker.CheckDNI(idCardET.getText().toString());
+                    FormatChecker.CheckPhone(phoneET.getText().toString());
+                    Shipment s = new Shipment(provinceET.getText().toString(), cityET.getText().toString(), postalCodeET.getText().toString(),
+                            addressET.getText().toString(), nameET.getText().toString(), idCardET.getText().toString(), phoneET.getText().toString());
+                    activity.newShipment(s);
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         dialog.show();
+    }
+
+    public void updateAdapter() {
+        userAdressesRecyclerView.getAdapter().notifyDataSetChanged();
     }
 }

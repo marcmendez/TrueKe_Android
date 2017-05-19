@@ -1,5 +1,7 @@
 package trigues.com.data.repository;
 
+import android.util.Log;
+
 import com.trigues.RepositoryInterface;
 import com.trigues.callback.FirebaseChatListener;
 import com.trigues.entity.ChatInfo;
@@ -7,6 +9,7 @@ import com.trigues.entity.ChatMessage;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
+import com.trigues.entity.TruekeData;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 
@@ -23,6 +26,7 @@ import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
+import trigues.com.data.entity.ProductId;
 
 /**
  * Created by mbaque on 15/03/2017.
@@ -359,15 +363,19 @@ public class AppRepository implements RepositoryInterface {
         Log.i("addProduct", "category: "+p2.getProductCategory());
         Log.i("addProduct", "priceMin: "+p2.getMinPrice());
         Log.i("addProduct", "priceMax: "+p2.getMaxPrice());*/
-        apiDataSource.addProduct(internalStorage.getToken(), p2, new ApiInterface.BooleanDataCallback() {
+        apiDataSource.addProduct(internalStorage.getToken(), p2, new ApiInterface.AddProductDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
             }
 
             @Override
-            public void onSuccess(Boolean returnParam) {
-                dataCallback.onSuccess(returnParam);
+            public void onSuccess(ApiDTO<ProductId> returnParam) {
+                if(!returnParam.getError()) {
+                    internalStorage.saveProductId(returnParam.getContent().getProductId());
+                    Log.i("ID PRODUCT: ", "productId: "+internalStorage.getProductId());
+                }
+                dataCallback.onSuccess(!returnParam.getError());
             }
         });
     }
@@ -455,6 +463,83 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
+    public void addImagesProduct(String image_md5, final BooleanCallback dataCallback) {
+        Log.i("image_md5",  "returnParam appRepository: "+image_md5 );
+         apiDataSource.addImagesProduct(internalStorage.getToken(),internalStorage.getProductId(), image_md5, new ApiInterface.BooleanDataCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void addImages(String image_base64, final ImagesCallback dataCallback) {
+        apiDataSource.addImages(image_base64, new ApiInterface.ImagesDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<String> returnParam) {
+                if(!returnParam.getError()) dataCallback.onSuccess(returnParam.getContent());
+            }
+        });
+    }
+
+    @Override
+    public void getImagesProduct(int product_id, final GetImagesProductCallback dataCallback) {
+        apiDataSource.getImagesProduct(product_id, new ApiInterface.GetImagesProductDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<List<String>> returnParam) {
+                if(!returnParam.getError()) dataCallback.onSuccess(returnParam.getContent());
+            }
+        });
+    }
+
+    @Override
+    public void getImages(String image_md5, final ImagesCallback dataCallback) {
+        apiDataSource.getImages(image_md5, new ApiInterface.ImagesDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(ApiDTO<String> returnParam) {
+                if(!returnParam.getError()) dataCallback.onSuccess(returnParam.getContent());
+            }
+        });
+    }
+
+    @Override
+    public void changeProfileUserImage(String image_path, final BooleanCallback dataCallback) {
+        apiDataSource.changeUserImageProfile(internalStorage.getToken(),String.valueOf(internalStorage.getUser().getId()),image_path,new ApiInterface.BooleanDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
     public void getUserChats(final ChatListCallback dataCallback) {
         apiDataSource.getUserChats("f4493ed183abba6b096f3903a5fc3b64" +
                 ""/*internalStorage.getToken()*/, internalStorage.getUser().getId(), new ApiInterface.ChatListDataCallback(){
@@ -521,6 +606,37 @@ public class AppRepository implements RepositoryInterface {
         });
     }
 
+    @Override
+    public void setTruekeStatus(TruekeData td, final VoidCallback dataCallback){
+        firebaseDataSource.setTruekeStatus(td.getStatus(),td.getChatID(),td.getTruekeID(), new FirebaseInterface.FirebaseVoidCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                dataCallback.onSuccess(null);
+            }
+        });
+    }
+
+    @Override
+    public void createTrueke(String chatID, VoidCallback dataCallback) {
+        apiDataSource.createTrueke(chatID,"f4493ed183abba6b096f3903a5fc3b64", new ApiInterface.VoidDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+
+            }
+        });
+    }
     @Override
     public void getProduct(int prodID, final ProductCallback dataCallback) {
         apiDataSource.getProductInfo("f4493ed183abba6b096f3903a5fc3b64",prodID, new ApiInterface.ProductDataCallback() {

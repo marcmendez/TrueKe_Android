@@ -9,10 +9,12 @@ import java.util.HashMap;
 public class ChatTrueke extends ChatMessage {
 
     // 0 -> A mà ; 1 -> Amb transport extern
-    int shipmentType;
+    private int shipmentType;
 
     // 0 - Pendent, 1 - Denegat, 2 - Acceptat, 3 - Esperar pagament, 4 - Transport 5 - Finalitzat
-    int status;
+    private int status;
+
+    private String truekeID;
 
     public ChatTrueke(int fromUserId, Long date, int shipmentType, int status, String chatId, boolean read) {
         super(fromUserId, date, chatId, read);
@@ -25,6 +27,10 @@ public class ChatTrueke extends ChatMessage {
 
         this.shipmentType = ((Long) params.get("shipmentType")).intValue();
         this.status = ((Long) params.get("status")).intValue();
+    }
+
+    public ChatTrueke(HashMap<String, Object> message, String key) {
+        truekeID = key;
     }
 
     public String getShipmentTypeString(){
@@ -71,5 +77,13 @@ public class ChatTrueke extends ChatMessage {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getTruekeID() {
+        return truekeID;
+    }
+
+    public void setTruekeID(String truekeID) {
+        this.truekeID = truekeID;
     }
 }

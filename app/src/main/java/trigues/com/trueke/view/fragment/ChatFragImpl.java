@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -50,6 +51,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,6 +90,7 @@ public class ChatFragImpl extends Fragment {
     private String nPath;
     private ChatAdapter adapter;
     private List<ChatMessage> messageList;
+    private ChatTrueke paymentTrueke;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -186,12 +189,20 @@ public class ChatFragImpl extends Fragment {
             adapter = new ChatAdapter(getContext(), chatRecyclerView, chat.getMy_product()) {
                 @Override
                 public void onAcceptTrueke(ChatTrueke trueke) {
-                    //TODO:
+                    if(trueke.getShipmentType()==1) {
+                        paymentTrueke = trueke;
+                        activity.GetUserPayments(); //haig de mirar que només en cas de transport
+                    }
+                    else {
+                        trueke.setStatus(2); //acceptat
+                        activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
+                    }
                 }
 
                 @Override
                 public void onRejectTrueke(ChatTrueke trueke) {
-                    //TODO:
+                    trueke.setStatus(1); //rejected (queda actualitzar)
+                    activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
                 }
             };
 
@@ -238,8 +249,7 @@ public class ChatFragImpl extends Fragment {
                     dialog.dismiss();
                 }
                 else if (options[which] == "Transporte externo") {
-                    ChatTrueke chatTrueke = new ChatTrueke(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), 1, 0, chat.getId(), false);
-                    activity.sendMessage(chatTrueke);
+                    activity.GetUserShipments();
                     dialog.dismiss();
                 }
                 else dialog.dismiss();
@@ -424,6 +434,7 @@ public class ChatFragImpl extends Fragment {
     }
 
     public void showPaymentMethodsDialog(final List<Payment> payments){
+        final int[] pos = new int[1];
         final List<String> paymentsString = new ArrayList<>();
         for(Payment payment : payments){
             paymentsString.add(payment.getNumber());
@@ -434,30 +445,49 @@ public class ChatFragImpl extends Fragment {
         builder.setSingleChoiceItems(paymentsString.toArray(new CharSequence[paymentsString.size()]), 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
-                builder2.setTitle("Estas seguro?");
-                builder2.setMessage("Seguro que quieres seleccionar " + paymentsString.get(which) + "?");
-                builder2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //TODO:
-                    }
-                });
-
-                builder2.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showPaymentMethodsDialog(payments);
-                    }
-                });
+                pos[0] =which;
             }
-        });
+        })
+          .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                  dialog.dismiss();
+                  AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                  builder2.setTitle("Estas seguro?");
+                  builder2.setMessage("Seguro que quieres seleccionar " + paymentsString.get(pos[0]) + "?");
+                  builder2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          paymentTrueke.setStatus(3);
+                          activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
+                          adapter.notifyDataSetChanged();
+                          activity.createTrueke(String.valueOf(chat.getId()));
+                          dialog.dismiss();
+                      }
+                  });
 
-        builder.show();
+                  builder2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                          // showPaymentMethodsDialog(payments);
+                          dialog.dismiss();
+                      }
+                  });
+                  builder2.show();
+              }
+          })
+           .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+
+               }
+           });
+        if(paymentsString.size()==0) Toast.makeText(getContext(),"No tienes métodos de pago",Toast.LENGTH_SHORT).show();
+       else builder.show();
     }
 
     public void showAdressDialog(final List<Shipment> shipments){
+        final int[] pos = new int[1];
         final List<String> shipmentsString = new ArrayList<>();
         for(Shipment shipment : shipments){
             shipmentsString.add(shipment.getAddress());
@@ -468,27 +498,43 @@ public class ChatFragImpl extends Fragment {
         builder.setSingleChoiceItems(shipmentsString.toArray(new CharSequence[shipmentsString.size()]), 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
-                builder2.setTitle("Estas seguro?");
-                builder2.setMessage("Seguro que quieres seleccionar " + shipmentsString.get(which) + "?");
-                builder2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //TODO:
-                    }
-                });
-
-                builder2.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showAdressDialog(shipments);
-                    }
-                });
+                pos[0] =which;
             }
-        });
+        })
+         .setPositiveButton("OK", new DialogInterface.OnClickListener(){
 
-        builder.show();
+             @Override
+             public void onClick(DialogInterface dialog, int which) {
+                 AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                 builder2.setTitle("Estas seguro?");
+                 builder2.setMessage("Seguro que quieres seleccionar " + shipmentsString.get(pos[0]) + "?");
+                 builder2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         ChatTrueke chatTrueke = new ChatTrueke(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), 1, 0, chat.getId());
+                         activity.sendMessage(chatTrueke);
+                         dialog.dismiss();
+                     }
+                 });
+
+                 builder2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         showAdressDialog(shipments);
+                     }
+                 });
+                 builder2.show();
+             }
+         })
+         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+             @Override
+             public void onClick(DialogInterface dialog, int which) {
+                 dialog.dismiss();
+             }
+         });
+
+        if(shipmentsString.size()==0) Toast.makeText(getContext(),"No tienes direcciones d'envio",Toast.LENGTH_SHORT).show();
+        else builder.show();
     }
 
     @Override
