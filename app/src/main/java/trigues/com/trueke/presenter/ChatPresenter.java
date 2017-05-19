@@ -31,8 +31,9 @@ public class ChatPresenter {
 
     @Inject
     public ChatPresenter(ChatListActivity view, GetChatMessagesUseCase getChatMessagesUseCase,
-                         SendChatMessageUseCase sendChatMessageUseCase, SetTruekeStatusUseCase setTruekeStatusUseCase, CreateTruekeUseCase createTruekeUseCase) {
                          SendChatMessageUseCase sendChatMessageUseCase,
+                         SetTruekeStatusUseCase setTruekeStatusUseCase,
+                         CreateTruekeUseCase createTruekeUseCase,
                          GetChatsUseCase getChatsUseCase) {
         this.view = view;
         this.getChatMessagesUseCase = getChatMessagesUseCase;

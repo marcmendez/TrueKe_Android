@@ -83,8 +83,6 @@ public interface RepositoryInterface {
     void changeProfileUserImage(String image_path, BooleanCallback dataCallback);
 
 
-    void getUserChats(int userID, ChatListCallback dataCallback);
-
     void getChatMessages(String chatId, ChatMessagesCallback dataCallback);
 
     void setMessageAsRead(String chatId, String key);

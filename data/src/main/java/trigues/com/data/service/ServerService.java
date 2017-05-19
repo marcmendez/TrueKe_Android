@@ -139,7 +139,7 @@ public interface ServerService {
 
     @PUT("users/{id}")
     Call<ApiDTO<Void>> changeProfileUserImage(@Header("token") String token, @Path("id") String id, @Body UserImage userImage);
-    @GET("chats/{user_id}")
+
     @GET("chats/byuser/{user_id}")
     Call<ApiDTO<List<ChatDTO>>> getUserChats(@Header("token") String token, @Path("user_id") int userID);
 

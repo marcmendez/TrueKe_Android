@@ -511,7 +511,7 @@ public class ChatFragImpl extends Fragment {
                  builder2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                      @Override
                      public void onClick(DialogInterface dialog, int which) {
-                         ChatTrueke chatTrueke = new ChatTrueke(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), 1, 0, chat.getId());
+                         ChatTrueke chatTrueke = new ChatTrueke(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), 1, 0, chat.getId(),false);
                          activity.sendMessage(chatTrueke);
                          dialog.dismiss();
                      }
