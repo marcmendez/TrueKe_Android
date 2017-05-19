@@ -189,12 +189,16 @@ public class ChatFragImpl extends Fragment {
                         paymentTrueke = trueke;
                         activity.GetUserPayments(); //haig de mirar que només en cas de transport
                     }
-                    else trueke.setStatus(2); //acceptat
+                    else {
+                        trueke.setStatus(2); //acceptat
+                        activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
+                    }
                 }
 
                 @Override
                 public void onRejectTrueke(ChatTrueke trueke) {
                     trueke.setStatus(1); //rejected (queda actualitzar)
+                    activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
                 }
             };
 
@@ -462,7 +466,9 @@ public class ChatFragImpl extends Fragment {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
                           paymentTrueke.setStatus(3);
-                          
+                          activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
+                          adapter.notifyDataSetChanged();
+                          activity.createTrueke(String.valueOf(chat.getId()));
                           dialog.dismiss();
                       }
                   });
@@ -538,6 +544,6 @@ public class ChatFragImpl extends Fragment {
          });
 
         if(shipmentsString.size()==0) Toast.makeText(getContext(),"No tienes direcciones d'envio",Toast.LENGTH_SHORT).show();
-        builder.show();
+        else builder.show();
     }
 }

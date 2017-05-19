@@ -6,6 +6,7 @@ import com.trigues.entity.ChatMessage;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
+import com.trigues.entity.TruekeData;
 import com.trigues.entity.User;
 
 import java.util.List;
@@ -88,6 +89,10 @@ public interface RepositoryInterface {
     void setMessageAsRead(String chatId, String key);
 
     void sendChatMessage(ChatMessage message, VoidCallback dataCallback);
+
+    void setTruekeStatus(TruekeData truekedata, VoidCallback dataCallback);
+
+    void createTrueke(String chatID, VoidCallback dataCallback);
 
     //Callbacks:
 

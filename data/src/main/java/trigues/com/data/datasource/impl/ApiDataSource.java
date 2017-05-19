@@ -726,4 +726,9 @@ public class ApiDataSource implements ApiInterface {
             }
         });
     }
+
+    @Override
+    public void createTrueke(String chatID, String admintoken, VoidDataCallback voidDataCallback) {
+        server.createTrueke(admintoken,chatID);
+    }
 }

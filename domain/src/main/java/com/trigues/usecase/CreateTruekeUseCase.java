@@ -2,7 +2,6 @@ package com.trigues.usecase;
 
 import com.trigues.RepositoryInterface;
 import com.trigues.callback.DefaultCallback;
-import com.trigues.entity.ChatMessage;
 import com.trigues.entity.TruekeData;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.executor.PostExecutionThread;
@@ -16,15 +15,15 @@ import javax.inject.Inject;
  * Created by Albert on 19/05/2017.
  */
 
-public class SetTruekeStatusUseCase extends BaseUseCase<Void> implements Interactor<TruekeData, Void> {
+public class CreateTruekeUseCase extends BaseUseCase<Void> implements Interactor<String, Void> {
 
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
-    private SetTruekeStatusUseCase.SetTruekeStatusCallback callback;
-    private TruekeData truekedata;
+    private CreateTruekeUseCase.CreateTruekeCallback callback;
+    private String chatID;
 
     @Inject
-    public SetTruekeStatusUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor,
+    public CreateTruekeUseCase(PostExecutionThread postExecutionThread, ThreadExecutor executor,
                                   RepositoryInterface repository) {
         super(postExecutionThread);
         this.repository = repository;
@@ -47,17 +46,17 @@ public class SetTruekeStatusUseCase extends BaseUseCase<Void> implements Interac
 
     @Override
     public void run() {
-      repository.setTruekeStatus(truekedata, dataCallback);
+        repository.createTrueke(chatID, dataCallback);
     }
 
     @Override
-        public <R extends DefaultCallback<Void>> void execute(TruekeData td, R defaultCallback) {
-        this.callback = ((SetTruekeStatusUseCase.SetTruekeStatusCallback) defaultCallback);
-        this.truekedata = td;
+    public <R extends DefaultCallback<Void>> void execute(String chatID, R defaultCallback) {
+        this.callback = ((CreateTruekeUseCase.CreateTruekeCallback) defaultCallback);
+        this.chatID=chatID;
         executor.execute(this);
     }
 
 
-    public interface SetTruekeStatusCallback extends DefaultCallback<Void>{}
+    public interface CreateTruekeCallback extends DefaultCallback<Void>{}
 
 }

@@ -9,6 +9,7 @@ import com.trigues.entity.ChatMessage;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
+import com.trigues.entity.TruekeData;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 
@@ -579,9 +580,9 @@ public class AppRepository implements RepositoryInterface {
         });
     }
 
-    //@Override
-    public void setTruekeStatus(int status, String chatId, String truekeId, final VoidCallback dataCallback){
-        firebaseDataSource.setTruekeStatus(status,chatId,truekeId, new FirebaseInterface.FirebaseVoidCallback(){
+    @Override
+    public void setTruekeStatus(TruekeData td, final VoidCallback dataCallback){
+        firebaseDataSource.setTruekeStatus(td.getStatus(),td.getChatID(),td.getTruekeID(), new FirebaseInterface.FirebaseVoidCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -591,6 +592,22 @@ public class AppRepository implements RepositoryInterface {
             @Override
             public void onSuccess(Void returnParam) {
                 dataCallback.onSuccess(null);
+            }
+        });
+    }
+
+    @Override
+    public void createTrueke(String chatID, VoidCallback dataCallback) {
+        apiDataSource.createTrueke(chatID,"f4493ed183abba6b096f3903a5fc3b64", new ApiInterface.VoidDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+
             }
         });
     }

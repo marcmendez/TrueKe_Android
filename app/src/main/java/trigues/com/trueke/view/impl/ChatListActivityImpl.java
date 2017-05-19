@@ -129,9 +129,16 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         fragment.showAdressDialog(returnParam);
     }
 
+    @Override
+    public void OnTruekeStatusUpdated() {
+
+    }
+
     public void sendMessage(ChatMessage chatTextMessage) {
         presenter.sendMessage(chatTextMessage);
     }
+
+    public void setTruekeStatus(int status, String s, String truekeID){presenter.setTruekeStatus(status,s,truekeID);}
 
     public void GetUserShipments() {
         userInfoPresenter.showShipments();
@@ -139,5 +146,9 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
 
     public void GetUserPayments() {
         userInfoPresenter.showPayments();
+    }
+
+    public void createTrueke(String chatID) {
+        presenter.createTrueke(chatID);
     }
 }

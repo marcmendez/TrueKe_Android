@@ -135,4 +135,7 @@ public interface ServerService {
     Call<ApiDTO<Void>> changeProfileUserImage(@Header("token") String token, @Path("id") String id, @Body UserImage userImage);
     @GET("chats/{user_id}")
     Call<ApiDTO<List<ChatDTO>>> getUserChats(@Header("token") String token, @Path("user_id") int userID);
+
+    @POST("truekes")
+    Call<ApiDTO<Void>> createTrueke(@Header("token")String admintoken,@Path("chat_id") String chatID);
 }
