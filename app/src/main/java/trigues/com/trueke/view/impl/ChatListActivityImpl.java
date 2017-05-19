@@ -138,6 +138,11 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
 
     }
 
+    @Override
+    public void OnTruekeCreated() {
+
+    }
+
     public void sendMessage(ChatMessage chatTextMessage) {
         presenter.sendMessage(chatTextMessage);
     }

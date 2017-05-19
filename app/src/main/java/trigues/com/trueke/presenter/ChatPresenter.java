@@ -104,6 +104,16 @@ public class ChatPresenter {
     }
 
     public void createTrueke(String chatID) {
+        createTruekeUseCase.execute(chatID, new CreateTruekeUseCase.CreateTruekeCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
 
+            @Override
+            public void onSuccess(Void returnParam) {
+                view.OnTruekeCreated();
+            }
+        });
     }
 }

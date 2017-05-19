@@ -27,4 +27,6 @@ public interface ChatListActivity extends MenuActivity{
     void onShipmentRetrieved(List<Shipment> returnParam);
 
     void OnTruekeStatusUpdated();
+
+    void OnTruekeCreated();
 }
