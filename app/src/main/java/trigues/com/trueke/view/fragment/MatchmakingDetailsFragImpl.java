@@ -122,10 +122,14 @@ public class MatchmakingDetailsFragImpl extends Fragment {
 
     private void createAndShowAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Quieres reportar el producto ??");
-        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+        builder.setTitle("Quieres reportar el producto?");
+        builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Si", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
                 Integer[] userProdID = new Integer[2];
                 userProdID[0] = -1;
                 userProdID[1] = product.getId();
@@ -133,11 +137,6 @@ public class MatchmakingDetailsFragImpl extends Fragment {
                 // Pasar los datos hacia abajo;
                 ((MatchmakingActivityImpl) getActivity()).onReportPressed(userProdID);
 
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
             }
         });
