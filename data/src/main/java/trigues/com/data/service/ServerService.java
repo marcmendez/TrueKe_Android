@@ -22,6 +22,7 @@ import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductsMatchDTO;
+import trigues.com.data.entity.ReportProductDTO;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
 
@@ -49,6 +50,9 @@ public interface ServerService {
 
     @DELETE("products/{product_id}")
     Call<ApiDTO<Void>> deleteProduct(@Header("token") String token,  @Path("product_id") String product_id);
+
+    @POST("report/product")
+    Call<ApiDTO<Void>> reportProduct(@Header("token") String token, @Body ReportProductDTO dto);
 
     //user info
     @GET("users/{id}")
@@ -95,6 +99,8 @@ public interface ServerService {
 
     @POST("matches")
     Call<ApiDTO<Void>> rejectMatch(@Header("token") String token, @Body ProductsMatchDTO dto);
+
+
 
     @DELETE("shipmentmethods/{id}")
     Call<ApiDTO<Void>> deleteShipment(@Header("token")String token, @Path("id") String shipment_id);

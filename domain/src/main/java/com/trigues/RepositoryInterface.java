@@ -78,6 +78,8 @@ public interface RepositoryInterface {
 
     void getProduct(int prodID, final ProductCallback dataCallback);
 
+    void reportProduct(Integer[] userProdID, VoidCallback dataCallback);
+
 
     //Callbacks:
 

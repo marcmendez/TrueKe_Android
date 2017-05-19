@@ -293,6 +293,23 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
+    public void reportProduct(Integer[] userProdID, final VoidCallback dataCallback) {
+        userProdID[0] = internalStorage.getUser().getId();
+        apiDataSource.reportProduct(internalStorage.getToken(), userProdID, new ApiInterface.VoidDataCallback() {
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
     public void getMatchmakingProducts(int prodID, final ProductListCallback dataCallback) {
 
         apiDataSource.getMatchmakingProducts(internalStorage.getToken(), prodID, new ApiInterface.ProductListDataCallback() {

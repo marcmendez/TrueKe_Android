@@ -27,6 +27,7 @@ import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.entity.ProductsMatchDTO;
+import trigues.com.data.entity.ReportProductDTO;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.service.ServerService;
 import trigues.com.data.utils.RetrofitErrorHandler;
@@ -542,6 +543,20 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
+    public void reportProduct(String token, Integer[] userProdID, final VoidDataCallback voidDataCallback) {
+        ReportProductDTO dto = new ReportProductDTO(userProdID[0], userProdID[1]);
+        server.reportProduct(token, dto).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
+
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                voidDataCallback.onSuccess(null);
+            }
+        });
+    }
+
+
+
+    @Override
     public void showProducts(String token, int userID, final ProductListDataCallback dataCallback) {
         /*List<String> llista = new ArrayList<>();
         llista.add("https://photos6.spartoo.es/photos/231/231523/231523_350_A.jpg");
@@ -671,4 +686,5 @@ public class ApiDataSource implements ApiInterface {
             }
         });
     }
+
 }

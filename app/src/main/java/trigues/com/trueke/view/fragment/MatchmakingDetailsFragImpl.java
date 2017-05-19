@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -72,6 +73,10 @@ public class MatchmakingDetailsFragImpl extends Fragment {
     @BindView(R.id.matchmaking_dots_layout)
     LinearLayout dotsLayout;
 
+    @BindView(R.id.reportProdButton)
+    ImageButton reportProdButton;
+
+
     @BindView(R.id.matchmaking_category_list)
     RecyclerView categoriesRecyclerview;
 
@@ -96,6 +101,20 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         View view = inflater.inflate(R.layout.matchmaking_product_detail, container, false);
         ButterKnife.bind(this, view);
 
+        reportProdButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                Integer[] userProdID = new Integer[2];
+                userProdID[0] = -1;
+                userProdID[1] = product.getId();
+
+                // Pasar los datos hacia abajo;
+                ((MatchmakingActivityImpl) getActivity()).onReportPressed(userProdID);
+            }
+        });
+
+
+
         ((MatchmakingActivityImpl) getActivity()).setSupportActionBar(toolbar);
         ((MatchmakingActivityImpl) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((MatchmakingActivityImpl) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -113,12 +132,8 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         product = gson.fromJson(productJson, Product.class);
 
         setUpProductDetails(product);
-
-        setUpViewPager(product.getImages());
-
-        setUpDotCounter();
-
-        setUpDesiredCategoriesList(product.getDesiredCategories());
+        //setUpViewPager(product.getImages());
+        //setUpDotCounter()
     }
 
     private void setUpProductDetails(Product product) {
@@ -235,4 +250,6 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
