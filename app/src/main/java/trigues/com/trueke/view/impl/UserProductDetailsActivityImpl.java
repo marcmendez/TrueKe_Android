@@ -116,8 +116,8 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
             }
         });
 
-       // setUpViewPager(fakeList);
-        presenter.getImagesProduct(returnParam.getId());
+        setUpViewPager(returnParam.getImages());
+        //presenter.getImagesProduct(returnParam.getId());
 
         setUpProductDetails(returnParam);
 

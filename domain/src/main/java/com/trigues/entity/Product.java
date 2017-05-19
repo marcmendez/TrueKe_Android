@@ -36,7 +36,8 @@ public class Product {
         this.userId = userId;
         this.title = title;
         this.description = description;
-        this.images = images;
+        if(images == null) this.images = new ArrayList<>();
+        else this.images = images;
         this.productCategory = productCategory;
         this.desiredCategories = desiredCategories;
         this.minPrice = minPrice;
@@ -54,11 +55,6 @@ public class Product {
         this.desiredCategories = p.getDesiredCategories();
         this.minPrice = p.getMinPrice();
         this.maxPrice = p.getMaxPrice();
-    }
-
-    public boolean haveImages() {
-        if(images.isEmpty()) return false;
-        else return true;
     }
 
     public int getId() {
