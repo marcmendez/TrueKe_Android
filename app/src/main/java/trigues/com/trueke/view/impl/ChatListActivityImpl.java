@@ -82,9 +82,9 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         List<ChatInfo> realChat = new ArrayList<>();
         for (ChatInfo element : chatinf) {
             try {
-               getProductMatched(Integer.parseInt(element.getProductMatched()));
+               getProductMatched(Integer.parseInt(element.getNameOtherUser()));
                 TimeUnit.MILLISECONDS.sleep(1000);
-                element.setProductMatched(ProductOtherUser.getTitle());
+                element.setNameOtherUser(ProductOtherUser.getTitle());
                 realChat.add(element);
             }
             catch (InterruptedException e) {
