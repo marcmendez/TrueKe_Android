@@ -4,6 +4,9 @@ import android.text.TextUtils;
 
 import com.trigues.entity.Product;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Alba on 26/04/2017.
  */
@@ -26,6 +29,12 @@ public class ProductDTO {
         this.wants_categories = TextUtils.join("-", p.getDesiredCategories());
         this.min_price = p.getMinPrice();
         this.max_price = p.getMaxPrice();
+    }
+
+    public static Product changeType(ProductDTO p) {
+        List<String> buida = new ArrayList<>();
+        Product p2 = new Product(0, p.getUserId(),p.getTitle(), p.getDescription(), buida,p.getProductCategory(), buida, p.getMinPrice(), p.getMaxPrice());
+        return p2;
     }
 
     public Product getProduct() {

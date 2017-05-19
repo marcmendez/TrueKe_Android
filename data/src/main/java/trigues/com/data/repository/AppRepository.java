@@ -45,20 +45,7 @@ public class AppRepository implements RepositoryInterface {
         this.firebaseDataSource = firebaseDataSource;
     }
 
-    @Override
-    public void getUserProductDetails(int productId, final ProductCallback dataCallback) {
-        apiDataSource.getUserProductDetails(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ProductDataCallback() {
-            @Override
-            public void onError(ErrorBundle errorBundle) {
-                dataCallback.onError(errorBundle);
-            }
 
-            @Override
-            public void onSuccess(ApiDTO<Product> returnParam) {
-                dataCallback.onSuccess(returnParam.getContent());
-            }
-        });
-    }
 
     @Override
     public void showProducts(final ProductListCallback dataCallback) {
@@ -542,8 +529,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void getUserChats(final ChatListCallback dataCallback) {
-        apiDataSource.getUserChats("f4493ed183abba6b096f3903a5fc3b64" +
-                ""/*internalStorage.getToken()*/, internalStorage.getUser().getId(), new ApiInterface.ChatListDataCallback(){
+        apiDataSource.getUserChats(internalStorage.getToken(), internalStorage.getUser().getId(), new ApiInterface.ChatListDataCallback(){
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
@@ -554,15 +540,11 @@ public class AppRepository implements RepositoryInterface {
                 List<ChatInfo> chats = new ArrayList<>();
                     for (ChatDTO element : returnParam.getContent()) {
                         ChatInfo chati = new ChatInfo();
-                        chati.setId(element.getProduct_id1() + "_" + element.getProduct_id2());
-                        chati.setMy_product(element.getMy_product());
+                        chati.setMyProductName(Integer.toString(element.getid()));
                         chati.setTitle(element.getTitle());
-                        if (element.getMy_product() == element.getProduct_id1()) {
-                            chati.setNameOtherUser(Integer.toString(element.getProduct_id2()));
-                        }
-                        else {
-                            chati.setNameOtherUser(Integer.toString(element.getProduct_id1()));
-                        }
+                        if (element.getid() == element.getproduct_id1())
+                        chati.setProductMatched(Integer.toString(element.getproduct_id2()));
+                        else chati.setProductMatched(Integer.toString(element.getproduct_id1()));
                         chats.add(chati);
 
                     }
@@ -639,7 +621,7 @@ public class AppRepository implements RepositoryInterface {
         });
     }
     @Override
-    public void getProduct(int prodID, final ProductCallback dataCallback) {
+    public void getProductInfo(int prodID, final ProductCallback dataCallback) {
         apiDataSource.getProductInfo("f4493ed183abba6b096f3903a5fc3b64",prodID, new ApiInterface.ProductDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -647,8 +629,9 @@ public class AppRepository implements RepositoryInterface {
             }
 
             @Override
-            public void onSuccess(ApiDTO<Product> returnParam) {
-                dataCallback.onSuccess(returnParam.getContent());
+            public void onSuccess(ApiDTO<ProductDTO> returnParam) {
+                Product p = ProductDTO.changeType(returnParam.getContent());
+                dataCallback.onSuccess(p);
             }
         });
     }

@@ -56,7 +56,6 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     ChatDataPresenter userInfoPresenter;
     private ChatFragImpl fragment;
 
-    RecyclerView.Adapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,15 +81,15 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     public void initChatList(List<ChatInfo> chatinf) {
         List<ChatInfo> realChat = new ArrayList<>();
         for (ChatInfo element : chatinf) {
-            //try {
-            //getProductMatched(Integer.parseInt(element.getProductMatched()));
-            //TimeUnit.MILLISECONDS.sleep(100);
-            //element.setProductMatched(ProductOtherUser.getTitle());
-            realChat.add(element);
-            //}
-            //catch (InterruptedException e) {
+            try {
+               getProductMatched(Integer.parseInt(element.getProductMatched()));
+                TimeUnit.MILLISECONDS.sleep(1000);
+                element.setProductMatched(ProductOtherUser.getTitle());
+                realChat.add(element);
+            }
+            catch (InterruptedException e) {
 
-            //}
+            }
 
 
 
@@ -153,10 +152,8 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         productPresenter.getProduct(productID);
     }
 
-    public void productTitle(Product p) {
-        List<String> hey = new ArrayList<>();
-        ProductOtherUser = new Product(1, 1, "Correcio de tokens Database" , "holis", hey, "random", hey, 0, 0);
-
+    public void productTitle(Product ProductOtherUser) {
+        this.ProductOtherUser = ProductOtherUser;
     }
 
 

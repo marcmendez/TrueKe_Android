@@ -2,8 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:gravity = "center"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:layout_marginTop="150dp">
 
 
         <android.support.design.widget.TextInputLayout
@@ -11,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="25dp"
             android:textColorHint="#e5e5e5">
 
             <EditText
@@ -29,7 +34,7 @@
             android:id="@+id/buttonVerification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="25dp"
             android:layout_marginTop="16dp"
             android:background="@color/colorPrimaryDark"
             android:paddingEnd="10dp"

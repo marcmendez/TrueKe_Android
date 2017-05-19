@@ -144,8 +144,7 @@ public interface ServerService {
     Call<ApiDTO<List<ChatDTO>>> getUserChats(@Header("token") String token, @Path("user_id") int userID);
 
     @GET("products/{product_id}")
-    Call<ApiDTO<Product>> getProductInfo(@Header("token") String token, @Path("product_id") int prodID);
-
+    Call<ApiDTO<ProductDTO>> getProductInfo(@Header("token") String token, @Path("product_id") int prodID);
     @POST("truekes")
     Call<ApiDTO<Void>> createTrueke(@Header("token")String admintoken,@Path("chat_id") String chatID);
 }

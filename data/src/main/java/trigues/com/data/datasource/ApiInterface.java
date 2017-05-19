@@ -26,8 +26,6 @@ public interface ApiInterface {
 
     //Functions:
 
-    void getUserProductDetails(String token, int productId, ProductDataCallback dataCallback);
-
     void showProducts(String token, int userID, ProductListDataCallback dataCallback);
 
     void register(User user, BooleanDataCallback dataCallback);
@@ -92,7 +90,7 @@ public interface ApiInterface {
 
     interface UserDataCallback extends DefaultCallback<ApiDTO<List<User>>>{}
 
-    interface ProductDataCallback extends DefaultCallback<ApiDTO<Product>> {}
+    interface ProductDataCallback extends DefaultCallback<ApiDTO<ProductDTO>> {}
 
     interface ProductListDataCallback extends DefaultCallback<ApiDTO<List<Product>>> {}
 

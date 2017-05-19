@@ -50,7 +50,7 @@ public class GetProductUseCase extends BaseUseCase<Product> implements Interacto
 
     @Override
     public void run() {
-        repository.getUserProductDetails(productId, dataCallback);
+        repository.getProductInfo(productId, dataCallback);
     }
 
     public interface GetProductCallback extends DefaultCallback<Product> {
