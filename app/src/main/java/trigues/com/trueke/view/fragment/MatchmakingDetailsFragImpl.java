@@ -1,9 +1,11 @@
 package trigues.com.trueke.view.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -104,12 +106,8 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         reportProdButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                Integer[] userProdID = new Integer[2];
-                userProdID[0] = -1;
-                userProdID[1] = product.getId();
+                createAndShowAlertDialog();
 
-                // Pasar los datos hacia abajo;
-                ((MatchmakingActivityImpl) getActivity()).onReportPressed(userProdID);
             }
         });
 
@@ -121,6 +119,33 @@ public class MatchmakingDetailsFragImpl extends Fragment {
 
         return view;
     }
+
+    private void createAndShowAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Vols reportar el producte ??");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                Integer[] userProdID = new Integer[2];
+                userProdID[0] = -1;
+                userProdID[1] = product.getId();
+
+                // Pasar los datos hacia abajo;
+                ((MatchmakingActivityImpl) getActivity()).onReportPressed(userProdID);
+
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
