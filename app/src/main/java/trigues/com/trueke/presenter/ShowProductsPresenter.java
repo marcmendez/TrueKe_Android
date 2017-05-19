@@ -1,6 +1,5 @@
 package trigues.com.trueke.presenter;
 
-import android.os.Handler;
 import android.util.Log;
 
 import com.trigues.entity.Product;
@@ -15,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import trigues.com.trueke.UIThread;
 import trigues.com.trueke.view.UserProductsListActivity;
 
 /**
@@ -66,7 +64,11 @@ public class ShowProductsPresenter {
                 aux_returnParam = new ArrayList<>();
                 aux_returnParam = returnParam;
                 count_i = 0;
-                getImagesProductcallback();
+                if(returnParam.size() != 0) getImagesProductcallback();
+                else {
+                    view.hideProgress();
+                    view.generateProds(returnParam);
+                }
             }
         });
     }
@@ -128,7 +130,10 @@ public class ShowProductsPresenter {
                 count_i++;
                 getImagesProductcallback();
             }
-            if(count_products == size_products) view.generateProds(products);
+            if(count_products == size_products) {
+                view.hideProgress();
+                view.generateProds(products);
+            }
         }
     }
 }
