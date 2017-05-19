@@ -47,9 +47,6 @@ public interface ServerService {
     @GET("products/byuser/{userid}")
     Call<ApiDTO<List<Product>>> getUserProducts(@Header("token") String token, @Path("userid") Integer userID);
 
-    @GET("products/{product_id}")
-    Call<ApiDTO<Product>> getUserProductDetails(@Header("token")String token, @Path("product_id") int productID);
-
     @POST("products")
     Call<ApiDTO<ProductId>> addProduct(@Header("token") String token, @Body ProductDTO product);
 
@@ -144,7 +141,8 @@ public interface ServerService {
     Call<ApiDTO<List<ChatDTO>>> getUserChats(@Header("token") String token, @Path("user_id") int userID);
 
     @GET("products/{product_id}")
-    Call<ApiDTO<ProductDTO>> getProductInfo(@Header("token") String token, @Path("product_id") int prodID);
+    Call<ApiDTO<ProductDTO>> getProductInfo( @Path("product_id") int prodID);
+
     @POST("truekes")
     Call<ApiDTO<Void>> createTrueke(@Header("token")String admintoken,@Path("chat_id") String chatID);
 }

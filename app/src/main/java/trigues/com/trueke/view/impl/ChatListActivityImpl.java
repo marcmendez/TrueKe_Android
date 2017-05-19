@@ -81,17 +81,11 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     public void initChatList(List<ChatInfo> chatinf) {
         List<ChatInfo> realChat = new ArrayList<>();
         for (ChatInfo element : chatinf) {
-            try {
-               getProductMatched(Integer.parseInt(element.getNameOtherUser()));
-                TimeUnit.MILLISECONDS.sleep(1000);
-                element.setNameOtherUser(ProductOtherUser.getTitle());
+               if (element.getNameOtherUser() == Integer.toString(8)) {
+                   getProductMatched(Integer.parseInt(element.getNameOtherUser()));
+                   //element.setNameOtherUser(ProductOtherUser.getTitle());
+               }
                 realChat.add(element);
-            }
-            catch (InterruptedException e) {
-
-            }
-
-
 
         }
         ChatService.setChats(chatinf);
@@ -152,7 +146,7 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         productPresenter.getProduct(productID);
     }
 
-    public void productTitle(Product ProductOtherUser) {
+    public void setproductTitle(Product ProductOtherUser) {
         this.ProductOtherUser = ProductOtherUser;
     }
 

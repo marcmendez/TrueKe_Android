@@ -41,7 +41,7 @@ public class ProductPresenter {
 
                 @Override
                 public void onSuccess(Product returnParam) {
-                    view.productTitle(returnParam);
+                    view.setproductTitle(returnParam);
                     view.hideProgress();
                 }
             });

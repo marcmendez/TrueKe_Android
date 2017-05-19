@@ -622,7 +622,7 @@ public class AppRepository implements RepositoryInterface {
     }
     @Override
     public void getProductInfo(int prodID, final ProductCallback dataCallback) {
-        apiDataSource.getProductInfo("f4493ed183abba6b096f3903a5fc3b64",prodID, new ApiInterface.ProductDataCallback() {
+        apiDataSource.getProductInfo(prodID, new ApiInterface.ProductDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 dataCallback.onError(errorBundle);
