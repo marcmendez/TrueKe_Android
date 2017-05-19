@@ -10,13 +10,24 @@ public class ChatMessage {
     Long date;
     String chatId;
 
+    boolean read;
+
     public ChatMessage() {
     }
 
-    public ChatMessage(int fromUserId, Long date, String chatId) {
+    public ChatMessage(int fromUserId, Long date, String chatId, boolean read) {
         this.fromUserId = fromUserId;
         this.date = date;
         this.chatId = chatId;
+        this.read = read;
+    }
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
     }
 
     public String getChatId() {

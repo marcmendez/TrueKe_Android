@@ -468,11 +468,15 @@ public class AppRepository implements RepositoryInterface {
                 List<ChatInfo> chats = new ArrayList<>();
                     for (ChatDTO element : returnParam.getContent()) {
                         ChatInfo chati = new ChatInfo();
-                        chati.setMyProductName(Integer.toString(element.getid()));
+                        chati.setId(element.getProduct_id1() + "_" + element.getProduct_id2());
+                        chati.setMy_product(element.getMy_product());
                         chati.setTitle(element.getTitle());
-                        if (element.getid() == element.getproduct_id1())
-                        chati.setProductMatched(Integer.toString(element.getproduct_id2()));
-                        else chati.setProductMatched(Integer.toString(element.getproduct_id1()));
+                        if (element.getMy_product() == element.getProduct_id1()) {
+                            chati.setNameOtherUser(Integer.toString(element.getProduct_id2()));
+                        }
+                        else {
+                            chati.setNameOtherUser(Integer.toString(element.getProduct_id1()));
+                        }
                         chats.add(chati);
 
                     }

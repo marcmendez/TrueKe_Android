@@ -14,14 +14,14 @@ public class ChatLocation extends ChatMessage {
     public ChatLocation() {
     }
 
-    public ChatLocation(int fromUserId, Long date, Float latitude, Float longitude, String chatId) {
-        super(fromUserId, date, chatId);
+    public ChatLocation(int fromUserId, Long date, Float latitude, Float longitude, String chatId, boolean read) {
+        super(fromUserId, date, chatId, read);
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
     public ChatLocation (HashMap<String, Object> params){
-        super(((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"), (String) params.get("chatId"));
+        super(((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"), (String) params.get("chatId"), (Boolean) params.get("read"));
         this.latitude = ((Double) params.get("latitude")).floatValue();
         this.longitude = ((Double) params.get("longitude")).floatValue();
     }

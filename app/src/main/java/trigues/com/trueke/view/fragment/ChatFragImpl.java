@@ -33,8 +33,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.google.gson.Gson;
-import com.trigues.entity.Chat;
+import com.google.gson.reflect.TypeToken;
 import com.trigues.entity.ChatImage;
+import com.trigues.entity.ChatInfo;
 import com.trigues.entity.ChatLocation;
 import com.trigues.entity.ChatMessage;
 import com.trigues.entity.ChatTextMessage;
@@ -45,10 +46,10 @@ import com.trigues.entity.Shipment;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,16 +84,38 @@ public class ChatFragImpl extends Fragment {
     EditText messageEditText;
 
     private ChatListActivityImpl activity;
-    private Chat chat;
+    private ChatInfo chat;
     private String nPath;
     private ChatAdapter adapter;
+    private List<ChatMessage> messageList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        chat = new Gson().fromJson(getArguments().getString("chat"), Chat.class);
+        chat = new Gson().fromJson(getArguments().getString("chat"), ChatInfo.class);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState != null){
+            String json = savedInstanceState.getString("messages");
+            if(json != null){
+                Type listType = new TypeToken<List<ChatMessage>>() {}.getType();
+                messageList = new Gson().fromJson(json, listType);
+
+
+            }
+            else{
+                messageList = new ArrayList<>();
+            }
+        }
+
+        else{
+            messageList = new ArrayList<>();
+        }
     }
 
     @Override
@@ -113,7 +136,7 @@ public class ChatFragImpl extends Fragment {
 
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        activity.setTitle(chat.getUser());
+        activity.setTitle(chat.getTitle());
 
         return view;
     }
@@ -126,50 +149,30 @@ public class ChatFragImpl extends Fragment {
         manager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(manager);
 
-//        Type listType = new TypeToken<ArrayList<ChatTextMessage>>(){}.getType();
-//
-//        String chatJson = "[\n" +
-//                "  {\n" +
-//                "    \"fromUserId\" : 1,\n" +
-//                "    \"message\" : \"Holisss\",\n" +
-//                "    \"date\" : 10000000\n" +
-//                "  },\n" +
-//                "\n" +
-//                "  {\n" +
-//                "    \"fromUserId\" : 2,\n" +
-//                "    \"message\" : \"Afofahoah\",\n" +
-//                "    \"date\" : 10000001\n" +
-//                "  },\n" +
-//                "  {\n" +
-//                "    \"fromUserId\" : 2,\n" +
-//                "    \"message\" : \"ohqhofhq\",\n" +
-//                "    \"date\" : 10000002\n" +
-//                "  },\n" +
-//                "  {\n" +
-//                "    \"fromUserId\" : 1,\n" +
-//                "    \"message\" : \"iqowhfouhwq\",\n" +
-//                "    \"date\" : 10000003\n" +
-//                "  },\n" +
-//                "  {\n" +
-//                "    \"fromUserId\" : 1,\n" +
-//                "    \"message\" : \"oqheofbqwoef\",\n" +
-//                "    \"date\" : 10000004\n" +
-//                "  }\n" +
-//                "]";
-//
-//        List<ChatMessage> chat = new Gson().fromJson(chatJson, listType);
+        chatRecyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if ( bottom < oldBottom) {
+                    chatRecyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(adapter.getItemCount() > 0) {
+                                chatRecyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                            }
+                        }
+                    }, 100);
+                }
+            }
+        });
 
-        activity.getChatMessages("1");
+        activity.getChatMessages(chat.getId());
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Random rand = new Random();
-                int user = rand.nextInt() % 2;
-                user = (user < 0) ? -user : user;
                 String message = messageEditText.getText().toString();
                 if(!message.equals("")) {
-                    ChatTextMessage chatTextMessage = new ChatTextMessage(user, Calendar.getInstance().getTimeInMillis(), message, chat.getId());
+                    ChatTextMessage chatTextMessage = new ChatTextMessage(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), message, chat.getId(), false);
                     activity.sendMessage(chatTextMessage);
                 }
 
@@ -180,7 +183,7 @@ public class ChatFragImpl extends Fragment {
 
     public void addChatMessage(ChatMessage message){
         if(adapter == null) {
-            adapter = new ChatAdapter(getContext(), chatRecyclerView, 1) {
+            adapter = new ChatAdapter(getContext(), chatRecyclerView, chat.getMy_product()) {
                 @Override
                 public void onAcceptTrueke(ChatTrueke trueke) {
                     //TODO:
@@ -195,6 +198,7 @@ public class ChatFragImpl extends Fragment {
             chatRecyclerView.setAdapter(adapter);
         }
 
+        messageList.add(message);
         adapter.addMessage(message);
 
     }
@@ -229,18 +233,12 @@ public class ChatFragImpl extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(options[which] == "Entrega a mano") {
-                    Random rand = new Random();
-                    int user = rand.nextInt() % 2;
-                    user = (user < 0) ? -user : user;
-                    ChatTrueke chatTrueke = new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 0, 0, chat.getId());
+                    ChatTrueke chatTrueke = new ChatTrueke(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), 0, 0, chat.getId(), false);
                     activity.sendMessage(chatTrueke);
                     dialog.dismiss();
                 }
                 else if (options[which] == "Transporte externo") {
-                    Random rand = new Random();
-                    int user = rand.nextInt() % 2;
-                    user = (user < 0) ? -user : user;
-                    ChatTrueke chatTrueke = new ChatTrueke(user, Calendar.getInstance().getTimeInMillis(), 1, 0, chat.getId());
+                    ChatTrueke chatTrueke = new ChatTrueke(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), 1, 0, chat.getId(), false);
                     activity.sendMessage(chatTrueke);
                     dialog.dismiss();
                 }
@@ -298,10 +296,7 @@ public class ChatFragImpl extends Fragment {
             LocationProvider.requestSingleUpdate(getContext(), new LocationProvider.LocationCallback() {
                 @Override
                 public void onNewLocationAvailable(LocationProvider.GPSCoordinates location) {
-                    Random rand = new Random();
-                    int userId = rand.nextInt() % 2;
-                    userId = (userId < 0) ? -userId : userId;
-                    ChatLocation chatLocation = new ChatLocation(userId, Calendar.getInstance().getTimeInMillis(), location.latitude, location.longitude, chat.getId());
+                    ChatLocation chatLocation = new ChatLocation(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), location.latitude, location.longitude, chat.getId(), false);
                     activity.sendMessage(chatLocation);
                 }
             });
@@ -368,17 +363,13 @@ public class ChatFragImpl extends Fragment {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            Random rand = new Random();
-            int userId = rand.nextInt() % 2;
-            userId = (userId < 0) ? -userId : userId;
-
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
             byte[] b = baos.toByteArray();
 
             String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-            ChatImage chatImage = new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage, chat.getId());
+            ChatImage chatImage = new ChatImage(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), encodedImage, chat.getId(), false);
 
             activity.sendMessage(chatImage);
 
@@ -389,9 +380,6 @@ public class ChatFragImpl extends Fragment {
                 nPath = getPathFromURI(selectedImageUri);
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), selectedImageUri);
-                    Random rand = new Random();
-                    int userId = rand.nextInt() % 2;
-                    userId = (userId < 0) ? -userId : userId;
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
@@ -399,7 +387,7 @@ public class ChatFragImpl extends Fragment {
 
                     String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-                    ChatImage chatImage = new ChatImage(userId, Calendar.getInstance().getTimeInMillis(), encodedImage, chat.getId());
+                    ChatImage chatImage = new ChatImage(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), encodedImage, chat.getId(), false);
 
                     activity.sendMessage(chatImage);
 
@@ -501,5 +489,12 @@ public class ChatFragImpl extends Fragment {
         });
 
         builder.show();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("messages", new Gson().toJson(messageList));
     }
 }

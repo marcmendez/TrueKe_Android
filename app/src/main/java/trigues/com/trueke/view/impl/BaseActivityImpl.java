@@ -17,9 +17,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import trigues.com.trueke.R;
@@ -60,9 +57,6 @@ public class BaseActivityImpl extends AppCompatActivity implements BaseActivity 
     protected void onStart() {
         super.onStart();
         if(!isChatServiceRunning()){
-            List<String> chats = new ArrayList<>();
-            chats.add("1");
-            ChatService.setChats(chats);
             Intent serviceIntent = new Intent(this, ChatService.class);
             startService(serviceIntent);
         }

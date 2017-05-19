@@ -45,10 +45,10 @@ public class FirebaseDataSource implements FirebaseInterface {
     }
 
     private void testNewMessage(){
-        ChatTextMessage testText = new ChatTextMessage(1, Calendar.getInstance().getTimeInMillis(), "Test text message", "1");
-        ChatImage testImage = new ChatImage(2, Calendar.getInstance().getTimeInMillis(), "janfoagfeponmwqefmqwpoenfq", "1");
-        ChatLocation testLocation = new ChatLocation(1, Calendar.getInstance().getTimeInMillis(), 120.12F, 133.5F, "1");
-        ChatTrueke trueke = new ChatTrueke(1, Calendar.getInstance().getTimeInMillis(), 1, 3, "1");
+        ChatTextMessage testText = new ChatTextMessage(1, Calendar.getInstance().getTimeInMillis(), "Test text message", "1", true);
+        ChatImage testImage = new ChatImage(2, Calendar.getInstance().getTimeInMillis(), "janfoagfeponmwqefmqwpoenfq", "1", true);
+        ChatLocation testLocation = new ChatLocation(1, Calendar.getInstance().getTimeInMillis(), 120.12F, 133.5F, "1", true);
+        ChatTrueke trueke = new ChatTrueke(1, Calendar.getInstance().getTimeInMillis(), 1, 3, "1", true);
 
         newMessage("1", testText, new FirebaseVoidCallback() {
             @Override
@@ -100,16 +100,18 @@ public class FirebaseDataSource implements FirebaseInterface {
     }
 
     @Override
-    public void getChatMessages(String chatId, final FirebaseChatListener dataCallback) {
+    public void getChatMessages(final String chatId, final FirebaseChatListener dataCallback) {
         this.listener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 dataCallback.onNewMessage(MessageJsonParser.parseMessage(dataSnapshot.getKey(), (HashMap<String, Object>) dataSnapshot.getValue()));
+                database.child(chatId).child(dataSnapshot.getKey()).child("read").setValue(true);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                dataCallback.onNewMessage(MessageJsonParser.parseMessage(dataSnapshot.getKey(), (HashMap<String, Object>) dataSnapshot.getValue()));
+                database.child(chatId).child(dataSnapshot.getKey()).child("read").setValue(true);
             }
 
             @Override

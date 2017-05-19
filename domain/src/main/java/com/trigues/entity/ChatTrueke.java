@@ -14,14 +14,14 @@ public class ChatTrueke extends ChatMessage {
     // 0 - Pendent, 1 - Denegat, 2 - Acceptat, 3 - Esperar pagament, 4 - Transport 5 - Finalitzat
     int status;
 
-    public ChatTrueke(int fromUserId, Long date, int shipmentType, int status, String chatId) {
-        super(fromUserId, date, chatId);
+    public ChatTrueke(int fromUserId, Long date, int shipmentType, int status, String chatId, boolean read) {
+        super(fromUserId, date, chatId, read);
         this.shipmentType = shipmentType;
         this.status = status;
     }
 
     public ChatTrueke (HashMap<String, Object> params){
-        super(((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"), (String) params.get("chatId"));
+        super(((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"), (String) params.get("chatId"), (Boolean) params.get("read"));
 
         this.shipmentType = ((Long) params.get("shipmentType")).intValue();
         this.status = ((Long) params.get("status")).intValue();

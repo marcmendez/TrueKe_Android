@@ -1,8 +1,5 @@
 package trigues.com.data.datasource.impl;
 
-import com.google.gson.Gson;
-import com.trigues.RepositoryInterface;
-import com.trigues.entity.ChatInfo;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;

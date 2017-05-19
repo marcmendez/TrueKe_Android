@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.trigues.entity.Chat;
 import com.trigues.entity.ChatInfo;
 import com.trigues.entity.Product;
 
@@ -48,8 +47,8 @@ public abstract class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapt
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.avatarImageView.setImageResource(R.mipmap.avatar_icon);
-        holder.titleTextView.setText(chatList.get(position).getMyProductName());
-        holder.lastMessage.setText(chatList.get(position).getProductMatched());
+        holder.titleTextView.setText(chatList.get(position).getNameOtherUser());
+        holder.lastMessage.setText(chatList.get(position).getTitle());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

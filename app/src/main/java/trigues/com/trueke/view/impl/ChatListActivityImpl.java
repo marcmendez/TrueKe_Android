@@ -23,8 +23,8 @@ import trigues.com.trueke.adapter.ChatListAdapter;
 import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
-import trigues.com.trueke.presenter.GetChatsPresenter;
 import trigues.com.trueke.presenter.ChatPresenter;
+import trigues.com.trueke.service.ChatService;
 import trigues.com.trueke.presenter.ProductPresenter;
 import trigues.com.trueke.view.ChatListActivity;
 import trigues.com.trueke.view.fragment.ChatFragImpl;
@@ -35,7 +35,7 @@ import trigues.com.trueke.view.fragment.ChatFragImpl;
 
 public class ChatListActivityImpl extends MenuActivityImpl implements ChatListActivity {
     @Inject
-    GetChatsPresenter presenterChatsuser;
+    ChatPresenter presenterChatsuser;
 
     Product ProductOtherUser;
 
@@ -63,6 +63,11 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
                 .inject(this);
 
         ButterKnife.bind(this);
+
+        if(savedInstanceState != null) {
+            fragment = (ChatFragImpl) getSupportFragmentManager().getFragment(savedInstanceState, "ChatFragment");
+        }
+
         presenterChatsuser.getChats();
 
     }
@@ -71,10 +76,10 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         List<ChatInfo> realChat = new ArrayList<>();
         for (ChatInfo element : chatinf) {
             //try {
-                //getProductMatched(Integer.parseInt(element.getProductMatched()));
-                //TimeUnit.MILLISECONDS.sleep(100);
-                //element.setProductMatched(ProductOtherUser.getTitle());
-                realChat.add(element);
+            //getProductMatched(Integer.parseInt(element.getProductMatched()));
+            //TimeUnit.MILLISECONDS.sleep(100);
+            //element.setProductMatched(ProductOtherUser.getTitle());
+            realChat.add(element);
             //}
             //catch (InterruptedException e) {
 
@@ -83,6 +88,7 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
 
 
         }
+        ChatService.setChats(chatinf);
         chatListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         chatListRecyclerView.setAdapter(new ChatListAdapter(this, chatinf) {
@@ -114,6 +120,13 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         presenter.sendMessage(chatTextMessage);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(fragment != null && fragment.isAdded()) {
+            getSupportFragmentManager().putFragment(outState, "ChatFragment", fragment);
+        }
+    }
     public void getProductMatched(int productID) {
         productPresenter.getProduct(productID);
     }
