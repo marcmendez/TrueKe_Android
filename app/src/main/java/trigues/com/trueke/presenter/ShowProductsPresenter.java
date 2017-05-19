@@ -1,7 +1,5 @@
 package trigues.com.trueke.presenter;
 
-import android.util.Log;
-
 import com.trigues.entity.Product;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.GetImagesProductUseCase;
@@ -64,7 +62,9 @@ public class ShowProductsPresenter {
                 aux_returnParam = new ArrayList<>();
                 aux_returnParam = returnParam;
                 count_i = 0;
-                if(returnParam.size() != 0) getImagesProductcallback();
+                if(returnParam.size() != 0){
+                    getImagesProductcallback();
+                }
                 else {
                     view.hideProgress();
                     view.generateProds(returnParam);

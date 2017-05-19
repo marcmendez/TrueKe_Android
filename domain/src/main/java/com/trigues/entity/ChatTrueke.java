@@ -29,7 +29,11 @@ public class ChatTrueke extends ChatMessage {
         this.status = ((Long) params.get("status")).intValue();
     }
 
-    public ChatTrueke(HashMap<String, Object> message, String key) {
+    public ChatTrueke(HashMap<String, Object> params, String key) {
+        super(((Long) params.get("fromUserId")).intValue(), (Long) params.get("date"), (String) params.get("chatId"), (Boolean) params.get("read"));
+
+        this.shipmentType = ((Long) params.get("shipmentType")).intValue();
+        this.status = ((Long) params.get("status")).intValue();
         truekeID = key;
     }
 
