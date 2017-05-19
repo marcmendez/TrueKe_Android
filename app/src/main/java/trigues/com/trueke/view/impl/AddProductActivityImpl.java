@@ -408,8 +408,8 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
                 }
             }
         }
-        Toast.makeText(getApplicationContext(),
-                nPath, Toast.LENGTH_LONG).show();
+        /*Toast.makeText(getApplicationContext(),
+                nPath, Toast.LENGTH_LONG).show();*/
     }
 
     // Get the real path from the URI
@@ -458,6 +458,8 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     }
 
     public void goToShowProductList(){
+        /*Toast.makeText(getApplicationContext(),
+                "Producto añadido correctamente", Toast.LENGTH_LONG).show();*/
         startActivity(new Intent(this, UserProductsListActivityImpl.class));
         finish();
     }

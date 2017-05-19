@@ -150,7 +150,7 @@ public class UserProductDetailsPresenter {
         });
     }
 
-    public void getImagesProduct(int prod_id) {
+   /* public void getImagesProduct(int prod_id) {
         getImagesProductUseCase.execute(prod_id, new GetImagesProductUseCase.GetImagesProductCallback(){
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -192,5 +192,5 @@ public class UserProductDetailsPresenter {
     public void finalList(String image) {
         images_base64.add(image);
         if (images_base64.size() == count_images) view.setUpViewPager(images_base64);
-    }
+    }*/
 }

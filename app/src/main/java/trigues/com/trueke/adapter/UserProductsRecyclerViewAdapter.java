@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +46,12 @@ public abstract class UserProductsRecyclerViewAdapter extends RecyclerView.Adapt
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         //Picasso.with(context).load(product.get(i).getImages().get(0)).into(viewHolder.itemImage);
-        /*if(product.get(i).haveImages()) {
+        Log.i("images","VIEW product: "+product.get(i).getId()+" images: "+ product.get(i).getImages() );
+        if(product.get(i).getImages()!= null) {
             byte[] decodedString = Base64.decode(product.get(i).getImages().get(0), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             viewHolder.itemImage.setImageBitmap(decodedByte);
-        }*/
+        }
 
         viewHolder.itemTitle.setText(product.get(i).getTitle());
         viewHolder.itemCategory.setText(product.get(i).getProductCategory());

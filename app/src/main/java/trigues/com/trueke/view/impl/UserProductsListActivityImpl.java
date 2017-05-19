@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -80,6 +81,7 @@ public class UserProductsListActivityImpl extends MenuActivityImpl implements Us
     }
 
     public void generateProds(List<Product> product) {
+        Log.i("images","VIEW products: "+product);
 
         adapter = new UserProductsRecyclerViewAdapter(this, product) {
             @Override
