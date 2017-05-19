@@ -2,6 +2,7 @@ package trigues.com.data.entity;
 
 import android.text.TextUtils;
 
+import com.google.gson.annotations.SerializedName;
 import com.trigues.entity.Product;
 
 import java.util.ArrayList;
@@ -12,21 +13,30 @@ import java.util.List;
  */
 
 public class ProductDTO {
+    @SerializedName("id")
+    int id;
+    @SerializedName("user_id")
     int user_id;
+    @SerializedName("title")
     String title;
+    @SerializedName("description")
     String description;
+    @SerializedName("category")
     String category;
-    String wants_categories;
+    @SerializedName("min_price")
     int min_price;
+    @SerializedName("max_price")
     int max_price;
-    Product product;
+
+
+    private Product product;
 
     public ProductDTO(Product p) {
+        int id= p.getId();
         this.user_id = p.getUserId();
         this.title = p.getTitle();
         this.description = p.getDescription();
         this.category = p.getProductCategory();
-        this.wants_categories = TextUtils.join("-", p.getDesiredCategories());
         this.min_price = p.getMinPrice();
         this.max_price = p.getMaxPrice();
     }
@@ -65,9 +75,6 @@ public class ProductDTO {
         return category;
     }
 
-    public String getDesiredCategories() {
-        return wants_categories;
-    }
 
     public int getMinPrice() {
         return min_price;

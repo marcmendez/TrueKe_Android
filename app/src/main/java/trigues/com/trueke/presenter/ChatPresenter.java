@@ -55,7 +55,11 @@ public class ChatPresenter {
             @Override
             public void onSuccess(List<ChatInfo> returnParam) {
                 if(returnParam.size() == 0) view.onError("holis");
-                else view.initChatList(returnParam);
+                else try {
+                    view.initChatList(returnParam);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

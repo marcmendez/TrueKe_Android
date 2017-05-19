@@ -62,7 +62,7 @@ public class ApiDataSource implements ApiInterface {
                 .client(client)
                 .build();
         server = retrofit.create(ServerService.class);
-        initDatabase();
+        //initDatabase();
     }
 
     public void initDatabase(){
@@ -734,9 +734,9 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
-    public void getProductInfo(String token, int userID, final ProductDataCallback dataCallback) {
+    public void getProductInfo(int producID, final ProductDataCallback dataCallback) {
 
-        server.getProductInfo(token,userID).enqueue(new RetrofitErrorHandler<ApiDTO<ProductDTO>>(dataCallback) {
+        server.getProductInfo(producID).enqueue(new RetrofitErrorHandler<ApiDTO<ProductDTO>>(dataCallback) {
             @Override
             public void onResponse(ApiDTO<ProductDTO> body) {
 

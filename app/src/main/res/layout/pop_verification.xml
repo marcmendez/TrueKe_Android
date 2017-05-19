@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Code"
+                android:text="1234567"
                 android:shadowColor="#FFF"
                 android:textColor="#FFFF"
                 android:textColorHint="#FFFF" />

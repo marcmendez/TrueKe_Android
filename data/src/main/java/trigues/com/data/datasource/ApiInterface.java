@@ -76,7 +76,7 @@ public interface ApiInterface {
     void createTrueke(String chatID, String tokenadmin, VoidDataCallback voidDataCallback);
     void reportProduct(String token, Integer[] userProdID, VoidDataCallback voidDataCallback);
 
-    void getProductInfo(String token, int prodID, ProductDataCallback productDataCallback);
+    void getProductInfo(int prodID, ProductDataCallback productDataCallback);
 
     void addImages(String image_base64, ImagesDataCallback ImageDataCallback);
 

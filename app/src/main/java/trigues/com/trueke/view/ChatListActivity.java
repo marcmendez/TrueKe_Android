@@ -16,11 +16,11 @@ import java.util.List;
  */
 
 public interface ChatListActivity extends MenuActivity{
-    void initChatList(List<ChatInfo> p);
+    void initChatList(List<ChatInfo> p) throws InterruptedException;
 
     void addChatMessage(ChatMessage messages);
     void getProductMatched(int productID);
-    void productTitle(Product p);
+    void setproductTitle(Product p);
 
     void onPaymentRetrieved(List<Payment> returnParam);
 
