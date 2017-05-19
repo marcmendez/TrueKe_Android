@@ -6,28 +6,26 @@ package trigues.com.data.entity;
 
 public class ChatDTO {
 
-    int chatID;
-    int productID1;
-    int productID2;
+    int my_product;
+    String title;
+    int product_id1;
+    int product_id2;
 
     public ChatDTO() {
     }
 
-    public int getChatID() {
-        return chatID;
+    public int getid() {
+        return my_product;
     }
-    public int getProductID1() {
-        return productID1;
+    public String getTitle() { return title;}
+    public int getproduct_id1() {
+        return product_id1;
     }
-    public int getProductID2() {
-        return productID2;
-    }
+    public int getproduct_id2() { return product_id2; }
 
-    public void setChatID(int chatID) {
-        this.chatID = chatID;
-    }
-
-    public void setProductID1(int productID1) {this.productID1 = productID1;}
-    public void setProductID2(int productID2) {this.productID2 = productID2;}
+    public void setChatID(int id) { this.my_product = id;    }
+    public void setTitle(String title) {this.title = title;}
+    public void setproduct_id1(int product_id1) {this.product_id1 = product_id1;}
+    public void setproduct_id2(int product_id2) {this.product_id2 = product_id2;}
 
 }

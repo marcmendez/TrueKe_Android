@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.trigues.entity.Chat;
+import com.trigues.entity.ChatInfo;
 
 import java.util.List;
 
@@ -23,9 +24,9 @@ import trigues.com.trueke.R;
 public abstract class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> {
 
     private Context context;
-    private List<Chat> chatList;
+    private List<ChatInfo> chatList;
 
-    public ChatListAdapter(Context context, List<Chat> chatList) {
+    public ChatListAdapter(Context context, List<ChatInfo> chatList) {
         this.context = context;
         this.chatList = chatList;
     }
@@ -39,8 +40,8 @@ public abstract class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapt
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.avatarImageView.setImageResource(R.mipmap.avatar_icon);
-        holder.titleTextView.setText(chatList.get(position).getUser());
-        holder.lastMessage.setText(chatList.get(position).getLastMessage());
+        holder.titleTextView.setText(chatList.get(position).getProductMatched());
+        holder.lastMessage.setText(chatList.get(position).getTitle());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +56,7 @@ public abstract class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapt
         return chatList.size();
     }
 
-    public abstract void onChatClick(Chat chat);
+    public abstract void onChatClick(ChatInfo chat);
 
     class ViewHolder extends RecyclerView.ViewHolder{
 

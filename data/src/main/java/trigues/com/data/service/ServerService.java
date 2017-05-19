@@ -39,11 +39,11 @@ public interface ServerService {
     Call<ApiDTO<Void>> register(@Body User user);
 
     //products
-    @GET("products/{userid}")
+    @GET("products/byuser/{userid}")
     Call<ApiDTO<List<Product>>> getUserProducts(@Header("token") String token, @Path("userid") Integer userID);
 
     @GET("")
-    Call<Product> getUserProductDetails(String token, int productID);
+    Call<ApiDTO<Product>> getUserProductDetails(String token, int productID);
 
     @POST("products")
     Call<ApiDTO<Void>> addProduct(@Header("token") String token, @Body ProductDTO product);
@@ -117,6 +117,9 @@ public interface ServerService {
     @GET("productwantscategory/{product_id}")
     Call<ApiDTO<List<CategoryDTO>>> getDesiredCategories(@Header("token") String token, @Path("product_id") int prodID);
 
-    @GET("chats/{user_id}")
+    @GET("chats/byuser/{user_id}")
     Call<ApiDTO<List<ChatDTO>>> getUserChats(@Header("token") String token, @Path("user_id") int userID);
+
+    @GET("chats/byuser/{product_id}")
+    Call<ApiDTO<Product>> getProductInfo(@Header("token") String token, @Path("product_id") int prodID);
 }
