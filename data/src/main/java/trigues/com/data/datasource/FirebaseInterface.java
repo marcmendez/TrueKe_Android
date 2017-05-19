@@ -20,7 +20,6 @@ public interface FirebaseInterface {
 
     void removeListeners(String chatId);
 
-
     interface FirebaseVoidCallback extends DefaultCallback<Void> {}
 
 }

@@ -183,7 +183,7 @@ public class MatchmakingDetailsFragImpl extends Fragment {
 
     private void setUpViewPager(List<String> images) {
         //TODO: Set info to views
-        this.viewPageAdapter = new ImageViewPageAdapter(getContext(), images);
+        //this.viewPageAdapter = new ImageViewPageAdapter(getContext(), images);
         viewPager.setAdapter(viewPageAdapter);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

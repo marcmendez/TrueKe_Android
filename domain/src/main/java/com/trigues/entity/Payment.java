@@ -14,11 +14,11 @@ public class Payment {
     private String country;
     private String province;
     private String city;
-    private int postalCode;
+    private String postalCode;
     private String address;
     private String phone;
 
-    public Payment(String type, String number, String expireDate, String name, String province, String city, int postalCode, String address, String phone) {
+    public Payment(String type, String number, String expireDate, String name, String province, String city, String postalCode, String address, String phone) {
         this.type = type;
         this.number = number;
         this.expireDate = expireDate;
@@ -28,11 +28,11 @@ public class Payment {
         this.postalCode = postalCode;
         this.address = address;
         this.phone = phone;
-        this.country = "España";
+        this.country = "Espa\u00f1a";
     }
 
     public Payment(int id, int user_id, String type, String number, String expireDate, String name,
-                   String country, String province, String city, int postalCode, String address, String phone) {
+                   String country, String province, String city, String postalCode, String address, String phone) {
         this.id = id;
         this.user_id = user_id;
         this.type = type;
@@ -119,11 +119,11 @@ public class Payment {
         this.city = city;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 

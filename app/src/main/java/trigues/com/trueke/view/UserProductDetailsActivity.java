@@ -12,4 +12,5 @@ public interface UserProductDetailsActivity extends BaseActivity {
     void onDetailsRetrieved(Product returnParam);
     void goToShowProductList();
     void setUpDesiredCategoriesList(List<String> list);
+    void setUpViewPager(List<String> images);
 }

@@ -11,9 +11,11 @@ import java.util.List;
 
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ImagePath;
 import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
+import trigues.com.data.entity.ProductId;
 
 
 /**
@@ -32,7 +34,7 @@ public interface ApiInterface {
 
     void login(User user, LoginDataCallback dataCallback);
 
-    void addProduct(String token, ProductDTO product, BooleanDataCallback dataCallback);
+    void addProduct(String token, ProductDTO product, AddProductDataCallback dataCallback);
 
     void showProfile(String token, int id,UserDataCallback dataCallback);
 
@@ -70,12 +72,21 @@ public interface ApiInterface {
 
     void rejectMatch(String token, Integer[] productsID, VoidDataCallback voidDataCallback);
 
+    void addImagesProduct(String token, int product_id, String image_md5, BooleanDataCallback booleanDataCallback);
     void getUserChats(String token, int userID, ChatListDataCallback voidDataCallback);
 
+    void createTrueke(String chatID, String tokenadmin, VoidDataCallback voidDataCallback);
     void reportProduct(String token, Integer[] userProdID, VoidDataCallback voidDataCallback);
 
     void getProductInfo(String token, int prodID, ProductDataCallback productDataCallback);
 
+    void addImages(String image_base64, ImagesDataCallback ImageDataCallback);
+
+    void getImagesProduct(int product_id, GetImagesProductDataCallback dataCallback);
+
+    void getImages(String md5, ImagesDataCallback ImageDataCallback);
+
+    void changeUserImageProfile(String token, String id, String image_path, BooleanDataCallback booleanDataCallback);
 
     //Callbacks:
 
@@ -98,5 +109,11 @@ public interface ApiInterface {
     interface StringListDataCallback extends DefaultCallback<ApiDTO<List<CategoryDTO>>>{}
 
     interface ChatListDataCallback extends DefaultCallback<ApiDTO<List<ChatDTO>>>{}
+
+    interface AddProductDataCallback extends DefaultCallback<ApiDTO<ProductId>> {}
+
+    interface ImagesDataCallback extends DefaultCallback<ApiDTO<String>> {}
+
+    interface GetImagesProductDataCallback extends DefaultCallback<ApiDTO<List<String>>> {}
 
 }

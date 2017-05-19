@@ -12,29 +12,28 @@ public class ProductDTO {
     int user_id;
     String title;
     String description;
-    // String images;
     String category;
     String wants_categories;
     int min_price;
     int max_price;
+    Product product;
 
     public ProductDTO(Product p) {
         this.user_id = p.getUserId();
         this.title = p.getTitle();
         this.description = p.getDescription();
-        //  this.images = p.getImages();
         this.category = p.getProductCategory();
-        boolean first = true;
-        /*for (String iter: p.getDesiredCategories()) {
-            if(first) {
-                this.desiredCategories = iter;
-                first = false;
-            }
-            else this.desiredCategories = this.desiredCategories+ "-" + iter;
-        }*/
         this.wants_categories = TextUtils.join("-", p.getDesiredCategories());
         this.min_price = p.getMinPrice();
         this.max_price = p.getMaxPrice();
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public int getUserId() {

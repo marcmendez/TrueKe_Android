@@ -10,6 +10,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
@@ -18,11 +20,14 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
+import trigues.com.data.entity.ImagePath;
 import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.Password;
+import trigues.com.data.entity.ProductId;
 import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.ReportProductDTO;
+import trigues.com.data.entity.UserImage;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
 
@@ -46,7 +51,7 @@ public interface ServerService {
     Call<ApiDTO<Product>> getUserProductDetails(@Header("token")String token, @Path("product_id") int productID);
 
     @POST("products")
-    Call<ApiDTO<Void>> addProduct(@Header("token") String token, @Body ProductDTO product);
+    Call<ApiDTO<ProductId>> addProduct(@Header("token") String token, @Body ProductDTO product);
 
     @DELETE("products/{product_id}")
     Call<ApiDTO<Void>> deleteProduct(@Header("token") String token,  @Path("product_id") String product_id);
@@ -117,9 +122,30 @@ public interface ServerService {
     @GET("productwantscategory/{product_id}")
     Call<ApiDTO<List<CategoryDTO>>> getDesiredCategories(@Header("token") String token, @Path("product_id") int prodID);
 
+    //images
+    @FormUrlEncoded
+    @POST("images")
+    Call<ApiDTO<String>> addImages(@Field("image") String image);
+
+    @FormUrlEncoded
+    @POST("products/{id}/images")
+    Call<ApiDTO<Void>> addImagesProduct(@Header("token") String token, @Path("id") int id, @Field("image_md5") String image_md5);
+
+    @GET("products/{id}/images")
+    Call<ApiDTO<List<ImagePath>>> getImagesProduct(@Path("id") int product_id);
+
+    @GET("images/{md5}")
+    Call<ApiDTO<String>> getImages(@Path("md5") String md5);
+
+    @PUT("users/{id}")
+    Call<ApiDTO<Void>> changeProfileUserImage(@Header("token") String token, @Path("id") String id, @Body UserImage userImage);
+
     @GET("chats/byuser/{user_id}")
     Call<ApiDTO<List<ChatDTO>>> getUserChats(@Header("token") String token, @Path("user_id") int userID);
 
     @GET("products/{product_id}")
     Call<ApiDTO<Product>> getProductInfo(@Header("token") String token, @Path("product_id") int prodID);
+
+    @POST("truekes")
+    Call<ApiDTO<Void>> createTrueke(@Header("token")String admintoken,@Path("chat_id") String chatID);
 }

@@ -2,6 +2,7 @@ package trigues.com.trueke.dependencyinjection.view;
 
 import dagger.Module;
 import dagger.Provides;
+import trigues.com.trueke.presenter.UserInfoPresenter;
 import trigues.com.trueke.view.AddProductActivity;
 import trigues.com.trueke.view.BaseActivity;
 import trigues.com.trueke.view.ChatListActivity;

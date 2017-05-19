@@ -6,6 +6,7 @@ import com.trigues.entity.ChatMessage;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
+import com.trigues.entity.TruekeData;
 import com.trigues.entity.User;
 
 import java.util.List;
@@ -62,6 +63,8 @@ public interface RepositoryInterface {
 
     void deleteProduct(int product_id, BooleanCallback dataCallback);
 
+   // void changeProfileImage(String image, BooleanCallback dataCallback);
+
     void addProductCategory(List<String> product_id, BooleanCallback dataCallback);
 
     void deleteProductCategory(List<String> product_id, BooleanCallback dataCallback);
@@ -69,6 +72,16 @@ public interface RepositoryInterface {
     void getDesiredCategories(int productID, StringListCallback dataCallback);
 
     void getUserChats(ChatListCallback dataCallback);
+    void addImages(String image, ImagesCallback dataCallback);
+
+    void addImagesProduct(String image_md5, BooleanCallback dataCallback);
+
+    void getImagesProduct(int product_id, GetImagesProductCallback dataCallback);
+
+    void getImages(String image, ImagesCallback dataCallback);
+
+    void changeProfileUserImage(String image_path, BooleanCallback dataCallback);
+
 
     void getChatMessages(String chatId, ChatMessagesCallback dataCallback);
 
@@ -81,6 +94,10 @@ public interface RepositoryInterface {
     void reportProduct(Integer[] userProdID, VoidCallback dataCallback);
 
 
+    void setTruekeStatus(TruekeData truekedata, VoidCallback dataCallback);
+
+    void createTrueke(String chatID, VoidCallback dataCallback);
+
     //Callbacks:
 
     interface VoidCallback extends DefaultCallback<Void> {}
@@ -91,6 +108,8 @@ public interface RepositoryInterface {
     interface PaymentCallback extends DefaultCallback<List<Payment>>{}
     interface ShipmentCallback extends DefaultCallback<List<Shipment>>{}
     interface StringListCallback extends DefaultCallback<List<String>>{}
+    interface ImagesCallback extends DefaultCallback<String>{}
+    interface GetImagesProductCallback extends DefaultCallback<List<String>>{}
     interface ChatListCallback extends DefaultCallback<List<ChatInfo>>{}
     interface ChatMessagesCallback extends DefaultCallback<ChatMessage> {}
 }

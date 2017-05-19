@@ -2,6 +2,7 @@ package trigues.com.trueke.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +44,8 @@ public abstract class UserProfileAddressesAdapter extends RecyclerView.Adapter<U
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Shipment shipment = addresses.get(position);
-        holder.streetTextView.setText(shipment.getAddress());
-
-        String city = shipment.getCity() + ", " + shipment.getCountry();
-        holder.cityTextView.setText(city);
+        holder.addressName.setText(shipment.getName());
+        holder.addressInfo.setText(shipment.getAddress()+". "+shipment.getPostalCode()+" "+ shipment.getCity()+" ("+shipment.getProvince()+"). "+shipment.getCountry()+".");
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,12 +63,11 @@ public abstract class UserProfileAddressesAdapter extends RecyclerView.Adapter<U
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
+        @BindView(R.id.address_name)
+        TextView addressName;
 
-        @BindView(R.id.user_profile_adresses_street)
-        TextView streetTextView;
-
-        @BindView(R.id.user_profile_adresses_city)
-        TextView cityTextView;
+        @BindView(R.id.address_profile_info)
+        TextView addressInfo;
 
         @BindView(R.id.user_profile_adresses_delete)
         ImageButton deleteButton;

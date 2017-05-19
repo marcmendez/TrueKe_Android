@@ -1,26 +1,39 @@
 package trigues.com.trueke.view.impl;
 
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import java.text.SimpleDateFormat;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -39,12 +52,16 @@ import trigues.com.trueke.view.AddProductActivity;
 import trigues.com.trueke.view.fragment.AddProductCategoryFragImpl;
 import trigues.com.trueke.view.fragment.AddProductDesiredCategoryFragImpl;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 /**
  * Created by Alba on 24/03/2017.
  */
 
 public class AddProductActivityImpl extends BaseActivityImpl implements AddProductActivity {
 
+    private final int MY_PERMISSIONS = 3;
     private final int PICTURE_TAKEN_FROM_CAMERA = 1;
     private final int PICTURE_TAKEN_FROM_GALLERY = 2;
     private String  photo1, photo2, photo3, photo4, nPath;
@@ -53,6 +70,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     private static final String TAG = "AddProductActivityImpl";
     private String category;
     private List<String> desired_categories;
+    private RelativeLayout mRlView;
 
     AddProductCategoryFragImpl addCategoryFrag;
 
@@ -97,6 +115,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     AddProductPresenter presenter;
 
     @Override
+    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
@@ -146,9 +165,48 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             }
         });
 
+        if(mayRequestStoragePermission()) {
+            e_photo1.setEnabled(true);
+            e_photo2.setEnabled(true);
+            e_photo3.setEnabled(true);
+            e_photo4.setEnabled(true);
+        }
+        else {
+            e_photo1.setEnabled(false);
+            e_photo2.setEnabled(false);
+            e_photo3.setEnabled(false);
+            e_photo4.setEnabled(false);
+        }
+
         addEvents();
     }
 
+    private boolean mayRequestStoragePermission() {
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            return true;
+
+        if((checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) &&
+                (checkSelfPermission(CAMERA) == PackageManager.PERMISSION_GRANTED))
+            return true;
+
+        if((shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) || (shouldShowRequestPermissionRationale(CAMERA))){
+            Snackbar.make(mRlView, "Los permisos son necesarios para poder usar la aplicación",
+                    Snackbar.LENGTH_INDEFINITE).setAction(android.R.string.ok, new View.OnClickListener() {
+                @TargetApi(Build.VERSION_CODES.M)
+                @Override
+                public void onClick(View v) {
+                    requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MY_PERMISSIONS);
+                }
+            });
+        }else{
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MY_PERMISSIONS);
+        }
+
+        return false;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void addEvents(){
         e_photo1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +241,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void showOptions() {
         final CharSequence[] options ={"Hacer foto", "Abrir galeria", "Cancelar"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(AddProductActivityImpl.this);
@@ -203,6 +262,7 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void getPictureFromCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -222,12 +282,12 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
                 startActivityForResult(takePictureIntent, PICTURE_TAKEN_FROM_CAMERA);
             }
         }
-
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = String.valueOf(System.currentTimeMillis()/1000);
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -246,6 +306,48 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         startActivityForResult(gallerypickerIntent, PICTURE_TAKEN_FROM_GALLERY);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == MY_PERMISSIONS){
+            if(grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(AddProductActivityImpl.this, "Permisos aceptados", Toast.LENGTH_SHORT).show();
+                e_photo1.setEnabled(true);
+                e_photo2.setEnabled(true);
+                e_photo3.setEnabled(true);
+                e_photo4.setEnabled(true);
+            }
+        }else{
+            showExplanation();
+        }
+    }
+
+    private void showExplanation() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddProductActivityImpl.this);
+        builder.setTitle("Permisos denegados");
+        builder.setMessage("Para usar las funciones de la app necesitas aceptar los permisos");
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        builder.show();
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -260,21 +362,23 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
                     });
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            String encoded_image = BitMapToString (imageBitmap);
+
             if (num_photo == 1) {
                 e_photo1.setImageBitmap(imageBitmap);
-                photo1 = nPath;
+                photo1 = encoded_image;
             }
             else if (num_photo == 2) {
                 e_photo2.setImageBitmap(imageBitmap);
-                photo2 = nPath;
+                photo2 = encoded_image;
             }
             else if (num_photo == 3) {
                 e_photo3.setImageBitmap(imageBitmap);
-                photo3 = nPath;
+                photo3 = encoded_image;
             }
             else {
                 e_photo4.setImageBitmap(imageBitmap);
-                photo4 = nPath;
+                photo4 = encoded_image;
             }
 
         }
@@ -282,22 +386,24 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             Uri selectedImageUri = data.getData();
             if (null != selectedImageUri) {
                 nPath = getPathFromURI(selectedImageUri);
-                Log.i(TAG, "Image Path : " + nPath);
+                Bitmap bm = BitmapFactory.decodeFile(nPath);
+                String encoded_image = BitMapToString (bm);
+                //Log.i(TAG, "Image Path : " + nPath);
                 if (num_photo == 1) {
                     e_photo1.setImageURI(selectedImageUri);
-                    photo1 = nPath;
+                    photo1 = encoded_image;
                 }
                 else if (num_photo == 2) {
                     e_photo2.setImageURI(selectedImageUri);
-                    photo2 = nPath;
+                    photo2 =  encoded_image;
                 }
                 else if (num_photo == 3) {
                     e_photo3.setImageURI(selectedImageUri);
-                    photo3 = nPath;
+                    photo3 =  encoded_image;
                 }
                 else {
                     e_photo4.setImageURI(selectedImageUri);
-                    photo4 = nPath;
+                    photo4 =  encoded_image;
                 }
             }
         }
@@ -318,6 +424,15 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
         return res;
     }
 
+    //path to base64
+    public String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
     public void onAddProductPressed() {
         String title = e_title.getText().toString();
         String description = e_description.getText().toString();
@@ -329,10 +444,12 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             ProductChecker.checkCategory(category);
             ProductChecker.checkDesiredCategories(desired_categories);
             ProductChecker.checkPrice(priceMin, priceMax);
-            //ProductChecker.checkImages(photo1,photo2,photo3,photo4);
+            ProductChecker.checkImages(photo1,photo2,photo3,photo4);
             List<String> images = Arrays.asList(photo1,photo2,photo3,photo4);
+            //Log.i("images","ret image1 addProduct"+photo1);
+            //Log.i("images","ret image2 addProduct"+photo2);
+            //Log.i("images","ret image3 addProduct"+photo3);
             presenter.addProduct(title, description, images, category, desired_categories,Integer.valueOf(priceMin),Integer.valueOf(priceMax));
-            //presenter.addProduct(title,description,images,"utils", Arrays.asList("utils"),Integer.valueOf(priceMin),Integer.valueOf(priceMax));
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
                     e.getMessage(), Toast.LENGTH_LONG).show();
@@ -350,7 +467,6 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
     }
 
     public void onDesiredCategoryPressed(List<String> categories){
-        //TODO:
         String desiredCategoryText = "";
         for(String category : categories){
             desiredCategoryText = desiredCategoryText + category + "\n";

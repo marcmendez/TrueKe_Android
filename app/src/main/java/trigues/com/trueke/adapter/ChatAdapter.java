@@ -121,7 +121,7 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
                     holder.acceptTrueke.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            trueke.setStatus(2);
+                            //trueke.setStatus(2);
                             onAcceptTrueke((ChatTrueke) messages.get(holder.getAdapterPosition()));
                             notifyDataSetChanged();
                             recyclerView.scrollToPosition(getItemCount() - 1);
@@ -131,7 +131,7 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
                     holder.rejectTrueke.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            trueke.setStatus(1);
+                           // trueke.setStatus(1);
                             onRejectTrueke((ChatTrueke) messages.get(holder.getAdapterPosition()));
                             notifyDataSetChanged();
                             recyclerView.scrollToPosition(getItemCount() - 1);
