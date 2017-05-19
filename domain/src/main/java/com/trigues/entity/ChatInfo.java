@@ -5,7 +5,7 @@ package com.trigues.entity;
  */
 
 public class ChatInfo {
-    String nameOtherUser;
+    String myProductName;
     String title;
     String productMatched;
 
@@ -13,8 +13,8 @@ public class ChatInfo {
     public ChatInfo() {
     }
 
-    public String getNameOtherUser() {
-        return nameOtherUser;
+    public String getMyProductName() {
+        return myProductName;
     }
     public String getTitle() { return title;}
     public String getProductMatched() {
@@ -22,8 +22,8 @@ public class ChatInfo {
     }
 
 
-    public void setProductOwn(String nameOtherUser) {
-        this.nameOtherUser = nameOtherUser;
+    public void setMyProductName(String myProductName) {
+        this.myProductName = myProductName;
     }
     public void setTitle(String title) {this.title = title;}
     public void setProductMatched(String productMatched) {this.productMatched = productMatched;}

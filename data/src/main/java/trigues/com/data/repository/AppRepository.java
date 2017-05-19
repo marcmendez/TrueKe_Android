@@ -451,21 +451,11 @@ public class AppRepository implements RepositoryInterface {
                 List<ChatInfo> chats = new ArrayList<>();
                     for (ChatDTO element : returnParam.getContent()) {
                         ChatInfo chati = new ChatInfo();
-                        /*ProductCallback p = getProductInfo(element.getid(), new ProductCallback(){
-                            @Override
-                            public void onError(ErrorBundle errorBundle) {
-                                onError(errorBundle.getErrorMessage();
-                            }
-
-                            @Override
-                            public void onSuccess(Product returnParam) { }
-                        });*/
-
-                        chati.setProductOwn(Integer.toString(element.getid()));
+                        chati.setMyProductName(Integer.toString(element.getid()));
                         chati.setTitle(element.getTitle());
                         if (element.getid() == element.getproduct_id1())
-                        chati.setProductMatched(Integer.toString(element.getproduct_id1()));
-                        else chati.setProductMatched(Integer.toString(element.getproduct_id2()));
+                        chati.setProductMatched(Integer.toString(element.getproduct_id2()));
+                        else chati.setProductMatched(Integer.toString(element.getproduct_id1()));
                         chats.add(chati);
 
                     }
@@ -510,7 +500,20 @@ public class AppRepository implements RepositoryInterface {
         });
     }
 
+    @Override
+    public void getProduct(int prodID, final ProductCallback dataCallback) {
+        apiDataSource.getProductInfo("f4493ed183abba6b096f3903a5fc3b64",prodID, new ApiInterface.ProductDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
 
+            @Override
+            public void onSuccess(ApiDTO<Product> returnParam) {
+                dataCallback.onSuccess(returnParam.getContent());
+            }
+        });
+    }
 
 
 

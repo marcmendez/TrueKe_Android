@@ -76,6 +76,8 @@ public interface RepositoryInterface {
 
     void sendChatMessage(ChatMessage message, VoidCallback dataCallback);
 
+    void getProduct(int prodID, final ProductCallback dataCallback);
+
 
     //Callbacks:
 

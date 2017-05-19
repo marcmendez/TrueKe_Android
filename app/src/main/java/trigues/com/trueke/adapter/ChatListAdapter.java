@@ -10,12 +10,16 @@ import android.widget.TextView;
 
 import com.trigues.entity.Chat;
 import com.trigues.entity.ChatInfo;
+import com.trigues.entity.Product;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import trigues.com.trueke.R;
+import trigues.com.trueke.view.ChatListActivity;
 
 /**
  * Created by mbaque on 03/05/2017.
@@ -25,6 +29,10 @@ public abstract class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapt
 
     private Context context;
     private List<ChatInfo> chatList;
+
+    @Inject
+    ChatListActivity view;
+
 
     public ChatListAdapter(Context context, List<ChatInfo> chatList) {
         this.context = context;
@@ -40,8 +48,8 @@ public abstract class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapt
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.avatarImageView.setImageResource(R.mipmap.avatar_icon);
-        holder.titleTextView.setText(chatList.get(position).getProductMatched());
-        holder.lastMessage.setText(chatList.get(position).getTitle());
+        holder.titleTextView.setText(chatList.get(position).getMyProductName());
+        holder.lastMessage.setText(chatList.get(position).getProductMatched());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +63,8 @@ public abstract class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapt
     public int getItemCount() {
         return chatList.size();
     }
+
+
 
     public abstract void onChatClick(ChatInfo chat);
 
@@ -79,4 +89,6 @@ public abstract class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapt
             ButterKnife.bind(this, itemView);
         }
     }
+
+
 }

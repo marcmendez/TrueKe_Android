@@ -8,8 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.trigues.entity.ChatInfo;
 import com.trigues.entity.ChatMessage;
+import com.trigues.entity.Product;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -22,6 +25,7 @@ import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.GetChatsPresenter;
 import trigues.com.trueke.presenter.ChatPresenter;
+import trigues.com.trueke.presenter.ProductPresenter;
 import trigues.com.trueke.view.ChatListActivity;
 import trigues.com.trueke.view.fragment.ChatFragImpl;
 
@@ -33,12 +37,19 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     @Inject
     GetChatsPresenter presenterChatsuser;
 
+    Product ProductOtherUser;
+
+    @Inject
+    ProductPresenter productPresenter;
+
     @BindView(R.id.chat_list_recyclerview)
     RecyclerView chatListRecyclerView;
 
     @Inject
     ChatPresenter presenter;
     private ChatFragImpl fragment;
+
+    RecyclerView.Adapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +68,21 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     }
 
     public void initChatList(List<ChatInfo> chatinf) {
+        List<ChatInfo> realChat = new ArrayList<>();
+        for (ChatInfo element : chatinf) {
+            //try {
+                //getProductMatched(Integer.parseInt(element.getProductMatched()));
+                //TimeUnit.MILLISECONDS.sleep(100);
+                //element.setProductMatched(ProductOtherUser.getTitle());
+                realChat.add(element);
+            //}
+            //catch (InterruptedException e) {
+
+            //}
+
+
+
+        }
         chatListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         chatListRecyclerView.setAdapter(new ChatListAdapter(this, chatinf) {
@@ -88,5 +114,14 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         presenter.sendMessage(chatTextMessage);
     }
 
+    public void getProductMatched(int productID) {
+        productPresenter.getProduct(productID);
+    }
+
+    public void productTitle(Product p) {
+        List<String> hey = new ArrayList<>();
+        ProductOtherUser = new Product(1, 1, "Correcio de tokens Database" , "holis", hey, "random", hey, 0, 0);
+
+    }
 
 }
