@@ -81,17 +81,17 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     public void initChatList(List<ChatInfo> chatinf) {
         List<ChatInfo> realChat = new ArrayList<>();
         for (ChatInfo element : chatinf) {
-               if (element.getNameOtherUser() == Integer.toString(8)) {
-                   getProductMatched(Integer.parseInt(element.getNameOtherUser()));
-                   //element.setNameOtherUser(ProductOtherUser.getTitle());
-               }
+//               if (element.getNameOtherUser() == Integer.toString(8)) {
+//                   getProductMatched(Integer.parseInt(element.getNameOtherUser()));
+//                   //element.setNameOtherUser(ProductOtherUser.getTitle());
+//               }
                 realChat.add(element);
 
         }
         ChatService.setChats(chatinf);
         chatListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        chatListRecyclerView.setAdapter(new ChatListAdapter(this, chatinf) {
+        chatListRecyclerView.setAdapter(new ChatListAdapter(this, realChat) {
             @Override
             public void onChatClick(ChatInfo chat) {
                 fragment = new ChatFragImpl();
