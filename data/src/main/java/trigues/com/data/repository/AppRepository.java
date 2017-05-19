@@ -579,5 +579,20 @@ public class AppRepository implements RepositoryInterface {
         });
     }
 
+    //@Override
+    public void setTruekeStatus(int status, String chatId, String truekeId, final VoidCallback dataCallback){
+        firebaseDataSource.setTruekeStatus(status,chatId,truekeId, new FirebaseInterface.FirebaseVoidCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                dataCallback.onSuccess(null);
+            }
+        });
+    }
 
 }

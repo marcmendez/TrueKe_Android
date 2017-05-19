@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.trigues.entity.Chat;
 import com.trigues.entity.ChatMessage;
+import com.trigues.entity.Payment;
+import com.trigues.entity.Shipment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -23,7 +25,9 @@ import trigues.com.trueke.adapter.ChatListAdapter;
 import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
+import trigues.com.trueke.presenter.ChatDataPresenter;
 import trigues.com.trueke.presenter.ChatPresenter;
+import trigues.com.trueke.presenter.UserInfoPresenter;
 import trigues.com.trueke.view.ChatListActivity;
 import trigues.com.trueke.view.fragment.ChatFragImpl;
 
@@ -38,6 +42,9 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
 
     @Inject
     ChatPresenter presenter;
+
+    @Inject
+    ChatDataPresenter userInfoPresenter;
     private ChatFragImpl fragment;
 
     @Override
@@ -112,7 +119,25 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         }
     }
 
+    @Override
+    public void onPaymentRetrieved(List<Payment> returnParam) {
+        fragment.showPaymentMethodsDialog(returnParam);
+    }
+
+    @Override
+    public void onShipmentRetrieved(List<Shipment> returnParam) {
+        fragment.showAdressDialog(returnParam);
+    }
+
     public void sendMessage(ChatMessage chatTextMessage) {
         presenter.sendMessage(chatTextMessage);
+    }
+
+    public void GetUserShipments() {
+        userInfoPresenter.showShipments();
+    }
+
+    public void GetUserPayments() {
+        userInfoPresenter.showPayments();
     }
 }

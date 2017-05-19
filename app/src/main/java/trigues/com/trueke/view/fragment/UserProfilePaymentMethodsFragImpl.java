@@ -16,9 +16,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -141,7 +143,8 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
         builder.setView(view);
         final AlertDialog dialog = builder.create();
 
-        final Spinner typeET = (Spinner) view.findViewById(R.id.add_payment_type);
+        //final Spinner typeET = (Spinner) view.findViewById(R.id.add_payment_type);
+        final TextView typeET = (TextView) view.findViewById(R.id.add_payment_type);
         final EditText numberET = (EditText) view.findViewById(R.id.add_payment_number);
         final EditText expireDateET = (EditText) view.findViewById(R.id.add_payment_expireDate);
         final EditText nameET = (EditText) view.findViewById(R.id.add_payment_name);
@@ -169,20 +172,18 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
                 list.add("American Express");
                 list.add("Maestro");
 
-                final int[] position = {0};
+                final int[] pos = {0};
 
                 builder.setSingleChoiceItems(list.toArray(new CharSequence[list.size()]), 0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        position[0] = which;
+                        pos[0] = which;
                     }
                 });
 
-
-
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        typeET.setPrompt(list.get(position[0]));
+                        typeET.setText(list.get(pos[0]));
                         dialog.dismiss();
                     }
                 });
@@ -208,7 +209,7 @@ public class UserProfilePaymentMethodsFragImpl extends Fragment{
                     FormatChecker.CheckPlace(cityET.getText().toString());
                     FormatChecker.CheckPlace(provinceET.getText().toString());
                     FormatChecker.CheckPhone(phoneET.getText().toString());
-                    Payment p = new Payment(typeET.getSelectedItem().toString(), numberET.getText().toString(), expireDateET.getText().toString(), nameET.getText().toString(), provinceET.getText().toString(), cityET.getText().toString(), postalCodeET.getText().toString(),
+                    Payment p = new Payment(typeET.getText().toString(), numberET.getText().toString(), expireDateET.getText().toString(), nameET.getText().toString(), provinceET.getText().toString(), cityET.getText().toString(), postalCodeET.getText().toString(),
                             addressET.getText().toString(), phoneET.getText().toString());
                     activity.newPayment(p);
                     dialog.dismiss();

@@ -526,7 +526,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
     }
 
     @Override
-    public void OnShipmentDeleted(Boolean returnParam) {
+    public void onShipmentDeleted(Boolean returnParam) {
         if(!returnParam) {
             if(shipments!=null) {
                 shipments.updateAdapter();
