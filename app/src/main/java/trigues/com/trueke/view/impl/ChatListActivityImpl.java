@@ -8,13 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.trigues.entity.ChatInfo;
 import com.trigues.entity.ChatMessage;
-import com.trigues.entity.Product;
 import com.trigues.entity.Payment;
+import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -27,9 +26,8 @@ import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.ChatDataPresenter;
 import trigues.com.trueke.presenter.ChatPresenter;
-import trigues.com.trueke.service.ChatService;
 import trigues.com.trueke.presenter.ProductPresenter;
-import trigues.com.trueke.presenter.UserInfoPresenter;
+import trigues.com.trueke.service.ChatService;
 import trigues.com.trueke.view.ChatListActivity;
 import trigues.com.trueke.view.fragment.ChatFragImpl;
 
@@ -56,7 +54,6 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     ChatDataPresenter userInfoPresenter;
     private ChatFragImpl fragment;
 
-    RecyclerView.Adapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,15 +79,10 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     public void initChatList(List<ChatInfo> chatinf) {
         List<ChatInfo> realChat = new ArrayList<>();
         for (ChatInfo element : chatinf) {
-            //try {
-            //getProductMatched(Integer.parseInt(element.getProductMatched()));
-            //TimeUnit.MILLISECONDS.sleep(100);
-            //element.setProductMatched(ProductOtherUser.getTitle());
+            getProductMatched(Integer.parseInt(element.getNameOtherUser()));
+            //TimeUnit.MILLISECONDS.sleep(2000);
+            //element.setNameOtherUser(ProductOtherUser.getTitle());
             realChat.add(element);
-            //}
-            //catch (InterruptedException e) {
-
-            //}
 
 
 
@@ -98,7 +90,7 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         ChatService.setChats(chatinf);
         chatListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        chatListRecyclerView.setAdapter(new ChatListAdapter(this, chatinf) {
+        chatListRecyclerView.setAdapter(new ChatListAdapter(this, realChat) {
             @Override
             public void onChatClick(ChatInfo chat) {
                 fragment = new ChatFragImpl();
@@ -162,10 +154,8 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         productPresenter.getProduct(productID);
     }
 
-    public void productTitle(Product p) {
-        List<String> hey = new ArrayList<>();
-        ProductOtherUser = new Product(1, 1, "Correcio de tokens Database" , "holis", hey, "random", hey, 0, 0);
-
+    public void setproductTitle(Product ProductOtherUser) {
+        this.ProductOtherUser = ProductOtherUser;
     }
 
 

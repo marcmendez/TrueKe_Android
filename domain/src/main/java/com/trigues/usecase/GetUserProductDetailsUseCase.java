@@ -50,7 +50,6 @@ public class GetUserProductDetailsUseCase extends BaseUseCase<Product> implement
 
     @Override
     public void run() {
-        repository.getUserProductDetails(productId, dataCallback);
     }
 
     public interface GetUserProductDetailsCallback extends DefaultCallback<Product>{}

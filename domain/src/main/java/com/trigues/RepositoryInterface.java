@@ -20,7 +20,6 @@ public interface RepositoryInterface {
 
     //Functions:
 
-    void getUserProductDetails(int productId, ProductCallback dataCallback);
 
     void showProducts(ProductListCallback dataCallback);
 
@@ -90,7 +89,7 @@ public interface RepositoryInterface {
 
     void sendChatMessage(ChatMessage message, VoidCallback dataCallback);
 
-    void getProduct(int prodID, final ProductCallback dataCallback);
+    void getProductInfo(int prodID, final ProductCallback dataCallback);
 
     void reportProduct(Integer[] userProdID, VoidCallback dataCallback);
 

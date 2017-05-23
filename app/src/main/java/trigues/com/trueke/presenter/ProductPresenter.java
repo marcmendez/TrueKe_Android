@@ -35,14 +35,14 @@ public class ProductPresenter {
             getProductUseCase.execute(productId, new GetProductUseCase.GetProductCallback() {
                 @Override
                 public void onError(ErrorBundle errorBundle) {
-                    view.hideProgress();
+
                     view.onError(errorBundle.getErrorMessage());
                 }
 
                 @Override
                 public void onSuccess(Product returnParam) {
-                    view.productTitle(returnParam);
-
+                    view.setproductTitle(returnParam);
+                    view.hideProgress();
                 }
             });
         }

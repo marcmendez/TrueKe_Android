@@ -26,8 +26,6 @@ public interface ApiInterface {
 
     //Functions:
 
-    void getUserProductDetails(String token, int productId, ProductDataCallback dataCallback);
-
     void showProducts(String token, int userID, ProductListDataCallback dataCallback);
 
     void register(User user, BooleanDataCallback dataCallback);
@@ -78,7 +76,7 @@ public interface ApiInterface {
     void createTrueke(String chatID, String tokenadmin, VoidDataCallback voidDataCallback);
     void reportProduct(String token, Integer[] userProdID, VoidDataCallback voidDataCallback);
 
-    void getProductInfo(String token, int prodID, ProductDataCallback productDataCallback);
+    void getProductInfo(int prodID, ProductDataCallback productDataCallback);
 
     void addImages(String image_base64, ImagesDataCallback ImageDataCallback);
 
@@ -94,7 +92,7 @@ public interface ApiInterface {
 
     interface UserDataCallback extends DefaultCallback<ApiDTO<List<User>>>{}
 
-    interface ProductDataCallback extends DefaultCallback<ApiDTO<Product>> {}
+    interface ProductDataCallback extends DefaultCallback<ApiDTO<ProductDTO>> {}
 
     interface ProductListDataCallback extends DefaultCallback<ApiDTO<List<Product>>> {}
 

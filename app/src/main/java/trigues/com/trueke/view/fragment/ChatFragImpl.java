@@ -51,7 +51,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -159,7 +158,7 @@ public class ChatFragImpl extends Fragment {
                     chatRecyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if(adapter.getItemCount() > 0) {
+                            if(adapter != null && adapter.getItemCount() > 0) {
                                 chatRecyclerView.scrollToPosition(adapter.getItemCount() - 1);
                             }
                         }

@@ -77,15 +77,15 @@ public class AddProductPresenter {
 
                     @Override
                     public void onSuccess(String returnParam) {
-                        Log.i("image_md5", "returnParam: " + returnParam);
-                        Log.i("image_md5", "simplificado: " + returnParam.substring(8));
+                        //Log.i("image_md5", "returnParam: " + returnParam);
+                        //Log.i("image_md5", "simplificado: " + returnParam.substring(8));
                         //returnParam: "/image/aeosnfaoei"
                         //substring returnPAram: "aeosnfaoei"
                         addImagesProduct(returnParam.substring(8));
                     }
                 });
                 try { //delay entre llamadas
-                    TimeUnit.MILLISECONDS.sleep(5);
+                    TimeUnit.MILLISECONDS.sleep(10);
                     //TimeUnit.SECONDS.sleep(100);
                 } catch (InterruptedException e) {
 
