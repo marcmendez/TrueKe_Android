@@ -3,10 +3,12 @@ package trigues.com.trueke.presenter;
 import com.trigues.entity.ChatInfo;
 import com.trigues.entity.ChatMessage;
 import com.trigues.entity.TruekeData;
+import com.trigues.entity.TruekePaymentData;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.CreateTruekeUseCase;
 import com.trigues.usecase.GetChatMessagesUseCase;
 import com.trigues.usecase.GetChatsUseCase;
+import com.trigues.usecase.PayTruekeUseCase;
 import com.trigues.usecase.SendChatMessageUseCase;
 import com.trigues.usecase.SetTruekeStatusUseCase;
 
@@ -28,19 +30,21 @@ public class ChatPresenter {
     private GetChatsUseCase getChatsUseCase;
     private SetTruekeStatusUseCase setTruekeStatusUseCase;
     private CreateTruekeUseCase createTruekeUseCase;
+    private PayTruekeUseCase payTruekeUseCase;
 
     @Inject
     public ChatPresenter(ChatListActivity view, GetChatMessagesUseCase getChatMessagesUseCase,
                          SendChatMessageUseCase sendChatMessageUseCase,
                          SetTruekeStatusUseCase setTruekeStatusUseCase,
                          CreateTruekeUseCase createTruekeUseCase,
-                         GetChatsUseCase getChatsUseCase) {
+                         GetChatsUseCase getChatsUseCase, PayTruekeUseCase payTruekeUseCase) {
         this.view = view;
         this.getChatMessagesUseCase = getChatMessagesUseCase;
         this.sendChatMessageUseCase = sendChatMessageUseCase;
         this.setTruekeStatusUseCase = setTruekeStatusUseCase;
         this.createTruekeUseCase = createTruekeUseCase;
         this.getChatsUseCase = getChatsUseCase;
+        this.payTruekeUseCase = payTruekeUseCase;
     }
 
     public void getChats() {
@@ -113,6 +117,21 @@ public class ChatPresenter {
             @Override
             public void onSuccess(Void returnParam) {
                 view.OnTruekeCreated();
+            }
+        });
+    }
+
+    public void PayTrueke(int my_product, String chat_id, int payment_id) {
+        payTruekeUseCase.execute(new TruekePaymentData(my_product,chat_id,payment_id), new PayTruekeUseCase.PayTruekeCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                view.onTruekePaid();
             }
         });
     }

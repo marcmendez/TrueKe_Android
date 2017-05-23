@@ -140,7 +140,11 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
 
     @Override
     public void OnTruekeCreated() {
+    }
 
+    @Override
+    public void onTruekePaid() {
+        fragment.setTruekePaid();
     }
 
     public void sendMessage(ChatMessage chatTextMessage) {
@@ -177,5 +181,9 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
 
     public void createTrueke(String chatID) {
         presenter.createTrueke(chatID);
+    }
+
+    public void PayTrueke(int my_product, String chat_id, int payment_id) {
+        presenter.PayTrueke(my_product,chat_id,payment_id);
     }
 }

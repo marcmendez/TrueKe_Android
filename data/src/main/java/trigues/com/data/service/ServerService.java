@@ -148,4 +148,7 @@ public interface ServerService {
 
     @POST("truekes")
     Call<ApiDTO<Void>> createTrueke(@Header("token")String admintoken,@Path("chat_id") String chatID);
+
+    @PUT("products/{product_id}/chats/{chat_id}/pay/{payment_id}")
+    Call<ApiDTO<Void>> paytrueke(@Path("product_id")int product_id,@Path("chat_id")String chat_id,@Path("chat_id") int payment_id,@Header("token") String token);
 }

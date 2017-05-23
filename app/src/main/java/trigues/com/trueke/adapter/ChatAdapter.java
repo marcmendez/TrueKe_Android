@@ -142,6 +142,16 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
                 else {
                     holder.truekeButtonsLayout.setVisibility(View.GONE);
                 }
+                if(trueke.getStatus()==3){
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onWaitingPayment((ChatTrueke) messages.get(holder.getAdapterPosition()));
+                            notifyDataSetChanged();
+                            recyclerView.scrollToPosition(getItemCount() - 1);
+                        }
+                    });
+                }
             }
         }
         else{
@@ -225,7 +235,7 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
 
     public abstract void onAcceptTrueke(ChatTrueke trueke);
     public abstract void onRejectTrueke(ChatTrueke trueke);
-
+    public abstract void onWaitingPayment(ChatTrueke trueke);
     class ViewHolder extends RecyclerView.ViewHolder{
 
         @Nullable
