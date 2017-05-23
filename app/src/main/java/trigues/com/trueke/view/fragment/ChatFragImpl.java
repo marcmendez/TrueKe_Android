@@ -187,20 +187,27 @@ public class ChatFragImpl extends Fragment {
         if(adapter == null) {
             adapter = new ChatAdapter(getContext(), chatRecyclerView, chat.getMy_product()) {
                 @Override
+                protected void onWaitingAddress(ChatTrueke trueke) {
+                    paymentTrueke = trueke;
+                    activity.GetUserShipments();
+                }
+
+                @Override
                 public void onAcceptTrueke(ChatTrueke trueke) {
                     trueke.setStatus(2); //acceptat pero en el cas de a peu es podria ficar un estat tipo Completado
                     activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
                     if(trueke.getShipmentType()==1) {
                         paymentTrueke = trueke;
-                        activity.createTrueke("1");
-                        activity.GetUserPayments();
+                        activity.GetUserShipments();
                     }
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onRejectTrueke(ChatTrueke trueke) {
                     trueke.setStatus(1); //rejected (queda actualitzar)
                     activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -467,7 +474,7 @@ public class ChatFragImpl extends Fragment {
                               activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
                               adapter.notifyDataSetChanged();
                           }
-                          activity.PayTrueke(chat.getMy_product(),String.valueOf(chat.getId()),payments.get(pos[0]).getId());
+                          activity.PayTrueke(chat.getMy_product(),"1",payments.get(pos[0]).getId());
                           dialog.dismiss();
                       }
                   });
@@ -476,7 +483,8 @@ public class ChatFragImpl extends Fragment {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
                           if(paymentTrueke.getStatus()!=3) paymentTrueke.setStatus(3);
-                          activity.setTruekeStatus(paymentTrueke.getStatus(),"1",paymentTrueke.getTruekeID());
+                          activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
+                          adapter.notifyDataSetChanged();
                           dialog.dismiss();
                           paymentTrueke=null;
                       }
@@ -487,7 +495,11 @@ public class ChatFragImpl extends Fragment {
            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                @Override
                public void onClick(DialogInterface dialog, int which) {
-
+                   if(paymentTrueke.getStatus()!=3) paymentTrueke.setStatus(3);
+                   activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
+                   adapter.notifyDataSetChanged();
+                   dialog.dismiss();
+                   paymentTrueke=null;
                }
            });
         if(paymentsString.size()==0) Toast.makeText(getContext(),"No tienes métodos de pago",Toast.LENGTH_SHORT).show();
@@ -519,8 +531,17 @@ public class ChatFragImpl extends Fragment {
                  builder2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                      @Override
                      public void onClick(DialogInterface dialog, int which) {
+                         if(paymentTrueke!=null && paymentTrueke.getStatus()==2){
+                             paymentTrueke.setStatus(3);
+                             activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
+                             adapter.notifyDataSetChanged();
+                             activity.createTrueke("1");
+                             activity.GetUserPayments();
+                             dialog.dismiss();
+                         }else{
                          ChatTrueke chatTrueke = new ChatTrueke(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), 1, 0, chat.getId(),false);
                          activity.sendMessage(chatTrueke);
+                         }
                          dialog.dismiss();
                      }
                  });

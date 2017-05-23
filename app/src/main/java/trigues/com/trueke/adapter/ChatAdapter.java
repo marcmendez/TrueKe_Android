@@ -152,6 +152,16 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
                         }
                     });
                 }
+                if(trueke.getStatus()==2 && trueke.getShipmentType()==1){
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onWaitingAddress((ChatTrueke) messages.get(holder.getAdapterPosition()));
+                            notifyDataSetChanged();
+                            recyclerView.scrollToPosition(getItemCount() - 1);
+                        }
+                    });
+                }
             }
         }
         else{
@@ -160,6 +170,8 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
             holder.image.setImageBitmap(decodedByte);
         }
     }
+
+    protected abstract void onWaitingAddress(ChatTrueke trueke);
 
     @Override
     public int getItemViewType(int position) {
