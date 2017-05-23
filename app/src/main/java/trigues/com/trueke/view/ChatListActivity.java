@@ -29,4 +29,6 @@ public interface ChatListActivity extends MenuActivity{
     void OnTruekeStatusUpdated();
 
     void OnTruekeCreated();
+
+    void onTruekePaid();
 }
