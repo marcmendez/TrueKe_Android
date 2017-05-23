@@ -192,7 +192,7 @@ public class ChatFragImpl extends Fragment {
                     activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
                     if(trueke.getShipmentType()==1) {
                         paymentTrueke = trueke;
-                        activity.createTrueke(String.valueOf(chat.getId()));
+                        activity.createTrueke("1");
                         activity.GetUserPayments();
                     }
                 }
@@ -205,6 +205,7 @@ public class ChatFragImpl extends Fragment {
 
                 @Override
                 public void onWaitingPayment(ChatTrueke trueke) {
+                    paymentTrueke = trueke;
                     activity.GetUserPayments();
                 }
             };
@@ -466,7 +467,7 @@ public class ChatFragImpl extends Fragment {
                               activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
                               adapter.notifyDataSetChanged();
                           }
-                          activity.PayTrueke(chat.getMy_product(),chat.getId(),payments.get(pos[0]).getId());
+                          activity.PayTrueke(chat.getMy_product(),String.valueOf(chat.getId()),payments.get(pos[0]).getId());
                           dialog.dismiss();
                       }
                   });
@@ -475,7 +476,7 @@ public class ChatFragImpl extends Fragment {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
                           if(paymentTrueke.getStatus()!=3) paymentTrueke.setStatus(3);
-                          activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
+                          activity.setTruekeStatus(paymentTrueke.getStatus(),"1",paymentTrueke.getTruekeID());
                           dialog.dismiss();
                           paymentTrueke=null;
                       }

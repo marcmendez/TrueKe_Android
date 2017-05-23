@@ -29,6 +29,7 @@ import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.entity.ProductId;
 import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.ReportProductDTO;
+import trigues.com.data.entity.TruekeChat;
 import trigues.com.data.entity.UserImage;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.service.ServerService;
@@ -758,7 +759,7 @@ public class ApiDataSource implements ApiInterface {
 
     @Override
     public void createTrueke(String chatID, String admintoken, final VoidDataCallback voidDataCallback) {
-        server.createTrueke(admintoken,chatID).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
+        server.createTrueke(admintoken,new TruekeChat(chatID)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 voidDataCallback.onSuccess(null);

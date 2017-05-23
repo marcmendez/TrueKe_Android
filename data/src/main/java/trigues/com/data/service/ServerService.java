@@ -27,6 +27,7 @@ import trigues.com.data.entity.Password;
 import trigues.com.data.entity.ProductId;
 import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.ReportProductDTO;
+import trigues.com.data.entity.TruekeChat;
 import trigues.com.data.entity.UserImage;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
@@ -144,8 +145,8 @@ public interface ServerService {
     Call<ApiDTO<ProductDTO>> getProductInfo( @Path("product_id") int prodID);
 
     @POST("truekes")
-    Call<ApiDTO<Void>> createTrueke(@Header("token")String admintoken,@Path("chat_id") String chatID);
+    Call<ApiDTO<Void>> createTrueke(@Header("token")String admintoken,@Body TruekeChat truekeChat);
 
     @PUT("products/{product_id}/chats/{chat_id}/pay/{payment_id}")
-    Call<ApiDTO<Void>> paytrueke(@Path("product_id")int product_id,@Path("chat_id")String chat_id,@Path("chat_id") int payment_id,@Header("token") String token);
+    Call<ApiDTO<Void>> paytrueke(@Path("product_id")int product_id,@Path("chat_id")String chat_id,@Path("payment_id") int payment_id,@Header("token") String token);
 }
