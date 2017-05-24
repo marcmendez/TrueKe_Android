@@ -533,7 +533,6 @@ public class ApiDataSource implements ApiInterface {
     public void rejectMatch(String token, Integer[] productsID, final VoidDataCallback voidDataCallback) {
         ProductsMatchDTO dto = new ProductsMatchDTO(productsID[0], productsID[1], 0);
         server.rejectMatch(token, dto).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
-
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 voidDataCallback.onSuccess(null);
