@@ -228,7 +228,7 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
                     .setPositiveButton("Aceptar", new DialogInterface.OnClickListener()  {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            Log.i("Dialogos", "Confirmacion Aceptada.");
+                            Log.i("Dialogos", "Confirmación aceptada.");
 
                             Gson gson = new Gson();
                             Product p = gson.fromJson(getIntent().getStringExtra("product"),Product.class);
@@ -240,7 +240,7 @@ public class UserProductDetailsActivityImpl extends BaseActivityImpl implements 
                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            Log.i("Dialogos", "Confirmacion Cancelada.");
+                            Log.i("Dialogos", "Confirmación cancelada.");
                             dialog.cancel();
                         }
                     });

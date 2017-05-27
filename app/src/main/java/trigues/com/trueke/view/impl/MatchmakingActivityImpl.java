@@ -1,10 +1,16 @@
 package trigues.com.trueke.view.impl;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mindorks.placeholderview.SwipeDecor;
@@ -153,5 +159,29 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
 
     public void onReportPressed(Integer[] userProdID) {
         presenter.report(userProdID);
+    }
+
+    @Override
+    public void noProducts() {
+        /*finish();
+        String text = "No hay productos con estas características para hacer TrueKe";
+        Toast.makeText(getApplicationContext(),text,Toast.LENGTH_LONG).show();*/
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("No hay productos con estas características para hacer TrueKe")
+                .setTitle("¡Vaya!")
+                .setPositiveButton("De acuerdo", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        goToShowProductList();
+                        dialog.cancel();
+                    }
+                });
+
+        builder.create().show();
+    }
+
+    public void goToShowProductList(){
+        startActivity(new Intent(this, UserProductsListActivityImpl.class));
+        finish();
     }
 }

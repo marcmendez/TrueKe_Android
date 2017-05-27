@@ -1,5 +1,8 @@
 package trigues.com.data.datasource.impl;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 
 import com.trigues.entity.Payment;
@@ -8,6 +11,7 @@ import com.trigues.entity.Shipment;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +38,8 @@ import trigues.com.data.entity.UserName;
 import trigues.com.data.service.ServerService;
 import trigues.com.data.utils.RetrofitErrorHandler;
 
+import static android.R.attr.bitmap;
+
 /**
  * Created by mbaque on 15/03/2017.
  */
@@ -42,6 +48,7 @@ public class ApiDataSource implements ApiInterface {
 
     private ServerService server;
     private FakeInterceptor interceptor;
+    private InternalStorageDataSource internalStorage;
 
     private static final String ADMIN_TOKEN = "f4493ed183abba6b096f3903a5fc3b64";
 
@@ -86,9 +93,10 @@ public class ApiDataSource implements ApiInterface {
                         User user = returnParam.getContent().getUser();
 
                         List<String> desiredCategories = new ArrayList<String>();
-                        desiredCategories.add("Deporte y ocio");
+                        desiredCategories.add("deporte y ocio");
+                        List<String> images = new ArrayList<>();
 
-                        Product product = new Product(0, user.getId(), "Poupala", "Description", null, "Deporte y ocio", desiredCategories, 15, 20);
+                        Product product = new Product(0, user.getId(), "Poupala", "Description", images, "deporte y ocio", desiredCategories, 15, 20);
 
                         addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                             @Override
@@ -195,7 +203,7 @@ public class ApiDataSource implements ApiInterface {
             }
         });
 
-        register(new User(2, "111111111", "test", "1234567", "test@test.org", "1992-09-19", "", 0, 0, 0,0), new BooleanDataCallback() {
+        register(new User(2, "111111111", "test", "12345677", "testecito@test.org", "1992-09-19", "", 0, 0, 0,0), new BooleanDataCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
 
@@ -203,7 +211,7 @@ public class ApiDataSource implements ApiInterface {
 
             @Override
             public void onSuccess(Boolean returnParam) {
-                login(new User("test@test.org", "1234567"), new LoginDataCallback() {
+                login(new User("testecito@test.org", "12345677"), new LoginDataCallback() {
                     @Override
                     public void onError(ErrorBundle errorBundle) {
 
@@ -214,9 +222,10 @@ public class ApiDataSource implements ApiInterface {
                         User user = returnParam.getContent().getUser();
 
                         List<String> desiredCategories = new ArrayList<String>();
-                        desiredCategories.add("Deporte y ocio");
-
-                        Product product = new Product(0, user.getId(), "Poupala", "Description", null, "Deporte y ocio", desiredCategories, 15, 20);
+                        desiredCategories.add("deporte y ocio");
+                        List<String> images = new ArrayList<>();
+                        
+                        Product product = new Product(0, user.getId(), "Poupala", "Description", images, "deporte y ocio", desiredCategories, 15, 20);
 
                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
                            @Override
@@ -226,7 +235,6 @@ public class ApiDataSource implements ApiInterface {
 
                            @Override
                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-
                            }
                        });
 
@@ -586,6 +594,7 @@ public class ApiDataSource implements ApiInterface {
             @Override
             public void onResponse(ApiDTO<Void> body) {
                 dataCallback.onSuccess(body.getError());
+               // initDatabase();
             }
         });
     }

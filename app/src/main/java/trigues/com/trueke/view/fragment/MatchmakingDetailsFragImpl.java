@@ -1,6 +1,8 @@
 package trigues.com.trueke.view.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +30,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.trigues.entity.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -156,8 +160,8 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         product = gson.fromJson(productJson, Product.class);
 
         setUpProductDetails(product);
-        //setUpViewPager(product.getImages());
-        //setUpDotCounter()
+        setUpViewPager(product.getImages());
+        //setUpDotCounter();
     }
 
     private void setUpProductDetails(Product product) {
@@ -182,9 +186,15 @@ public class MatchmakingDetailsFragImpl extends Fragment {
     }
 
     private void setUpViewPager(List<String> images) {
-        //TODO: Set info to views
-        //this.viewPageAdapter = new ImageViewPageAdapter(getContext(), images);
+        List<Bitmap> imagesUrl = new ArrayList<>();
+        for(String image: images) {
+            byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            imagesUrl.add(decodedByte);
+        }
+        this.viewPageAdapter = new ImageViewPageAdapter(getContext(), imagesUrl);
         viewPager.setAdapter(viewPageAdapter);
+
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -206,6 +216,7 @@ public class MatchmakingDetailsFragImpl extends Fragment {
 
             }
         });
+        setUpDotCounter();
     }
 
     private void setUpDotCounter() {

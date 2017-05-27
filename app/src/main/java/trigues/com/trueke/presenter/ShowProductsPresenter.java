@@ -62,11 +62,11 @@ public class ShowProductsPresenter {
                 aux_returnParam = new ArrayList<>();
                 aux_returnParam = returnParam;
                 count_i = 0;
+                view.hideProgress();
                 if(returnParam.size() != 0){
                     getImagesProductcallback();
                 }
                 else {
-                    view.hideProgress();
                     view.generateProds(returnParam);
                 }
             }

@@ -1,6 +1,9 @@
 package trigues.com.trueke.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,7 +53,12 @@ public class MatchmakingCard {
 
     @Resolve
     private void onResolved(){
-        Picasso.with(mContext).load(product.getImages().get(0)).into(profileImageView);
+        //Picasso.with(mContext).load(product.getImages().get(0)).into(profileImageView);
+        if(product.getImages()!= null) {
+            byte[] decodedString = Base64.decode(product.getImages().get(0), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            profileImageView.setImageBitmap(decodedByte);
+        }
         nameAgeTxt.setText(product.getTitle());
         locationNameTxt.setText(product.getProductCategory());
     }
