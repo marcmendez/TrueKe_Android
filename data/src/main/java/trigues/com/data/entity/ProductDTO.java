@@ -27,18 +27,21 @@ public class ProductDTO {
     int min_price;
     @SerializedName("max_price")
     int max_price;
+    @SerializedName("wants_categories")
+    String wants_categories;
 
 
     private Product product;
 
     public ProductDTO(Product p) {
-        int id= p.getId();
+        this.id = p.getId();
         this.user_id = p.getUserId();
         this.title = p.getTitle();
         this.description = p.getDescription();
         this.category = p.getProductCategory();
         this.min_price = p.getMinPrice();
         this.max_price = p.getMaxPrice();
+        this.wants_categories = android.text.TextUtils.join("-", p.getDesiredCategories());
     }
 
     public static Product changeType(ProductDTO p) {
@@ -83,4 +86,6 @@ public class ProductDTO {
     public int getMaxPrice() {
         return max_price;
     }
+
+    public String getWants_categories() { return wants_categories;}
 }

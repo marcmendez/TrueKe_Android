@@ -402,6 +402,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void addProductCategory(List<String> category, final BooleanCallback dataCallback) {
+        if(category.size() == 1) category.add(String.valueOf(internalStorage.getProductId()));
         apiDataSource.addProductCategory(internalStorage.getToken(),category, new ApiInterface.BooleanDataCallback(){
             @Override
             public void onError(ErrorBundle errorBundle) {

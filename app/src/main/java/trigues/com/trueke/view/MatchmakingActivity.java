@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface MatchmakingActivity extends BaseActivity {
     void onProductsRetrieved(List<Product> returnParam);
+    void noProducts();
 }

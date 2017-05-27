@@ -477,11 +477,11 @@ public class AddProductActivityImpl extends BaseActivityImpl implements AddProdu
             desiredCategoryText = desiredCategoryText.substring(0, desiredCategoryText.length() - 1);
         }
         e_desiredCategory.setText(desiredCategoryText);
-        /*ListIterator<String> iterator = categories.listIterator();
+        ListIterator<String> iterator = categories.listIterator();
         while (iterator.hasNext())
         {
             iterator.set(iterator.next().toLowerCase());
-        }*/
+        }
         desired_categories = categories;
     }
 

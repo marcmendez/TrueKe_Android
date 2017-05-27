@@ -1,6 +1,7 @@
 package trigues.com.trueke.presenter;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.trigues.entity.Product;
 import com.trigues.exception.ErrorBundle;
@@ -82,7 +83,8 @@ public class MatchmakingPresenter {
                 }
                 else {
                     view.hideProgress();
-                    view.onProductsRetrieved(returnParam);
+                    //view.onProductsRetrieved(returnParam);
+                    view.noProducts();
                 }
             }
         });
