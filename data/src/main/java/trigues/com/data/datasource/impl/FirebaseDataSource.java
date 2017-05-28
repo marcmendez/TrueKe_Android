@@ -110,8 +110,8 @@ public class FirebaseDataSource implements FirebaseInterface {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                dataCallback.onNewMessage(MessageJsonParser.parseMessage(dataSnapshot.getKey(), (HashMap<String, Object>) dataSnapshot.getValue()));
-//                database.child(chatId).child(dataSnapshot.getKey()).child("read").setValue(true);
+                dataCallback.onNewMessage(MessageJsonParser.parseMessage(dataSnapshot.getKey(), (HashMap<String, Object>) dataSnapshot.getValue()));
+                database.child(chatId).child(dataSnapshot.getKey()).child("read").setValue(true);
             }
 
             @Override

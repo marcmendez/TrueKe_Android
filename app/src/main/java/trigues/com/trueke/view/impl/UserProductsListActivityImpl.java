@@ -23,6 +23,7 @@ import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.ShowProductsPresenter;
+import trigues.com.trueke.service.ChatService;
 import trigues.com.trueke.view.UserProductsListActivity;
 
 /**
@@ -80,6 +81,8 @@ public class UserProductsListActivityImpl extends MenuActivityImpl implements Us
 
     public void generateProds(List<Product> product) {
         Log.i("images","VIEW products: "+product);
+
+        ChatService.setProductList(product);
 
         adapter = new UserProductsRecyclerViewAdapter(this, product) {
             @Override

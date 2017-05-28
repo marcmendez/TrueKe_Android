@@ -184,6 +184,14 @@ public class ChatFragImpl extends Fragment {
     }
 
     public void addChatMessage(ChatMessage message){
+
+        for(int i = 0; i<messageList.size(); ++i){
+            if(messageList.get(i).getDate().equals(message.getDate())){
+                messageList.set(i, message);
+                adapter.notifyDataSetChanged();
+            }
+        }
+
         if(adapter == null) {
             adapter = new ChatAdapter(getContext(), chatRecyclerView, chat.getMy_product()) {
                 @Override
@@ -204,7 +212,8 @@ public class ChatFragImpl extends Fragment {
                     activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
                 }
             };
-
+            messageList.add(message);
+            adapter.addMessage(message);
             chatRecyclerView.setAdapter(adapter);
         }
 

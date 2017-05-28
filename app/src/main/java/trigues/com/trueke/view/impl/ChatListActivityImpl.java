@@ -163,4 +163,16 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     public void createTrueke(String chatID) {
         presenter.createTrueke(chatID);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ChatService.isNotifying(false);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ChatService.isNotifying(true);
+    }
 }
