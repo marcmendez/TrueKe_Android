@@ -7,6 +7,7 @@ import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.TruekeData;
 import com.trigues.entity.User;
+import com.trigues.exception.ErrorBundle;
 import com.trigues.executor.ThreadExecutor;
 import com.trigues.usecase.AcceptMatchUseCase;
 import com.trigues.usecase.GetMatchMakingListUseCase;
@@ -22,6 +23,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.List;
 
@@ -33,7 +36,9 @@ import trigues.com.trueke.view.impl.MatchmakingActivityImpl;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 /**
@@ -73,6 +78,8 @@ public class MatchmakingPresenterTest {
     private RepositoryInterface.VoidCallback voidCallback;
     @Mock
     private RepositoryInterface repository;
+    @Mock
+    private AcceptMatchUseCase.AcceptMatchCallback acceptMatchCallback;
 
     private  ThreadExecutor executor;
 
@@ -101,28 +108,40 @@ public class MatchmakingPresenterTest {
     }
 
 
-    /*
+/*
     @Test
     public void acceptMatch_callsCallback() {
-        Callback myMock = mock(Callback.class);
-        someObject.doSomething(myMock);
-        verify(myMock, times(1)).foo();
-    }
-    */
+        Integer[] productID = new Integer[2];
+        //productes[0] = any(Product.class).getId();
+        //productes[1] = any(Product.class).getId();
+        productID[0] = 1;
+        productID[1] = 2;
+
+        //acceptMatchUseCase.execute(productID, acceptMatchCallback);
+        //when(interactor.getUserProfile()).thenReturn(Observable.just(new UserProfile()));
+        //verify(acceptMatchCallback, times(1)).(null);
+    }*/
+
 
     @Test
     public void acceptMatch_showsSuccessMessage() {
         // When the presenter is asked to register an accepted match
-        Integer[] productes = new Integer[2];
+        Integer[] productID = new Integer[2];
         //productes[0] = any(Product.class).getId();
         //productes[1] = any(Product.class).getId();
-        productes[0] = 1;
-        productes[1] = 2;
-        matchmakingPresenter.acceptedProduct(productes);
+        productID[0] = 1;
+        productID[1] = 2;
+        matchmakingPresenter.acceptedProduct(productID);
 
         // Callback is captured and invoked once
-        verify(repository, times(1)).acceptMatch(productes, voidCallback);
-
+        //verify(repository, times(1)).acceptMatch(productes, voidCallback);
+        verify(acceptMatchUseCase,times(1)).execute(productID, acceptMatchCallback);
+        verify(acceptMatchUseCase,times(1)).execute(productID, new AcceptMatchUseCase.AcceptMatchCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {}
+            @Override
+            public void onSuccess(Void returnParam) {}
+        });
 
         /*acceptMatchCallbackCaptor.getValue();
         if(acceptMatchCallbackCaptor.getValue() == null) {
