@@ -1,7 +1,11 @@
 package trigues.com.trueke;
 
 import com.trigues.RepositoryInterface;
+import com.trigues.entity.ChatMessage;
+import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
+import com.trigues.entity.Shipment;
+import com.trigues.entity.TruekeData;
 import com.trigues.entity.User;
 import com.trigues.usecase.AcceptMatchUseCase;
 import com.trigues.usecase.GetMatchMakingListUseCase;
@@ -18,13 +22,17 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.List;
+
 import trigues.com.trueke.presenter.LoginPresenter;
 import trigues.com.trueke.presenter.MatchmakingPresenter;
 import trigues.com.trueke.view.LoginActivity;
 import trigues.com.trueke.view.MatchmakingActivity;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 /**
  * Created by Eduard on 26/05/2017.
@@ -45,20 +53,20 @@ public class MatchmakingPresenterTest {
     private ArgumentCaptor<ReportProductUseCase.ReportProductCallback> reportProductCallbackCaptor;
 
 
-
-
     @Mock
     private MatchmakingActivity view;
     @Mock
     private GetMatchMakingListUseCase showProductsUseCase;
-    @Mock
+    //@Mock
     private AcceptMatchUseCase acceptMatchUseCase;
-    @Mock
+    //@Mock
     private RejectMatchUseCase rejectMatchUseCase;
-    @Mock
+    //@Mock
     private ReportProductUseCase reportProductUseCase;
+    //@Mock
+    private RepositoryInterface.VoidCallback voidCallback;
     @Mock
-    RepositoryInterface repository;
+    private RepositoryInterface repository;
 
     private MatchmakingPresenter matchmakingPresenter;
 
@@ -74,16 +82,36 @@ public class MatchmakingPresenterTest {
                 acceptMatchUseCase, rejectMatchUseCase, reportProductUseCase);
     }
 
+    /*
+    @Test
+    public void acceptMatch_callsCallback() {
+        Callback myMock = mock(Callback.class);
+        someObject.doSomething(myMock);
+        verify(myMock, times(1)).foo();
+    }
+    */
+
     @Test
     public void acceptMatch_showsSuccessMessage() {
         // When the presenter is asked to register an accepted match
         Integer[] productes = new Integer[2];
-        productes[0] = any(Product.class).getId();
-        productes[1] = any(Product.class).getId();
+        //productes[0] = any(Product.class).getId();
+        //productes[1] = any(Product.class).getId();
+        productes[0] = 1;
+        productes[1] = 2;
         matchmakingPresenter.acceptedProduct(productes);
 
-        // Callback is captured and invoked
-        verify(repository).acceptMatch(productes, (RepositoryInterface.VoidCallback) acceptMatchCallbackCaptor.capture());
+        // Callback is captured and invoked once
+        verify(repository, times(1)).acceptMatch(productes, voidCallback);
+
+        acceptMatchCallbackCaptor.getValue();
+        if(acceptMatchCallbackCaptor.getValue() == null) {
+
+        }
+        else {
+            assertEquals(acceptMatchCallbackCaptor.getValue(), true);
+        }
+
 
     }
 
@@ -91,13 +119,17 @@ public class MatchmakingPresenterTest {
     public void rejectMatch_showsSuccessMessage() {
         // When the presenter is asked to register a rejected match
         Integer[] productes = new Integer[2];
-        productes[0] = any(Product.class).getId();
-        productes[1] = any(Product.class).getId();
+        //productes[0] = any(Product.class).getId();
+        //productes[1] = any(Product.class).getId();
+        productes[0] = 1;
+        productes[1] = 2;
         matchmakingPresenter.rejectedProduct(productes);
 
         // Callback is captured and invoked
         // Potser la liem perque el test no sé si té manera de saber quins son els users propietaris dels productes.
-        verify(repository).rejectMatch(productes, (RepositoryInterface.VoidCallback) rejectMatchCallbackCaptor.capture());
+        verify(repository, times(1)).rejectMatch(productes, (RepositoryInterface.VoidCallback) rejectMatchCallbackCaptor.capture());
+
+        rejectMatchCallbackCaptor.getValue();
 
     }
 
@@ -105,12 +137,16 @@ public class MatchmakingPresenterTest {
     public void reportProduct_showsSuccessMessage() {
         // When the presenter is asked to register a report;
         Integer[] userProdID = new Integer[2];
-        userProdID[0] = any(User.class).getId();
-        userProdID[1] = any(Product.class).getId();
+        //userProdID[0] = any(User.class).getId();
+        //userProdID[1] = any(Product.class).getId();
+        userProdID[0] = 1;
+        userProdID[1] = 2;
         matchmakingPresenter.report(userProdID);
 
         // Callback is captured and invoked
-        verify(repository).reportProduct(userProdID, (RepositoryInterface.VoidCallback) reportProductCallbackCaptor.capture());
+        verify(repository, times(1)).reportProduct(userProdID, (RepositoryInterface.VoidCallback) reportProductCallbackCaptor.capture());
+
+        reportProductCallbackCaptor.getValue();
 
     }
 

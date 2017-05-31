@@ -22,6 +22,7 @@ import java.io.IOException;
 import trigues.com.trueke.presenter.LoginPresenter;
 import trigues.com.trueke.view.LoginActivity;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.contains;
@@ -82,6 +83,14 @@ public class LoginPresenterTest {
         // Callback is captured and invoked with stubbed user
         verify(repository).register(any(User.class), (RepositoryInterface.BooleanCallback) registerCallbackCaptor.capture());
 
+        if(registerCallbackCaptor.getValue() == null) {
+
+        }
+        else {
+            assertEquals(registerCallbackCaptor.getValue(), true);
+        }
+
+
     }
 
     @Test
@@ -91,6 +100,13 @@ public class LoginPresenterTest {
 
         // Callback is captured and invoked with stubbed user
         verify(repository).login(any(User.class), (RepositoryInterface.BooleanCallback) registerCallbackCaptor.capture());
+
+        if(loginCallbackCaptor.getValue() == null) {
+
+        }
+        else {
+            assertEquals(loginCallbackCaptor.getValue(), true);
+        }
 
     }
 
