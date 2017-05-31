@@ -7,6 +7,7 @@ import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.TruekeData;
 import com.trigues.entity.User;
+import com.trigues.executor.ThreadExecutor;
 import com.trigues.usecase.AcceptMatchUseCase;
 import com.trigues.usecase.GetMatchMakingListUseCase;
 import com.trigues.usecase.LoginUseCase;
@@ -28,6 +29,7 @@ import trigues.com.trueke.presenter.LoginPresenter;
 import trigues.com.trueke.presenter.MatchmakingPresenter;
 import trigues.com.trueke.view.LoginActivity;
 import trigues.com.trueke.view.MatchmakingActivity;
+import trigues.com.trueke.view.impl.MatchmakingActivityImpl;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -45,6 +47,10 @@ public class MatchmakingPresenterTest {
      * perform further actions or assertions on them.
      */
 
+
+
+
+
     @Captor
     private ArgumentCaptor<AcceptMatchUseCase.AcceptMatchCallback> acceptMatchCallbackCaptor;
     @Captor
@@ -57,30 +63,43 @@ public class MatchmakingPresenterTest {
     private MatchmakingActivity view;
     @Mock
     private GetMatchMakingListUseCase showProductsUseCase;
-    //@Mock
+    @Mock
     private AcceptMatchUseCase acceptMatchUseCase;
-    //@Mock
+    @Mock
     private RejectMatchUseCase rejectMatchUseCase;
-    //@Mock
+    @Mock
     private ReportProductUseCase reportProductUseCase;
-    //@Mock
+    @Mock
     private RepositoryInterface.VoidCallback voidCallback;
     @Mock
     private RepositoryInterface repository;
 
+    private  ThreadExecutor executor;
+
     private MatchmakingPresenter matchmakingPresenter;
 
 
+
+
     @Before
-    public void setupMatchmakingPresenter() {
+    public void setupMatchmakingPresenter() throws Exception {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this);
 
+
         // Get a reference to the class under test
         matchmakingPresenter = new MatchmakingPresenter(view, showProductsUseCase,
                 acceptMatchUseCase, rejectMatchUseCase, reportProductUseCase);
+
+    /*
+        when(interactor.getUserProfile()).thenReturn(Observable.just(new UserProfile()));
+        presenter = new ProfilePresenter(interactor);
+        presenter.attachView(view);
+     */
+
     }
+
 
     /*
     @Test
@@ -104,13 +123,14 @@ public class MatchmakingPresenterTest {
         // Callback is captured and invoked once
         verify(repository, times(1)).acceptMatch(productes, voidCallback);
 
-        acceptMatchCallbackCaptor.getValue();
+
+        /*acceptMatchCallbackCaptor.getValue();
         if(acceptMatchCallbackCaptor.getValue() == null) {
 
         }
         else {
             assertEquals(acceptMatchCallbackCaptor.getValue(), true);
-        }
+        }*/
 
 
     }
