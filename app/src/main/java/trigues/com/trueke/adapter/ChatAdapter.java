@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -226,6 +227,7 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
     }
 
     private void sortList(){
+        Log.i("sortlist", "sortList: "+messages);
         for(int i = 0; i<messages.size(); ++i){
             for(int j = 0; j<messages.size(); ++j){
                 ChatMessage message1 = messages.get(i);
