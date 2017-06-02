@@ -19,8 +19,8 @@ public interface ChatListActivity extends MenuActivity{
     void initChatList(List<ChatInfo> p) throws InterruptedException;
 
     void addChatMessage(ChatMessage messages);
-    void getProductMatched(int productID);
-    void setproductTitle(Product p);
+    void getProductMatched(List<Integer> productID);
+    void setproductTitle(List<Product> p);
 
     void onPaymentRetrieved(List<Payment> returnParam);
 

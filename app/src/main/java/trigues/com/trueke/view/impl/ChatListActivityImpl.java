@@ -39,7 +39,8 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     @Inject
     ChatPresenter presenterChatsuser;
 
-    Product ProductOtherUser;
+    List<Product> ListProductOtherUser;
+    List<ChatInfo> ListNamesChats;
 
     @Inject
     ProductPresenter productPresenter;
@@ -77,29 +78,13 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
     }
 
     public void initChatList(List<ChatInfo> chatinf) {
-        List<ChatInfo> realChat = new ArrayList<>();
+        List<Integer> realChat = new ArrayList<>();
+        ListNamesChats = chatinf;
         for (ChatInfo element : chatinf) {
-            getProductMatched(Integer.parseInt(element.getNameOtherUser()));
-            //TimeUnit.MILLISECONDS.sleep(2000);
-            //element.setNameOtherUser(ProductOtherUser.getTitle());
-            realChat.add(element);
-
-
-
+            realChat.add(element.getProduct_id2());
         }
+        getProductMatched(realChat);
         ChatService.setChats(chatinf);
-        chatListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        chatListRecyclerView.setAdapter(new ChatListAdapter(this, realChat) {
-            @Override
-            public void onChatClick(ChatInfo chat) {
-                fragment = new ChatFragImpl();
-                Bundle bundle = new Bundle();
-                bundle.putString("chat", new Gson().toJson(chat));
-                fragment.setArguments(bundle);
-                addFullScreenFragment(fragment);
-            }
-        });
 
     }
 
@@ -141,12 +126,32 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
             getSupportFragmentManager().putFragment(outState, "ChatFragment", fragment);
         }
     }
-    public void getProductMatched(int productID) {
-        productPresenter.getProduct(productID);
+    public void getProductMatched(List<Integer> productID) {
+        productPresenter.getProducts(productID);
     }
 
-    public void setproductTitle(Product ProductOtherUser) {
-        this.ProductOtherUser = ProductOtherUser;
+    public void setproductTitle(List<Product> ProductOtherUser) {
+        this.ListProductOtherUser = ProductOtherUser;
+        int i = 0;
+        ChatInfo ci;
+        for (Product element : ProductOtherUser) {
+            ci = ListNamesChats.get(i);
+            ci.setTitleOtherUser(element.getTitle());
+            ListNamesChats.set(i, ci);
+            i++;
+        }
+        chatListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        chatListRecyclerView.setAdapter(new ChatListAdapter(this, ListNamesChats) {
+            @Override
+            public void onChatClick(ChatInfo chat) {
+                fragment = new ChatFragImpl();
+                Bundle bundle = new Bundle();
+                bundle.putString("chat", new Gson().toJson(chat));
+                fragment.setArguments(bundle);
+                addFullScreenFragment(fragment);
+            }
+        });
     }
 
 

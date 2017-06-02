@@ -9,18 +9,23 @@ import com.trigues.executor.ThreadExecutor;
 import com.trigues.interactor.BaseUseCase;
 import com.trigues.interactor.Interactor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
  * Created by marc on 19/05/17.
  */
 
-public class GetProductUseCase extends BaseUseCase<Product> implements Interactor<Integer,Product> {
+public class GetProductUseCase extends BaseUseCase<List<Product>> implements Interactor<List<Integer>,List<Product>> {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
     private GetProductCallback callback;
 
-    private int productId;
+    private List<Integer> productId;
+    private List<Product> products;
+
 
     RepositoryInterface.ProductCallback dataCallback = new RepositoryInterface.ProductCallback() {
         @Override
@@ -30,7 +35,10 @@ public class GetProductUseCase extends BaseUseCase<Product> implements Interacto
 
         @Override
         public void onSuccess(Product returnParam) {
-            notifyOnSuccess(returnParam, callback);
+            products.add(returnParam);
+            if (products.size() == productId.size()) {
+                notifyOnSuccess(products, callback);
+            }
         }
     };
 
@@ -42,7 +50,7 @@ public class GetProductUseCase extends BaseUseCase<Product> implements Interacto
     }
 
     @Override
-    public <R extends DefaultCallback<Product>> void execute(Integer productId, R defaultCallback) {
+    public <R extends DefaultCallback<List<Product>>> void execute(List<Integer> productId, R defaultCallback) {
         this.callback = ((GetProductCallback) defaultCallback);
         this.productId = productId;
         executor.execute(this);
@@ -50,9 +58,12 @@ public class GetProductUseCase extends BaseUseCase<Product> implements Interacto
 
     @Override
     public void run() {
-        repository.getProductInfo(productId, dataCallback);
+        products = new ArrayList<>();
+        for (Integer producto : productId) {
+            repository.getProductInfo(producto, dataCallback);
+        }
     }
 
-    public interface GetProductCallback extends DefaultCallback<Product> {
+    public interface GetProductCallback extends DefaultCallback<List<Product>> {
     }
 }

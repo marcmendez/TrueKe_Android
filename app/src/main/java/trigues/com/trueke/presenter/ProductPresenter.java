@@ -30,7 +30,7 @@ public class ProductPresenter {
 
     }
 
-    public void getProduct(int productId) {
+    public void getProducts(List<Integer> productId) {
 
             getProductUseCase.execute(productId, new GetProductUseCase.GetProductCallback() {
                 @Override
@@ -40,7 +40,7 @@ public class ProductPresenter {
                 }
 
                 @Override
-                public void onSuccess(Product returnParam) {
+                public void onSuccess(List<Product> returnParam) {
                     view.setproductTitle(returnParam);
                     view.hideProgress();
                 }

@@ -6,6 +6,7 @@ package trigues.com.data.entity;
 
 public class ChatDTO {
 
+    int chat_id;
     int my_product;
     String title;
     int product_id1;
@@ -14,6 +15,7 @@ public class ChatDTO {
     public ChatDTO() {
     }
 
+    public int getId() { return chat_id;}
     public int getMy_product() {
         return my_product;
     }
