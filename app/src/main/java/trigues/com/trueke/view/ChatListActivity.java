@@ -31,4 +31,6 @@ public interface ChatListActivity extends MenuActivity{
     void OnTruekeCreated();
 
     void onTruekePaid();
+
+    void onTruekeVoted();
 }

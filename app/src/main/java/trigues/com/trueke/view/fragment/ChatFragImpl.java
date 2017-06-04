@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -191,6 +192,11 @@ public class ChatFragImpl extends Fragment {
     private void setUpAdapter(List<ChatMessage> messages) {
         adapter = new ChatAdapter(getContext(), chatRecyclerView, chat.getMy_product(), messages) {
             @Override
+            protected void onTruekeEnded(ChatTrueke trueke) {
+                activity.ValorarUsuari();
+            }
+
+            @Override
             protected void onWaitingAddress(ChatTrueke trueke) {
                 paymentTrueke = trueke;
                 activity.GetUserShipments();
@@ -258,7 +264,12 @@ public class ChatFragImpl extends Fragment {
                 showAttachOptions();
                 return true;
             case R.id.menu_chat_trueke:
+                if (!adapter.isPendingTrueke()){
                 showCreateTruekeDialog();
+                }
+                else {
+                    Toast.makeText(getContext(),"Ya tienes un Trueke pendiente!",Toast.LENGTH_SHORT).show();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -465,7 +476,8 @@ public class ChatFragImpl extends Fragment {
         final int[] pos = new int[1];
         final List<String> paymentsString = new ArrayList<>();
         for(Payment payment : payments){
-            paymentsString.add(payment.getNumber());
+            String num = "**** **** **** "+payment.getNumber().substring(12);
+            paymentsString.add(num);
         }
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -493,7 +505,7 @@ public class ChatFragImpl extends Fragment {
                           }
                           String[] chat_db = chat.getId().split("_");
                           activity.PayTrueke(chat.getMy_product(),chat_db[chat_db.length-1],payments.get(pos[0]).getId());
-
+                          Toast.makeText(getActivity(),"Pago efectuado",Toast.LENGTH_SHORT).show();
                           dialog.dismiss();
                       }
                   });
@@ -586,6 +598,28 @@ public class ChatFragImpl extends Fragment {
         else builder.show();
     }
 
+    public void showValorarDialog(){
+        Log.i("truekeEnded", "onTruekeEnded: ");
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View v = inflater.inflate(R.layout.dialog_rate, null);
+        builder.setView(v);
+        final RatingBar ratingBar = (RatingBar)v.findViewById(R.id.ratingbar);
+        builder.setTitle("Valora el Trueke");
+        builder.setPositiveButton("Valora", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                activity.valoraTrueke(ratingBar.getRating(),chat.getProduct_id2());
+            }
+        });
+        builder.setNegativeButton("Más tarde", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

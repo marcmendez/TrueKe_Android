@@ -12,6 +12,7 @@ import com.trigues.entity.Shipment;
 import com.trigues.entity.TruekeData;
 import com.trigues.entity.TruekePaymentData;
 import com.trigues.entity.User;
+import com.trigues.entity.VoteData;
 import com.trigues.exception.ErrorBundle;
 
 import java.util.ArrayList;
@@ -524,6 +525,22 @@ public class AppRepository implements RepositoryInterface {
             @Override
             public void onSuccess(Boolean returnParam) {
                 dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
+    @Override
+    public void voteTrueke(VoteData voteData, final VoidCallback dataCallback) {
+        apiDataSource.voteTrueke(voteData.getRating(),voteData.getProduct_id(),internalStorage.getToken(),new ApiInterface.VoidDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                dataCallback.onSuccess(null);
             }
         });
     }

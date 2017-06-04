@@ -9,6 +9,7 @@ import com.trigues.entity.Shipment;
 import com.trigues.entity.TruekeData;
 import com.trigues.entity.TruekePaymentData;
 import com.trigues.entity.User;
+import com.trigues.entity.VoteData;
 
 import java.util.List;
 
@@ -99,6 +100,8 @@ public interface RepositoryInterface {
     void createTrueke(String chatID, VoidCallback dataCallback);
 
     void payTrueke(TruekePaymentData truekedata, VoidCallback dataCallback);
+
+    void voteTrueke(VoteData votedata, VoidCallback dataCallback);
 
     //Callbacks:
 

@@ -5,6 +5,7 @@ import com.trigues.entity.ChatMessage;
 import com.trigues.entity.Product;
 import com.trigues.entity.TruekeData;
 import com.trigues.entity.TruekePaymentData;
+import com.trigues.entity.VoteData;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.CreateTruekeUseCase;
 import com.trigues.usecase.GetChatMessagesUseCase;
@@ -13,6 +14,7 @@ import com.trigues.usecase.GetProductUseCase;
 import com.trigues.usecase.PayTruekeUseCase;
 import com.trigues.usecase.SendChatMessageUseCase;
 import com.trigues.usecase.SetTruekeStatusUseCase;
+import com.trigues.usecase.VoteUseCase;
 
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class ChatPresenter {
     private CreateTruekeUseCase createTruekeUseCase;
     private PayTruekeUseCase payTruekeUseCase;
     private GetProductUseCase getProductUseCase;
+    private VoteUseCase voteUseCase;
 
     @Inject
     public ChatPresenter(ChatListActivity view, GetChatMessagesUseCase getChatMessagesUseCase,
@@ -42,7 +45,7 @@ public class ChatPresenter {
                          CreateTruekeUseCase createTruekeUseCase,
                          GetChatsUseCase getChatsUseCase,
                          GetProductUseCase getProductUseCase,
-                         PayTruekeUseCase payTruekeUseCase) {
+                         PayTruekeUseCase payTruekeUseCase, VoteUseCase voteUseCase) {
         this.view = view;
         this.getChatMessagesUseCase = getChatMessagesUseCase;
         this.sendChatMessageUseCase = sendChatMessageUseCase;
@@ -51,6 +54,7 @@ public class ChatPresenter {
         this.getChatsUseCase = getChatsUseCase;
         this.getProductUseCase = getProductUseCase;
         this.payTruekeUseCase = payTruekeUseCase;
+        this.voteUseCase = voteUseCase;
     }
 
     public void getChats() {
@@ -159,6 +163,20 @@ public class ChatPresenter {
             @Override
             public void onSuccess(Void returnParam) {
                 view.onTruekePaid();
+            }
+        });
+    }
+
+    public void voteTrueke(float rating,int product_id){
+        voteUseCase.execute(new VoteData(product_id, rating), new VoteUseCase.VoteUseCaseCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                view.onTruekeVoted();
             }
         });
     }

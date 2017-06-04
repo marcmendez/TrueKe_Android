@@ -162,7 +162,17 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
                         recyclerView.scrollToPosition(getItemCount() - 1);
                     }
                 });
+            }else if(trueke.getStatus()>=4){
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onTruekeEnded((ChatTrueke) messages.get(holder.getAdapterPosition()));
+                        notifyDataSetChanged();
+                        recyclerView.scrollToPosition(getItemCount()-1);
+                    }
+                });
             }
+
         }
         else{
             byte[] decodedString = Base64.decode(((ChatImage) messages.get(position)).getEncodedImage(), Base64.DEFAULT);
@@ -170,6 +180,8 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
             holder.image.setImageBitmap(decodedByte);
         }
     }
+
+    protected abstract void onTruekeEnded(ChatTrueke trueke);
 
     protected abstract void onWaitingAddress(ChatTrueke trueke);
 
@@ -249,6 +261,17 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
     public abstract void onAcceptTrueke(ChatTrueke trueke);
     public abstract void onRejectTrueke(ChatTrueke trueke);
     public abstract void onWaitingPayment(ChatTrueke trueke);
+
+    public boolean isPendingTrueke() {
+        for (int i = 0; i <messages.size() ; i++) {
+            if(messages.get(i) instanceof ChatTrueke) {
+                ChatTrueke trueke = (ChatTrueke) messages.get(i);
+                if(trueke.getStatus()!=1) return true;
+            }
+        }
+        return false;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
         @Nullable

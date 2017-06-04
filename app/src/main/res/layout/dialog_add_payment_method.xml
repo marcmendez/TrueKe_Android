@@ -85,11 +85,11 @@
                     app:hintTextAppearance="@style/AddProductTextInputLayoutAppearance">
 
                     <EditText
+                        android:id="@+id/add_payment_expireDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Fecha de expiración"
-                        android:inputType="date"
-                        android:id="@+id/add_payment_expireDate"/>
+                        android:hint="Fecha de expiración (AAAA-MM-DD)"
+                        android:inputType="date" />
 
                 </android.support.design.widget.TextInputLayout>
 

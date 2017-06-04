@@ -88,6 +88,8 @@ public interface ApiInterface {
 
     void payTrueke(int product_id, String chat_id, int payment_id, String token, VoidDataCallback voidDataCallback);
 
+    void voteTrueke(float rating, int product_id, String token, VoidDataCallback voidDataCallback);
+
     //Callbacks:
 
     interface UserDataCallback extends DefaultCallback<ApiDTO<List<User>>>{}

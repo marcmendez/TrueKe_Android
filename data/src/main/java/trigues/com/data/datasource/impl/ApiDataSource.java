@@ -32,6 +32,7 @@ import trigues.com.data.entity.ReportProductDTO;
 import trigues.com.data.entity.TruekeChat;
 import trigues.com.data.entity.UserImage;
 import trigues.com.data.entity.UserName;
+import trigues.com.data.entity.VoteDTO;
 import trigues.com.data.service.ServerService;
 import trigues.com.data.utils.RetrofitErrorHandler;
 
@@ -902,4 +903,15 @@ public class ApiDataSource implements ApiInterface {
             }
         });
     }
+
+    @Override
+    public void voteTrueke(float rating,int product_id, String token, final VoidDataCallback voidDataCallback) {
+        server.voteTrueke(token,product_id,new VoteDTO(rating)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                voidDataCallback.onSuccess(null);
+            }
+        });
+    }
+
 }

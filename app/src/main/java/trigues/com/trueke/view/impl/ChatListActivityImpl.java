@@ -118,6 +118,11 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         fragment.setTruekePaid();
     }
 
+    @Override
+    public void onTruekeVoted() {
+
+    }
+
     public void sendMessage(ChatMessage chatTextMessage) {
         presenter.sendMessage(chatTextMessage);
     }
@@ -186,5 +191,13 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
 
     public void PayTrueke(int my_product, String chat_id, int payment_id) {
         presenter.PayTrueke(my_product,chat_id,payment_id);
+    }
+
+    public void ValorarUsuari() {
+        fragment.showValorarDialog();
+    }
+
+    public void valoraTrueke(float rating, int product_id2) {
+        presenter.voteTrueke(rating,product_id2);
     }
 }

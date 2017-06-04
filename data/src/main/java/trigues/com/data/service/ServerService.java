@@ -31,6 +31,7 @@ import trigues.com.data.entity.TruekeChat;
 import trigues.com.data.entity.UserImage;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.entity.ProductDTO;
+import trigues.com.data.entity.VoteDTO;
 
 /**
  * Created by mbaque on 18/03/2017.
@@ -149,4 +150,7 @@ public interface ServerService {
 
     @PUT("products/{product_id}/chats/{chat_id}/pay/{payment_id}")
     Call<ApiDTO<Void>> paytrueke(@Path("product_id")int product_id,@Path("chat_id")String chat_id,@Path("payment_id") int payment_id,@Header("token") String token);
+
+    @POST("products/{product_id}/vote")
+    Call<ApiDTO<Void>> voteTrueke(@Header("token") String token,@Path("product_id") int product_id, @Body VoteDTO vote);
 }

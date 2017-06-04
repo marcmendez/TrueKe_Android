@@ -11,21 +11,13 @@
         android:numStars="5"
         android:gravity="center"
         android:layout_gravity="center"
-        android:isIndicator="true"
-        android:stepSize="1.0"
-        android:rating="2.0"/>
+        android:isIndicator="false"
+        android:stepSize="0.5"
+        android:rating="0.0"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
          />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Submit"
-        android:textSize="18sp"
-        android:textStyle="normal"
-        android:gravity="center"
-        android:id="@+id/rate_textview_submit" />
 </LinearLayout>
