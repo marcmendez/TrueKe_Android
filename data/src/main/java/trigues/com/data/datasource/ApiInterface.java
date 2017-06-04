@@ -86,6 +86,8 @@ public interface ApiInterface {
 
     void changeUserImageProfile(String token, String id, String image_path, BooleanDataCallback booleanDataCallback);
 
+    void payTrueke(int product_id, String chat_id, int payment_id, String token, VoidDataCallback voidDataCallback);
+
     //Callbacks:
 
     interface UserDataCallback extends DefaultCallback<ApiDTO<List<User>>>{}

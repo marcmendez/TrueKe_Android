@@ -7,6 +7,7 @@ import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.TruekeData;
+import com.trigues.entity.TruekePaymentData;
 import com.trigues.entity.User;
 
 import java.util.List;
@@ -96,6 +97,8 @@ public interface RepositoryInterface {
     void setTruekeStatus(TruekeData truekedata, VoidCallback dataCallback);
 
     void createTrueke(String chatID, VoidCallback dataCallback);
+
+    void payTrueke(TruekePaymentData truekedata, VoidCallback dataCallback);
 
     //Callbacks:
 

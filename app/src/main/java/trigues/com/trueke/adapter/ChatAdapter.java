@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,6 +143,26 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
                 else {
                     holder.truekeButtonsLayout.setVisibility(View.GONE);
                 }
+                if(trueke.getStatus()==3){
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onWaitingPayment((ChatTrueke) messages.get(holder.getAdapterPosition()));
+                            notifyDataSetChanged();
+                            recyclerView.scrollToPosition(getItemCount() - 1);
+                        }
+                    });
+                }
+                if(trueke.getStatus()==2 && trueke.getShipmentType()==1){
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onWaitingAddress((ChatTrueke) messages.get(holder.getAdapterPosition()));
+                            notifyDataSetChanged();
+                            recyclerView.scrollToPosition(getItemCount() - 1);
+                        }
+                    });
+                }
             }
         }
         else{
@@ -150,6 +171,8 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
             holder.image.setImageBitmap(decodedByte);
         }
     }
+
+    protected abstract void onWaitingAddress(ChatTrueke trueke);
 
     @Override
     public int getItemViewType(int position) {
@@ -204,6 +227,7 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
     }
 
     private void sortList(){
+        Log.i("sortlist", "sortList: "+messages);
         for(int i = 0; i<messages.size(); ++i){
             for(int j = 0; j<messages.size(); ++j){
                 ChatMessage message1 = messages.get(i);
@@ -225,7 +249,7 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
 
     public abstract void onAcceptTrueke(ChatTrueke trueke);
     public abstract void onRejectTrueke(ChatTrueke trueke);
-
+    public abstract void onWaitingPayment(ChatTrueke trueke);
     class ViewHolder extends RecyclerView.ViewHolder{
 
         @Nullable

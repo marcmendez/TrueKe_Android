@@ -188,28 +188,39 @@ public class ChatFragImpl extends Fragment {
         }
     }
 
-    private void setUpAdapter(List<ChatMessage> messages){
+    private void setUpAdapter(List<ChatMessage> messages) {
         adapter = new ChatAdapter(getContext(), chatRecyclerView, chat.getMy_product(), messages) {
             @Override
+            protected void onWaitingAddress(ChatTrueke trueke) {
+                paymentTrueke = trueke;
+                activity.GetUserShipments();
+            }
+
+            @Override
             public void onAcceptTrueke(ChatTrueke trueke) {
-                if(trueke.getShipmentType()==1) {
+                trueke.setStatus(2); //acceptat pero en el cas de a peu es podria ficar un estat tipo Completado
+                activity.setTruekeStatus(trueke.getStatus(), String.valueOf(chat.getId()), trueke.getTruekeID());
+                if (trueke.getShipmentType() == 1) {
                     paymentTrueke = trueke;
-                    activity.GetUserPayments(); //haig de mirar que només en cas de transport
+                    activity.GetUserShipments();
                 }
-                else {
-                    trueke.setStatus(2); //acceptat
-                    activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
-                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onRejectTrueke(ChatTrueke trueke) {
                 trueke.setStatus(1); //rejected (queda actualitzar)
-                activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
+                activity.setTruekeStatus(trueke.getStatus(), String.valueOf(chat.getId()), trueke.getTruekeID());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onWaitingPayment(ChatTrueke trueke) {
+                paymentTrueke = trueke;
+                activity.GetUserPayments();
             }
         };
     }
-
     public void addChatMessage(ChatMessage message){
         if(adapter == null) {
             setUpAdapter(new ArrayList<ChatMessage>());
@@ -474,10 +485,13 @@ public class ChatFragImpl extends Fragment {
                   builder2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
-                          paymentTrueke.setStatus(3);
-                          activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
-                          adapter.notifyDataSetChanged();
-                          activity.createTrueke(String.valueOf(chat.getId()));
+                          if(paymentTrueke.getStatus()!=3){
+                              paymentTrueke.setStatus(3);
+                              activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
+                              adapter.notifyDataSetChanged();
+                          }
+                          String[] chat_db = chat.getId().split("_");
+                          activity.PayTrueke(chat.getMy_product(),chat_db[chat_db.length-1],payments.get(pos[0]).getId());
                           dialog.dismiss();
                       }
                   });
@@ -485,8 +499,11 @@ public class ChatFragImpl extends Fragment {
                   builder2.setNegativeButton("No", new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialog, int which) {
-                          // showPaymentMethodsDialog(payments);
+                          if(paymentTrueke.getStatus()!=3) paymentTrueke.setStatus(3);
+                          activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
+                          adapter.notifyDataSetChanged();
                           dialog.dismiss();
+                          paymentTrueke=null;
                       }
                   });
                   builder2.show();
@@ -495,7 +512,11 @@ public class ChatFragImpl extends Fragment {
            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                @Override
                public void onClick(DialogInterface dialog, int which) {
-
+                   if(paymentTrueke.getStatus()!=3) paymentTrueke.setStatus(3);
+                   activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
+                   adapter.notifyDataSetChanged();
+                   dialog.dismiss();
+                   paymentTrueke=null;
                }
            });
         if(paymentsString.size()==0) Toast.makeText(getContext(),"No tienes métodos de pago",Toast.LENGTH_SHORT).show();
@@ -527,8 +548,18 @@ public class ChatFragImpl extends Fragment {
                  builder2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                      @Override
                      public void onClick(DialogInterface dialog, int which) {
+                         if(paymentTrueke!=null && paymentTrueke.getStatus()==2){
+                             paymentTrueke.setStatus(3);
+                             activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
+                             adapter.notifyDataSetChanged();
+                             String[] chat_db = chat.getId().split("_");
+                             activity.createTrueke(chat_db[chat_db.length-1]);
+                             activity.GetUserPayments();
+                             dialog.dismiss();
+                         }else{
                          ChatTrueke chatTrueke = new ChatTrueke(chat.getMy_product(), Calendar.getInstance().getTimeInMillis(), 1, 0, chat.getId(),false);
                          activity.sendMessage(chatTrueke);
+                         }
                          dialog.dismiss();
                      }
                  });
@@ -558,5 +589,10 @@ public class ChatFragImpl extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putString("messages", new Gson().toJson(messageList));
+    }
+
+    public void setTruekePaid() {
+       // paymentTrueke.setStatus(6); //paid
+       // activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
     }
 }

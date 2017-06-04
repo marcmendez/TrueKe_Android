@@ -4,11 +4,13 @@ import com.trigues.entity.ChatInfo;
 import com.trigues.entity.ChatMessage;
 import com.trigues.entity.Product;
 import com.trigues.entity.TruekeData;
+import com.trigues.entity.TruekePaymentData;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.CreateTruekeUseCase;
 import com.trigues.usecase.GetChatMessagesUseCase;
 import com.trigues.usecase.GetChatsUseCase;
 import com.trigues.usecase.GetProductUseCase;
+import com.trigues.usecase.PayTruekeUseCase;
 import com.trigues.usecase.SendChatMessageUseCase;
 import com.trigues.usecase.SetTruekeStatusUseCase;
 
@@ -30,6 +32,7 @@ public class ChatPresenter {
     private GetChatsUseCase getChatsUseCase;
     private SetTruekeStatusUseCase setTruekeStatusUseCase;
     private CreateTruekeUseCase createTruekeUseCase;
+    private PayTruekeUseCase payTruekeUseCase;
     private GetProductUseCase getProductUseCase;
 
     @Inject
@@ -38,7 +41,8 @@ public class ChatPresenter {
                          SetTruekeStatusUseCase setTruekeStatusUseCase,
                          CreateTruekeUseCase createTruekeUseCase,
                          GetChatsUseCase getChatsUseCase,
-                         GetProductUseCase getProductUseCase) {
+                         GetProductUseCase getProductUseCase,
+                         PayTruekeUseCase payTruekeUseCase) {
         this.view = view;
         this.getChatMessagesUseCase = getChatMessagesUseCase;
         this.sendChatMessageUseCase = sendChatMessageUseCase;
@@ -46,6 +50,7 @@ public class ChatPresenter {
         this.createTruekeUseCase = createTruekeUseCase;
         this.getChatsUseCase = getChatsUseCase;
         this.getProductUseCase = getProductUseCase;
+        this.payTruekeUseCase = payTruekeUseCase;
     }
 
     public void getChats() {
@@ -130,6 +135,31 @@ public class ChatPresenter {
     }
 
     public void createTrueke(String chatID) {
+        createTruekeUseCase.execute(chatID, new CreateTruekeUseCase.CreateTruekeCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
 
+            @Override
+            public void onSuccess(Void returnParam) {
+                view.OnTruekeCreated();
+            }
+        });
+    }
+
+    public void PayTrueke(int my_product, String chat_id, int payment_id) {
+        payTruekeUseCase.execute(new TruekePaymentData(my_product,chat_id,payment_id), new PayTruekeUseCase.PayTruekeCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                view.onTruekePaid();
+            }
+        });
     }
 }

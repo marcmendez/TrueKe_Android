@@ -29,6 +29,7 @@ import trigues.com.data.entity.ProductDTO;
 import trigues.com.data.entity.ProductId;
 import trigues.com.data.entity.ProductsMatchDTO;
 import trigues.com.data.entity.ReportProductDTO;
+import trigues.com.data.entity.TruekeChat;
 import trigues.com.data.entity.UserImage;
 import trigues.com.data.entity.UserName;
 import trigues.com.data.service.ServerService;
@@ -859,6 +860,16 @@ public class ApiDataSource implements ApiInterface {
     }
 
     @Override
+    public void payTrueke(int product_id, String chat_id, int payment_id, String token, final VoidDataCallback voidDataCallback) {
+        server.paytrueke(product_id,chat_id,payment_id,token).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                voidDataCallback.onSuccess(null);
+            }
+        });
+    }
+
+    @Override
     public void getUserChats(String token, int userID, final ChatListDataCallback dataCallback) {
 
             server.getUserChats(token,userID).enqueue(new RetrofitErrorHandler<ApiDTO<List<ChatDTO>>>(dataCallback) {
@@ -883,7 +894,12 @@ public class ApiDataSource implements ApiInterface {
 
 
     @Override
-    public void createTrueke(String chatID, String admintoken, VoidDataCallback voidDataCallback) {
-        server.createTrueke(admintoken,chatID);
+    public void createTrueke(String chatID, String admintoken, final VoidDataCallback voidDataCallback) {
+        server.createTrueke(admintoken,new TruekeChat(chatID)).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                voidDataCallback.onSuccess(null);
+            }
+        });
     }
 }

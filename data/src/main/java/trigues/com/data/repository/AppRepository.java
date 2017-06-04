@@ -10,6 +10,7 @@ import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
 import com.trigues.entity.Shipment;
 import com.trigues.entity.TruekeData;
+import com.trigues.entity.TruekePaymentData;
 import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 
@@ -614,20 +615,37 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void createTrueke(String chatID, VoidCallback dataCallback) {
+    public void createTrueke(String chatID, final VoidCallback dataCallback) {
         apiDataSource.createTrueke(chatID,"f4493ed183abba6b096f3903a5fc3b64", new ApiInterface.VoidDataCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
-
+                    dataCallback.onError(errorBundle);
             }
 
             @Override
             public void onSuccess(Void returnParam) {
-
+                    dataCallback.onSuccess(null);
             }
         });
     }
+
+    @Override
+    public void payTrueke(TruekePaymentData truekedata, final VoidCallback dataCallback) {
+        apiDataSource.payTrueke(truekedata.getProduct_id(),truekedata.getChat_id(),truekedata.getPayment_id(),internalStorage.getToken(), new ApiInterface.VoidDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                dataCallback.onSuccess(null);
+            }
+        });
+    }
+
     @Override
     public void getProductInfo(int prodID, final ProductCallback dataCallback) {
         apiDataSource.getProductInfo(prodID, new ApiInterface.ProductDataCallback() {

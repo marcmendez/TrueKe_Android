@@ -60,9 +60,11 @@ public class ChatTrueke extends ChatMessage {
             case 3 :
                 return "Esperando pago";
             case 4 :
-                return "En transport";
+                return "En camino";
             case 5 :
                 return "Finalizado";
+            case 6 :
+                return "Pagado";
         }
         return "";
     }
