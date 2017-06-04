@@ -16,10 +16,16 @@ public class ChatTrueke extends ChatMessage {
 
     private String truekeID;
 
+    private boolean firstUserValorated;
+
+    private boolean secondUserValorated;
+
     public ChatTrueke(int fromUserId, Long date, int shipmentType, int status, String chatId, boolean read) {
         super(fromUserId, date, chatId, read);
         this.shipmentType = shipmentType;
         this.status = status;
+        this.firstUserValorated = false;
+        this.secondUserValorated = false;
     }
 
     public ChatTrueke (HashMap<String, Object> params){
@@ -34,6 +40,8 @@ public class ChatTrueke extends ChatMessage {
 
         this.shipmentType = ((Long) params.get("shipmentType")).intValue();
         this.status = ((Long) params.get("status")).intValue();
+        this.firstUserValorated = ((Boolean) params.get("firstUserValorated"));
+        this.secondUserValorated = ((Boolean) params.get("secondUserValorated"));
         truekeID = key;
     }
 
