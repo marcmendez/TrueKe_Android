@@ -474,7 +474,8 @@ public class ChatFragImpl extends Fragment {
                               activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
                               adapter.notifyDataSetChanged();
                           }
-                          activity.PayTrueke(chat.getMy_product(),"1",payments.get(pos[0]).getId());
+                          String[] chat_db = chat.getId().split("_");
+                          activity.PayTrueke(chat.getMy_product(),chat_db[chat_db.length-1],payments.get(pos[0]).getId());
                           dialog.dismiss();
                       }
                   });
@@ -535,7 +536,8 @@ public class ChatFragImpl extends Fragment {
                              paymentTrueke.setStatus(3);
                              activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
                              adapter.notifyDataSetChanged();
-                             activity.createTrueke("1");
+                             String[] chat_db = chat.getId().split("_");
+                             activity.createTrueke(chat_db[chat_db.length-1]);
                              activity.GetUserPayments();
                              dialog.dismiss();
                          }else{
