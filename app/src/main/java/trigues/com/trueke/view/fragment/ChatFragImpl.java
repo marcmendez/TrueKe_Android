@@ -193,7 +193,9 @@ public class ChatFragImpl extends Fragment {
         adapter = new ChatAdapter(getContext(), chatRecyclerView, chat.getMy_product(), messages) {
             @Override
             protected void onTruekeEnded(ChatTrueke trueke) {
+                paymentTrueke = trueke;
                 activity.ValorarUsuari();
+
             }
 
             @Override
@@ -205,7 +207,7 @@ public class ChatFragImpl extends Fragment {
             @Override
             public void onAcceptTrueke(ChatTrueke trueke) {
                 trueke.setStatus(2); //acceptat pero en el cas de a peu es podria ficar un estat tipo Completado
-                if(trueke.getShipmentType()==0) trueke.setStatus(5);
+                if(trueke.getShipmentType()==0) trueke.setStatus(4);
                 activity.setTruekeStatus(trueke.getStatus(), String.valueOf(chat.getId()), trueke.getTruekeID());
                 if (trueke.getShipmentType() == 1) {
                     paymentTrueke = trueke;
@@ -605,11 +607,13 @@ public class ChatFragImpl extends Fragment {
         View v = inflater.inflate(R.layout.dialog_rate, null);
         builder.setView(v);
         final RatingBar ratingBar = (RatingBar)v.findViewById(R.id.ratingbar);
-        builder.setTitle("Valora el Trueke");
+        builder.setTitle("Finalitza i valora el Trueke");
         builder.setPositiveButton("Valora", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 activity.valoraTrueke(ratingBar.getRating(),chat.getProduct_id2());
+                paymentTrueke.setStatus(4);
+                activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
             }
         });
         builder.setNegativeButton("Más tarde", new DialogInterface.OnClickListener() {
