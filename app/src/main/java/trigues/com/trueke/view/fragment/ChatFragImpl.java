@@ -607,12 +607,12 @@ public class ChatFragImpl extends Fragment {
         View v = inflater.inflate(R.layout.dialog_rate, null);
         builder.setView(v);
         final RatingBar ratingBar = (RatingBar)v.findViewById(R.id.ratingbar);
-        builder.setTitle("Valora el Trueke");
+        builder.setTitle("Finalitza i valora el Trueke");
         builder.setPositiveButton("Valora", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 activity.valoraTrueke(ratingBar.getRating(),chat.getProduct_id2());
-                paymentTrueke.setStatus(4);
+                paymentTrueke.setStatus(5);
                 activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
             }
         });
