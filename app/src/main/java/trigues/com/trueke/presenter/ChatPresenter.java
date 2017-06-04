@@ -2,11 +2,13 @@ package trigues.com.trueke.presenter;
 
 import com.trigues.entity.ChatInfo;
 import com.trigues.entity.ChatMessage;
+import com.trigues.entity.Product;
 import com.trigues.entity.TruekeData;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.CreateTruekeUseCase;
 import com.trigues.usecase.GetChatMessagesUseCase;
 import com.trigues.usecase.GetChatsUseCase;
+import com.trigues.usecase.GetProductUseCase;
 import com.trigues.usecase.SendChatMessageUseCase;
 import com.trigues.usecase.SetTruekeStatusUseCase;
 
@@ -28,19 +30,22 @@ public class ChatPresenter {
     private GetChatsUseCase getChatsUseCase;
     private SetTruekeStatusUseCase setTruekeStatusUseCase;
     private CreateTruekeUseCase createTruekeUseCase;
+    private GetProductUseCase getProductUseCase;
 
     @Inject
     public ChatPresenter(ChatListActivity view, GetChatMessagesUseCase getChatMessagesUseCase,
                          SendChatMessageUseCase sendChatMessageUseCase,
                          SetTruekeStatusUseCase setTruekeStatusUseCase,
                          CreateTruekeUseCase createTruekeUseCase,
-                         GetChatsUseCase getChatsUseCase) {
+                         GetChatsUseCase getChatsUseCase,
+                         GetProductUseCase getProductUseCase) {
         this.view = view;
         this.getChatMessagesUseCase = getChatMessagesUseCase;
         this.sendChatMessageUseCase = sendChatMessageUseCase;
         this.setTruekeStatusUseCase = setTruekeStatusUseCase;
         this.createTruekeUseCase = createTruekeUseCase;
         this.getChatsUseCase = getChatsUseCase;
+        this.getProductUseCase = getProductUseCase;
     }
 
     public void getChats() {
@@ -103,6 +108,23 @@ public class ChatPresenter {
             @Override
             public void onSuccess(Void returnParam) {
                 view.OnTruekeStatusUpdated();
+            }
+        });
+    }
+
+    public void getProducts(List<Integer> productId) {
+
+        getProductUseCase.execute(productId, new GetProductUseCase.GetProductCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(List<Product> returnParam) {
+                view.setproductTitle(returnParam);
+                view.hideProgress();
             }
         });
     }

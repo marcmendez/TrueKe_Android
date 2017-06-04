@@ -21,7 +21,6 @@ import com.trigues.entity.ChatMessage;
 import com.trigues.entity.ChatTextMessage;
 import com.trigues.entity.ChatTrueke;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -50,13 +49,14 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
     private int currentUserId;
     private RecyclerView recyclerView;
 
-    public ChatAdapter(Context context, RecyclerView recyclerView, int currentUserId) {
+    public ChatAdapter(Context context, RecyclerView recyclerView, int currentUserId, List<ChatMessage> messages) {
         this.context = context;
-        this.messages = new ArrayList<>();
+        this.messages = messages;
         this.currentUserId = currentUserId;
         this.recyclerView = recyclerView;
 
         sortList();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -208,7 +208,7 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
             for(int j = 0; j<messages.size(); ++j){
                 ChatMessage message1 = messages.get(i);
                 ChatMessage message2 = messages.get(j);
-                if(i != j && message1.getDate() == message2.getDate()){
+                if(i != j && message1.getDate().equals(message2.getDate())){
                     messages.remove(j);
                 }
             }

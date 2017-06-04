@@ -107,8 +107,9 @@ public class ChatFragImpl extends Fragment {
             if(json != null){
                 Type listType = new TypeToken<List<ChatMessage>>() {}.getType();
                 messageList = new Gson().fromJson(json, listType);
-
-
+                if(messageList != null && messageList.size() > 0){
+                    setUpAdapter(messageList);
+                }
             }
             else{
                 messageList = new ArrayList<>();
@@ -181,45 +182,52 @@ public class ChatFragImpl extends Fragment {
                 messageEditText.setText("");
             }
         });
+
+        if(adapter != null){
+            chatRecyclerView.setAdapter(adapter);
+        }
+    }
+
+    private void setUpAdapter(List<ChatMessage> messages){
+        adapter = new ChatAdapter(getContext(), chatRecyclerView, chat.getMy_product(), messages) {
+            @Override
+            public void onAcceptTrueke(ChatTrueke trueke) {
+                if(trueke.getShipmentType()==1) {
+                    paymentTrueke = trueke;
+                    activity.GetUserPayments(); //haig de mirar que només en cas de transport
+                }
+                else {
+                    trueke.setStatus(2); //acceptat
+                    activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
+                }
+            }
+
+            @Override
+            public void onRejectTrueke(ChatTrueke trueke) {
+                trueke.setStatus(1); //rejected (queda actualitzar)
+                activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
+            }
+        };
     }
 
     public void addChatMessage(ChatMessage message){
+        if(adapter == null) {
+            setUpAdapter(new ArrayList<ChatMessage>());
+            chatRecyclerView.setAdapter(adapter);
+        }
 
+        boolean found = false;
         for(int i = 0; i<messageList.size(); ++i){
             if(messageList.get(i).getDate().equals(message.getDate())){
                 messageList.set(i, message);
                 adapter.notifyDataSetChanged();
+                found = true;
             }
         }
-
-        if(adapter == null) {
-            adapter = new ChatAdapter(getContext(), chatRecyclerView, chat.getMy_product()) {
-                @Override
-                public void onAcceptTrueke(ChatTrueke trueke) {
-                    if(trueke.getShipmentType()==1) {
-                        paymentTrueke = trueke;
-                        activity.GetUserPayments(); //haig de mirar que només en cas de transport
-                    }
-                    else {
-                        trueke.setStatus(2); //acceptat
-                        activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
-                    }
-                }
-
-                @Override
-                public void onRejectTrueke(ChatTrueke trueke) {
-                    trueke.setStatus(1); //rejected (queda actualitzar)
-                    activity.setTruekeStatus(trueke.getStatus(),String.valueOf(chat.getId()),trueke.getTruekeID());
-                }
-            };
+        if(!found){
             messageList.add(message);
             adapter.addMessage(message);
-            chatRecyclerView.setAdapter(adapter);
         }
-
-        messageList.add(message);
-        adapter.addMessage(message);
-
     }
 
     @Override

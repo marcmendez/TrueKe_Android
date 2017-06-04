@@ -25,14 +25,16 @@ import com.trigues.entity.ChatInfo;
 import com.trigues.entity.ChatLocation;
 import com.trigues.entity.ChatMessage;
 import com.trigues.entity.ChatTextMessage;
+import com.trigues.entity.ChatTrueke;
 import com.trigues.entity.Product;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import trigues.com.data.utils.MessageJsonParser;
 import trigues.com.trueke.R;
@@ -95,9 +97,15 @@ public class ChatService extends Service {
 
         if(chats == null) chats = new ArrayList<>();
 
-        updateChats();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                updateListeners();
+            }
+        }, 0, 10000);
 
-        updateListeners();
+        updateChats();
     }
 
     private void updateChats(){
@@ -186,6 +194,9 @@ public class ChatService extends Service {
 
                             Picasso.with(getApplicationContext()).load(mapUrl).into(target);
                         }
+                        else if(message instanceof ChatTrueke){
+                            setUpNewTruekeNotification(chat);
+                        }
                     }
                 }
 
@@ -242,8 +253,7 @@ public class ChatService extends Service {
             Intent notificationIntent = new Intent(context, ChatListActivityImpl.class);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
             builder.setContentIntent(contentIntent);
-            int id = Integer.decode("0x" + String.format("%040x", new BigInteger(1, chatId.getBytes())));
-            mNotificationManager.notify(id, builder.build());
+            mNotificationManager.notify(new Random().nextInt(), builder.build());
         }
     }
 
@@ -267,12 +277,27 @@ public class ChatService extends Service {
                     .setSmallIcon(R.mipmap.ic_k)
                     .setContentTitle(emoji + " Imagen")
                     .setContentIntent(contentIntent)
+                    .setAutoCancel(true)
                     .setStyle(notiStyle);
 
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            int id = Integer.decode("0x" + String.format("%040x", new BigInteger(1, chatId.getBytes())));
-            mNotificationManager.notify(id, notificationBuilder.build());
+            mNotificationManager.notify(new Random().nextInt(), notificationBuilder.build());
         }
+    }
+
+    private void setUpNewTruekeNotification(String chatId){
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        int icon = R.mipmap.ic_k;
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+        builder.setSmallIcon(icon);
+        builder.setContentTitle("Nuevo petición de TrueKe");
+        builder.setContentText("Tienes una nueva petición de TrueKe");
+        Context context = getApplicationContext();
+
+        Intent notificationIntent = new Intent(context, ChatListActivityImpl.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        builder.setContentIntent(contentIntent);
+        mNotificationManager.notify(new Random().nextInt(), builder.build());
     }
 
     private void setUpNewChatNotification(){

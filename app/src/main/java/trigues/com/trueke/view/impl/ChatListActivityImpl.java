@@ -26,7 +26,6 @@ import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.ChatDataPresenter;
 import trigues.com.trueke.presenter.ChatPresenter;
-import trigues.com.trueke.presenter.ProductPresenter;
 import trigues.com.trueke.service.ChatService;
 import trigues.com.trueke.view.ChatListActivity;
 import trigues.com.trueke.view.fragment.ChatFragImpl;
@@ -36,14 +35,9 @@ import trigues.com.trueke.view.fragment.ChatFragImpl;
  */
 
 public class ChatListActivityImpl extends MenuActivityImpl implements ChatListActivity {
-    @Inject
-    ChatPresenter presenterChatsuser;
 
     List<Product> ListProductOtherUser;
     List<ChatInfo> ListNamesChats;
-
-    @Inject
-    ProductPresenter productPresenter;
 
     @BindView(R.id.chat_list_recyclerview)
     RecyclerView chatListRecyclerView;
@@ -73,7 +67,7 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
             fragment = (ChatFragImpl) getSupportFragmentManager().getFragment(savedInstanceState, "ChatFragment");
         }
 
-        presenterChatsuser.getChats();
+        presenter.getChats();
 
     }
 
@@ -127,7 +121,7 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         }
     }
     public void getProductMatched(List<Integer> productID) {
-        productPresenter.getProducts(productID);
+        presenter.getProducts(productID);
     }
 
     public void setproductTitle(List<Product> ProductOtherUser) {

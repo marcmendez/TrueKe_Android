@@ -1,7 +1,9 @@
 package trigues.com.trueke.presenter;
 
+import com.trigues.entity.ChatInfo;
 import com.trigues.entity.Product;
 import com.trigues.exception.ErrorBundle;
+import com.trigues.usecase.GetChatsUseCase;
 import com.trigues.usecase.GetImagesProductUseCase;
 import com.trigues.usecase.GetImagesUseCase;
 import com.trigues.usecase.GetUserProductsUseCase;
@@ -12,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import trigues.com.trueke.service.ChatService;
 import trigues.com.trueke.view.UserProductsListActivity;
 
 /**
@@ -31,17 +34,22 @@ public class ShowProductsPresenter {
     private int count_products;
     private int size_products;
     private int count_i;
+    private GetChatsUseCase getChatsUseCase;
 
     @Inject
     public ShowProductsPresenter(UserProductsListActivity view,
                                  GetUserProductsUseCase showProductsUseCase,
                                  GetImagesUseCase getImagesUseCase,
-                                 GetImagesProductUseCase getImagesProductUseCase) {
+                                 GetImagesProductUseCase getImagesProductUseCase,
+                                 GetChatsUseCase getChatsUseCase) {
 
         this.view = view;
         this.showProductsUseCase = showProductsUseCase;
         this.getImagesProductUseCase = getImagesProductUseCase;
         this.getImagesUseCase = getImagesUseCase;
+        this.getChatsUseCase = getChatsUseCase;
+
+        getChats();
     }
 
 
@@ -73,7 +81,7 @@ public class ShowProductsPresenter {
         });
     }
 
-   public void getImagesProductcallback() {
+    public void getImagesProductcallback() {
         getImagesProduct(aux_returnParam.get(count_i),aux_returnParam.get(count_i).getId());
     }
 
@@ -89,7 +97,7 @@ public class ShowProductsPresenter {
                 count_images = returnParam.size();
                 images_base64 = new ArrayList();
                 for(String ret: returnParam) {
-                   // Log.i("images presenter", "images ret: "+ret);
+                    // Log.i("images presenter", "images ret: "+ret);
                     //Log.i("images", "gip product: "+p.getId());
                     getImage(p, ret);
                     try { //delay entre llamadas
@@ -120,12 +128,12 @@ public class ShowProductsPresenter {
 
     public void finalList(Product p, String image) {
         images_base64.add(image);
-       // Log.i("images", "MID product: "+p.getId()+" images: "+image);
+        // Log.i("images", "MID product: "+p.getId()+" images: "+image);
         if (images_base64.size() == count_images) {
             p.setImages(images_base64);
             products.add(p);
             count_products++;
-         //   Log.i("images", "AFT product: "+p.getId()+" images: "+p.getImages());
+            //   Log.i("images", "AFT product: "+p.getId()+" images: "+p.getImages());
             if(count_products < size_products) {
                 count_i++;
                 getImagesProductcallback();
@@ -135,6 +143,22 @@ public class ShowProductsPresenter {
                 view.generateProds(products);
             }
         }
+    }
+
+    public void getChats() {
+        getChatsUseCase.execute(0, new GetChatsUseCase.GetChatsListCallback(){
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+
+            }
+
+            @Override
+            public void onSuccess(List<ChatInfo> returnParam) {
+                if(returnParam.size() != 0) {
+                    ChatService.setChats(returnParam);
+                }
+            }
+        });
     }
 }
 
