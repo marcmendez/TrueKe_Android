@@ -93,6 +93,7 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        Log.i("instance", "message instanceof "+messages.get(position).getClass());
         if (messages.get(position) instanceof ChatTextMessage) {
             holder.message.setText(((ChatTextMessage) messages.get(position)).getMessage());
         }
@@ -112,7 +113,6 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
         }
         else if(messages.get(position) instanceof ChatTrueke){
             final ChatTrueke trueke = (ChatTrueke) messages.get(position);
-
             holder.typeTrueke.setText(trueke.getShipmentTypeString());
             holder.statusTrueke.setText(trueke.getStatusString());
 
@@ -122,7 +122,6 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
                     holder.acceptTrueke.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //trueke.setStatus(2);
                             onAcceptTrueke((ChatTrueke) messages.get(holder.getAdapterPosition()));
                             notifyDataSetChanged();
                             recyclerView.scrollToPosition(getItemCount() - 1);
@@ -143,16 +142,6 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
                 else {
                     holder.truekeButtonsLayout.setVisibility(View.GONE);
                 }
-                if(trueke.getStatus()==3){
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            onWaitingPayment((ChatTrueke) messages.get(holder.getAdapterPosition()));
-                            notifyDataSetChanged();
-                            recyclerView.scrollToPosition(getItemCount() - 1);
-                        }
-                    });
-                }
                 if(trueke.getStatus()==2 && trueke.getShipmentType()==1){
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -163,6 +152,16 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
                         }
                     });
                 }
+            }
+            if(trueke.getStatus()==3){
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onWaitingPayment((ChatTrueke) messages.get(holder.getAdapterPosition()));
+                        notifyDataSetChanged();
+                        recyclerView.scrollToPosition(getItemCount() - 1);
+                    }
+                });
             }
         }
         else{

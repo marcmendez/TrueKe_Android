@@ -199,6 +199,7 @@ public class ChatFragImpl extends Fragment {
             @Override
             public void onAcceptTrueke(ChatTrueke trueke) {
                 trueke.setStatus(2); //acceptat pero en el cas de a peu es podria ficar un estat tipo Completado
+                if(trueke.getShipmentType()==0) trueke.setStatus(5);
                 activity.setTruekeStatus(trueke.getStatus(), String.valueOf(chat.getId()), trueke.getTruekeID());
                 if (trueke.getShipmentType() == 1) {
                     paymentTrueke = trueke;
@@ -492,6 +493,7 @@ public class ChatFragImpl extends Fragment {
                           }
                           String[] chat_db = chat.getId().split("_");
                           activity.PayTrueke(chat.getMy_product(),chat_db[chat_db.length-1],payments.get(pos[0]).getId());
+
                           dialog.dismiss();
                       }
                   });
