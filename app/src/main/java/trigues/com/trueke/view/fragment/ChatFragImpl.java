@@ -607,7 +607,7 @@ public class ChatFragImpl extends Fragment {
         View v = inflater.inflate(R.layout.dialog_rate, null);
         builder.setView(v);
         final RatingBar ratingBar = (RatingBar)v.findViewById(R.id.ratingbar);
-        builder.setTitle("Finalitza i valora el Trueke");
+        builder.setTitle("Finaliza y valora el Trueke");
         builder.setPositiveButton("Valora", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
