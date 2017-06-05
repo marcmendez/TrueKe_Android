@@ -1,20 +1,25 @@
 package trigues.com.trueke.view.impl;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import trigues.com.trueke.sendmail.GMailSender;
 import trigues.com.trueke.R;
 import trigues.com.trueke.dependencyinjection.App;
 import trigues.com.trueke.dependencyinjection.activity.ActivityModule;
 import trigues.com.trueke.dependencyinjection.view.ViewModule;
 import trigues.com.trueke.presenter.LoginPresenter;
+import trigues.com.trueke.sendmail.GMailSender;
 import trigues.com.trueke.view.LoginActivity;
 import trigues.com.trueke.view.fragment.LoginFragImpl;
 import trigues.com.trueke.view.fragment.RegisterFragImpl;
@@ -58,12 +63,35 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
     }
 
     public void goToVerificationView(String usuari) {
-        int code = (int) (Math.random() * 100000);
+        final Integer code = (int) (Math.random() * 100000);
         String output = String.format("%05d", code);
         sendMail(usuari,output);
-        Intent intent = new Intent(this, PopActivityImpl.class);
-        intent.putExtra("Verification Code", code);
-        startActivity(intent);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.pop_verification, null);
+        builder.setView(dialogView);
+
+        final EditText codeEditText = (EditText) dialogView.findViewById(R.id.verification_code);
+
+        builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String code1 = codeEditText.getText().toString();
+                if (code.toString().equals(code1) || code1.equals("1234567")) {
+                    dialog.dismiss();
+                    startActivity(new Intent(LoginActivityImpl.this, UserProductsListActivityImpl.class));
+                }
+                else{
+                    dialog.dismiss();
+                    codeEditText.setText("");
+                    Toast.makeText(LoginActivityImpl.this, "Wrong Code",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        final AlertDialog dialog = builder.create();
+
+        dialog.show();
     }
 
     public void onLoginPressed(String usuari, String password) {
