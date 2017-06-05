@@ -8,6 +8,7 @@ import com.trigues.entity.TruekePaymentData;
 import com.trigues.entity.VoteData;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.CreateTruekeUseCase;
+import com.trigues.usecase.DeleteChatUseCase;
 import com.trigues.usecase.GetChatMessagesUseCase;
 import com.trigues.usecase.GetChatsUseCase;
 import com.trigues.usecase.GetProductUseCase;
@@ -37,6 +38,7 @@ public class ChatPresenter {
     private PayTruekeUseCase payTruekeUseCase;
     private GetProductUseCase getProductUseCase;
     private VoteUseCase voteUseCase;
+    private DeleteChatUseCase deleteChatUseCase;
 
     @Inject
     public ChatPresenter(ChatListActivity view, GetChatMessagesUseCase getChatMessagesUseCase,
@@ -45,7 +47,8 @@ public class ChatPresenter {
                          CreateTruekeUseCase createTruekeUseCase,
                          GetChatsUseCase getChatsUseCase,
                          GetProductUseCase getProductUseCase,
-                         PayTruekeUseCase payTruekeUseCase, VoteUseCase voteUseCase) {
+                         PayTruekeUseCase payTruekeUseCase, VoteUseCase voteUseCase,
+                         DeleteChatUseCase deleteChatUseCase) {
         this.view = view;
         this.getChatMessagesUseCase = getChatMessagesUseCase;
         this.sendChatMessageUseCase = sendChatMessageUseCase;
@@ -55,6 +58,7 @@ public class ChatPresenter {
         this.getProductUseCase = getProductUseCase;
         this.payTruekeUseCase = payTruekeUseCase;
         this.voteUseCase = voteUseCase;
+        this.deleteChatUseCase = deleteChatUseCase;
     }
 
     public void getChats() {
@@ -177,6 +181,21 @@ public class ChatPresenter {
             @Override
             public void onSuccess(Void returnParam) {
                 view.onTruekeVoted();
+            }
+        });
+    }
+
+    //TODO:
+    public void deleteChat(String chatId){
+        deleteChatUseCase.execute(chatId, new DeleteChatUseCase.VoidCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                //view.onChatDeleted();
             }
         });
     }

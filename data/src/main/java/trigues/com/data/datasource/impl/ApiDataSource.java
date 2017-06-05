@@ -914,4 +914,14 @@ public class ApiDataSource implements ApiInterface {
         });
     }
 
+    @Override
+    public void deleteChat(String chatId, String token, final VoidDataCallback voidDataCallback) {
+        server.deleteChat(chatId, token).enqueue(new RetrofitErrorHandler<ApiDTO<Void>>(voidDataCallback) {
+            @Override
+            public void onResponse(ApiDTO<Void> body) {
+                voidDataCallback.onSuccess(null);
+            }
+        });
+    }
+
 }

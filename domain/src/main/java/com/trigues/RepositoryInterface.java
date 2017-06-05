@@ -103,6 +103,8 @@ public interface RepositoryInterface {
 
     void voteTrueke(VoteData votedata, VoidCallback dataCallback);
 
+    void deleteChat(String chatId, VoidCallback dataCallback);
+
     //Callbacks:
 
     interface VoidCallback extends DefaultCallback<Void> {}

@@ -1,6 +1,5 @@
 package trigues.com.data.datasource;
 
-import com.trigues.RepositoryInterface;
 import com.trigues.callback.DefaultCallback;
 import com.trigues.entity.Payment;
 import com.trigues.entity.Product;
@@ -11,7 +10,6 @@ import java.util.List;
 
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
-import trigues.com.data.entity.ImagePath;
 import trigues.com.data.entity.ChatDTO;
 import trigues.com.data.entity.LoginDTO;
 import trigues.com.data.entity.ProductDTO;
@@ -89,6 +87,8 @@ public interface ApiInterface {
     void payTrueke(int product_id, String chat_id, int payment_id, String token, VoidDataCallback voidDataCallback);
 
     void voteTrueke(float rating, int product_id, String token, VoidDataCallback voidDataCallback);
+
+    void deleteChat(String chatId, String token, VoidDataCallback voidDataCallback);
 
     //Callbacks:
 

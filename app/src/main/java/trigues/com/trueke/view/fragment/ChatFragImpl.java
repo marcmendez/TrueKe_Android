@@ -267,7 +267,7 @@ public class ChatFragImpl extends Fragment {
                 return true;
             case R.id.menu_chat_trueke:
                 if (!adapter.isPendingTrueke()){
-                showCreateTruekeDialog();
+                    showCreateTruekeDialog();
                 }
                 else {
                     Toast.makeText(getContext(),"Ya tienes un Trueke pendiente!",Toast.LENGTH_SHORT).show();

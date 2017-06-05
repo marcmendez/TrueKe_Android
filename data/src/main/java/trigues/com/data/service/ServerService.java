@@ -153,4 +153,7 @@ public interface ServerService {
 
     @POST("products/{product_id}/vote")
     Call<ApiDTO<Void>> voteTrueke(@Header("token") String token,@Path("product_id") int product_id, @Body VoteDTO vote);
+
+    @DELETE("chats/{chat_id}")
+    Call<ApiDTO<Void>> deleteChat(@Path("chat_id") String chat_id, @Header("token") String token);
 }

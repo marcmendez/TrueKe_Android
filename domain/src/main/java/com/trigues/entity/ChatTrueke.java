@@ -100,4 +100,20 @@ public class ChatTrueke extends ChatMessage {
     public void setTruekeID(String truekeID) {
         this.truekeID = truekeID;
     }
+
+    public boolean isFirstUserValorated() {
+        return firstUserValorated;
+    }
+
+    public void setFirstUserValorated(boolean firstUserValorated) {
+        this.firstUserValorated = firstUserValorated;
+    }
+
+    public boolean isSecondUserValorated() {
+        return secondUserValorated;
+    }
+
+    public void setSecondUserValorated(boolean secondUserValorated) {
+        this.secondUserValorated = secondUserValorated;
+    }
 }

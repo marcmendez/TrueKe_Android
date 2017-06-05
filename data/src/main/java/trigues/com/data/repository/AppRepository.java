@@ -545,6 +545,22 @@ public class AppRepository implements RepositoryInterface {
         });
     }
 
+    @Override
+    public void deleteChat(String chatId, final VoidCallback dataCallback) {
+        apiDataSource.deleteChat(chatId, internalStorage.getToken(), new ApiInterface.VoidDataCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                dataCallback.onError(errorBundle);
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+                dataCallback.onSuccess(returnParam);
+            }
+        });
+    }
+
 
     @Override
     public void getUserChats(final ChatListCallback dataCallback) {
