@@ -138,8 +138,8 @@ public class MatchmakingPresenterTest {
         matchmakingPresenter.acceptedProduct(productID);
 
         // Callback is captured and invoked once
-        //verify(repository, times(1)).acceptMatch(productes, voidCallback);
-        //verify(acceptMatchUseCase,times(1)).execute(productID, acceptMatchCallback);
+        //verify(repository).acceptMatch(productID, voidCallback);
+        verify(acceptMatchUseCase,times(1)).execute(productID, acceptMatchCallback);
         /*verify(acceptMatchUseCase,times(1)).execute(productID, new AcceptMatchUseCase.AcceptMatchCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {}
