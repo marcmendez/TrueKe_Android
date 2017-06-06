@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.trigues.entity.ChatImage;
+import com.trigues.entity.ChatInfo;
 import com.trigues.entity.ChatLocation;
 import com.trigues.entity.ChatMessage;
 import com.trigues.entity.ChatTextMessage;
@@ -46,14 +47,16 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
     private static final int TRUEKE_FROM_OTHER_USER = 7;
 
     private Context context;
+    private ChatInfo chatInfo;
     private List<ChatMessage> messages;
     private int currentUserId;
     private RecyclerView recyclerView;
 
-    public ChatAdapter(Context context, RecyclerView recyclerView, int currentUserId, List<ChatMessage> messages) {
+    public ChatAdapter(Context context, RecyclerView recyclerView, ChatInfo chatInfo, int currentUserId, List<ChatMessage> messages) {
         this.context = context;
         this.messages = messages;
         this.currentUserId = currentUserId;
+        this.chatInfo = chatInfo;
         this.recyclerView = recyclerView;
 
         sortList();
@@ -163,14 +166,20 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
                     }
                 });
             }else if(trueke.getStatus()>=4){
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onTruekeEnded((ChatTrueke) messages.get(holder.getAdapterPosition()));
-                        notifyDataSetChanged();
-                        recyclerView.scrollToPosition(getItemCount()-1);
-                    }
-                });
+                boolean isUser1 = chatInfo.getMy_product() >= chatInfo.getProduct_id2();
+                if((isUser1 && !trueke.isFirstUserValorated()) || (!isUser1 && !trueke.isSecondUserValorated())) {
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onTruekeEnded((ChatTrueke) messages.get(holder.getAdapterPosition()));
+                            notifyDataSetChanged();
+                            recyclerView.scrollToPosition(getItemCount() - 1);
+                        }
+                    });
+                }
+                else{
+                    holder.itemView.setOnClickListener(null);
+                }
             }
 
         }
@@ -230,11 +239,15 @@ public abstract class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewH
         recyclerView.scrollToPosition(getItemCount() - 1);
     }
 
-    public void addMessages(List<ChatMessage> messages){
-        messages.addAll(messages);
-        sortList();
-        notifyDataSetChanged();
-        recyclerView.scrollToPosition(getItemCount() - 1);
+    public void updateTrueke(ChatTrueke trueke){
+        for(int i = 0; i<messages.size(); ++i){
+            ChatMessage iMessage = messages.get(i);
+            if(iMessage instanceof ChatTrueke && ((ChatTrueke) iMessage).getTruekeID().equals(trueke.getTruekeID())){
+                messages.set(i, trueke);
+                notifyDataSetChanged();
+                break;
+            }
+        }
     }
 
     private void sortList(){

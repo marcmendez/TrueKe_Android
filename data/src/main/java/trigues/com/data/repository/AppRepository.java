@@ -543,6 +543,18 @@ public class AppRepository implements RepositoryInterface {
                 dataCallback.onSuccess(null);
             }
         });
+
+        firebaseDataSource.voteTrueke(voteData.getChatId(), voteData.isUser1(), new FirebaseInterface.FirebaseVoidCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+
+            }
+
+            @Override
+            public void onSuccess(Void returnParam) {
+
+            }
+        });
     }
 
     @Override

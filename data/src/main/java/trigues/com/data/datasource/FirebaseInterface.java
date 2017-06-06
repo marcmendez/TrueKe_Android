@@ -18,6 +18,8 @@ public interface FirebaseInterface {
 
     void setMessageAsRead(String chatId, String key);
 
+    void voteTrueke(String chatId, boolean isUser1, FirebaseVoidCallback dataCallback);
+
     void removeListeners(String chatId);
 
     interface FirebaseVoidCallback extends DefaultCallback<Void> {}

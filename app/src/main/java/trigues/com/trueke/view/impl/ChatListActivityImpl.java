@@ -197,7 +197,7 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         fragment.showValorarDialog();
     }
 
-    public void valoraTrueke(float rating, int product_id2) {
-        presenter.voteTrueke(rating,product_id2);
+    public void valoraTrueke(float rating, int product_id2, String chatId, boolean isUser1) {
+        presenter.voteTrueke(rating,product_id2, chatId, isUser1);
     }
 }

@@ -190,7 +190,7 @@ public class ChatFragImpl extends Fragment {
     }
 
     private void setUpAdapter(List<ChatMessage> messages) {
-        adapter = new ChatAdapter(getContext(), chatRecyclerView, chat.getMy_product(), messages) {
+        adapter = new ChatAdapter(getContext(), chatRecyclerView, chat, chat.getMy_product(), messages) {
             @Override
             protected void onTruekeEnded(ChatTrueke trueke) {
                 paymentTrueke = trueke;
@@ -237,13 +237,18 @@ public class ChatFragImpl extends Fragment {
         }
 
         boolean found = false;
-        for(int i = 0; i<messageList.size(); ++i){
-            if(messageList.get(i).getDate().equals(message.getDate())){
-                messageList.set(i, message);
-                adapter.notifyDataSetChanged();
-                found = true;
+
+        if(message instanceof ChatTrueke){
+            ChatTrueke trueke = (ChatTrueke) message;
+            for(int i = 0; i<messageList.size(); ++i){
+                ChatMessage iMessage = messageList.get(i);
+                if(iMessage instanceof ChatTrueke && ((ChatTrueke) iMessage).getTruekeID().equals(trueke.getTruekeID())){
+                    adapter.updateTrueke(trueke);
+                    found = true;
+                }
             }
         }
+
         if(!found){
             messageList.add(message);
             adapter.addMessage(message);
@@ -611,7 +616,7 @@ public class ChatFragImpl extends Fragment {
         builder.setPositiveButton("Valora", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                activity.valoraTrueke(ratingBar.getRating(),chat.getProduct_id2());
+                activity.valoraTrueke(ratingBar.getRating(),chat.getMy_product(), chat.getId(), chat.getMy_product() >= chat.getProduct_id2());
                 paymentTrueke.setStatus(5);
                 activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
             }

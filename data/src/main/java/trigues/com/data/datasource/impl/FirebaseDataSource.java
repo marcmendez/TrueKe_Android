@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.trigues.callback.FirebaseChatListener;
 import com.trigues.entity.ChatImage;
 import com.trigues.entity.ChatLocation;
@@ -19,6 +20,7 @@ import com.trigues.exception.ErrorBundle;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -175,6 +177,36 @@ public class FirebaseDataSource implements FirebaseInterface {
     @Override
     public void setMessageAsRead(String chatId, String key) {
         database.child(chatId).child(key).child("read").setValue(false);
+    }
+
+    @Override
+    public void voteTrueke(final String chatId, final boolean isUser1, FirebaseVoidCallback dataCallback) {
+        database.child(chatId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<ChatMessage> messages = MessageJsonParser.parseMessages(dataSnapshot);
+                for(ChatMessage message : messages){
+                    if(message instanceof ChatTrueke){
+                        ChatTrueke trueke = (ChatTrueke) message;
+                        if(trueke.getStatus() >= 4){
+                            if(isUser1){
+                                trueke.setFirstUserValorated(true);
+                            }
+                            else{
+                                trueke.setSecondUserValorated(true);
+                            }
+                            database.child(chatId).child(trueke.getTruekeID()).setValue(trueke);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
