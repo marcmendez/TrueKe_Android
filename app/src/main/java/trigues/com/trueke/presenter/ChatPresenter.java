@@ -79,7 +79,7 @@ public class ChatPresenter {
     }
 
     public void getChats() {
-
+        view.showProgress("Cargando chats...");
         getChatsUseCase.execute(0, new GetChatsUseCase.GetChatsListCallback(){
             @Override
             public void onError(ErrorBundle errorBundle) {

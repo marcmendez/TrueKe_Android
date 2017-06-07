@@ -119,6 +119,7 @@ public class RegisterFragImpl extends Fragment implements View.OnClickListener {
         if(!error) {
             Toast.makeText(getActivity().getApplicationContext(),
                     "Usuario creado correctamente", Toast.LENGTH_LONG).show();
+            activity.openLoginFragment();
             //falta afegir fragment dialog fet per a SMS
         }else {
             Toast.makeText(getActivity().getApplicationContext(),
