@@ -22,8 +22,7 @@
                 android:id="@+id/verification_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Code"
-                android:text="1234567"/>
+                android:hint="Code"/>
         </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>
