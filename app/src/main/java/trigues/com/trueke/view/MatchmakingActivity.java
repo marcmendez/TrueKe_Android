@@ -14,4 +14,5 @@ public interface MatchmakingActivity extends BaseActivity {
     void noProducts();
     void OnProfileImage(String photo);
     void setInfo(Integer id, User userInfo);
+    Product getCurrentProduct();
 }

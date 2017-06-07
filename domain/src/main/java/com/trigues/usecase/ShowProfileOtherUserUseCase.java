@@ -18,7 +18,7 @@ import javax.inject.Inject;
 public class ShowProfileOtherUserUseCase extends BaseUseCase<User> implements Interactor<Integer,User> {
     private final RepositoryInterface repository;
     private final ThreadExecutor executor;
-    private ShowProfileUseCase.ShowProfileUseCaseCallback callback;
+    private ShowProfileOtherUserUseCaseCallback callback;
 
     private int userid;
     @Inject
@@ -48,11 +48,11 @@ public class ShowProfileOtherUserUseCase extends BaseUseCase<User> implements In
 
     @Override
     public <R extends DefaultCallback<User>> void execute(Integer userid, R defaultCallback) {
-        this.callback = ((ShowProfileUseCase.ShowProfileUseCaseCallback) defaultCallback);
+        this.callback = ((ShowProfileOtherUserUseCaseCallback) defaultCallback);
         executor.execute(this);
         this.userid=userid;
     }
 
-    public interface ShowProfileUseCaseCallback extends DefaultCallback<User>{}
+    public interface ShowProfileOtherUserUseCaseCallback extends DefaultCallback<User>{}
 }
 

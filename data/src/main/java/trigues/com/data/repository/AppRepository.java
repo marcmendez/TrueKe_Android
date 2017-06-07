@@ -600,20 +600,21 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void showProfileOtherUser(int id, final UserCallback dataCallback) {
-        apiDataSource.showProfile("f4493ed183abba6b096f3903a5fc3b64", id,
-                new ApiInterface.UserDataCallback()
-                {
+        if(id !=0) {
+            apiDataSource.showProfile("f4493ed183abba6b096f3903a5fc3b64", id,
+                    new ApiInterface.UserDataCallback() {
 
-                    @Override
-                    public void onError(ErrorBundle errorBundle) {
-                        dataCallback.onError(errorBundle);
-                    }
+                        @Override
+                        public void onError(ErrorBundle errorBundle) {
+                            dataCallback.onError(errorBundle);
+                        }
 
-                    @Override
-                    public void onSuccess(ApiDTO<List<User>> returnParam) {
-                        dataCallback.onSuccess(returnParam.getContent().get(0));
-                    }
-                });
+                        @Override
+                        public void onSuccess(ApiDTO<List<User>> returnParam) {
+                            dataCallback.onSuccess(returnParam.getContent().get(0));
+                        }
+                    });
+        }
     }
 
     @Override

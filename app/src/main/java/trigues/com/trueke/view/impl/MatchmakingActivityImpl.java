@@ -50,6 +50,8 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
     private int currentProduct;
     private int indexProduct;
 
+    List<Product> llista;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +74,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
 
     @Override
     public void onProductsRetrieved(final List<Product> returnParam) {
+        llista = returnParam;
         matchmakingList.getBuilder()
                 .setDisplayViewCount(3)
                 .setSwipeDecor(new SwipeDecor()
@@ -107,6 +110,8 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
                 }
             }));
         }
+
+
 
         findViewById(R.id.matchmaking_reject_fab).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,14 +199,22 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
 
     @Override
     public void setInfo(Integer userid, User userInfo){
-        fragment.setInfo(userInfo);
-        if(userInfo.getImagePath() != "") {
-            presenter.getProfileImage(userid, userInfo.getImagePath());
+        if (userid != llista.get(indexProduct).getUserId() ) getInfo(llista.get(indexProduct).getUserId());
+        else {
+            fragment.setInfo(userInfo);
+            if (userInfo.getImagePath() != "") {
+                presenter.getProfileImage(userid, userInfo.getImagePath());
+            }
         }
     }
 
     @Override
     public void OnProfileImage(String image){
         fragment.OnProfileImage(image);
+    }
+
+    @Override
+    public Product getCurrentProduct() {
+        return llista.get(indexProduct);
     }
 }

@@ -118,6 +118,8 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         View view = inflater.inflate(R.layout.matchmaking_product_detail, container, false);
         ButterKnife.bind(this, view);
 
+
+
         reportProdButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
@@ -165,11 +167,8 @@ public class MatchmakingDetailsFragImpl extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String productJson = getArguments().getString("product");
 
-        Gson gson = new Gson();
-        product = gson.fromJson(productJson, Product.class);
-
+        product = activity.getCurrentProduct();
         setUpProductDetails(product);
         setUpViewPager(product.getImages());
         //setUpDotCounter();

@@ -56,6 +56,6 @@ public class GetImagesOtherUserUseCase extends BaseUseCase<String> implements In
         repository.getImagesOtherUser(idUser,image_md5, dataCallback);
     }
 
-    public interface GetImagesCallback extends DefaultCallback<String>{}
+    public interface GetImagesOtherUserCallback extends DefaultCallback<String>{}
 
 }

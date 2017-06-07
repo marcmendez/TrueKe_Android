@@ -57,7 +57,7 @@ public class MatchmakingPresenter {
                                 GetImagesProductUseCase getImagesProductUseCase,
                                 GetImagesOtherUserUseCase showProfileImageUseCase) {
         this.view = view;
-        this.showProfileUseCase=showProfileUseCase;
+        this.showProfileUseCase = showProfileUseCase;
         this.showProductsUseCase = showProductsUseCase;
         this.acceptMatchUseCase = acceptMatchUseCase;
         this.rejectMatchUseCase = rejectMatchUseCase;
@@ -220,7 +220,7 @@ public class MatchmakingPresenter {
 
     public void getInfo(final Integer userid) {
         view.showProgress("Cargando Inofrmacion...");
-        showProfileUseCase.execute(userid, new ShowProfileUseCase.ShowProfileUseCaseCallback() {
+        showProfileUseCase.execute(userid, new ShowProfileOtherUserUseCase.ShowProfileOtherUserUseCaseCallback() {
 
             @Override
             public void onError(ErrorBundle errorBundle) {
@@ -239,7 +239,7 @@ public class MatchmakingPresenter {
         ImageOtherUserType imageOtherUserType = new ImageOtherUserType();
         imageOtherUserType.setUserid(id);
         imageOtherUserType.setImagePath(returnParam);
-        showProfileImageUseCase.execute(imageOtherUserType, new GetImagesUseCase.GetImagesCallback(){
+        showProfileImageUseCase.execute(imageOtherUserType, new GetImagesOtherUserUseCase.GetImagesOtherUserCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
