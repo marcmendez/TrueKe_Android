@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.trigues.entity.Product;
+import com.trigues.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,8 @@ import butterknife.ButterKnife;
 import trigues.com.trueke.R;
 import trigues.com.trueke.adapter.DesiredCategoriesAdapter;
 import trigues.com.trueke.adapter.ImageViewPageAdapter;
+import trigues.com.trueke.presenter.MatchmakingPresenter;
+import trigues.com.trueke.presenter.UserInfoPresenter;
 import trigues.com.trueke.presenter.UserProductDetailsPresenter;
 import trigues.com.trueke.view.impl.MatchmakingActivityImpl;
 
@@ -48,6 +52,7 @@ import trigues.com.trueke.view.impl.MatchmakingActivityImpl;
  */
 
 public class MatchmakingDetailsFragImpl extends Fragment {
+
 
     @BindView(R.id.matchmaking_user_name)
     TextView userName;
@@ -89,10 +94,16 @@ public class MatchmakingDetailsFragImpl extends Fragment {
     @Inject
     UserProductDetailsPresenter presenter;
 
+    @Inject
+    MatchmakingPresenter matchmakingPresenter;
+
+    MatchmakingActivityImpl activity;
+
     ImageViewPageAdapter viewPageAdapter;
     int numImages;
     ImageView[] dots;
     Product product;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,7 +127,7 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         });
 
 
-
+        this.activity = ((MatchmakingActivityImpl) getActivity());
         ((MatchmakingActivityImpl) getActivity()).setSupportActionBar(toolbar);
         ((MatchmakingActivityImpl) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((MatchmakingActivityImpl) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -171,8 +182,10 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         price.setText(priceText);
         category.setText(product.getProductCategory());
 
-        userName.setText("TEST USER");
-        userRating.setRating(4.5F);
+        activity.getInfo(product.getUserId());
+
+
+
     }
 
     private void setUpDesiredCategoriesList(List<String> desiredCategories) {
@@ -286,5 +299,17 @@ public class MatchmakingDetailsFragImpl extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    public void OnProfileImage(String encodedImage) {
+        Log.i("image", "OnProfileImageRetrieved: "+encodedImage);
+        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        userAvatar.setImageBitmap(decodedByte);
+    }
+
+
+    public void setInfo(User userInfo){
+        userName.setText(userInfo.getUser());
+        userRating.setRating(userInfo.getRatingsValue());
+    }
 
 }

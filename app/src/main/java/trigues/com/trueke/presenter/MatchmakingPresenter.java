@@ -3,14 +3,19 @@ package trigues.com.trueke.presenter;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.trigues.entity.ImageOtherUserType;
 import com.trigues.entity.Product;
+import com.trigues.entity.User;
 import com.trigues.exception.ErrorBundle;
 import com.trigues.usecase.AcceptMatchUseCase;
+import com.trigues.usecase.GetImagesOtherUserUseCase;
 import com.trigues.usecase.GetImagesProductUseCase;
 import com.trigues.usecase.GetImagesUseCase;
 import com.trigues.usecase.GetMatchMakingListUseCase;
 import com.trigues.usecase.RejectMatchUseCase;
 import com.trigues.usecase.ReportProductUseCase;
+import com.trigues.usecase.ShowProfileOtherUserUseCase;
+import com.trigues.usecase.ShowProfileUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +38,8 @@ public class MatchmakingPresenter {
     private ReportProductUseCase reportProductUseCase;
     private GetImagesUseCase getImagesUseCase;
     private GetImagesProductUseCase getImagesProductUseCase;
+    private GetImagesOtherUserUseCase showProfileImageUseCase;
+    private ShowProfileOtherUserUseCase showProfileUseCase;
     private List<String> images_base64;
     private int count_images;
     private List<Product> products;
@@ -44,17 +51,20 @@ public class MatchmakingPresenter {
     @Inject
     public MatchmakingPresenter(MatchmakingActivity view, GetMatchMakingListUseCase showProductsUseCase,
                                 AcceptMatchUseCase acceptMatchUseCase, RejectMatchUseCase rejectMatchUseCase,
+                                ShowProfileOtherUserUseCase showProfileUseCase,
                                 ReportProductUseCase reportProductUseCase,
                                 GetImagesUseCase getImagesUseCase,
-                                GetImagesProductUseCase getImagesProductUseCase) {
+                                GetImagesProductUseCase getImagesProductUseCase,
+                                GetImagesOtherUserUseCase showProfileImageUseCase) {
         this.view = view;
+        this.showProfileUseCase=showProfileUseCase;
         this.showProductsUseCase = showProductsUseCase;
         this.acceptMatchUseCase = acceptMatchUseCase;
         this.rejectMatchUseCase = rejectMatchUseCase;
         this.reportProductUseCase = reportProductUseCase;
         this.getImagesProductUseCase = getImagesProductUseCase;
         this.getImagesUseCase = getImagesUseCase;
-
+        this.showProfileImageUseCase = showProfileImageUseCase;
     }
 
     public void getMatchMakingProducts(int prodID){
@@ -205,5 +215,41 @@ public class MatchmakingPresenter {
                 view.onProductsRetrieved(products);
             }
         }
+    }
+
+
+    public void getInfo(final Integer userid) {
+        view.showProgress("Cargando Inofrmacion...");
+        showProfileUseCase.execute(userid, new ShowProfileUseCase.ShowProfileUseCaseCallback() {
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.hideProgress();
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(User returnParam) {
+                view.setInfo(userid, returnParam);
+                view.hideProgress();
+            }
+        });
+    }
+    public void getProfileImage(Integer id, String returnParam) {
+        ImageOtherUserType imageOtherUserType = new ImageOtherUserType();
+        imageOtherUserType.setUserid(id);
+        imageOtherUserType.setImagePath(returnParam);
+        showProfileImageUseCase.execute(imageOtherUserType, new GetImagesUseCase.GetImagesCallback(){
+
+            @Override
+            public void onError(ErrorBundle errorBundle) {
+                view.onError(errorBundle.getErrorMessage());
+            }
+
+            @Override
+            public void onSuccess(String returnParam) {
+                view.OnProfileImage(returnParam);
+            }
+        });
     }
 }

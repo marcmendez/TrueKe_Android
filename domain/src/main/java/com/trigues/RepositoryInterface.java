@@ -105,6 +105,10 @@ public interface RepositoryInterface {
 
     void deleteChat(String chatId, VoidCallback dataCallback);
 
+    void showProfileOtherUser(int id, UserCallback dataCallback);
+
+    void getImagesOtherUser(int id, String image, ImagesCallback dataCallback);
+
     //Callbacks:
 
     interface VoidCallback extends DefaultCallback<Void> {}

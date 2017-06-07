@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import android.media.MediaScannerConnection;
 import android.net.Uri;

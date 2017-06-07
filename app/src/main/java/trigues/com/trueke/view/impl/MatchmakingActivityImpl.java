@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 import com.trigues.entity.Product;
+import com.trigues.entity.User;
 
 import java.util.List;
 
@@ -40,6 +41,8 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
 
     @Inject
     MatchmakingPresenter presenter;
+
+    private MatchmakingDetailsFragImpl fragment;
 
     @BindView(R.id.matchmaking_list)
     SwipePlaceHolderView matchmakingList;
@@ -115,7 +118,7 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
         findViewById(R.id.matchmaking_detail_fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MatchmakingDetailsFragImpl fragment = new MatchmakingDetailsFragImpl();
+                fragment = new MatchmakingDetailsFragImpl();
 
                 Gson gson = new Gson();
                 Bundle bundle = new Bundle();
@@ -183,5 +186,22 @@ public class MatchmakingActivityImpl extends BaseActivityImpl implements Matchma
     public void goToShowProductList(){
         startActivity(new Intent(this, UserProductsListActivityImpl.class));
         finish();
+    }
+
+    public void getInfo(Integer userid) {
+        presenter.getInfo(userid);
+    }
+
+    @Override
+    public void setInfo(Integer userid, User userInfo){
+        fragment.setInfo(userInfo);
+        if(userInfo.getImagePath() != "") {
+            presenter.getProfileImage(userid, userInfo.getImagePath());
+        }
+    }
+
+    @Override
+    public void OnProfileImage(String image){
+        fragment.OnProfileImage(image);
     }
 }
