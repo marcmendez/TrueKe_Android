@@ -450,7 +450,7 @@ public class UserProfileActivityImpl extends MenuActivityImpl implements UserPro
         userEmail.setText(user.getEmail());
         userBirthDate.setText(user.getBirthDate());
         userNumProducts.setText(String.valueOf(user.getProducts()));
-        userNumTruekes.setText(String.valueOf(user.getTruekes()));
+        userNumTruekes.setText(String.valueOf(user.getRatingsNumber()));
         if(user.getRatingsNumber()!=0)
         userRating.setRating(user.getRatingsValue()/user.getRatingsNumber());
         else userRating.setRating(0);

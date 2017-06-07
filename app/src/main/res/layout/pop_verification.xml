@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="25dp"
-            android:textColorHint="@color/colorAccent">
+            android:theme="@style/VerifictionInputLayoutStyle">
 
             <EditText
                 android:id="@+id/verification_code"

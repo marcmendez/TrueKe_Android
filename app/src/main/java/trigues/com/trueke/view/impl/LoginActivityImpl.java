@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -73,25 +74,34 @@ public class LoginActivityImpl extends BaseActivityImpl implements LoginActivity
 
         final EditText codeEditText = (EditText) dialogView.findViewById(R.id.verification_code);
 
-        builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Enviar", null);
+
+        final AlertDialog mDialog = builder.create();
+
+        mDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String code1 = codeEditText.getText().toString();
-                if (code.toString().equals(code1) || code1.equals("1234567")) {
-                    dialog.dismiss();
-                    startActivity(new Intent(LoginActivityImpl.this, UserProductsListActivityImpl.class));
-                }
-                else{
-                    dialog.dismiss();
-                    codeEditText.setText("");
-                    Toast.makeText(LoginActivityImpl.this, "Wrong Code",Toast.LENGTH_LONG).show();
-                }
+            public void onShow(DialogInterface dialog) {
+                Button b = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String code1 = codeEditText.getText().toString();
+                        if (code.toString().equals(code1) || code1.equals("1234567")) {
+                            mDialog.dismiss();
+                            startActivity(new Intent(LoginActivityImpl.this, UserProductsListActivityImpl.class));
+                        }
+                        else{
+                            codeEditText.setText("");
+                            Toast.makeText(LoginActivityImpl.this, "Wrong Code",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
             }
         });
 
-        final AlertDialog dialog = builder.create();
-
-        dialog.show();
+        mDialog.show();
     }
 
     public void onLoginPressed(String usuari, String password) {

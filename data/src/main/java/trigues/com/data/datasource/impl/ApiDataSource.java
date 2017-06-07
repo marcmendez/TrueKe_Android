@@ -1,5 +1,6 @@
 package trigues.com.data.datasource.impl;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.trigues.entity.Payment;
@@ -19,6 +20,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import trigues.com.data.FakeInterceptor;
 import trigues.com.data.datasource.ApiInterface;
+import trigues.com.data.dependencyinjection.qualifier.ForApp;
 import trigues.com.data.entity.ApiDTO;
 import trigues.com.data.entity.CategoryDTO;
 import trigues.com.data.entity.ChatDTO;
@@ -47,10 +49,14 @@ public class ApiDataSource implements ApiInterface {
     private InternalStorageDataSource internalStorage;
 
     private static final String ADMIN_TOKEN = "f4493ed183abba6b096f3903a5fc3b64";
+    private Context context;
 
 
     @Inject
-    public ApiDataSource() {
+    public ApiDataSource(@ForApp Context context) {
+
+        this.context = context;
+
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         interceptor = new FakeInterceptor();
         builder.addInterceptor(interceptor)
@@ -72,199 +78,19 @@ public class ApiDataSource implements ApiInterface {
 
         register(new User(1, "000000000", "test", "1234567", "test@test.com", "1996-09-19", "", 0, 0,0, 0), new BooleanDataCallback() {
             @Override
-            public void onError(ErrorBundle errorBundle) {
-
-            }
+            public void onError(ErrorBundle errorBundle) {}
 
             @Override
             public void onSuccess(Boolean returnParam) {
                 login(new User("test@test.com", "1234567"), new LoginDataCallback() {
                     @Override
-                    public void onError(ErrorBundle errorBundle) {
-
-                    }
+                    public void onError(ErrorBundle errorBundle) {}
 
                     @Override
                     public void onSuccess(ApiDTO<LoginDTO> returnParam) {
                         User user = returnParam.getContent().getUser();
 
-                        List<String> desiredCategories = new ArrayList<String>();
-                        desiredCategories.add("deporte y ocio");
-                        final List<String> images = new ArrayList<>();
-                        images.add("data:image/jpeg;base64,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");
 
-                        Product product = new Product(0, user.getId(), "Llapis", "Description", images, "deporte y ocio", desiredCategories, 15, 20);
-
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//
-//                        product.setTitle("Poupala2");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//
-//
-//                        product.setTitle("Poupala3");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//
-//
-//                        product.setTitle("Poupala4");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//
-//
-//                        product.setTitle("Poupala5");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//
-//
-//                        product.setTitle("Poupala6");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//
-//
-//                        product.setTitle("Poupala7");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
                     }
                 });
             }
@@ -272,189 +98,17 @@ public class ApiDataSource implements ApiInterface {
 
         register(new User(2, "111111111", "test", "1234567", "test@test.org", "1992-09-19", "", 0, 0, 0,0), new BooleanDataCallback() {
             @Override
-            public void onError(ErrorBundle errorBundle) {
-
-            }
+            public void onError(ErrorBundle errorBundle) {}
 
             @Override
             public void onSuccess(Boolean returnParam) {
                 login(new User("test@test.org", "1234567"), new LoginDataCallback() {
                     @Override
-                    public void onError(ErrorBundle errorBundle) {
-
-                    }
+                    public void onError(ErrorBundle errorBundle) {}
 
                     @Override
                     public void onSuccess(ApiDTO<LoginDTO> returnParam) {
                         User user = returnParam.getContent().getUser();
-
-                        List<String> desiredCategories = new ArrayList<String>();
-                        desiredCategories.add("deporte y ocio");
-                        final List<String> images = new ArrayList<>();
-                        images.add("data:image/jpeg;base64,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");
-                        
-                        Product product = new Product(0, user.getId(), "Poupala", "Description", images, "deporte y ocio", desiredCategories, 15, 20);
-
-//                       addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                           @Override
-//                           public void onError(ErrorBundle errorBundle) {
-//
-//                           }
-//
-//                           @Override
-//                           public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                           }
-//                       });
-//
-//
-//                        product.setTitle("Poupala2");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//
-//
-//                        product.setTitle("Poupala3");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//
-//
-//                        product.setTitle("Poupala4");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//
-//
-//                        product.setTitle("Poupala5");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//
-//
-//                        product.setTitle("Poupala6");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//
-//
-//                        product.setTitle("Poupala7");
-//
-//                        addProduct("f4493ed183abba6b096f3903a5fc3b64", new ProductDTO(product), new AddProductDataCallback() {
-//                            @Override
-//                            public void onError(ErrorBundle errorBundle) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(ApiDTO<ProductId> returnParam) {
-//                                addImagesProduct("f4493ed183abba6b096f3903a5fc3b64", returnParam.getContent().getProductId(), images.get(0), new BooleanDataCallback() {
-//                                    @Override
-//                                    public void onError(ErrorBundle errorBundle) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(Boolean returnParam) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
 
 
                     }
@@ -462,8 +116,43 @@ public class ApiDataSource implements ApiInterface {
             }
         });
 
+        register(new User(3, "222222222", "mbaque", "1234567", "marcbaque96@gmail.com", "1996-09-24", "", 0, 0, 0,0), new BooleanDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {}
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                login(new User("marcbaque96@gmail.com", "1234567"), new LoginDataCallback() {
+                    @Override
+                    public void onError(ErrorBundle errorBundle) {}
+
+                    @Override
+                    public void onSuccess(ApiDTO<LoginDTO> returnParam) {
+                        User user = returnParam.getContent().getUser();
+
+                    }
+                });
+            }
+        });
 
 
+        register(new User(3, "333333333", "marcmendez", "1234567", "marcmendezroca@gmail.com", "2017-06-08", "", 0, 0, 0,0), new BooleanDataCallback() {
+            @Override
+            public void onError(ErrorBundle errorBundle) {}
+
+            @Override
+            public void onSuccess(Boolean returnParam) {
+                login(new User("albertvalvila1@gmail.com", "1234567"), new LoginDataCallback() {
+                    @Override
+                    public void onError(ErrorBundle errorBundle) {}
+
+                    @Override
+                    public void onSuccess(ApiDTO<LoginDTO> returnParam) {
+                        User user = returnParam.getContent().getUser();
+                    }
+                });
+            }
+        });
 
 
 

@@ -531,7 +531,7 @@ public class AppRepository implements RepositoryInterface {
 
     @Override
     public void voteTrueke(final VoteData voteData, final VoidCallback dataCallback) {
-        apiDataSource.voteTrueke(voteData.getRating(),voteData.getProduct_id(),internalStorage.getToken(),new ApiInterface.VoidDataCallback(){
+        apiDataSource.voteTrueke(voteData.getRating(),voteData.getOtherProduct(),internalStorage.getToken(),new ApiInterface.VoidDataCallback(){
 
             @Override
             public void onError(ErrorBundle errorBundle) {
