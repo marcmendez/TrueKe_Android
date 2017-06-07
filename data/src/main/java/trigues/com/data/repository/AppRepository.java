@@ -530,7 +530,7 @@ public class AppRepository implements RepositoryInterface {
     }
 
     @Override
-    public void voteTrueke(VoteData voteData, final VoidCallback dataCallback) {
+    public void voteTrueke(final VoteData voteData, final VoidCallback dataCallback) {
         apiDataSource.voteTrueke(voteData.getRating(),voteData.getProduct_id(),internalStorage.getToken(),new ApiInterface.VoidDataCallback(){
 
             @Override
@@ -544,15 +544,40 @@ public class AppRepository implements RepositoryInterface {
             }
         });
 
-        firebaseDataSource.voteTrueke(voteData.getChatId(), voteData.isUser1(), new FirebaseInterface.FirebaseVoidCallback() {
+        firebaseDataSource.voteTrueke(voteData.getChatId(), voteData.isUser1(), new FirebaseInterface.FirebaseBooleanCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
 
             }
 
             @Override
-            public void onSuccess(Void returnParam) {
+            public void onSuccess(Boolean returnParam) {
+                if(returnParam){
+                    //Delete chat
+                    apiDataSource.deleteProduct("f4493ed183abba6b096f3903a5fc3b64", voteData.getProduct_id(), new ApiInterface.BooleanDataCallback() {
+                        @Override
+                        public void onError(ErrorBundle errorBundle) {
 
+                        }
+
+                        @Override
+                        public void onSuccess(Boolean returnParam) {
+
+                        }
+                    });
+
+                    apiDataSource.deleteProduct("f4493ed183abba6b096f3903a5fc3b64", voteData.getOtherProduct(), new ApiInterface.BooleanDataCallback() {
+                        @Override
+                        public void onError(ErrorBundle errorBundle) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(Boolean returnParam) {
+
+                        }
+                    });
+                }
             }
         });
     }

@@ -180,7 +180,7 @@ public class FirebaseDataSource implements FirebaseInterface {
     }
 
     @Override
-    public void voteTrueke(final String chatId, final boolean isUser1, FirebaseVoidCallback dataCallback) {
+    public void voteTrueke(final String chatId, final boolean isUser1, final FirebaseBooleanCallback dataCallback) {
         database.child(chatId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -195,7 +195,14 @@ public class FirebaseDataSource implements FirebaseInterface {
                             else{
                                 trueke.setSecondUserValorated(true);
                             }
-                            database.child(chatId).child(trueke.getTruekeID()).setValue(trueke);
+                            if(trueke.isFirstUserValorated() && trueke.isSecondUserValorated()){
+                                database.child(chatId).removeValue();
+                                dataCallback.onSuccess(true);
+                            }
+                            else {
+                                database.child(chatId).child(trueke.getTruekeID()).setValue(trueke);
+                                dataCallback.onSuccess(false);
+                            }
                             break;
                         }
                     }

@@ -8,13 +8,23 @@ public class VoteData {
     private String chatId;
     private boolean isUser1;
     private int product_id;
+    private int otherProduct;
     private float rating;
 
-    public VoteData(int product_id, float rating, String chatId, boolean isUser1) {
+    public VoteData(int product_id, float rating, String chatId, boolean isUser1, int otherProduct) {
         this.product_id = product_id;
         this.rating = rating;
         this.chatId = chatId;
         this.isUser1 = isUser1;
+        this.otherProduct = otherProduct;
+    }
+
+    public int getOtherProduct() {
+        return otherProduct;
+    }
+
+    public void setOtherProduct(int otherProduct) {
+        this.otherProduct = otherProduct;
     }
 
     public boolean isUser1() {

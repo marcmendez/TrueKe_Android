@@ -171,8 +171,8 @@ public class ChatPresenter {
         });
     }
 
-    public void voteTrueke(float rating,int product_id, String chatId, boolean isUser1){
-        voteUseCase.execute(new VoteData(product_id, rating, chatId, isUser1), new VoteUseCase.VoteUseCaseCallback() {
+    public void voteTrueke(float rating,int product_id, String chatId, boolean isUser1, int otherProduct){
+        voteUseCase.execute(new VoteData(product_id, rating, chatId, isUser1, otherProduct), new VoteUseCase.VoteUseCaseCallback() {
             @Override
             public void onError(ErrorBundle errorBundle) {
                 view.onError(errorBundle.getErrorMessage());

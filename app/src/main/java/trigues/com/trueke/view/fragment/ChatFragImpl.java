@@ -616,7 +616,7 @@ public class ChatFragImpl extends Fragment {
         builder.setPositiveButton("Valora", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                activity.valoraTrueke(ratingBar.getRating(),chat.getMy_product(), chat.getId(), chat.getMy_product() >= chat.getProduct_id2());
+                activity.valoraTrueke(ratingBar.getRating(),chat.getMy_product(), chat.getId(), chat.getMy_product() >= chat.getProduct_id2(), chat.getProduct_id2());
                 paymentTrueke.setStatus(5);
                 activity.setTruekeStatus(paymentTrueke.getStatus(),String.valueOf(chat.getId()),paymentTrueke.getTruekeID());
             }
