@@ -1,7 +1,10 @@
 package trigues.com.trueke.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +31,16 @@ public abstract class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapt
 
     private Context context;
     private List<ChatInfo> chatList;
+    public List<Product> product;
 
     @Inject
     ChatListActivity view;
 
 
-    public ChatListAdapter(Context context, List<ChatInfo> chatList) {
+    public ChatListAdapter(Context context, List<ChatInfo> chatList, List<Product> lp) {
         this.context = context;
         this.chatList = chatList;
+        this.product = lp;
     }
 
     @Override
@@ -46,7 +51,12 @@ public abstract class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapt
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.avatarImageView.setImageResource(R.mipmap.avatar_icon);
+        if(product.get(position).getImages()!= null) {
+            byte[] decodedString = Base64.decode(product.get(position).getImages().get(0), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            holder.avatarImageView.setImageBitmap(decodedByte);
+        }
+
         holder.titleTextView.setText(chatList.get(position).getNameOtherUser());
         holder.lastMessage.setText(chatList.get(position).getTitle());
 

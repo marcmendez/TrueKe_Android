@@ -23,8 +23,10 @@ public class GetProductUseCase extends BaseUseCase<List<Product>> implements Int
     private final ThreadExecutor executor;
     private GetProductCallback callback;
 
+
     private List<Integer> productId;
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();;
+    int count =0;
 
 
     RepositoryInterface.ProductCallback dataCallback = new RepositoryInterface.ProductCallback() {
@@ -38,7 +40,9 @@ public class GetProductUseCase extends BaseUseCase<List<Product>> implements Int
             products.add(returnParam);
             if (products.size() == productId.size()) {
                 notifyOnSuccess(products, callback);
+
             }
+            else run();
         }
     };
 
@@ -58,10 +62,8 @@ public class GetProductUseCase extends BaseUseCase<List<Product>> implements Int
 
     @Override
     public void run() {
-        products = new ArrayList<>();
-        for (Integer producto : productId) {
-            repository.getProductInfo(producto, dataCallback);
-        }
+        repository.getProductInfo(productId.get(count), dataCallback);
+        count++;
     }
 
     public interface GetProductCallback extends DefaultCallback<List<Product>> {

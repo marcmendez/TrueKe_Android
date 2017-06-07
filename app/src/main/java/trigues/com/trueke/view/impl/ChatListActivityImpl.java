@@ -150,7 +150,7 @@ public class ChatListActivityImpl extends MenuActivityImpl implements ChatListAc
         }
         chatListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        chatListRecyclerView.setAdapter(new ChatListAdapter(this, ListNamesChats) {
+        chatListRecyclerView.setAdapter(new ChatListAdapter(this, ListNamesChats, ProductOtherUser) {
             @Override
             public void onChatClick(ChatInfo chat) {
                 fragment = new ChatFragImpl();
