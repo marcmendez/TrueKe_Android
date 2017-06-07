@@ -89,7 +89,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Fecha de expiración (AAAA-MM-DD)"
-                        android:inputType="date" />
+                        android:inputType="datetime|date|time" />
 
                 </android.support.design.widget.TextInputLayout>
 
